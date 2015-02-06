@@ -1,0 +1,23 @@
+﻿<h2>Release notes DNN Events 06.01.03</h2>
+<p>Events 06.01.03 will work for any DNN version <strong>6.2.7</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>CHANGES</h3>
+<ul>
+    <li>Updated EditEvents.ascx to work with DNN6/7 form patterns</li>
+    <li>Updated Events Module Settings to be serializable to enable support for Azure caching provider.</li>
+    <li>Added setting to enable admins to make User Profile events private.</li>
+    <li>Renamed SplitIDs function to EventsSplitIDs</li>
+</ul>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Fixed reminder time validation in edit view</li>
+    <li>Corrected edit view validation, so that non-dynamic errors are displayed rather than page returning to non-edit view</li>
+    <li>Changed to handle all day events correctly in .ics files</li>
+    <li>Corrected handling of event notifications via sub-calendars</li>
+    <li>Fixed issues around display and editing of events in User Profile calendars</li>
+    <li>Fixed PubDate for negative timezones in RSS feed</li>
+    <li>Fixed bug in restricting categories</li>
+    <li>Adjusted padding around date/time pickers for DNN 7</li>
+    <li>Fixed bugs in sorting in List view</li>
+    <li>Fixed tooltip issue in Month view in DNN 7</li>
+</ul>

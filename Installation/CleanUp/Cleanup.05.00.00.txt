@@ -1,0 +1,11 @@
+﻿'Remove old versions of events
+Install\Module\Events_04.01.02_Source.zip
+Install\Module\Events_04.01.02_Install.zip
+Install\Module\Events_04.01.02_Install.resources
+DesktopModules\Events\bgcolor.gif
+DesktopModules\Events\dn-curve.gif
+DesktopModules\Events\navlink.gif
+DesktopModules\Events\paypal.gif
+DesktopModules\Events\SmallCalendar.gif
+DesktopModules\Events\vCalendar.gif
+DesktopModules\Events\view.gif

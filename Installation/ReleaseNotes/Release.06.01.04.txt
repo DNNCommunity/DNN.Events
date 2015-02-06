@@ -1,0 +1,8 @@
+﻿<h2>Release notes DNN Events 06.01.04</h2>
+<p>Events 06.01.04 will work for any DNN version <strong>6.2.7</strong> and up. Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Fixed search engine indexing failure</li>
+    <li>Fixed date layout on DNN 7 in edit view</li>
+	<li>Improved some html generation of the calendar</li>
+</ul>

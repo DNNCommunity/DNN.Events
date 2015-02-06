@@ -1,0 +1,32 @@
+﻿    /************************************************************/
+    /*****                                                  *****/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for Events module 05.01.02 *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****       Edit EventSignups to correct NoEnrolees    *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/* Change NoEnrolees null value to 1 */
+
+UPDATE {databaseOwner}{objectQualifier}EventsSignups 
+SET    NoEnrolees = 1
+WHERE  NoEnrolees is NULL
+GO
+
+/* Change NoEnrolees to NOT NULL */
+
+ALTER TABLE {databaseOwner}{objectQualifier}EventsSignups ALTER COLUMN NoEnrolees Int NOT NULL
+GO
+

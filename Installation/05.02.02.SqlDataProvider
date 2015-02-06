@@ -1,0 +1,41 @@
+﻿/************************************************************/
+/*****                                                  *****/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for Events module 05.02.02 *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/************************************************************/
+
+IF EXISTS (SELECT * FROM dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsMasterAvailableModules]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP  PROCEDURE {databaseOwner}[{objectQualifier}EventsMasterAvailableModules]
+GO
+
+/*** EventsMasterAvailableModules ***/
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsMasterAvailableModules
+    (
+    @PortalID int,
+    @ModuleID int
+    )
+AS
+    SELECT @ModuleID as ModuleID, c.PortalID, 0 as MasterID, a.ModuleID as SubEventID
+    FROM {databaseOwner}{objectQualifier}Modules a
+    LEFT JOIN {databaseOwner}{objectQualifier}ModuleDefinitions b on a.ModuleDefID = b.ModuleDefID 
+    LEFT JOIN {databaseOwner}{objectQualifier}DesktopModules d on b.DesktopModuleID = d.DesktopModuleID
+    LEFT JOIN {databaseOwner}{objectQualifier}TabModules t on a.ModuleID = t.ModuleID
+    LEFT JOIN {databaseOwner}{objectQualifier}Tabs c on t.TabID = c.TabID
+    WHERE
+    d.ModuleName = 'DNN_Events' AND 
+    c.PortalID = @PortalID and 
+    a.ModuleID Not In (SELECT SubEventID FROM {databaseOwner}{objectQualifier}EventsMaster where ModuleID = @ModuleID) AND
+    a.ModuleID Not In (SELECT ModuleID FROM {databaseOwner}{objectQualifier}EventsMaster where SubEventID = @ModuleID) AND
+    a.ModuleID != @ModuleID AND
+    t.IsDeleted = 0
+    GROUP BY c.PortalID, a.ModuleID 
+    ORDER BY c.PortalID, a.ModuleID 
+    
+GO

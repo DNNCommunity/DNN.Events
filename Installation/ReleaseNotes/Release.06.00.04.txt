@@ -1,0 +1,15 @@
+﻿<h2>Release notes DNN Events 06.00.04</h2>
+<p>Events 06.00.04 will work for any DNN version <strong>6.1.2</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Fixed problem where it isn't possible to edit settings when more than one module on a page.</li>
+    <li>Fixed problem where token replace was occuring for PayPal payment notifications.</li>
+    <li>Fixed problem installing on Microsoft Azure.</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+    <li>Added some additional tokens to support formatting: [event:subcalendarnameclean], 
+	[event:eventid], [event:categoryname], [event:durationdays], [event:durationdayslabel], 
+	[IFNOTMULTIDAY], [IFMULTIDAY].</li>
+<ul>

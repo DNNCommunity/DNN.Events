@@ -1,0 +1,398 @@
+﻿    /************************************************************/
+    /*****                                                  *****/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for Events module 4.0.2    *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+/*** EventsUpgrade ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsUpgrade]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsUpgrade]
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsUpgrade
+
+AS
+
+-- Copy over Moderators from ModuleSettings
+
+INSERT INTO {databaseOwner}{objectQualifier}ModulePermission 
+		( 
+		RoleID, 
+		ModuleID, 
+		PermissionID, 
+		AllowAccess 
+		)
+SELECT	{databaseOwner}{objectQualifier}ModuleSettings.SettingValue AS RoleID, 
+		{databaseOwner}{objectQualifier}ModuleSettings.ModuleID, 
+		{databaseOwner}{objectQualifier}Permission.PermissionID, 
+		- 1 AS AllowAccess
+FROM    {databaseOwner}{objectQualifier}ModuleSettings INNER JOIN
+        {databaseOwner}{objectQualifier}Modules ON {databaseOwner}{objectQualifier}ModuleSettings.ModuleID = {databaseOwner}{objectQualifier}Modules.ModuleID INNER JOIN
+        {databaseOwner}{objectQualifier}ModuleDefinitions ON {databaseOwner}{objectQualifier}Modules.ModuleDefID = {databaseOwner}{objectQualifier}ModuleDefinitions.ModuleDefID CROSS JOIN
+        {databaseOwner}{objectQualifier}Permission
+WHERE   ({databaseOwner}{objectQualifier}ModuleSettings.SettingName = 'moderatorroleid') AND 
+        ({databaseOwner}{objectQualifier}ModuleSettings.SettingValue <> '0') AND 
+        ({databaseOwner}{objectQualifier}ModuleDefinitions.FriendlyName = N'Events') AND
+        ({databaseOwner}{objectQualifier}Permission.PermissionCode = 'EVENTS_MODULE') AND 
+        ({databaseOwner}{objectQualifier}Permission.PermissionKey = 'EVENTSMOD')
+
+-- Ensure Moderators have edit permissions
+
+INSERT INTO {databaseOwner}{objectQualifier}ModulePermission 
+		( 
+		RoleID, 
+		ModuleID, 
+		PermissionID, 
+		AllowAccess 
+		)
+SELECT  MP1.RoleID, MP1.ModuleID, P3.PermissionID, - 1 AS AllowAcces
+FROM    {databaseOwner}{objectQualifier}ModulePermission AS MP1 INNER JOIN
+        {databaseOwner}{objectQualifier}Permission AS P1 ON MP1.PermissionID = P1.PermissionID CROSS JOIN
+        {databaseOwner}{objectQualifier}Permission AS P3
+WHERE   (P1.PermissionCode = 'Events_Module') AND (P1.PermissionKey = 'EVENTSMOD') AND (MP1.RoleID NOT IN
+        (SELECT	MP2.RoleID
+         FROM   {databaseOwner}{objectQualifier}ModulePermission AS MP2 INNER JOIN
+                {databaseOwner}{objectQualifier}Permission AS P2 ON MP2.PermissionID = P2.PermissionID INNER JOIN
+                {databaseOwner}{objectQualifier}Modules AS M2 ON MP2.ModuleID = M2.ModuleID INNER JOIN
+                {databaseOwner}{objectQualifier}ModuleDefinitions AS MD2 ON M2.ModuleDefID = MD2.ModuleDefID
+         WHERE  (P2.PermissionCode = 'SYSTEM_MODULE_DEFINITION') AND (P2.PermissionKey = 'EDIT') AND (MD2.FriendlyName = N'Events') AND 
+                (M2.ModuleID = MP1.ModuleID))) AND (P3.PermissionCode = 'SYSTEM_MODULE_DEFINITION') AND (P3.PermissionKey = 'EDIT')
+
+-- Delete Moderator settings from ModuleSettings
+
+DELETE FROM {databaseOwner}{objectQualifier}ModuleSettings
+FROM        {databaseOwner}{objectQualifier}ModuleSettings INNER JOIN 
+			{databaseOwner}{objectQualifier}Modules ON {databaseOwner}{objectQualifier}ModuleSettings.ModuleID = {databaseOwner}{objectQualifier}Modules.ModuleID INNER JOIN 
+			{databaseOwner}{objectQualifier}ModuleDefinitions ON {databaseOwner}{objectQualifier}Modules.ModuleDefID = {databaseOwner}{objectQualifier}ModuleDefinitions.ModuleDefID
+WHERE       ({databaseOwner}{objectQualifier}ModuleSettings.SettingName = 'moderatorroleid') AND ({databaseOwner}{objectQualifier}ModuleDefinitions.FriendlyName = N'Events')
+
+GO
+
+
+/* Drop and rebuild stored procedures */
+
+/*** EventsGet ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsGet]
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsGet
+(
+	@EventID int,
+	@ModuleID int
+)
+AS
+SET DATEFORMAT mdy
+
+CREATE Table #RealModuleID
+	(EventID Int,
+	 ModuleID Int)
+
+DECLARE @SQL NVarchar(2000)
+SELECT @SQL = 'Insert into #RealModuleID (EventID, ModuleID) Select distinct e.EventID, e.ModuleID '
+			+ 'From {databaseOwner}{objectQualifier}Events e '
+			+ 'left outer join {databaseOwner}{objectQualifier}EventsMaster m ON e.ModuleID = m.SubEventID '
+			+ 'WHERE EventID = '+ CONVERT(VARCHAR, @EventID) + ' And '
+			+ '(e.ModuleID = ' + CONVERT(VARCHAR, @ModuleID) + ' Or m.ModuleID = ' + CONVERT(VARCHAR, @ModuleID) + ')'
+
+EXEC ( @sql )
+
+
+SELECT E.PortalID, EventID, e.ModuleID, EventDateBegin, EventDateEnd,
+	EventTimeBegin, Duration, EventName, EventDesc,
+	Importance, CreatedDate, 
+    --CreatedBy = {databaseOwner}{objectQualifier}Users.FirstName + ' ' + {databaseOwner}{objectQualifier}Users.LastName,
+    CreatedBy = u.DisplayName,
+	CreatorID =  E.CreatedBy,
+	Every,
+	Period,
+	RepeatType,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	PayPalPassword, 
+	Cancelled,
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	E.Location,
+	c.LocationName,
+	c.MapURL,
+	E.Category,
+	b.CategoryName,
+	b.Color,
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement,
+	ReminderFrom,
+	SearchSubmitted,
+	CustomField1,
+	CustomField2,
+	LastUpdatedAt
+FROM {databaseOwner}{objectQualifier}Events E
+left outer join {databaseOwner}{objectQualifier}Users U on E.CreatedBy = U.UserID
+left join {databaseOwner}{objectQualifier}EventsCategory b on E.Category = b.Category
+left join {databaseOwner}{objectQualifier}EventsLocation c on E.Location = c.Location
+WHERE EventID = @EventID And e.ModuleID = (Select ModuleID from #RealModuleID where EventID = @EventID)
+GO
+
+/*** EventsSignupsGet ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGet]
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsGet
+(
+	@SignupID int,
+	@ModuleID int,
+	@PPIPN bit
+)
+AS
+SET DATEFORMAT mdy
+Select Distinct s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  --u.FirstName + ' ' + u.LastName as UserName,#
+  u.DisplayName as UserName, u.Email,
+  s.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		s.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+   Left Outer Join {databaseOwner}{objectQualifier}EventsMaster m ON s.ModuleID = m.SubEventID
+Where  s.SignupID = @SignupID And
+       (s.ModuleID = @ModuleID Or m.ModuleID = @ModuleID Or @PPIPN <> 0)
+GO
+
+/*** EventsSignupsGetEvent ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGetEvent]
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsGetEvent
+(
+	@EventID int,
+	@ModuleID int
+)
+AS
+SET DATEFORMAT mdy
+Select Distinct s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  --u.FirstName + ' ' + u.LastName as UserName,
+  u.DisplayName as UserName, u.Email,
+  s.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		s.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+   Left Outer Join {databaseOwner}{objectQualifier}EventsMaster m ON s.ModuleID = m.SubEventID
+Where  s.EventID = @EventID And
+       (s.ModuleID = @ModuleID Or m.ModuleID = @ModuleID)
+ORDER BY s.EventTimeBegin, c.EventName, UserName
+GO
+
+/*** EventsSignupsGetUser ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetUser]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGetUser]
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsGetUser
+(
+	@EventID int,
+	@UserID int,
+	@EventDate datetime,
+	@ModuleID int
+)
+AS
+SET DATEFORMAT mdy
+Select Distinct s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  -- u.FirstName + ' ' + u.LastName as UserName,
+  u.DisplayName as USerName, u.Email,
+ s.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		s.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+   Left Outer Join {databaseOwner}{objectQualifier}EventsMaster m ON s.ModuleID = m.SubEventID
+Where  s.EventID = @EventID And
+             s.Userid = @UserID And
+             DATEADD(day, DATEDIFF(day, 0, s.EventTimeBegin), 0)  = DATEADD(day, DATEDIFF(day, 0, @EventDate), 0) and
+             (s.ModuleID = @ModuleID Or m.ModuleID = @ModuleID)
+GO
+
+/*** EventsNotificationGet ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationGet]
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationGet
+(
+	@EventID int,
+	@UserEmail nvarchar(50),
+	@EventDate datetime,
+	@ModuleID int
+)
+AS
+SELECT Distinct NotificationID, EventID, PortalAliasID, UserEmail, NotificationSent, NotifyByDateTime, EventTimeBegin,
+	NotifyLanguage, n.ModuleID
+FROM {databaseOwner}{objectQualifier}EventsNotification n
+   Left Outer Join {databaseOwner}{objectQualifier}EventsMaster m ON n.ModuleID = m.SubEventID
+WHERE EventID = @EventID And 
+   UserEmail = @UserEmail And
+   DATEADD(day, DATEDIFF(day, 0, EventTimeBegin), 0)  = DATEADD(day, DATEDIFF(day, 0, @EventDate), 0)And
+   (n.ModuleID = @ModuleID Or m.ModuleID = @ModuleID)
+
+GO
+
+/*** EventsNotificationToSend - Add n.ModuleID ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationsToSend]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationsToSend]
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationsToSend
+(
+	@NotifyTime DateTime
+)
+AS
+SELECT     n.NotificationID, n.EventID, n.PortalAliasID, n.UserEmail, 
+                      n.NotificationSent, n.NotifyByDateTime, n.EventTimeBegin, n.NotifyLanguage, 
+                      e.TimezoneOffset, n.ModuleID
+FROM         {databaseOwner}[{objectQualifier}EventsNotification] as n INNER JOIN
+                      {databaseOwner}[{objectQualifier}Events] as e ON n.EventID = e.EventID AND n.NotifyByDateTime <= DATEADD(minute, e.TimezoneOffset, 
+                     @NotifyTime)
+WHERE     (n.NotificationSent = 0)
+ORDER BY n.NotifyByDateTime
+GO
+
+/** Get Signups for SubCalendars as well **/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsMyEnrollments
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsMyEnrollments
+(
+	@ModuleID int,
+	@UserID int
+)
+AS
+SET DATEFORMAT mdy
+Select s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  u.displayName as UserName, u.Email,
+  s.EventTimeBegin, DATEADD(mi, c.Duration, s.EventTimeBegin) as EventTimeEnd ,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		c.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Modules m on m.ModuleID = s.ModuleID
+   Left Join {databaseOwner}{objectQualifier}TabModules x on m.ModuleID = x.ModuleID
+   Left Join {databaseOwner}{objectQualifier}Tabs t on t.TabID = x.TabID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+   Left Outer Join {databaseOwner}{objectQualifier}EventsMaster e ON s.ModuleID = e.SubEventID
+Where  s.Userid = @UserID AND (s.ModuleID = @ModuleID Or e.ModuleID = @ModuleID)
+ORDER BY s.EventTimeBegin desc
+GO
+

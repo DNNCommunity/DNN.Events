@@ -1,0 +1,43 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DotNetNuke.Events.ScheduleControl", "Controls\DotNetNuke.Events.ScheduleControl\DotNetNuke.Events.ScheduleControl.vbproj", "{E90DA1B8-E75D-4E59-AE77-407BE089CF1A}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DotNetNuke.Events", "DotNetNuke.Events.vbproj", "{F13CD116-F8CC-4108-8691-F855EEBF7A4F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E90DA1B8-E75D-4E59-AE77-407BE089CF1A} = {E90DA1B8-E75D-4E59-AE77-407BE089CF1A}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs03
+		SccProjectUniqueName0 = Controls\\DotNetNuke.Events.ScheduleControl\\DotNetNuke.Events.ScheduleControl.vbproj
+		SccProjectName0 = Controls/DotNetNuke.Events.ScheduleControl
+		SccAuxPath0 = https://tfs.codeplex.com/tfs/tfs03
+		SccLocalPath0 = Controls\\DotNetNuke.Events.ScheduleControl
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = DotNetNuke.Events.vbproj
+		SccProjectName1 = .
+		SccAuxPath1 = https://tfs.codeplex.com/tfs/tfs03
+		SccLocalPath1 = .
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E90DA1B8-E75D-4E59-AE77-407BE089CF1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90DA1B8-E75D-4E59-AE77-407BE089CF1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90DA1B8-E75D-4E59-AE77-407BE089CF1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90DA1B8-E75D-4E59-AE77-407BE089CF1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F13CD116-F8CC-4108-8691-F855EEBF7A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F13CD116-F8CC-4108-8691-F855EEBF7A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F13CD116-F8CC-4108-8691-F855EEBF7A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F13CD116-F8CC-4108-8691-F855EEBF7A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

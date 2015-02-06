@@ -1,0 +1,36 @@
+﻿<h2>Release notes DNN Events 06.01.01</h2>
+<p>Events 06.01.01 will work for any DNN version <strong>6.2.0</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>NEW FEATURES</h3>
+<ul>
+	<li>Allow anonymous users to enroll</li>
+    <li>Added support for social groups, so an Event module can function as a group calendar on a social group page</li>
+	<li>Added journalling, so new events and enrollments actvities are added to the jounal</li>
+</ul>
+<h3>ENHANCEMENTS</h3>
+<ul>
+    <li>Improved iCal for recurring events, implemented sequence property of a VEVENT object in line with the number of changes of the evevt.</li>
+	<li>Added tokens [ISENROLED] and [ISNOTENROLED] to enable inclusion of content based on whether the logged in user is enrolled or not</li>
+	<li>Added a short description to be used for list and tooltip.</li>
+	<li>Added template tokens to display or not display text depending on the fact the user has or not a given role. [HASROLE_xxx] would be the tag defining the text to display when the user is in role xxx, and [HASNOTROLE_xxx] when the user has not the role xxx.</li>
+	<li>Added a setting to selectively enable enrollment emails</li>
+	<li>Added admin ability to control sorting and date filtering of My Enrollments</li>
+	<li>Added extra attributes to RSS feed to support DNN Newsfeeds</li>
+	<li>Allowed monthly recurring events occurring in specific week to have periodicity</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+	<li>Open a new browser window when clicking on the RSS Feed icon</li>
+	<li>Print Icon changed to IconKey</li>
+</ul>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Fixed a bug where multi-day events weren't appearing for as long as they should in list view</li>
+    <li>Improved teamplate handling so Owner line can be supressed completely</li>
+	<li>Corrected the number fo emails send for Enrolled Users</li>
+    <li>Corrected category based filtering of enrollments</li>
+    <li>Correct spelling of 'Enroll'</li>
+    <li>Corrected display of notifytime for reminders</li>
+    <li>Fixed bugs with sites using HTTPS</li>
+    <li>Fix bug with email formatting</li>
+</ul>

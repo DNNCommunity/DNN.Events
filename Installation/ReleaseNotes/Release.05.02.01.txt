@@ -1,0 +1,27 @@
+﻿<h2>Release notes DNN Events 05.02.01</h2>
+<p>Events 05.02.01 will work for any DNN version <strong>5.5.0</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Added validation around category cookie</li>
+    <li>RSS feed was missing an explicit close of the file when writing. Fixed.</li>
+    <li>Added extra security into detail view</li>
+    <li>.ICS Files did not include correct line folding. Fixed</li>
+    <li>Change Event Owner DDL did not populate correctly on 5.2.0. Fixed</li>
+    <li>RSS only worked when NOT logged in. Fixed</li>
+    <li>Recurring event 'Until' date is shown as 01/01/0001. Fixed</li>
+    <li>Repeater mode did not hide List icon on icon bar. Fixed<li>
+    <li>Remove a &lt;br /&gt; from Events that was not needed</li>
+    <li>Naming a colour i.s.o. colour number in the category setting caused errors. Fixed.</li>
+    <li>.ICS files summary was not properly escaped. Fixed.</li>
+    <li>Detail page URL generated incorrectly for page link in child portals. Fixed.</li>
+    <li>Scheduled search indexing process does not work. Fixed.</li>
+</ul>
+<h3>ENHANCEMENTS</h3>
+<ul>
+    <li>All .css and .js files are compressed/minified in the PA Install pack, the original uncompressed versions are in the Source pack</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+    <li>Changed category lookup into CategoryId, because URLScan software might block ajax calls during navigation </li>
+</ul>

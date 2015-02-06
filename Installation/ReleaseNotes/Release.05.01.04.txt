@@ -1,0 +1,155 @@
+﻿<h2>Release notes DNN Events 05.01.04</h2>
+<p>Events 05.01.04 will work for any DNN version 5.2.0 and up.
+Full details on the changes can be found in 
+great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">
+http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Add support for negative permission setting in DNN 5</li>
+	<li>Improved XHTML Compliancy</li>
+	<li>Notification email &quot;from&quot; address not using setting in module or 
+		event, uses site admin address</li>
+	<li>Placing a copy of a calendar on a second page, causes duplicate 
+		results returned in My Enrolments</li>
+	<li>Bugs in .ics export</li>
+	<li>Using '[' or ']' in tooltip title or description causes problems</li>
+	<li>iCal export does not support regions with no DST</li>
+	<li>Apply ISO 8601 standard for week numbers</li>
+	<li>Improve code performance be removing unnecessary DB calls</li>
+	<li>Expire events not working?</li>
+	<li>Make schedule item creation more reliable</li>
+	<li>RSS feed does not point to right tab</li>
+	<li>RSS feed does not take note of 'Use Module Container &amp; Skin' setting</li>
+	<li>Awaiting approval template is missing</li>
+	<li>ImageURL may change when EnrollRoleID is changed</li>
+	<li>When a user is enrolled to an Event, the telephone number (taken 
+		from the User Profile) does not show up where expected in the Edit view</li>
+	<li>If you have a monthly recurring event which takes place on the last 
+		Wednesday of the month, and the last day of the month is a Wednesday, 
+		the calendar shows the event on the Wednesday before.</li>
+	<li>Tokens for URLs do not include domain name when Friendly URLs are 
+		switched off</li>
+	<li>The timezone is not offsetting against the 
+		timezone set in the portal. </li>
+	<li>Expiring events does not seem to handle timezones correctly (via the 
+		scheduled process)</li>
+	<li>Bug in RSS Feed - Detail Page</li>
+	<li>Month View No Cell Events show event count when event should be 
+		hidden</li>
+	<li>In some instances (unclear what particulat situation), the 
+		TimeInterval List and Schedule aren't being created for a fresh install 
+		on DNN 5.3.x. This is because the upgrade process isn't being called 
+		which creates these items. To handle this situation a fallback solution 
+		is required which is run on occasional basis. An appropriate location is 
+		in the module settings, since these items are only required within the 
+		module settings or as a result of visiting the module settings. </li>
+	<li>Currently only the initial host user (UserID = 1) will get new event 
+		notifications (if they subscribe). In theory all host users should be 
+		able to subscribe.</li>
+	<li>Corrected wrong subject line used in enrollment mails sent from Event Details</li>
+	<li>All day event for next day showed in 'Today' list view. Corrected</li>
+	<li>Upgrading with big email templates could cause an invalid length parameter passed to the SUBSTRING function.</li>
+	<li>When an enrolment role has been added to an event, and the role is then deleted from the portal, the module would fail when entering edit view</li>
+	<li>When an module instance is deleted it is no longer available to be included as a sub-calendar.</li>
+</ul>
+
+<h3>ENHANCEMENTS</h3>
+<ul>
+	<li>Add support for DNN 5.5.x.</li>
+	<li>Add an option to provide a number of attendees to an event.</li>
+	<li>Add guests when enrolling</li>
+	<li>Recurrences days are 
+		now localised</li>
+	<li>Added a &quot;quantity&quot; for the event registration, and then of course 
+		the Quantity need to multiply the price for the PayPal piece 
+		and this does effect the 'seats/quantity' remaining.</li>
+	<li>Improved text fragments to be made localisation friendly</li>
+	<li>Consolidate TimeZone module settings and TimeZone Update menu option</li>
+	<li>Limit number of recurring events generated</li>
+	<li>Allow event editor to send custom email to enrolees</li>
+	<li>Enable category selection via url, 
+		added an option to auto-select a category with a variable in the url.</li>
+	<li>Events Month View Select Day: 
+		select a date on the calender in month view by clicking on the date</li>
+	<li>Raise sub-calendar limit 
+		to 1.000 subcalendars</li>
+	<li>Enrolled User Cancel Event Booking</li>
+	<li>Added an option to
+		send invites out when creating an event.</li>
+	<li>Enable tooltip per view type</li>
+	<li>The list/day views have now been updated so that no column is 
+		mandatory. This gives the flexibility to format as requested here by 
+		using the templating capability of the description column. Since the 
+		Event Title column also showed various icons (recurrence, importance, 
+		notification, enrollment), tokens for these have now been added 
+		(recurrenceicon, importanceicon, remindericon, enrollicon) as well as a 
+		label and text for notification (reminderlabel and reminder).</li>
+	<li>Possibility to mail All Registred Users on Event Creation, 
+		there is now an option in the module settings to send an email to a 
+		role.</li>
+	<li>When entering in new events, or editing 
+		existing events, do not allow entry of events that will be immediately 
+		deleted (i.e. do a compare with &quot;set expire events older than&quot; entry and 
+		perform some form validation</li>
+	<li>Currently a fully formatted href is created for the event titles 
+		(titleurl) . There is now a token for the basic 
+		url available as well, so admins can create hrefs of their own 
+		full token.</li>
+	<li>Added an extra token for the clean URL next to 
+		the href version of the Location</li>
+	<li>Moved Event Settings out of Module Settings</li>
+	<li>Added token for enrollment fee</li>
+	<li>Added templating of Location column in list/day views</li>
+	<li>Add edsettings to disable enrollment validation popup</li>
+	<li>When a week-end day has events in Mont View No Cell Events, the 
+		week-day style is applied to it. This was by design, but it ought to 
+		have a seperate style to allow flexibility.</li>
+	<li>Add RECURRINGEVENT/NOTRECURRINGEVNT tokens</li>
+	<li>Add radio button to allow hiding of icon bar</li>
+	<li>Adding the following tokens would be very helpful for providing a 
+		more integrated experience:<br>[CREATEDBYID] - user ID of the person who 
+		created the event<br>[OWNEDBYID] - user ID of the person who owns the 
+		event<br>[UPDATEDBYID] - user ID of the person who last updated the 
+		event</li>
+	<li>Allow max length parameter in description token, 
+		e.g. [event:description|150].</li>
+	<li>Now the full range of tokens 
+		is available to notifications</li>
+	<li>Added token [IFTIMEZONEDISPLAY]</li>
+	<li>Added HTML alternate text to .ics export to support Outlook</li>
+	<li>Ability for sub 
+		calendars to filter by category</li>
+	<li>Is it now possible to pass the date through 
+	the querystringso that the calendar does not default to today. 
+		Add this to your URL: &quot;?eventdate=yyymmdd&quot;</li>
+	<li>The Event Detail form can display the 
+		Display Name as hyperlink which displays the User 
+		Profile page when clicked, and also the email 
+		address hyperlink to send a single email. </li>
+</ul>
+
+
+<h3>CHANGES</h3>
+<ul>
+	<li>Updated DNN Installation manifest to DNN 5 standard</li>
+	<li>Updated module to remove functions deprecated in DNN 5 - to enable
+		full DNN 5 Compliancy</li>
+	<li>Removed unnecessary calls to getuser in edit control</li>
+	<li>Cleanup creation of detail url, and adding of skins controls to URL</li>
+	<li>Remove unrequired gifs</li>
+	<li>Location and Category editors shouldn't need to be module editors</li>
+	<li>Convert module settings into a Class and correctly Type all settings</li>
+	<li>Simplified code behind event hiding when full</li>
+	<li>Simplified Icon Creation</li>
+	<li>Simplified setup of controls on the 4 views</li>
+	<li>Rationalised Module Code</li>
+	<li>Change Schedule control to use Modules.Events namespace</li>
+	<li>Microsoft.VisualBasic.Compatibility 
+		Namespace is removed</li>
+	<li>The module is outputing an empty value 
+		against the LOCATION attribute in the iCal file. Outlook 2010 is not 
+		able to handle this situation (more than once - it seems alright the 
+		first time!!). Outputing a blank value is invalid anyway</li>
+	<li>Highlighting of Categories by the color is now on a complete row</li>
+	<li>Standardisation wording for the default of Reminders (Notifications) in the language pack</li>
+</ul>

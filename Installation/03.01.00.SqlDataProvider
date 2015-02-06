@@ -1,0 +1,244 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+/** Create Documents Table **/
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}Events]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}Events]
+		(
+			[ItemID] [int] NOT NULL IDENTITY(0, 1),
+			[ModuleID] [int] NOT NULL,
+			[Description] [nvarchar] (2000) NOT NULL,
+			[DateTime] [datetime] NOT NULL,
+			[Title] [nvarchar] (100) NOT NULL,
+			[ExpireDate] [datetime] NULL,
+			[CreatedByUser] [nvarchar] (200) NOT NULL,
+			[CreatedDate] [datetime] NOT NULL,
+			[Every] [int] NULL,
+			[Period] [char] (1) NULL,
+			[IconFile] [nvarchar] (256) NULL,
+			[AltText] [nvarchar] (50) NULL
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}Events] ADD CONSTRAINT [PK_{objectQualifier}Events] PRIMARY KEY NONCLUSTERED  ([ItemID])
+		CREATE NONCLUSTERED INDEX [IX_{objectQualifier}Events] ON {databaseOwner}[{objectQualifier}Events] ([ModuleID])
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}Events] WITH NOCHECK ADD
+		CONSTRAINT [FK_{objectQualifier}Events_{objectQualifier}Modules] FOREIGN KEY ([ModuleID]) REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID]) ON DELETE CASCADE NOT FOR REPLICATION
+	END
+GO
+
+
+/** Drop Existing Stored Procedures **/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}AddEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}AddEvent
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}DeleteEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}DeleteEvent
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}GetEvent
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetEventsByDate]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}GetEventsByDate
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetEvents]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}GetEvents
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UpdateEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure {databaseOwner}{objectQualifier}UpdateEvent
+GO
+
+
+/** Create Stored Procedures **/
+
+create procedure {databaseOwner}{objectQualifier}AddEvent
+
+	@ModuleID    int,
+	@Description nvarchar(2000),
+	@DateTime    datetime,
+	@Title       nvarchar(100),
+	@ExpireDate  datetime = null,
+	@UserName    nvarchar(200),
+	@Every       int,
+	@Period      char(1),
+	@IconFile    nvarchar(256),
+	@AltText     nvarchar(50)
+
+as
+
+insert into {objectQualifier}Events ( 
+	ModuleID,
+	Description,
+	DateTime,
+	Title,
+	ExpireDate,
+	CreatedByUser,
+	CreatedDate,
+	Every,
+	Period,
+	IconFile,
+	AltText
+)
+values (
+	@ModuleID,
+	@Description,
+	@DateTime,
+	@Title,
+	@ExpireDate,
+	@UserName,
+	getdate(),
+	@Every,
+	@Period,
+	@IconFile,
+	@AltText
+)
+
+select SCOPE_IDENTITY()
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}DeleteEvent
+
+	@ItemId int
+
+as
+
+delete
+from   {objectQualifier}Events
+where  ItemId = @ItemId
+
+GO
+
+CREATE procedure {databaseOwner}{objectQualifier}GetEvent
+
+	@ItemId   int,
+	@ModuleId int
+
+as
+
+select 
+	{objectQualifier}Events.ItemId,
+	{objectQualifier}Events.ModuleId,
+    {objectQualifier}Events.Description,
+    {objectQualifier}Events.DateTime,
+    {objectQualifier}Events.Title,
+    {objectQualifier}Events.ExpireDate,
+    'CreatedByUser' = {objectQualifier}Users.FirstName + ' ' + {objectQualifier}Users.LastName,
+    {objectQualifier}Events.CreatedDate,
+    {objectQualifier}Events.Every,
+    {objectQualifier}Events.Period,
+    'IconFile' = case when {objectQualifier}Files.FileName is null then {objectQualifier}Events.IconFile else {objectQualifier}Files.Folder + {objectQualifier}Files.FileName end,
+    {objectQualifier}Events.AltText
+from   {objectQualifier}Events
+left outer join {objectQualifier}Users on {objectQualifier}Events.CreatedByUser = {objectQualifier}Users.UserId
+left outer join {objectQualifier}Files on {objectQualifier}Events.IconFile = 'fileid=' + convert(varchar,{objectQualifier}Files.FileID)
+where  ItemId = @ItemId
+and    ModuleId = @ModuleId
+
+GO
+
+CREATE procedure {databaseOwner}{objectQualifier}GetEventsByDate
+
+	@ModuleId int,
+	@StartDate datetime,
+	@EndDate datetime
+
+as
+
+select 
+	{objectQualifier}Events.ItemId,
+    {objectQualifier}Events.ModuleId,
+    {objectQualifier}Events.Description,
+    {objectQualifier}Events.DateTime,
+    {objectQualifier}Events.Title,
+    {objectQualifier}Events.ExpireDate,
+    {objectQualifier}Events.CreatedByUser,
+    {objectQualifier}Events.CreatedDate,
+    {objectQualifier}Events.Every,
+    {objectQualifier}Events.Period,
+    'IconFile' = case when {objectQualifier}Files.FileName is null then {objectQualifier}Events.IconFile else {objectQualifier}Files.Folder + {objectQualifier}Files.FileName end,
+    {objectQualifier}Events.AltText
+from   {objectQualifier}Events
+left outer join {objectQualifier}Files on {objectQualifier}Events.IconFile = 'fileid=' + convert(varchar,{objectQualifier}Files.FileID)
+where  ModuleId = @ModuleId
+and    ( (Period is null and (DateTime >= @StartDate and DateTime <= @EndDate)) or Period is not null )
+order by DateTime
+
+GO
+
+CREATE procedure {databaseOwner}{objectQualifier}GetEvents
+
+	@ModuleId int
+
+as
+
+select 
+	{objectQualifier}Events.ItemId,
+    {objectQualifier}Events.ModuleId,
+    {objectQualifier}Events.Description,
+    {objectQualifier}Events.DateTime,
+    {objectQualifier}Events.Title,
+    {objectQualifier}Events.ExpireDate,
+    {objectQualifier}Events.CreatedByUser,
+    {objectQualifier}Events.CreatedDate,
+    {objectQualifier}Events.Every,
+    {objectQualifier}Events.Period,
+    'IconFile' = case when {objectQualifier}Files.FileName is null then {objectQualifier}Events.IconFile else {objectQualifier}Files.Folder + {objectQualifier}Files.FileName end,
+    {objectQualifier}Events.AltText,
+    'MaxWIdth' = (select max(WIdth) from {objectQualifier}Events left outer join {objectQualifier}Files on {objectQualifier}Events.IconFile = 'fileid=' + convert(varchar,{objectQualifier}Files.FileID) where ModuleId = @ModuleId and (ExpireDate > getdate() or ExpireDate is null))
+from   {objectQualifier}Events
+left outer join {objectQualifier}Files on {objectQualifier}Events.IconFile = 'fileid=' + convert(varchar,{objectQualifier}Files.FileID)
+where  ModuleId = @ModuleId
+and    (ExpireDate > getdate() or ExpireDate is null)
+order by DateTime
+
+GO
+
+create procedure {databaseOwner}{objectQualifier}UpdateEvent
+
+	@ItemId      int,
+	@Description nvarchar(2000),
+	@DateTime    datetime,
+	@Title       nvarchar(100),
+	@ExpireDate  datetime = null,
+	@UserName    nvarchar(200),
+	@Every       int,
+	@Period      char(1),
+	@IconFile    nvarchar(256),
+	@AltText     nvarchar(50)
+
+as
+
+update {objectQualifier}Events
+set    Description = @Description,
+       DateTime = @DateTime,
+       Title = @Title,
+       ExpireDate = @ExpireDate,
+       CreatedByUser = @UserName,
+       CreatedDate = getdate(),
+       Every = @Every,
+       Period = @Period,
+       IconFile = @IconFile,
+       AltText = @AltText
+where  ItemId = @ItemId
+
+GO
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

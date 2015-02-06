@@ -1,0 +1,4 @@
+﻿'Remove old versions of events
+Install\Module\Events_04.01.01_Source.zip
+Install\Module\Events_04.01.01_Install.zip
+Install\Module\Events_04.01.01_Install.resources

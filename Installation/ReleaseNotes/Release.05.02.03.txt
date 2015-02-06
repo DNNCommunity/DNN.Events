@@ -1,0 +1,20 @@
+﻿<h2>Release notes DNN Events 05.02.03</h2>
+<p>Events 05.02.03 will work for any DNN version <strong>5.5.0</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>05.01.00 Upgrade does not handle notifications in deleted modules correctly. Fixed.</li>
+    <li>Module does not handle url parameters that have been converted to lower case properly. Fixed.</li>
+    <li>Corrected handling of tooltips after change of category filter.</li>
+    <li>Timezones with no DST are now handled correctly in iCal exports.</li>
+    <li>Module now handles installations where module friendly name has been changed.</li>
+    <li>Fees are now handled as decimal rather than double.</li>
+    <li>Removed Custom 3 field from template help.</li>
+    <li>iCal files not outputing images when different from RecurMaster. Fixed.</li>
+    <li>Events not displaying correctly in week view when first day of week not set to Default. Fixed.</li>
+    <li>PayPal IPNs do not display properly in HTML and do not include currency. Fixed.</li>
+    <li>List Events show 'No events to display' even when there are some after category filter change. Fixed.</li>
+    <li>PayPal IPNs cause object reference error when skin/container controls are used. Fixed.</li>
+    <li>Fixed incorrect display of recurrence end in detail view.</li>
+    <li>iCal url does not allow users to copy URL. Fixed.</li>
+</ul>

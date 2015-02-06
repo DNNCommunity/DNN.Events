@@ -1,0 +1,154 @@
+﻿/* Table Updates */
+
+if not exists (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{databaseOwner}' and TABLE_NAME = '{objectQualifier}EventsNotification' and COLUMN_NAME = 'NotifyLanguage')
+  ALTER TABLE {databaseOwner}{objectQualifier}EventsNotification 
+  ADD NotifyLanguage nvarchar(10) NULL
+GO
+
+
+/* Drop Stored Procs */
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationDelete]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationDelete]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationGet]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationList]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationTimeChange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationTimeChange]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationsToSend]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationsToSend]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/* Create Stored Procs */
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationDelete
+(
+	@DeleteDateTime DateTime
+)
+AS
+DELETE {databaseOwner}{objectQualifier}EventsNotification 
+WHERE NotifyBydateTime <= @DeleteDateTime AND NotificationSent != 0
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationGet
+(
+	@EventID int,
+	@UserEmail nvarchar(50),
+	@EventDate datetime
+)
+AS
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+WHERE EventID = @EventID And 
+   UserEmail = @UserEmail And
+   DATEADD(day, DATEDIFF(day, 0, EventTimeBegin), 0)  = DATEADD(day, DATEDIFF(day, 0, @EventDate), 0)
+
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationList
+
+AS
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+Order By NotifyByDateTime DESC
+
+GO
+
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationSave
+(
+	@NotificationID int,
+	@EventID int,
+	@PortalAliasID int,
+	@UserEmail nvarchar(50),
+	@NotificationSent bit,
+	@NotifyByDateTime DateTime,
+	@EventTimeBegin DateTime,
+	@NotifyLanguage nvarchar(10)
+)
+AS
+SET DATEFORMAT mdy
+IF @NotificationID = -1 OR @NotificationID IS NULL
+	INSERT {databaseOwner}{objectQualifier}EventsNotification
+	(
+		EventID,
+		PortalAliasID,
+		UserEmail,
+		NotificationSent,
+		NotifyByDateTime,
+		EventTimeBegin,
+		NotifyLanguage
+	)
+	VALUES
+	(
+		@EventID,
+		@PortalAliasID,
+		@UserEmail,
+		@NotificationSent,
+		@NotifyByDateTime,
+		@EventTimeBegin, 
+		@NotifyLanguage
+	)
+ELSE
+	UPDATE {databaseOwner}{objectQualifier}EventsNotification SET
+		EventID = @EventID,
+		PortalAliasID = @PortalAliasID,
+		UserEmail = @UserEmail,
+		NotificationSent = @NotificationSent,
+		NotifyByDateTime = @NotifyByDateTime,
+		EventTimeBegin = @EventTimeBegin,
+		NotifyLanguage = @NotifyLanguage
+	WHERE NotificationID = @NotificationID
+
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+WHERE NotificationID = @@Identity
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationTimeChange
+(
+	@EventID int,
+	@NotifyTime DateTime
+)
+AS
+SET DATEFORMAT mdy
+
+UPDATE {databaseOwner}{objectQualifier}EventsNotification SET
+	NotifyByDateTime = @NotifyTime
+WHERE EventID = @EventID
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationsToSend
+(
+	@NotifyTime DateTime
+)
+AS
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+WHERE NotifyByDateTime <= @NotifyTime AND
+  NotificationSent = 0
+Order by NotifyByDateTime
+GO
+

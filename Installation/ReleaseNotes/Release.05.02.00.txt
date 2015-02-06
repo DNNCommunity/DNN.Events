@@ -1,0 +1,46 @@
+﻿<h2>Release notes DNN Events 05.02.00</h2>
+<p>Events 05.02.00 will work for any DNN version <strong>5.5.0</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Removed syntax errors .js scripts</li>
+	<li>Special characters are escaped/encoded properly in Text fields in iCalendar</li>
+	<li>No reminder record with a blank email address created for anonymous users</li>
+	<li>When category select is disabled and module is set to filter by a specific category, new events are default populated with this category</li>
+	<li>Last Updated Date/Time is used as the Publication Date in the RSS feed was incorrectly adjusted to UTC</li>
+    <li>Corrected reminder email with internal link to provide full url in the email</li>
+</ul>
+<h3>NEW FEATURES</h3>
+<ul>
+	<li>Enabled the list view to be complete templateable, as alternative to the existing Grid view with column choices</li>
+	<li>A new tokenset [CUSTOMDETAILPAGE][/CUSTOMDETAILPAGE] which can be used to wrap any text you want hidden when the event does have a custom detail page.</li>
+	<li>Added new email setting in top level section to enable other FROM e-mail addresses (initially populated with portalsettings.email)</li>
+	<li>Added support for exporting whole module calendar to enable internet calendar subscription</li>
+	<li>Added Event sitemap support to the sitemap.aspx output for search engines</li>
+	<li>Added enhanced SEO support for dynamic setting of Page Title and Description by using html templates</li>
+	<li>Added SEO keyword settings using category and location</li>
+</ul>
+<h3>ENHANCEMENTS</h3>
+<ul>
+	<li>Greatly enhanced the option for a Event admin to enroll users (multi select), especially when working with a large number of roles or users</li>
+	<li>Added category parameter to iCalendar url to select a specific category in the iCal output</li>
+	<li>Added print capability to detail view</li>
+	<li>Enabled adding DaysBefore and DayAfter for a range to be set on a per feed basis for the iCal feeds</li>
+	<li>Added data format in the 'Events Tooltip Title - Month View - No Events Title' template </li>
+	<li>Added URL property to VEVENT object in iCalendar</li>
+	<li>Added url to event image in ATTACH property of VEVENT object in iCalendar</li>
+	<li>Added an option for users to have the Event send to e-mail, in addition to export the event as an .ics file</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+	<li>When 'Disable Month View Cell Events' is checked, when a user clicks on a day with on ly one event, the view changes to Event detail i.s.o Event Day View</li>
+	<li>Hide past events in list view based on TIME in addition to date</li>
+	<li>Replace "Enroll Now" link with "No Enrollments possible" text when event has started</li>
+	<li>Add CSS to Detail view to enable styling via theme, moved css from .ascx to the theme</li>
+	<li>Update control on Edit event details returns to Event Details screen, not Calendar View </li>
+	<li>Changed iCalendar to support <a href="http://tools.ietf.org/html/rfc5545">RFC5545</a> which replaces <a href="http://tools.ietf.org/html/rfc2445">RFC2445</a></li>
+	<li>Changed the tooltip code to DNNToolTipManager (which uses RadToolTipManager) for enhancement en compatibility</li>
+	<li>Add css classes for enrolee grid on Edit page</li>
+    <li>Removed/mark obsolete redundant recurrance fields in Events table</li>
+    <li>Removed dependancy on DNN core Edit permissions, any existing permissions are upgraded through IUpgradeable</li>
+</ul>

@@ -1,0 +1,214 @@
+﻿/* Table Updates */
+
+IF (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}EventsNotification]'),'EventTimeBegin','AllowsNull')) IS NULL 
+ALTER TABLE {databaseOwner}{objectQualifier}EventsNotification ADD EventTimeBegin DateTime NULL
+GO
+
+IF NOT exists (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'IX_{objectQualifier}EventsNotification_2') AND OBJECTPROPERTY(id, N'IsConstraint') = 1)
+ALTER TABLE {databaseOwner}{objectQualifier}EventsNotification 
+ADD CONSTRAINT IX_{objectQualifier}EventsNotification_2 UNIQUE NONCLUSTERED 
+	(
+	EventID,
+	UserEmail,
+	EventTimeBegin
+	) ON [PRIMARY]
+
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}EventsSignups
+	DROP CONSTRAINT IX_{objectQualifier}EventsSignups
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}EventsSignups ADD CONSTRAINT
+	IX_{objectQualifier}EventsSignups UNIQUE NONCLUSTERED 
+	(
+	ModuleID,
+	EventID,
+	UserID,
+	EventTimeBegin
+	) ON [PRIMARY]
+
+GO
+
+
+/* Drop Stored Procs */
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetUser]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGetUser]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationGet]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsGet]
+GO
+
+/* Add Stored Procs */
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsGetUser
+(
+	@EventID int,
+	@UserID int,
+	@EventDate datetime
+)
+AS
+SET DATEFORMAT mdy
+Select s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  -- u.FirstName + ' ' + u.LastName as UserName,
+  u.DisplayName as USerName, u.Email,
+ s.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		s.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+Where  s.EventID = @EventID And
+             s.Userid = @UserID And
+             DATEADD(day, DATEDIFF(day, 0, s.EventTimeBegin), 0)  = DATEADD(day, DATEDIFF(day, 0, @EventDate), 0)
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationGet
+(
+	@EventID int,
+	@UserEmail nvarchar(50),
+	@EventDate datetime
+)
+AS
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+WHERE EventID = @EventID And 
+   UserEmail = @UserEmail And
+   DATEADD(day, DATEDIFF(day, 0, EventTimeBegin), 0)  = DATEADD(day, DATEDIFF(day, 0, @EventDate), 0)
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationSave
+(
+	@NotificationID int,
+	@EventID int,
+	@PortalAliasID int,
+	@UserEmail nvarchar(50),
+	@NotificationSent bit,
+	@NotifyByDateTime DateTime,
+	@EventTimeBegin DateTime
+)
+AS
+SET DATEFORMAT mdy
+IF @NotificationID = -1 OR @NotificationID IS NULL
+	INSERT {databaseOwner}{objectQualifier}EventsNotification
+	(
+		EventID,
+		PortalAliasID,
+		UserEmail,
+		NotificationSent,
+		NotifyByDateTime,
+		EventTimeBegin
+	)
+	VALUES
+	(
+		@EventID,
+		@PortalAliasID,
+		@UserEmail,
+		@NotificationSent,
+		@NotifyByDateTime,
+		@EventTimeBegin 
+	)
+ELSE
+	UPDATE {databaseOwner}{objectQualifier}EventsNotification SET
+		EventID = @EventID,
+		PortalAliasID = @PortalAliasID,
+		UserEmail = @UserEmail,
+		NotificationSent = @NotificationSent,
+		NotifyByDateTime = @NotifyByDateTime,
+		EventTimeBegin = @EventTimeBegin 
+	WHERE NotificationID = @NotificationID
+
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+WHERE NotificationID = @@Identity
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsGet
+(
+	@EventID int
+)
+AS
+SET DATEFORMAT mdy
+SELECT E.PortalID, EventID, ModuleID, EventDateBegin, EventDateEnd,
+	EventTimeBegin, Duration, EventName, EventDesc,
+	Importance, E.CreatedDate, 
+    --CreatedBy = {objectQualifier}Users.FirstName + ' ' + {objectQualifier}Users.LastName,
+    CreatedBy = u.DisplayName,
+	CreatorID =  E.CreatedBy,
+	Every,
+	Period,
+	RepeatType,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	PayPalPassword, 
+	Cancelled,
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	E.Location,
+	c.LocationName,
+	c.MapURL,
+	E.Category,
+	b.CategoryName,
+	b.Color,
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement,
+	ReminderFrom,
+	SearchSubmitted
+FROM {databaseOwner}{objectQualifier}Events E
+left outer join {databaseOwner}{objectQualifier}Users U on E.CreatedBy = U.UserID
+left join {databaseOwner}{objectQualifier}EventsCategory b on E.Category = b.Category
+left join {databaseOwner}{objectQualifier}EventsLocation c on E.Location = c.Location
+WHERE EventID = @EventID
+GO

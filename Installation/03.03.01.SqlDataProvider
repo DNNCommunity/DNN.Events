@@ -1,0 +1,561 @@
+﻿/* Database Tables */
+
+IF (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}EventsSignups]'),'EventTimeBegin','AllowsNull')) IS NULL 
+ALTER TABLE {databaseOwner}{objectQualifier}EventsSignups 
+ADD EventTimeBegin DateTime NULL
+GO
+
+IF (SELECT COLUMNPROPERTY( OBJECT_ID(N'{databaseOwner}[{objectQualifier}EventsSignups]'),'TimezoneOffset','AllowsNull')) IS NULL 
+ALTER TABLE {databaseOwner}{objectQualifier}EventsSignups 
+ADD TimezoneOffset int NULL
+GO
+
+/* Stored Procedures */
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[dnn_EventsGetByDate]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[dnn_EventsGetByDate]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[dnn_EventsGetByMonthYear]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[dnn_EventsGetByMonthYear]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGetByRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsGetByRange]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsAVCalendarImport]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsAVCalendarImport]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsAVCalendarList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsAVCalendarList]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationDelete]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsNotificationDelete]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsNotificationGet]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsNotificationList]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsNotificationSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationTimeChange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsNotificationTimeChange]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationsToSend]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsNotificationsToSend]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsDelete]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsDelete]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsGet]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsGetEvent]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetUser]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsGetUser]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsPPTransCount]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsPPTransCount]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}SplitIDs]') and xtype in (N'FN', N'IF', N'TF'))
+drop function {databaseOwner}[{objectQualifier}SplitIDs]
+GO
+
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE FUNCTION {databaseOwner}{objectQualifier}SplitIDs
+(
+	@RecordIDList varchar(500)
+)
+RETURNS 
+@ParsedList table
+(
+	RecordID int
+)
+AS
+BEGIN
+	DECLARE @RecordID varchar(10), @Pos int
+
+	SET @RecordIDList = LTRIM(RTRIM(@RecordIDList))+ ','
+	SET @Pos = CHARINDEX(',', @RecordIDList, 1)
+
+	IF REPLACE(@RecordIDList, ',', '') <> ''
+	BEGIN
+		WHILE @Pos > 0
+		BEGIN
+			SET @RecordID = LTRIM(RTRIM(LEFT(@RecordIDList, @Pos - 1)))
+			IF @RecordID <> ''
+			BEGIN
+				INSERT INTO @ParsedList (RecordID) 
+				VALUES (CAST(@RecordID AS int)) --Use Appropriate conversion
+			END
+			SET @RecordIDList = RIGHT(@RecordIDList, LEN(@RecordIDList) - @Pos)
+			SET @Pos = CHARINDEX(',', @RecordIDList, 1)
+
+		END
+	END	
+	RETURN
+END
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsGetByRange
+(
+	@Modules nvarchar(255),
+	@BeginDate datetime,
+	@EndDate datetime,
+	@Category nvarchar(50)
+)
+AS
+SET DATEFORMAT mdy
+IF (LEN(@Modules) = 0)
+BEGIN
+/** Added for Module Notification Scheduling 
+	NOTE: This version also checks for SendReminder = True
+**/
+  SELECT E.PortalID, EventID, ModuleID, EventDateBegin, EventDateEnd,
+	EventTimeBegin, Duration, EventName, EventDesc,
+	Importance, E.CreatedDate, 
+    --  	CreatedBy = {objectQualifier}Users.FirstName + ' ' + {objectQualifier}Users.LastName,
+    CreatedBy = U.DisplayName,
+	CreatorID =  E.CreatedBy,
+	Every,
+	Period,
+	RepeatType,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	PayPalPassword, 
+	Cancelled,
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	E.Location,
+	c.LocationName,
+	c.MapURL,
+	E.Category,
+	b.CategoryName,
+	b.Color,
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement,
+	ReminderFrom,
+	SearchSubmitted
+  FROM {databaseOwner}{objectQualifier}Events E
+  left outer join {databaseOwner}{objectQualifier}Users U on E.CreatedBy = U.UserID
+  left join {objectQualifier}EventsCategory b on E.Category = b.Category
+  left join {objectQualifier}EventsLocation c on E.Location = c.Location
+  WHERE (((EventDateBegin  BETWEEN @BeginDate  AND @EndDate) OR (EventDateBegin <=@EndDate AND EventDateEnd >= @BeginDate AND RepeatType <> 'N'))
+	AND (ModuleID in (SELECT * FROM {databaseOwner}[{objectQualifier}SplitIDs](@Modules)))
+	AND (Approved = 1)
+	AND (b.CategoryName = @Category OR @Category = ''))
+  ORDER BY EventDateBegin, EventTimeBegin, EventDateEnd
+END
+ELSE
+BEGIN
+  SELECT E.PortalID, EventID, ModuleID, EventDateBegin, EventDateEnd,
+	EventTimeBegin, Duration, EventName, EventDesc,
+	Importance, E.CreatedDate, 
+    -- CreatedBy = {objectQualifier}Users.FirstName + ' ' + {objectQualifier}Users.LastName,
+    CreatedBy = U.DisplayName,
+	CreatorID =  E.CreatedBy,
+	Every,
+	Period,
+	RepeatType,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	PayPalPassword, 
+	Cancelled,
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	E.Location,
+	c.LocationName,
+	c.MapURL,
+	E.Category,
+	b.CategoryName,
+	b.Color,
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement
+  FROM {databaseOwner}{objectQualifier}Events E
+  left outer join {databaseOwner}{objectQualifier}Users U on E.CreatedBy = U.UserID
+  left join {databaseOwner}{objectQualifier}EventsCategory b on E.Category = b.Category
+  left join {databaseOwner}{objectQualifier}EventsLocation c on E.Location = c.Location
+  WHERE (((EventDateBegin  BETWEEN @BeginDate  AND @EndDate) OR (EventDateBegin <=@EndDate AND EventDateEnd >= @BeginDate AND RepeatType <> 'N'))
+	AND (ModuleID in (SELECT * FROM {databaseOwner}[{objectQualifier}SplitIDs](@Modules)))
+	AND (Approved = 1)
+	AND (b.CategoryName = @Category OR @Category = ''))
+  ORDER BY EventDateBegin, EventTimeBegin, EventDateEnd
+END
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsAVCalendarImport
+(
+	@CalendarModuleID int,
+	@EventModuleID int,
+       	@Version nvarchar(8),
+	@TimeZone int,
+	@PortalID int,
+	@ImportCategory bit,
+	@ImportLocation bit
+)
+AS
+
+SET IDENTITY_INSERT {databaseOwner}{objectQualifier}EventsCategory ON
+if @ImportCategory <> 0
+	INSERT INTO {objectQualifier}EventsCategory (PortalID, Category, CategoryName, Color)
+		SELECT PortalID, Category, CategoryName, Color FROM {databaseOwner}{objectQualifier}CalendarCategory WHERE PortalID = @PortalID
+SET IDENTITY_INSERT {databaseOwner}{objectQualifier}EventsCategory OFF
+
+SET IDENTITY_INSERT {databaseOwner}{objectQualifier}EventsLocation ON
+if @ImportLocation <> 0
+	INSERT INTO {objectQualifier}EventsLocation (PortalID, Location, LocationName, MapURL)
+		SELECT PortalID, Location, LocationName, MapURL FROM {databaseOwner}{objectQualifier}CalendarLocation WHERE PortalID = @PortalID
+SET IDENTITY_INSERT {databaseOwner}{objectQualifier}EventsLocation OFF
+IF EXISTS(SELECT * FROM {databaseOwner}{objectQualifier}Calendar)
+
+INSERT INTO {databaseOwner}{objectQualifier}Events (ModuleID, EventDateBegin, EventDateEnd, EventTimeBegin, Duration, EventName, EventDesc, Importance, RepeatType, Every, Period, Reminder, Notify, CreatedBy, CreatedDate, Approved, PortalID, Signups, MaxEnrollment, EnrollRoleID, EnrollFee, EnrollType, PayPalAccount, PayPalPassword, Cancelled, ImageURL, ImageType, ImageWidth, ImageHeight, ImageDisplay, Location, Category, TimeZoneOffset)
+		SELECT @EventModuleID as ModuleID, EventDateBegin, EventDateEnd, EventTimeBegin, Duration, EventName, EventDesc, Importance, RepeatType, Every, Period, Reminder, Notify, CreatedBy, CreatedDate, Approved, PortalID, Signups, MaxEnrollment, EnrollRoleID, EnrollFee, EnrollType, PayPalAccount, PayPalPassword, Cancelled, ImageURL, ImageType, ImageWidth, ImageHeight, ImageDisplay, Location, Category, @TimeZone 
+        FROM {databaseOwner}{objectQualifier}Calendar WHERE ModuleID = @CalendarModuleID
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsAVCalendarList
+(
+	@PortalID int
+)
+AS
+SELECT DISTINCT c.ModuleID, 'ModuleID: ' + CONVERT(char(3), c.ModuleID) +  ', Events: ' + CONVERT(char(6), Count(*)) as Events  
+FROM {databaseOwner}{objectQualifier}Calendar c 
+WHERE c.PortalID = @PortalID
+Group By c.ModuleID
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationDelete
+(
+	@DeleteDateTime DateTime
+)
+AS
+DELETE {databaseOwner}{objectQualifier}EventsNotification WHERE NotifyBydateTime <= @DeleteDateTime
+  AND NotificationSent != 0
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationGet
+(
+	@EventID int,
+	@UserEmail nvarchar(50)
+)
+AS
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+WHERE EventID = @EventID 
+   And UserEmail = @UserEmail
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationList
+
+AS
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+Order By NotifyByDateTime DESC
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationSave
+(
+	@NotificationID int,
+	@EventID int,
+	@PortalAliasID int,
+	@UserEmail nvarchar(50),
+	@NotificationSent bit,
+	@NotifyByDateTime DateTime
+)
+AS
+SET DATEFORMAT mdy
+IF @NotificationID = -1 OR @NotificationID IS NULL
+	INSERT {databaseOwner}{objectQualifier}EventsNotification
+	(
+		EventID,
+		PortalAliasID,
+		UserEmail,
+		NotificationSent,
+		NotifyByDateTime
+	)
+	VALUES
+	(
+		@EventID,
+		@PortalAliasID,
+		@UserEmail,
+		@NotificationSent,
+		@NotifyByDateTime
+	)
+ELSE
+	UPDATE {databaseOwner}{objectQualifier}EventsNotification SET
+		EventID = @EventID,
+		PortalAliasID = @PortalAliasID,
+		UserEmail = @UserEmail,
+		NotificationSent = @NotificationSent,
+		NotifyByDateTime = @NotifyByDateTime
+	WHERE NotificationID = @NotificationID
+
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+WHERE NotificationID = @@Identity
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationTimeChange
+(
+	@EventID int,
+	@NotifyTime DateTime
+)
+AS
+SET DATEFORMAT mdy
+
+UPDATE {databaseOwner}{objectQualifier}EventsNotification 
+SET	NotifyByDateTime = @NotifyTime
+WHERE EventID = @EventID
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationsToSend
+(
+	@NotifyTime DateTime
+)
+AS
+SELECT * 
+FROM {databaseOwner}{objectQualifier}EventsNotification
+WHERE NotifyByDateTime <= @NotifyTime AND NotificationSent = 0
+Order by NotifyByDateTime
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsDelete
+(
+	@SignupID int
+)
+AS
+DELETE {databaseOwner}{objectQualifier}EventsSignups WHERE SignupID = @SignupID
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsGet
+(
+	@SignupID int
+)
+AS
+SET DATEFORMAT mdy
+Select s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  --u.FirstName + ' ' + u.LastName as UserName,
+  u.DisplayName as UserName, u.Email,
+  s.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+ 		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		s.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+Where  s.SignupID = @SignupID
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsGetEvent
+(
+	@EventID int
+)
+AS
+SET DATEFORMAT mdy
+Select s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  --u.FirstName + ' ' + u.LastName as UserName,
+  u.DisplayName AS USerName, u.Email,
+  s.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		s.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+Where  s.EventID = @EventID
+ORDER BY s.EventTimeBegin, c.EventName, UserName
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsGetUser
+(
+	@EventID int,
+	@UserID int
+)
+AS
+SET DATEFORMAT mdy
+Select s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  --u.FirstName + ' ' + u.LastName as UserName,
+  u.DisplayName as UserName, u.Email,
+ s.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+ 		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		s.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+Where  s.EventID = @EventID And
+             s.Userid = @UserID
+GO
+
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsMyEnrollments
+(
+	@ModuleID int,
+	@UserID int
+)
+AS
+SET DATEFORMAT mdy
+Select s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  --u.FirstName + ' ' + u.LastName as UserName,
+  u.DisplayName as UserName, u.Email,
+  s.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		s.TimeZoneOffset
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Modules m on m.ModuleID = s.ModuleID
+   Left Join {databaseOwner}{objectQualifier}TabModules x on m.ModuleID = x.ModuleID
+   Left Join {databaseOwner}{objectQualifier}Tabs t on t.TabID = x.TabID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+Where  s.Userid = @UserID AND
+	t.PortalID = @ModuleID
+ORDER BY s.EventTimeBegin desc
+GO
+

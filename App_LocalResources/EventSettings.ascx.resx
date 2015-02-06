@@ -1,0 +1,1329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ModerationSettings.Text" xml:space="preserve">
+    <value>Moderation Settings</value>
+  </data>
+  <data name="MasterSettings.Text" xml:space="preserve">
+    <value>SubCalendars Settings</value>
+  </data>
+  <data name="AdminSettings.Text" xml:space="preserve">
+    <value>General Settings</value>
+  </data>
+  <data name="EnrollmentSettings.Text" xml:space="preserve">
+    <value>Enrollment Settings</value>
+  </data>
+  <data name="plTimeInterval.Text" xml:space="preserve">
+    <value>Edit Time Interval:</value>
+  </data>
+  <data name="plTimeInterval.Help" xml:space="preserve">
+    <value>Enter the time interval for Event Times (Minutes)</value>
+  </data>
+  <data name="plToolTipMonth.Text" xml:space="preserve">
+    <value>Display Month View Tooltip:</value>
+  </data>
+  <data name="plToolTipMonth.Help" xml:space="preserve">
+    <value>Select to display Tooltip in Month View</value>
+  </data>
+  <data name="plEventDimensions.Text" xml:space="preserve">
+    <value>Use the Site Stylesheet to set Attributes</value>
+  </data>
+  <data name="plEventDimensions.Help" xml:space="preserve">
+    <value>Set the StyleSheet ".Event" Style to set the Dimensions</value>
+  </data>
+  <data name="plAllowRecurring.Text" xml:space="preserve">
+    <value>Permit Recurring Events:</value>
+  </data>
+  <data name="plPreventConflicts.Text" xml:space="preserve">
+    <value>Prevent Schedule Conflict:</value>
+  </data>
+  <data name="plShowEventsAlways.Text" xml:space="preserve">
+    <value>Show Events in Next/Prev Month:</value>
+  </data>
+  <data name="plAllowRecurring.Help" xml:space="preserve">
+    <value>Determines if Recurring Events are allowed</value>
+  </data>
+  <data name="plPreventConflicts.Help" xml:space="preserve">
+    <value>Check to prevent event conflicts</value>
+  </data>
+  <data name="plShowEventsAlways.Help" xml:space="preserve">
+    <value>Show Dates outside of Month (in month view)</value>
+  </data>
+  <data name="None.Text" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="ConfirmDelete.Text" xml:space="preserve">
+    <value>Are you sure you wish to Delete this entry?</value>
+  </data>
+  <data name="plEnrollment.Text" xml:space="preserve">
+    <value>Permit Event Enrollment:</value>
+  </data>
+  <data name="plPayPal.Text" xml:space="preserve">
+    <value>PayPal Account:</value>
+  </data>
+  <data name="plEnrollment.Help" xml:space="preserve">
+    <value>Allow Enrollment (sign up) to events - May be moderated - see below</value>
+  </data>
+  <data name="plPayPal.Help" xml:space="preserve">
+    <value>PayPal Account for Paid Enrollment Events</value>
+  </data>
+  <data name="plModerateAll.Text" xml:space="preserve">
+    <value>Moderate Event/Enrollment Changes:</value>
+  </data>
+  <data name="plModerateAll.Help" xml:space="preserve">
+    <value>Moderate Every Event/Enrollment Change</value>
+  </data>
+  <data name="plMaster.Text" xml:space="preserve">
+    <value>Include Other Site Event Modules:</value>
+  </data>
+  <data name="plMaster.Help" xml:space="preserve">
+    <value>Event Module may include other Site Event Calendar Modules.</value>
+  </data>
+  <data name="plSubEvent.Text" xml:space="preserve">
+    <value>Add/Remove Sub-Calendars:</value>
+  </data>
+  <data name="plSubEvent.Help" xml:space="preserve">
+    <value>Select Other Event Module to Add/Remove to this Event Module</value>
+  </data>
+  <data name="ControlTitle_eventsettings.Text" xml:space="preserve">
+    <value>Event Module Settings</value>
+  </data>
+  <data name="ModuleHelp.Text" xml:space="preserve">
+    <value>Enter/Select Event Module options and settings</value>
+  </data>
+  <data name="plShowEventNotify.Text" xml:space="preserve">
+    <value>Allow Event Reminders:</value>
+  </data>
+  <data name="plShowEventNotify.Help" xml:space="preserve">
+    <value>Select to allow automated event reminder email (requires Event Module Scheduler be enabled)</value>
+  </data>
+  <data name="plEnableSearch.Text" xml:space="preserve">
+    <value>Enable DNN Search:</value>
+  </data>
+  <data name="plFridayWeekend.Text" xml:space="preserve">
+    <value>Weekend Starts Friday:</value>
+  </data>
+  <data name="plFridayWeekend.Help" xml:space="preserve">
+    <value>Select to use Fri/Sat as weekend instead of Sat/Sun</value>
+  </data>
+  <data name="plUseStyleSheet.Text" xml:space="preserve">
+    <value>Use StyleSheets to Customize the Event Month View Look!</value>
+  </data>
+  <data name="plUseStyleSheet.Help" xml:space="preserve">
+    <value>Copy the module.css from the DesktopModules\Event directory to the Site Style sheet and use a CSS editor to customize the module look.</value>
+  </data>
+  <data name="plMonthEditTable.Text" xml:space="preserve">
+    <value>Disable Event Month View Table for non-edit users</value>
+  </data>
+  <data name="plMonthEditTable.Help" xml:space="preserve">
+    <value>Select to disable month view table below Event for Non-Edit Users</value>
+  </data>
+  <data name="plEventEventCell.Text" xml:space="preserve">
+    <value>Set Event Cell Background Color</value>
+  </data>
+  <data name="plEventEventCell.Help" xml:space="preserve">
+    <value>Used to set the Background Color of a Cell with an Event</value>
+  </data>
+  <data name="plEnableEventNav.Text" xml:space="preserve">
+    <value>Enable Date Navigation Controls:</value>
+  </data>
+  <data name="plEnableEventNav.Help" xml:space="preserve">
+    <value>Selecting will enable Date Navigation (top) controls...i.e. go, today, etc.</value>
+  </data>
+  <data name="plIgnoreInlineStyles.Text" xml:space="preserve">
+    <value>Disable Event Month View Inline Styles</value>
+  </data>
+  <data name="plIgnoreInlineStyles.Help" xml:space="preserve">
+    <value>Select to disable generating Event Month View Control Inline Styles</value>
+  </data>
+  <data name="NotificationSettings.Text" xml:space="preserve">
+    <value>Reminder Settings</value>
+  </data>
+  <data name="EventListSettings.Text" xml:space="preserve">
+    <value>Event List Settings</value>
+  </data>
+  <data name="plSelectedEvents.Text" xml:space="preserve">
+    <value>Selected Events</value>
+  </data>
+  <data name="plShowHeader.Text" xml:space="preserve">
+    <value>Show Table Header:</value>
+  </data>
+  <data name="plNo.Text" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="plYes.Text" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="plSelectedDays.Text" xml:space="preserve">
+    <value>Select Events by Days:</value>
+  </data>
+  <data name="plDaysBeforeCurrent.Text" xml:space="preserve">
+    <value>days before current date</value>
+  </data>
+  <data name="plDaysAfterCurrent.Text" xml:space="preserve">
+    <value>days after current date</value>
+  </data>
+  <data name="plSelectedNumEvents.Text" xml:space="preserve">
+    <value>Select Events by Number:</value>
+  </data>
+  <data name="plNext.Text" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="plEventsCurrentDate.Text" xml:space="preserve">
+    <value>events from current date</value>
+  </data>
+  <data name="plWithinNext.Text" xml:space="preserve">
+    <value>within the next</value>
+  </data>
+  <data name="plDays.Text" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="plSelectedEvents.Help" xml:space="preserve">
+    <value>Select Site Events to List</value>
+  </data>
+  <data name="plShowHeader.Help" xml:space="preserve">
+    <value>Select 'Yes' to display Header on List Column</value>
+  </data>
+  <data name="plSelectedDays.Help" xml:space="preserve">
+    <value>Select Events by Days to display before/after current date</value>
+  </data>
+  <data name="plSelectedNumEvents.Help" xml:space="preserve">
+    <value>Select events by Number to display</value>
+  </data>
+  <data name="plEventsFields.Text" xml:space="preserve">
+    <value>Events Fields to Display:</value>
+  </data>
+  <data name="plEventsFields.Help" xml:space="preserve">
+    <value>Select the Events Fields to Display</value>
+  </data>
+  <data name="BeginDateTime.Text" xml:space="preserve">
+    <value>Begin Date Time</value>
+  </data>
+  <data name="EndDateTime.Text" xml:space="preserve">
+    <value>End Date Time</value>
+  </data>
+  <data name="EventName.Text" xml:space="preserve">
+    <value>Event Name</value>
+  </data>
+  <data name="Image.Text" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="plAvailable.Text" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="plSelected.Text" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="Add.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddAll.Text" xml:space="preserve">
+    <value>Add All</value>
+  </data>
+  <data name="Remove.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="RemoveAll.Text" xml:space="preserve">
+    <value>Remove All</value>
+  </data>
+  <data name="plListMode.Text" xml:space="preserve">
+    <value>Enable List Mode</value>
+  </data>
+  <data name="plListMode.Help" xml:space="preserve">
+    <value>Select to enable Module List Mode. NOTE: Requires two separate module instances. Instance 1: do NOT enable List Mode.  Instance 2: do enable List Mode and choose Instance 1 in dropdown below.</value>
+  </data>
+  <data name="plEnableSearch.Help" xml:space="preserve">
+    <value>Select to submit events to DNN Search Engine</value>
+  </data>
+  <data name="plPayPalURL.Text" xml:space="preserve">
+    <value>PayPal URL:</value>
+  </data>
+  <data name="plPayPalURL.Help" xml:space="preserve">
+    <value>https://www.paypal.com (Test site can be substituted for testing the interface https://www.sandbox.paypal.com)</value>
+  </data>
+  <data name="lblTheme.Text" xml:space="preserve">
+    <value>Theme/Skin:</value>
+  </data>
+  <data name="lblTheme.Help" xml:space="preserve">
+    <value>Select the Theme for a look and feel of the Module Instance. For custom theme's place stylesheet files into the Portals\[portalid]\DNNEvents\Themes folder.</value>
+  </data>
+  <data name="lblDefaultView.Text" xml:space="preserve">
+    <value>Default Module View:</value>
+  </data>
+  <data name="lblDefaultView.Help" xml:space="preserve">
+    <value>Select the Default View for the Event Module, also determines if only view available</value>
+  </data>
+  <data name="lblTimeZone.Text" xml:space="preserve">
+    <value>Event Time Zone:</value>
+  </data>
+  <data name="lblTimeZone.Help" xml:space="preserve">
+    <value>This sets the Time Zone that will be used when creating/updating Events in the module</value>
+  </data>
+  <data name="Description.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="plImageEnabled.Text" xml:space="preserve">
+    <value>Enable Event Image:</value>
+  </data>
+  <data name="plImageEnabled.Help" xml:space="preserve">
+    <value>Enables/Disables Images for an Event (see Event Edit Form)</value>
+  </data>
+  <data name="lblCategoriesEnable.Text" xml:space="preserve">
+    <value>Enable Category Select:</value>
+  </data>
+  <data name="lblCategoriesEnable.Help" xml:space="preserve">
+    <value>Selecting enables the category selection on all view forms.</value>
+  </data>
+  <data name="lblFullTimeScale.Text" xml:space="preserve">
+    <value>Full Time Scale:</value>
+  </data>
+  <data name="lblFullTimeScale.Help" xml:space="preserve">
+    <value>Displays the Full Time Scale in the Week View if enabled</value>
+  </data>
+  <data name="lblAddSubModuleName.Text" xml:space="preserve">
+    <value>Add Sub-Calendar Name:</value>
+  </data>
+  <data name="lblAddSubModuleName.Help" xml:space="preserve">
+    <value>Adds the Sub-Calendar Name to the Event Title on all Views</value>
+  </data>
+  <data name="lblMonthCellEvents.Text" xml:space="preserve">
+    <value>Enable Month View Cell Events:</value>
+  </data>
+  <data name="lblMonthCellEvents.Help" xml:space="preserve">
+    <value>De-selecting this will disable Month View Cell Events display and enable a link to the Days Events.</value>
+  </data>
+  <data name="lblEventDetailNewPage.Text" xml:space="preserve">
+    <value>Event Detail New Page:</value>
+  </data>
+  <data name="lblEventDetailNewPage.Help" xml:space="preserve">
+    <value>Click to enable Event Detail to show in new Page (not embedded)</value>
+  </data>
+  <data name="lblNotifyAnon.Text" xml:space="preserve">
+    <value>Remind Anonymous Users:</value>
+  </data>
+  <data name="lblNotifyAnon.Help" xml:space="preserve">
+    <value>Allow Anonymous User to request notification.</value>
+  </data>
+  <data name="plTZDisplay.Text" xml:space="preserve">
+    <value>Display Time Zone:</value>
+  </data>
+  <data name="plTZDisplay.Help" xml:space="preserve">
+    <value>Enable TimeZone display on Detail Event Form.</value>
+  </data>
+  <data name="List.Text" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="Month.Text" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Week.Text" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="No.Text" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes.Text" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="lblShowValueMarks.Help" xml:space="preserve">
+    <value>Displays grid lines against each time in Week View when Include End Value unticked</value>
+  </data>
+  <data name="lblShowValueMarks.Text" xml:space="preserve">
+    <value>Show Value Marks:</value>
+  </data>
+  <data name="ModerateEmailMessage.Text" xml:space="preserve">
+    <value>Message to be emailed to the Requesting User.</value>
+  </data>
+  <data name="lblIncludeEndValue.Help" xml:space="preserve">
+    <value>Show the end time of the event in Week View</value>
+  </data>
+  <data name="lblIncludeEndValue.Text" xml:space="preserve">
+    <value>Include End Value:</value>
+  </data>
+  <data name="MonthSettings.Text" xml:space="preserve">
+    <value>Month View Settings</value>
+  </data>
+  <data name="WeekSettings.Text" xml:space="preserve">
+    <value>Week View Settings</value>
+  </data>
+  <data name="plTimeInTitle.Help" xml:space="preserve">
+    <value>Show the Event start time in the title of the link in Month View</value>
+  </data>
+  <data name="plTimeInTitle.Text" xml:space="preserve">
+    <value>Show Event Start Time in Title:</value>
+  </data>
+  <data name="Category.Text" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Duration.Text" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="CustomField1.Text" xml:space="preserve">
+    <value>Custom Field 1</value>
+  </data>
+  <data name="CustomField2.Text" xml:space="preserve">
+    <value>Custom Field 2</value>
+  </data>
+  <data name="plCustomField.Text" xml:space="preserve">
+    <value>Set name in Admin/Languages </value>
+  </data>
+  <data name="plCustomField1.Text" xml:space="preserve">
+    <value>Display Custom Field 1:</value>
+  </data>
+  <data name="plCustomField1.Help" xml:space="preserve">
+    <value>Select to enable Custom Field 1 to be displayed. Name of field to be displayed can be set via Portal Admin/Languages menus.</value>
+  </data>
+  <data name="plCustomField2.Text" xml:space="preserve">
+    <value>Display Custom Field 2:</value>
+  </data>
+  <data name="plCustomField2.Help" xml:space="preserve">
+    <value>Select to enable Custom Field 2 to be displayed. Name of field to be displayed can be set via Portal Admin/Languages menus.</value>
+  </data>
+  <data name="EditButton.Text" xml:space="preserve">
+    <value>Edit Button</value>
+  </data>
+  <data name="CustomFields.Text" xml:space="preserve">
+    <value>Custom Fields</value>
+  </data>
+  <data name="plListPageSize.Help" xml:space="preserve">
+    <value>Number of rows shown in de list with events</value>
+  </data>
+  <data name="plListPageSize.Text" xml:space="preserve">
+    <value>Page size:</value>
+  </data>
+  <data name="Asc.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="Desc.Text" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="plListDefaultSort.Help" xml:space="preserve">
+    <value>Sorts the list ascending or descending by the column selected</value>
+  </data>
+  <data name="plListDefaultSort.Text" xml:space="preserve">
+    <value>Default sorting:</value>
+  </data>
+  <data name="AddAllCals.Text" xml:space="preserve">
+    <value>Add All</value>
+  </data>
+  <data name="AddCals.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="plAvailableCals.Text" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="plSelectedCals.Text" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="RemoveAllCals.Text" xml:space="preserve">
+    <value>Remove All</value>
+  </data>
+  <data name="RemoveCals.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="lblReminderFrom.Help" xml:space="preserve">
+    <value>The default email address the reminder comes from - can be changed per event</value>
+  </data>
+  <data name="lblReminderFrom.Text" xml:space="preserve">
+    <value>Reminder Email From:</value>
+  </data>
+  <data name="valReminderFrom.Text" xml:space="preserve">
+    <value>Valid Reminder Email Address required</value>
+  </data>
+  <data name="RecurText.Text" xml:space="preserve">
+    <value>Recurrence Pattern</value>
+  </data>
+  <data name="RecurUntil.Text" xml:space="preserve">
+    <value>Recurrence End Date</value>
+  </data>
+  <data name="lblCollapseRecurring.Help" xml:space="preserve">
+    <value>Collapse recurring events to one row</value>
+  </data>
+  <data name="lblCollapseRecurring.Text" xml:space="preserve">
+    <value>Collapse Recurring:</value>
+  </data>
+  <data name="plDefaultEnrollView.Help" xml:space="preserve">
+    <value>Select default for whether Enrollment list should be displayed on Detail Page</value>
+  </data>
+  <data name="plDefaultEnrollView.Text" xml:space="preserve">
+    <value>Display Enroll List by Default:</value>
+  </data>
+  <data name="plEnrollColumns.Help" xml:space="preserve">
+    <value>Select User Fields to display on Detail View</value>
+  </data>
+  <data name="plEnrollColumns.Text" xml:space="preserve">
+    <value>Select the User Fields to display:</value>
+  </data>
+  <data name="CreationDate.Text" xml:space="preserve">
+    <value>Creation Date</value>
+  </data>
+  <data name="EventDate.Text" xml:space="preserve">
+    <value>Event Date</value>
+  </data>
+  <data name="plRSSDateField.Help" xml:space="preserve">
+    <value>Select which date to use as the Publish Date in the RSS feed</value>
+  </data>
+  <data name="plRSSDateField.Text" xml:space="preserve">
+    <value>Date to use:</value>
+  </data>
+  <data name="plRSSDays.Help" xml:space="preserve">
+    <value>Number of days to include in the RSS feed from today</value>
+  </data>
+  <data name="plRSSDays.Text" xml:space="preserve">
+    <value>Days to include:</value>
+  </data>
+  <data name="plRSSEnable.Help" xml:space="preserve">
+    <value>Enable RSS within the module</value>
+  </data>
+  <data name="plRSSEnable.Text" xml:space="preserve">
+    <value>Enable RSS:</value>
+  </data>
+  <data name="RSSSettings.Text" xml:space="preserve">
+    <value>RSS Settings</value>
+  </data>
+  <data name="UpdatedDate.Text" xml:space="preserve">
+    <value>Last Updated Date</value>
+  </data>
+  <data name="plRSSTitle.Help" xml:space="preserve">
+    <value>Title that will be displayed in the RSS feed</value>
+  </data>
+  <data name="plRSSTitle.Text" xml:space="preserve">
+    <value>Feed Title:</value>
+  </data>
+  <data name="plRSSDesc.Help" xml:space="preserve">
+    <value>Description to displayed in the RSS Feed</value>
+  </data>
+  <data name="plRSSDesc.Text" xml:space="preserve">
+    <value>Feed Description:</value>
+  </data>
+  <data name="lblEventDayNewPage.Help" xml:space="preserve">
+    <value>Click to enable Event Day to show in new Page (not embedded) when  Disable Month View Cell Events selected</value>
+  </data>
+  <data name="lblEventDayNewPage.Text" xml:space="preserve">
+    <value>Event Day New Page:</value>
+  </data>
+  <data name="plExpireEvents.Help" xml:space="preserve">
+    <value>Delete events older than specified no of days. Blank means do not delete.</value>
+  </data>
+  <data name="plExpireEvents.Text" xml:space="preserve">
+    <value>Delete Events Older Than:</value>
+  </data>
+  <data name="plExportOwnerEmail.Help" xml:space="preserve">
+    <value>Include owner email address on event export.</value>
+  </data>
+  <data name="plExportOwnerEmail.Text" xml:space="preserve">
+    <value>Owner Email Address Export:</value>
+  </data>
+  <data name="vCalSettings.Text" xml:space="preserve">
+    <value>Calendar Export Settings</value>
+  </data>
+  <data name="lblAllowedViews.Help" xml:space="preserve">
+    <value>Select the module views allowed</value>
+  </data>
+  <data name="lblAllowedViews.Text" xml:space="preserve">
+    <value>Module Views Allowed:</value>
+  </data>
+  <data name="lblIconsList.Help" xml:space="preserve">
+    <value>Select the icons to be shown in list view next to the event title</value>
+  </data>
+  <data name="lblIconsList.Text" xml:space="preserve">
+    <value>Show Event Icons:</value>
+  </data>
+  <data name="lblIconsMonth.Help" xml:space="preserve">
+    <value>Select the icons to be shown in month view next to the event title</value>
+  </data>
+  <data name="lblIconsMonth.Text" xml:space="preserve">
+    <value>Show Event Icons:</value>
+  </data>
+  <data name="lblIconsWeek.Help" xml:space="preserve">
+    <value>Select the icons to be shown in week view next to the event title</value>
+  </data>
+  <data name="lblIconsWeek.Text" xml:space="preserve">
+    <value>Show Event Icons:</value>
+  </data>
+  <data name="plEventImageMonth.Help" xml:space="preserve">
+    <value>Select if the event image should be shown in month view</value>
+  </data>
+  <data name="plEventImageMonth.Text" xml:space="preserve">
+    <value>Show Month View Event Image:</value>
+  </data>
+  <data name="plEventImageWeek.Help" xml:space="preserve">
+    <value>Select if the event image should be shown in week view</value>
+  </data>
+  <data name="plEventImageWeek.Text" xml:space="preserve">
+    <value>Show Week View Event Image:</value>
+  </data>
+  <data name="plPrivateMessage.Help" xml:space="preserve">
+    <value>If filled, this message will be displayed to anonymous users instead of event title/details. Authenticated event editors can only see event title/details of their own events. Moderators/Admins can see all event details.</value>
+  </data>
+  <data name="plPrivateMessage.Text" xml:space="preserve">
+    <value>Private Calendar Message:</value>
+  </data>
+  <data name="plIconBar.Help" xml:space="preserve">
+    <value>Select where to display the Icon Bar</value>
+  </data>
+  <data name="plIconBar.Text" xml:space="preserve">
+    <value>Icon Bar:</value>
+  </data>
+  <data name="plIconBarBottom.Text" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="plIconBarTop.Text" xml:space="preserve">
+    <value>Top Right</value>
+  </data>
+  <data name="cmdUpdateTemplate.Text" xml:space="preserve">
+    <value>Update Template</value>
+  </data>
+  <data name="plTemplates.Help" xml:space="preserve">
+    <value>Select Event Template to edit, update, and then click Update Template</value>
+  </data>
+  <data name="plTemplates.Text" xml:space="preserve">
+    <value>Event Template:</value>
+  </data>
+  <data name="TemplateSettings.Text" xml:space="preserve">
+    <value>Templates</value>
+  </data>
+  <data name="Location.Text" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="TemplateUpdated.Text" xml:space="preserve">
+    <value>{0} - Template Updated</value>
+  </data>
+  <data name="TemplatesHelp.Text" xml:space="preserve">
+    <value>Templates help</value>
+  </data>
+  <data name="lblSendReminderDefault.Help" xml:space="preserve">
+    <value>Default value of the Send Reminder Checkbox in Edit Events</value>
+  </data>
+  <data name="lblSendReminderDefault.Text" xml:space="preserve">
+    <value>Send Reminder Default Value:</value>
+  </data>
+  <data name="lblThemeUpload.Help" xml:space="preserve">
+    <value>Upload zipfile containing the css file and possible images, make sure the zipfile has the same name as the css file</value>
+  </data>
+  <data name="lblThemeUpload.Text" xml:space="preserve">
+    <value>Upload theme</value>
+  </data>
+  <data name="rbThemeCustom.Text" xml:space="preserve">
+    <value>Custom theme</value>
+  </data>
+  <data name="rbThemeStandard.Text" xml:space="preserve">
+    <value>Standard theme</value>
+  </data>
+  <data name="cmdResetTemplate.Text" xml:space="preserve">
+    <value>Reset Template</value>
+  </data>
+  <data name="TemplateReset.Text" xml:space="preserve">
+    <value>{0} - Template Reset</value>
+  </data>
+  <data name="plLocationConflict.Help" xml:space="preserve">
+    <value>Check for conflict of location when checking date conflicts</value>
+  </data>
+  <data name="plLocationConflict.Text" xml:space="preserve">
+    <value>Check for Location Conflicts:</value>
+  </data>
+  <data name="lblOwnerChangeAllowed.Help" xml:space="preserve">
+    <value>When enabled moderators may change the event owner. Admins can always change the event owner.</value>
+  </data>
+  <data name="lblOwnerChangeAllowed.Text" xml:space="preserve">
+    <value>Owner Change Allowed:</value>
+  </data>
+  <data name="lblDetailPageAllowed.Help" xml:space="preserve">
+    <value>If activated event editors can set a specific page as event detail page</value>
+  </data>
+  <data name="lblDetailPageAllowed.Text" xml:space="preserve">
+    <value>Set Event Detail Page Allowed:</value>
+  </data>
+  <data name="plEnAnon.Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="plEnApprove.Text" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="plEnDisp.Text" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="plEnEditors.Text" xml:space="preserve">
+    <value>Editors</value>
+  </data>
+  <data name="plEnEmail.Text" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="plEnNone.Text" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="plEnPhone.Text" xml:space="preserve">
+    <value>Phone No.</value>
+  </data>
+  <data name="plEnUser.Text" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="plEnViewers.Text" xml:space="preserve">
+    <value>Viewers</value>
+  </data>
+  <data name="plEnVisibility.Text" xml:space="preserve">
+    <value>Visibility:</value>
+  </data>
+  <data name="plHideFullEnroll.Text" xml:space="preserve">
+    <value>Hide Full Enrolled Events:</value>
+  </data>
+  <data name="plHideFullEnroll.Help" xml:space="preserve">
+    <value>If the event enrollment has reached the maximum enrollees, it is hidden in all views (owner and moderators always can see the event)</value>
+  </data>
+  <data name="lblEnforceSubCalPerms.Help" xml:space="preserve">
+    <value>When ticked the VIEW permissions applied to the sub-calendar are observed in the master calendar</value>
+  </data>
+  <data name="lblEnforceSubCalPerms.Text" xml:space="preserve">
+    <value>Enforce View Permissions</value>
+  </data>
+  <data name="lblEnableContainerSkin.Help" xml:space="preserve">
+    <value>Use module container and page skin for views that would normally default to the portal default container and skin</value>
+  </data>
+  <data name="lblEnableContainerSkin.Text" xml:space="preserve">
+    <value>Use Module Container &amp; Skin</value>
+  </data>
+  <data name="plTooltipLength.Help" xml:space="preserve">
+    <value>Maximum length of tooltip</value>
+  </data>
+  <data name="plTooltipLength.Text" xml:space="preserve">
+    <value>Tooltip Length:</value>
+  </data>
+  <data name="TooltipSettings.Text" xml:space="preserve">
+    <value>Tooltip Settings</value>
+  </data>
+  <data name="plEnNo.Text" xml:space="preserve">
+    <value>Qty Enrolled</value>
+  </data>
+  <data name="plMaxNoEnrolees.Help" xml:space="preserve">
+    <value>Change to value other than 1 to allow user to enroll that number of users</value>
+  </data>
+  <data name="plMaxNoEnrolees.Text" xml:space="preserve">
+    <value>Allow Multiple Enrollees:</value>
+  </data>
+  <data name="plCancelDays.Help" xml:space="preserve">
+    <value>Number of days before an event that a user must cancel their enrollment by. Cancellations only allowed for unpaid events.</value>
+  </data>
+  <data name="plCancelDays.Text" xml:space="preserve">
+    <value>Cancel Before Days:</value>
+  </data>
+  <data name="plExportAnonOwnerEmail.Help" xml:space="preserve">
+    <value>When unregistered user is exporting an event, include the owner email address.</value>
+  </data>
+  <data name="plExportAnonOwnerEmail.Text" xml:space="preserve">
+    <value>Owner Email for Unregistered User:</value>
+  </data>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="updateButton.Text" xml:space="preserve">
+    <value>Update Settings</value>
+  </data>
+  <data name="DetailSettings.Text" xml:space="preserve">
+    <value>Detail View Settings</value>
+  </data>
+  <data name="lblEnableEnrollPopup.Help" xml:space="preserve">
+    <value>Enables the popup box validating that user wants to enroll</value>
+  </data>
+  <data name="lblEnableEnrollPopup.Text" xml:space="preserve">
+    <value>Enable Enroll Validation Popup:</value>
+  </data>
+  <data name="LookFeelSettings.Text" xml:space="preserve">
+    <value>Look &amp; Feel Settings</value>
+  </data>
+  <data name="plMaxRecurrences.Help" xml:space="preserve">
+    <value>Maximum number of occurences of an event generated on save. Leave blank for unlimited. Until date is set to last occurence if limit reached.</value>
+  </data>
+  <data name="plMaxRecurrences.Text" xml:space="preserve">
+    <value>Max Generated Occurences:</value>
+  </data>
+  <data name="lblNewEventEmail.Help" xml:space="preserve">
+    <value>If subscribers is selected, users may subscribe through the check box in the icon bar. If role is selected, an email is sent to the specified role.</value>
+  </data>
+  <data name="lblNewEventEmail.Text" xml:space="preserve">
+    <value>Send New Event Emails:</value>
+  </data>
+  <data name="EventEmailSettings.Text" xml:space="preserve">
+    <value>Event Email Settings</value>
+  </data>
+  <data name="plNewEventEmailNever.Text" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="plNewEventEmailRole.Text" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="plNewEventEmailSubscribe.Text" xml:space="preserve">
+    <value>Subscribers</value>
+  </data>
+  <data name="plNewPerEventEmail.Help" xml:space="preserve">
+    <value>Allow editors to send an event email to a role.</value>
+  </data>
+  <data name="plNewPerEventEmail.Text" xml:space="preserve">
+    <value>Allow Email Send by Event Editor:</value>
+  </data>
+  <data name="lblMonthDaySelect.Help" xml:space="preserve">
+    <value>When enabled, the day is always selectable when Enable Month View Cell Events is enabled.</value>
+  </data>
+  <data name="lblMonthDaySelect.Text" xml:space="preserve">
+    <value>Enable Selectable Day:</value>
+  </data>
+  <data name="plIconBarNone.Text" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="plToolTipDay.Help" xml:space="preserve">
+    <value>Select to display Tooltip in Day View</value>
+  </data>
+  <data name="plToolTipDay.Text" xml:space="preserve">
+    <value>Display Day View Tooltip:</value>
+  </data>
+  <data name="plToolTipList.Help" xml:space="preserve">
+    <value>Select to display Tooltip in List View</value>
+  </data>
+  <data name="plToolTipList.Text" xml:space="preserve">
+    <value>Display List View Tooltip:</value>
+  </data>
+  <data name="plToolTipWeek.Help" xml:space="preserve">
+    <value>Select to display Tooltip in Week View</value>
+  </data>
+  <data name="plToolTipWeek.Text" xml:space="preserve">
+    <value>Display Week View Tooltip:</value>
+  </data>
+  <data name="plModuleCategory.Help" xml:space="preserve">
+    <value>Events displayed in this calendar are filtered by the selected category.</value>
+  </data>
+  <data name="plModuleCategory.Text" xml:space="preserve">
+    <value>Filter Events by Category:</value>
+  </data>
+  <data name="plListDefaultColumn.Help" xml:space="preserve">
+    <value>The column by which events in list view will be sorted by default.</value>
+  </data>
+  <data name="plListDefaultColumn.Text" xml:space="preserve">
+    <value>Default Sort Column:</value>
+  </data>
+  <data name="SortCategoryName.Text" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="SortCustomField1.Text" xml:space="preserve">
+    <value>Custom Field 1</value>
+  </data>
+  <data name="SortCustomField2.Text" xml:space="preserve">
+    <value>Custom Field 2</value>
+  </data>
+  <data name="SortDescription.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SortDuration.Text" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="SortEventDateBegin.Text" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="SortEventDateEnd.Text" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="SortEventID.Text" xml:space="preserve">
+    <value>Order Created</value>
+  </data>
+  <data name="SortEventName.Text" xml:space="preserve">
+    <value>Event Name</value>
+  </data>
+  <data name="SortLocationName.Text" xml:space="preserve">
+    <value>Location Name</value>
+  </data>
+  <data name="plHTMLEmail.Help" xml:space="preserve">
+    <value>Select 'Html' to force Html or 'Text' to force text emails. Select auto-detect to allow detection based on the content of the email the DNN core routines. Note that DNN core routines do not detect all HTML elements.</value>
+  </data>
+  <data name="plHTMLEmail.Text" xml:space="preserve">
+    <value>HTML Email:</value>
+  </data>
+  <data name="plHTMLEmailAuto.Text" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="plHTMLEmailHtml.Text" xml:space="preserve">
+    <value>Html</value>
+  </data>
+  <data name="plHTMLEmailText.Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="lblEnableSEO.Help" xml:space="preserve">
+    <value>Enables Search Engine Optimisation (SEO). Page Title and Description are set using the relevant templates in the Template Settings. If the original content of Title or Description is required, then include this using {0}.</value>
+  </data>
+  <data name="lblEnableSEO.Text" xml:space="preserve">
+    <value>Enable SEO:</value>
+  </data>
+  <data name="lblSEODescriptionLength.Help" xml:space="preserve">
+    <value>Sets the maximum length of the Page Description.</value>
+  </data>
+  <data name="lblSEODescriptionLength.Text" xml:space="preserve">
+    <value>Description Length:</value>
+  </data>
+  <data name="SEOSettings.Text" xml:space="preserve">
+    <value>SEO Settings</value>
+  </data>
+  <data name="lblEnableSitemap.Help" xml:space="preserve">
+    <value>Enables Search Engine Sitemap for this module. Sitemaps will not work unless the correct entries have been added to web.config</value>
+  </data>
+  <data name="lblEnableSitemap.Text" xml:space="preserve">
+    <value>Enable Search Engine Sitemap:</value>
+  </data>
+  <data name="lblSitemapPriority.Help" xml:space="preserve">
+    <value>Sets the Priority of events module entries in the Sitemap.</value>
+  </data>
+  <data name="lblSitemapPriority.Text" xml:space="preserve">
+    <value>Sitemap Priority:</value>
+  </data>
+  <data name="lblSitemapDaysAfter.Help" xml:space="preserve">
+    <value>Number of days after current date to include in Sitemap.</value>
+  </data>
+  <data name="lblSitemapDaysAfter.Text" xml:space="preserve">
+    <value>Days After:</value>
+  </data>
+  <data name="lblSitemapDaysBefore.Help" xml:space="preserve">
+    <value>Number of days before current date to include in Sitemap.</value>
+  </data>
+  <data name="lblSitemapDaysBefore.Text" xml:space="preserve">
+    <value>Days Before:</value>
+  </data>
+  <data name="lbliCalDaysAfter.Help" xml:space="preserve">
+    <value>Number of days after current date to include in iCal.</value>
+  </data>
+  <data name="lbliCalDaysAfter.Text" xml:space="preserve">
+    <value>Days After:</value>
+  </data>
+  <data name="lbliCalDaysBefore.Help" xml:space="preserve">
+    <value>Number of days before current date to include in iCal.</value>
+  </data>
+  <data name="lbliCalDaysBefore.Text" xml:space="preserve">
+    <value>Days Before:</value>
+  </data>
+  <data name="lbliCalDefaultImage.Help" xml:space="preserve">
+    <value>Details of the default image included in the ATTACH attribute of the iCal file. A URL to the image is placed in the ATTACH attribute.</value>
+  </data>
+  <data name="lbliCalDefaultImage.Text" xml:space="preserve">
+    <value>Default Image:</value>
+  </data>
+  <data name="lbliCalDisplayImage.Help" xml:space="preserve">
+    <value>Enable the inclusion of a default image in the ATTACH attribute of the iCal file.</value>
+  </data>
+  <data name="lbliCalDisplayImage.Text" xml:space="preserve">
+    <value>Enable Default Image:</value>
+  </data>
+  <data name="pliCalURL.Help" xml:space="preserve">
+    <value>URL of the iCal for the complete module. Individual event iCals are accessed via the Event Details view.</value>
+  </data>
+  <data name="pliCalURL.Text" xml:space="preserve">
+    <value>iCal URL:</value>
+  </data>
+  <data name="pliCalURLAppend.Help" xml:space="preserve">
+    <value>String to append to end of URL attribute generated in the iCal file. Useful if you use the iCal as a feed to another site, and want to be able to use Google Analytics parameters.</value>
+  </data>
+  <data name="pliCalURLAppend.Text" xml:space="preserve">
+    <value>URL to append:</value>
+  </data>
+  <data name="SitemapSettings.Text" xml:space="preserve">
+    <value>Sitemap Settings</value>
+  </data>
+  <data name="plGrid.Text" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="plListViewGrid.Help" xml:space="preserve">
+    <value>List view can use a grid or a repeater. If using the repeater, configure the layout in the Template Settings section.</value>
+  </data>
+  <data name="plListViewGrid.Text" xml:space="preserve">
+    <value>Grid or Repeater:</value>
+  </data>
+  <data name="plRepeater.Text" xml:space="preserve">
+    <value>Repeater</value>
+  </data>
+  <data name="plRptColumns.Help" xml:space="preserve">
+    <value>Number of repeater columns. If row is not completely filled then, extra columns are populated with blank &amp;lt;td&amp;gt;&amp;lt;/td&amp;gt; pairs. Rows are bracketed by &amp;lt;tr&amp;gt;&amp;lt;/tr&amp;gt; pair.</value>
+  </data>
+  <data name="plRptColumns.Text" xml:space="preserve">
+    <value>Repeater Columns:</value>
+  </data>
+  <data name="plRptRows.Help" xml:space="preserve">
+    <value>Number of repeater rows. If row is not completely filled then, extra columns are populated with blank &amp;lt;td&amp;gt;&amp;lt;/td&amp;gt; pairs. Rows are bracketed by &amp;lt;tr&amp;gt;&amp;lt;/tr&amp;gt; pair.</value>
+  </data>
+  <data name="plRptRows.Text" xml:space="preserve">
+    <value>Repeater Rows:</value>
+  </data>
+  <data name="plWeekStart.Help" xml:space="preserve">
+    <value>Sets the first day of the week in Month and Week views. Set to 'Default' for it to be set to the default for the current user Language.</value>
+  </data>
+  <data name="plWeekStart.Text" xml:space="preserve">
+    <value>First day of Week:</value>
+  </data>
+  <data name="plListViewUseTime.Help" xml:space="preserve">
+    <value>When enabled the time is used when selecting events. When disabled the start of the range begins at midnight on the first day.</value>
+  </data>
+  <data name="plListViewUseTime.Text" xml:space="preserve">
+    <value>Use Time in Filter:</value>
+  </data>
+  <data name="pliCalOnIconBar.Help" xml:space="preserve">
+    <value>When ticked the iCal icon is shown on the icon bar</value>
+  </data>
+  <data name="pliCalOnIconBar.Text" xml:space="preserve">
+    <value>Show iCal icon on icon bar:</value>
+  </data>
+  <data name="pliCalEmailEnable.Help" xml:space="preserve">
+    <value>When ticked, user can select to email themselves the event as a .ics file.</value>
+  </data>
+  <data name="pliCalEmailEnable.Text" xml:space="preserve">
+    <value>Enable Event .ics Emailing:</value>
+  </data>
+  <data name="lblStandardEmail.Help" xml:space="preserve">
+    <value>This is the email address the majority of emails are sent from. Some items (e.g. Reminders) have specific email addresses. Also some are set on individual events.</value>
+  </data>
+  <data name="lblStandardEmail.Text" xml:space="preserve">
+    <value>Emails From:</value>
+  </data>
+  <data name="valStandardEmail.Text" xml:space="preserve">
+    <value>Valid Email Address required</value>
+  </data>
+  <data name="plListViewTable.Help" xml:space="preserve">
+    <value>If list view is configured as a repeater, it can then be configured to use traditional Table based layout or not. Advanced users may disable the table based layout and configure the templates to use a div based layout.</value>
+  </data>
+  <data name="plListViewTable.Text" xml:space="preserve">
+    <value>Repeater as Table:</value>
+  </data>
+  <data name="lblFBAdmins.Help" xml:space="preserve">
+    <value>Entering a value (or comma seperated list) in this field will create a meta property on all pages for fb:admins to support Facebook integration.</value>
+  </data>
+  <data name="lblFBAdmins.Text" xml:space="preserve">
+    <value>Facebook Admins:</value>
+  </data>
+  <data name="lblFBAppID.Help" xml:space="preserve">
+    <value>Entering a value in this field will create a meta property on all pages for fb:app_id to support Facebook integration.</value>
+  </data>
+  <data name="lblFBAppID.Text" xml:space="preserve">
+    <value>Facebook App_ID:</value>
+  </data>
+  <data name="SocialSettings.Text" xml:space="preserve">
+    <value>Social Integration Settings</value>
+  </data>
+  <data name="lblPrimaryTimeZone.Help" xml:space="preserve">
+    <value>Select the primary timezone that will be used to display events.</value>
+  </data>
+  <data name="lblPrimaryTimeZone.Text" xml:space="preserve">
+    <value>Primary Display Time Zone:</value>
+  </data>
+  <data name="lblSecondaryTimeZone.Help" xml:space="preserve">
+    <value>Select the secondary timezone that will be used to display events if the primary cannot be used. If secondary does not work, portal timezone will be used.</value>
+  </data>
+  <data name="lblSecondaryTimeZone.Text" xml:space="preserve">
+    <value>Secondary Display Time Zone:</value>
+  </data>
+  <data name="ModuleTZ.Text" xml:space="preserve">
+    <value>Module</value>
+  </data>
+  <data name="PortalTZ.Text" xml:space="preserve">
+    <value>Portal</value>
+  </data>
+  <data name="UserTZ.Text" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="plEnableEventTimeZones.Help" xml:space="preserve">
+    <value>By default event timezones are configured at the module instance level. Enabling this settings will enable event creators to specify the timezone for the event.</value>
+  </data>
+  <data name="plEnableEventTimeZones.Text" xml:space="preserve">
+    <value>Enable Per Event Time Zones:</value>
+  </data>
+  <data name="TimeZoneSettings.Text" xml:space="preserve">
+    <value>Timezone Settings</value>
+  </data>
+  <data name="DisplaySettings.Text" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="EmailandReminderSettings.Text" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="EnrollandModSettings.Text" xml:space="preserve">
+    <value>Enrollment &amp; Moderation</value>
+  </data>
+  <data name="GeneralSettings.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="IntegrationSettings.Text" xml:space="preserve">
+    <value>RSS, iCal &amp; Social</value>
+  </data>
+  <data name="SEOandSitemapSettings.Text" xml:space="preserve">
+    <value>SEO &amp; Sitemap</value>
+  </data>
+  <data name="SubcalendarSettings.Text" xml:space="preserve">
+    <value>Sub-calendar</value>
+  </data>
+  <data name="ImageSettings.Text" xml:space="preserve">
+    <value>Image Settings</value>
+  </data>
+  <data name="plMaxThumbHeight.Help" xml:space="preserve">
+    <value>Sets the maximum height a thumbnail will be scaled to in Month/Week/List/Day views.</value>
+  </data>
+  <data name="plMaxThumbHeight.Text" xml:space="preserve">
+    <value>Max Thumbnail Height:</value>
+  </data>
+  <data name="plMaxThumbWidth.Help" xml:space="preserve">
+    <value>Sets the maximum width a thumbnail will be scaled to in Month/Week/List/Day views.</value>
+  </data>
+  <data name="plMaxThumbWidth.Text" xml:space="preserve">
+    <value>Max Thumbnail Width:</value>
+  </data>
+  <data name="plEventSignupAllowPaid.Help" xml:space="preserve">
+    <value>When enabled, payments for events via PayPal are allowed. Otherwise events are free.</value>
+  </data>
+  <data name="plEventSignupAllowPaid.Text" xml:space="preserve">
+    <value>Allow Paid Events:</value>
+  </data>
+  <data name="pliCalURLinLocation.Help" xml:space="preserve">
+    <value>When enabled the URL of the Location will be included in the iCal Location attribute.</value>
+  </data>
+  <data name="pliCalURLinLocation.Text" xml:space="preserve">
+    <value>Show URL in Location:</value>
+  </data>
+  <data name="pliCalIncludeCalname.Help" xml:space="preserve">
+    <value>Enabling this will cause X-WR-CALNAME to be included in the generated .ics. In MS Outlook this will cause events to open as a separate calendar.</value>
+  </data>
+  <data name="pliCalIncludeCalname.Text" xml:space="preserve">
+    <value>Include Calname in .ics:</value>
+  </data>
+  <data name="DoNotDisplay.Text" xml:space="preserve">
+    <value>Do Not Display</value>
+  </data>
+  <data name="MultiSelect.Text" xml:space="preserve">
+    <value>Multiple Selection</value>
+  </data>
+  <data name="SingleSelect.Text" xml:space="preserve">
+    <value>Single Selection</value>
+  </data>
+  <data name="lblRestrictCategories.Help" xml:space="preserve">
+    <value>Enabling restricts the categories that can be displayed to those set in the Filter Events by Category setting.</value>
+  </data>
+  <data name="lblRestrictCategories.Text" xml:space="preserve">
+    <value>Restrict Categories:</value>
+  </data>
+  <data name="plEnrollEmailsToSend.Help" xml:space="preserve">
+    <value>In the select the enrollment emails that you wish to have sent at the appropriate place in the enrollment process.</value>
+  </data>
+  <data name="plEnrollEmailsToSend.Text" xml:space="preserve">
+    <value>Select Emails To Send:</value>
+  </data>
+  <data name="plAllowAnonEnroll.Help" xml:space="preserve">
+    <value>When enabled, event editors may enable anonymous enrollment to their event.</value>
+  </data>
+  <data name="plAllowAnonEnroll.Text" xml:space="preserve">
+    <value>Allow Anonymous Enrollment:</value>
+  </data>
+  <data name="plSocialGroupModule.Help" xml:space="preserve">
+    <value>When set to 'Social Group' the module will use the 'groupid' from the url as the SocialGroupId for new events. When set to 'User Profile' the module will use the' userid' from the url as the SocialUserId for new events. Note that all module settings are common across all Social Group/User Profile pages for this module instance - there is no localization to an individual Social Group.</value>
+  </data>
+  <data name="plSocialGroupModule.Text" xml:space="preserve">
+    <value>Social Module:</value>
+  </data>
+  <data name="SocialGroup.Text" xml:space="preserve">
+    <value>Social Group</value>
+  </data>
+  <data name="UserProfile.Text" xml:space="preserve">
+    <value>User Profile</value>
+  </data>
+  <data name="plEnrolListSortDirection.Help" xml:space="preserve">
+    <value>This sets the sort direction for the My Enrollments view.</value>
+  </data>
+  <data name="plEnrolListSortDirection.Text" xml:space="preserve">
+    <value>My Enrollments Sorting:</value>
+  </data>
+  <data name="plEnrolListDaysAfter.Help" xml:space="preserve">
+    <value>The number of days after today to be displayed.</value>
+  </data>
+  <data name="plEnrolListDaysAfter.Text" xml:space="preserve">
+    <value>My Enrollments Days After:</value>
+  </data>
+  <data name="plEnrolListDaysBefore.Help" xml:space="preserve">
+    <value>The number of days before today to be displayed.</value>
+  </data>
+  <data name="plEnrolListDaysBefore.Text" xml:space="preserve">
+    <value>My Enrollments Days Before:</value>
+  </data>
+  <data name="lblJournalIntegration.Help" xml:space="preserve">
+    <value>When ticked event creation and user enrollment activities will be recorded to the Journal.</value>
+  </data>
+  <data name="lblJournalIntegration.Text" xml:space="preserve">
+    <value>Enable Journal Integration:</value>
+  </data>
+  <data name="lblSocialUserPrivate.Help" xml:space="preserve">
+    <value>When enabled the calendar entries in the user profile are private to the user. When disabled the calendar entries are public and can be viewed by other users visiting the profile.</value>
+  </data>
+  <data name="lblSocialUserPrivate.Text" xml:space="preserve">
+    <value>Private User Calendar:</value>
+  </data>
+  <data name="lblSocialGroupSecurity.Help" xml:space="preserve">
+    <value>When set to Public users with view/edit permissions can see/edit all events. When set to Edit By Group, events are visible to all but only editable by group members who have edit permissions. When set to private, events are only visible by group members.</value>
+  </data>
+  <data name="lblSocialGroupSecurity.Text" xml:space="preserve">
+    <value>Social Group Security:</value>
+  </data>
+  <data name="EditByGroup.Text" xml:space="preserve">
+    <value>Edit By Group</value>
+  </data>
+  <data name="OpenToAll.Text" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="PrivateToGroup.Text" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="lblEnrollmentPageAllowed.Help" xml:space="preserve">
+    <value>If activated event editors can set a specific page as enrollment page, which will hide the standard enrollment fields on the detail page.</value>
+  </data>
+  <data name="lblEnrollmentPageAllowed.Text" xml:space="preserve">
+    <value>Set Enrollment Page Allowed:</value>
+  </data>
+  <data name="lblLocationsEnable.Help" xml:space="preserve">
+    <value>Selecting enables the location selection on all view forms.</value>
+  </data>
+  <data name="lblLocationsEnable.Text" xml:space="preserve">
+    <value>Enable Location Select:</value>
+  </data>
+  <data name="lblRestrictLocations.Help" xml:space="preserve">
+    <value>Enabling restricts the locations that can be displayed to those set in the Filter Events by Location setting.</value>
+  </data>
+  <data name="lblRestrictLocations.Text" xml:space="preserve">
+    <value>Restrict Locations:</value>
+  </data>
+  <data name="plModuleLocation.Help" xml:space="preserve">
+    <value>Events displayed in this calendar are filtered by the selected location.</value>
+  </data>
+  <data name="plModuleLocation.Text" xml:space="preserve">
+    <value>Filter Events by Location:</value>
+  </data>
+  <data name="lblEnrollmentPageDefaultURL.Help" xml:space="preserve">
+    <value>Enrollment Page Default URL.</value>
+  </data>
+  <data name="lblEnrollmentPageDefaultURL.Text" xml:space="preserve">
+    <value>Enrollment Page Default URL:</value>
+  </data>
+  <data name="plRestrictCategoriesToTimeFrame.Help" xml:space="preserve">
+    <value>Enabling restricts the categories that can be selected to those that actually have an event in the time frame defined by the number of days in 'Select Events by Days' or 'Select Events by Number'.</value>
+  </data>
+  <data name="plRestrictCategoriesToTimeFrame.Text" xml:space="preserve">
+    <value>Restrict Categories to Time Frame:</value>
+  </data>
+  <data name="plRestrictLocationsToTimeFrame.Help" xml:space="preserve">
+    <value>Enabling restricts the locations that can be selected to those that actualley have an event in the time frame defined by the number of days in 'Select Events by Days' or 'Select Events by Number'.</value>
+  </data>
+  <data name="plRestrictLocationsToTimeFrame.Text" xml:space="preserve">
+    <value>Restrict Locations to Time Frame:</value>
+  </data>
+</root>

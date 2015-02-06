@@ -1,0 +1,19 @@
+﻿<h2>Release notes DNN Events 06.00.01</h2>
+<p>Events 06.00.01 will work for any DNN version <strong>6.1.2</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>EventIcons had additional invalid double quote</li>
+	<li>No events wwere displayed when categories were disabled</li>
+	<li>Typo in EventSettings.ascx.resx corrected</li>
+	<li>Delete category should not allow delete of category used in module settings</li>
+	<li>Template Help link did not work correctly</li>
+	<li>iCal did not import correctly into Google Calendar</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+    <li>AutoTooltipify default set to False in List View i.s.o. True</li>
+	<li>Moved styling of the header of the list view to the .css of the theme</li>
+	<li>Added a setting to make the calname optional to import it in Google calendars correctly. It can also be passed as a parameter on the URL.</li>
+	<li>Removed the default width of 620px, caused by default.css, from the form pattern in the basic Events view</li>
+</ul>

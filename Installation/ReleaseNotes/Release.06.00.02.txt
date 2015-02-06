@@ -1,0 +1,13 @@
+﻿<h2>Release notes DNN Events 06.00.02</h2>
+<p>Events 06.00.02 will work for any DNN version <strong>6.1.2</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Enrolment information tokens not working now fixed.</li>
+    <li>PubDate format corrected in RSS Feed.</li>
+    <li>Stop errors being generated when search engine crawls deleted event.</li>
+    <li>Corrected handling and display of categories in edit events.</li>
+    <li>Available sub-calendars list corrected to not include calendars that are already master calendars.</li>
+    <li>Available and assigned sub-calendars are now sorted alphabetically.</li>
+    <li>Install SQLDataProvider has had hard coded dbo. removed.</li>
+</ul>

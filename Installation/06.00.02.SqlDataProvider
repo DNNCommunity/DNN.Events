@@ -1,0 +1,147 @@
+﻿/************************************************************/
+/*****                                                  *****/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for Events module 06.00.02 *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/************************************************************/
+
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****     Create Stored Procedures                     *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsMasterAvailableModules]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsMasterAvailableModules]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsUpgrade]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsUpgrade]
+GO
+
+/*** EventsMasterAvailableModules ***/
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsMasterAvailableModules
+(
+    @PortalID int,
+    @ModuleID int
+)
+AS
+Select @ModuleID as ModuleID, c.PortalID, 0 as MasterID, a.ModuleID as SubEventID
+from {databaseOwner}{objectQualifier}Modules a
+  left join {databaseOwner}{objectQualifier}ModuleDefinitions b on a.ModuleDefID = b.ModuleDefID 
+  left join {databaseOwner}{objectQualifier}DesktopModules d on b.DesktopModuleID = d.DesktopModuleID
+  left join {databaseOwner}{objectQualifier}TabModules t on a.ModuleID = t.ModuleID
+  left join {databaseOwner}{objectQualifier}Tabs c on t.TabID = c.TabID
+  where
+     d.ModuleName = 'DNN_Events' AND 
+     c.PortalID = @PortalID and 
+     a.ModuleID Not In  (select SubEventID from {databaseOwner}{objectQualifier}EventsMaster where ModuleID = @ModuleID) AND
+     a.ModuleID Not In (select ModuleID from {databaseOwner}{objectQualifier}EventsMaster where SubEventID = @ModuleID) AND
+     a.ModuleID Not In (select ModuleID from {databaseOwner}{objectQualifier}EventsMaster where ModuleID = a.ModuleID) AND
+     a.ModuleID != @ModuleID AND
+     t.IsDeleted = 0
+Group BY c.PortalID, a.ModuleID 
+Order By c.PortalID, a.ModuleID 
+GO
+
+/*** EventsUpgrade ***/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsUpgrade] ( @Version VARCHAR(8) )
+AS 
+    IF @Version = '04.00.02' 
+        BEGIN
+-- Copy over Moderators from ModuleSettings
+            INSERT  INTO {databaseOwner}[{objectQualifier}ModulePermission]
+                    ( RoleID
+                    , ModuleID
+                    , PermissionID
+                    , AllowAccess 
+		            )
+                    SELECT  {databaseOwner}[{objectQualifier}Modulesettings].SettingValue AS RoleID
+                          , {databaseOwner}[{objectQualifier}Modulesettings].ModuleID
+                          , {databaseOwner}[{objectQualifier}Permission].PermissionID
+                          , -1 AS AllowAccess
+                    FROM    {databaseOwner}[{objectQualifier}Modulesettings]
+                            INNER JOIN {databaseOwner}[{objectQualifier}Modules]
+                            ON {databaseOwner}[{objectQualifier}Modulesettings].ModuleID = {databaseOwner}[{objectQualifier}Modules].ModuleID
+                            INNER JOIN {databaseOwner}[{objectQualifier}ModuleDefinitions]
+                            ON {databaseOwner}[{objectQualifier}Modules].ModuleDefID = {databaseOwner}[{objectQualifier}ModuleDefinitions].ModuleDefID
+                            CROSS JOIN {databaseOwner}[{objectQualifier}Permission]
+                    WHERE   ( {databaseOwner}[{objectQualifier}Modulesettings].SettingName = 'moderatorroleid' )
+                            AND ( {databaseOwner}[{objectQualifier}Modulesettings].SettingValue <> '0' )
+                            AND ( {databaseOwner}[{objectQualifier}ModuleDefinitions].FriendlyName = N'Events' )
+                            AND ( {databaseOwner}[{objectQualifier}Permission].PermissionCode = 'EVENTS_MODULE' )
+                            AND ( {databaseOwner}[{objectQualifier}Permission].PermissionKey = 'EVENTSMOD' )
+
+-- Ensure Moderators have edit permissions
+
+            INSERT  INTO {databaseOwner}[{objectQualifier}ModulePermission]
+                    ( RoleID
+                    , ModuleID
+                    , PermissionID
+                    , AllowAccess 
+		            )
+                    SELECT  MP1.RoleID
+                          , MP1.ModuleID
+                          , P3.PermissionID
+                          , -1 AS AllowAcces
+                    FROM    {databaseOwner}[{objectQualifier}ModulePermission] AS MP1
+                            INNER JOIN {databaseOwner}[{objectQualifier}Permission] AS P1
+                            ON MP1.PermissionID = P1.PermissionID
+                            CROSS JOIN {databaseOwner}[{objectQualifier}Permission] AS P3
+                    WHERE   ( P1.PermissionCode = 'Events_Module' )
+                            AND ( P1.PermissionKey = 'EVENTSMOD' )
+                            AND ( MP1.RoleID NOT IN (
+                                  SELECT    MP2.RoleID
+                                  FROM      {databaseOwner}[{objectQualifier}ModulePermission] AS MP2
+                                            INNER JOIN {databaseOwner}[{objectQualifier}Permission] AS P2
+                                            ON MP2.PermissionID = P2.PermissionID
+                                            INNER JOIN {databaseOwner}[{objectQualifier}Modules] AS M2
+                                            ON MP2.ModuleID = M2.ModuleID
+                                            INNER JOIN {databaseOwner}[{objectQualifier}ModuleDefinitions]
+                                            AS MD2
+                                            ON M2.ModuleDefID = MD2.ModuleDefID
+                                  WHERE     ( P2.PermissionCode = 'SYSTEM_MODULE_DEFINITION' )
+                                            AND ( P2.PermissionKey = 'EDIT' )
+                                            AND ( MD2.FriendlyName = N'Events' )
+                                            AND ( M2.ModuleID = MP1.ModuleID ) ) )
+                            AND ( P3.PermissionCode = 'SYSTEM_MODULE_DEFINITION' )
+                            AND ( P3.PermissionKey = 'EDIT' )
+
+-- Delete Moderator settings from ModuleSettings
+
+            DELETE  FROM {databaseOwner}[{objectQualifier}Modulesettings]
+            FROM    {databaseOwner}[{objectQualifier}Modulesettings]
+                    INNER JOIN {databaseOwner}[{objectQualifier}Modules]
+                    ON {databaseOwner}[{objectQualifier}Modulesettings].ModuleID = {databaseOwner}[{objectQualifier}Modules].ModuleID
+                    INNER JOIN {databaseOwner}[{objectQualifier}ModuleDefinitions]
+                    ON {databaseOwner}[{objectQualifier}Modules].ModuleDefID = {databaseOwner}[{objectQualifier}ModuleDefinitions].ModuleDefID
+            WHERE   ( {databaseOwner}[{objectQualifier}Modulesettings].SettingName = 'moderatorroleid' )
+                    AND ( {databaseOwner}[{objectQualifier}ModuleDefinitions].FriendlyName = N'Events' )
+
+        END
+
+    IF @Version = '04.01.00' 
+        BEGIN
+            UPDATE  {databaseOwner}[{objectQualifier}EventsNotification]
+            SET     EventID = E2.EventID
+            FROM    {databaseOwner}[{objectQualifier}EventsNotification]
+                    INNER JOIN {databaseOwner}[{objectQualifier}Events] AS E
+                    ON {databaseOwner}[{objectQualifier}EventsNotification].EventID = E.EventID
+                    LEFT OUTER JOIN {databaseOwner}[{objectQualifier}Events] AS E2
+                    ON E.RecurMasterID = E2.RecurMasterID
+                       AND {databaseOwner}[{objectQualifier}EventsNotification].EventTimeBegin = E2.EventTimeBegin
+            WHERE   E2.EventTimeBegin IS NOT NULL
+        END
+
+GO
+

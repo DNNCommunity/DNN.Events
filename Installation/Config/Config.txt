@@ -1,0 +1,48 @@
+﻿// 
+//		Usage:	
+//		Use one line to add a section to a config file using this format
+//
+//		<Xpath>:<Action>:<[key=]/[name=]>:<restOfSetting>:<Collision>
+// 
+//		Note: A line starting with // OR ' will be regarded as comment 
+//
+//		<Xpath> 
+//		This is the location of the section you wish to add a setting to. 
+//		for instance: Add a setting to the appSettings the value should be: /configuration/appSettings
+//		
+//		<Action>
+//		these settings can be used:
+//			add				= Adds the content within the node element to the location selected in the path
+//			insertbefore	= Inserts the supplied content before the selected node in the path
+//			insertafter		= Inserts the supplied content after the selected node in the path
+//			remove			= Removes the node in the selected path
+//			removeattribute = Removes the attribute selected in the path
+//			update			= Updates the node selected in the path with the supplied content
+//			updateattribute = Updates the selected attribute	
+//
+//		<[key]/[name]>
+//		Use either key= OR name= to let the installer know what kind of section you are adding to. 
+//		for the provider config type you would use the name=myName (where myName should be replaced)
+//		Do Not forget the quotes!
+//		examples:
+//			key="UseDebugSmtp"
+//			name="DNNEventsSitemapProvider"
+//
+//		<restOfSetting>
+//		Let the installer know what the rest of the config setting should be.
+//		examples:
+//			(for key) value="127.0.0.1"
+//			(for name) type="DotNetNuke.Modules.Events.Providers.SiteMap, DotNetNuke.Modules.Events" providerPath="~\DesktopModules\Events\Components\"
+//
+//		<Collision>
+//		Lets the installer know what to do with existing nodes. the options are:
+//			overwrite		= the node is overwritten (duh)
+//			save			= the original node is commented out and the new one is added
+// 
+//
+//		complete examplë: 		
+//		/configuration/appSettings:add:key="newConfigItem":value="newConfigValue":overwrite
+//		/configuration/appSettings:add:name="newProvider":type="myNewType" providerPath="myProviderPathValue":save
+//		/configuration/appSettings:add:key="ProofKey":value="YesItWorks":overwrite
+
+/configuration/dotnetnuke/sitemap/providers:update:name="DNNEventsSitemapProvider":type="DotNetNuke.Modules.Events.Providers.SiteMap, DotNetNuke.Modules.Events" providerPath="~\DesktopModules\Events\Components\":overwrite

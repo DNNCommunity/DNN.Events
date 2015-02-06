@@ -1,0 +1,13 @@
+﻿'Remove old versions of events
+Install\Module\Events_05.01.05_Source.zip
+Install\Module\Events_05.01.05_Install.zip
+Install\Module\Events_05.01.05_Install.resources
+'Tidy up debug files
+Bin\DotNetNuke.Modules.Events.pdb
+Bin\DotNetNuke.Modules.Events.ScheduleControl.pdb
+'Tidy up redundant script
+DesktopModules\Events\Scripts\Tooltip.js
+'Tidy up items moved to SubControls
+DesktopModules\Events\EventIcons.ascx
+DesktopModules\Events\SelectCategory.ascx
+DesktopModules\Events\App_LocalResources\SelectCategory.ascx.resx

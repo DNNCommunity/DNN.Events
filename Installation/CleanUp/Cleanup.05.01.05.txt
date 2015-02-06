@@ -1,0 +1,14 @@
+﻿'Remove old versions of events
+Install\Module\Events_05.01.04_Source.zip
+Install\Module\Events_05.01.04_Install.zip
+Install\Module\Events_05.01.04_Install.resources
+'Tidy up debug files
+Bin\DotNetNuke.Modules.Events.pdb
+Bin\DotNetNuke.Modules.Events.ScheduleControl.pdb
+'Tidy up redundant resx
+DesktopModules\Events\App_LocalResources\EventTemplateHelp.ascx.resx
+'Tidy up redundant graphics files
+DesktopModules\Events\Images\bgcolor.gif
+DesktopModules\Events\Images\dn-curve.gif
+DesktopModules\Events\Images\navlink.gif
+DesktopModules\Events\Images\paypal.gif

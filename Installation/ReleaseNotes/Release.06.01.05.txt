@@ -1,0 +1,10 @@
+﻿<h2>Release notes DNNEvents 06.01.05</h2>
+<p>Events 06.01.05 will work for any DNN version <strong>7.2.0</strong> and up. Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Fixed loading JS library for teh scheduler control</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+    <li>Upgraded to .NET 4.0 framework to support DNN 7.2</li>
+</ul>

@@ -1,0 +1,364 @@
+﻿    /************************************************************/
+    /*****                                                  *****/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for Events module 05.02.00 *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EventDateBegin] datetime NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EventDateEnd] datetime NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [RepeatType] varchar(10) NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [Every] varchar(10) NULL
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****     Create Stored Procedures                     *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}{objectQualifier}EventsSignupsMyEnrollments
+GO
+
+/* EventsSave */
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSave]
+(
+	@PortalID int,
+	@EventID int,
+	@RecurMasterID int,
+	@ModuleID int,
+	@EventTimeBegin datetime,
+	@Duration int,
+	@EventName nvarchar(100),
+	@EventDesc ntext,
+	@Importance int,
+	@CreatedByID int,
+	@Notify nvarchar(2048),
+	@Approved bit,
+	@Signups bit,
+	@MaxEnrollment int,
+	@EnrollRoleID int,
+	@EnrollFee money, 
+	@EnrollType varchar(10),
+	@PayPalAccount nvarchar(100), 
+	@Cancelled bit,
+	@DetailPage bit,
+	@DetailNewWin bit,
+	@DetailURL nvarchar(100),
+	@ImageURL nvarchar(100), 
+	@ImageType varchar(1), 
+	@ImageWidth int,
+	@ImageHeight int,
+	@ImageDisplay bit,
+	@Location int,
+	@Category int,
+	@Reminder nvarchar(2048),
+	@TimezoneOffset int,
+	@SendReminder bit,
+	@ReminderTime int,
+	@ReminderTimeMeasurement varchar(2),
+	@ReminderFrom nvarchar(100),
+	@SearchSubmitted bit,
+	@CustomField1 nvarchar(100),
+	@CustomField2 nvarchar(100),
+	@EnrollListView bit,
+	@DisplayEndDate bit,
+	@AllDayEvent bit,
+	@OwnerID int,
+	@LastUpdatedID int,
+	@OriginalDateBegin datetime,
+	@NewEventEmailSent bit,
+	@SaveOnly bit
+)
+AS
+SET DATEFORMAT mdy
+IF @Location = -1 
+	Select @Location = Null
+
+IF @Category = -1 
+	Select @Category = Null
+
+IF @EnrollRoleID = -1 
+	Select @EnrollRoleID = Null
+
+IF @ImageURL = N'' 
+	Select @ImageURL = Null
+
+IF @ImageType = '' 
+	Select @ImageType = Null
+
+IF @DetailURL = N'' 
+	Select @DetailURL = Null
+
+IF @EventID = -1 OR @EventID IS NULL
+	INSERT {databaseOwner}[{objectQualifier}Events]
+	(
+		PortalID,
+		RecurMasterID,
+		ModuleID,
+		EventTimeBegin,
+		Duration,
+		EventName,
+		EventDesc,
+		Importance,
+		CreatedByID,
+		Notify,
+		Approved,
+		Signups,
+		MaxEnrollment,
+		EnrollRoleID,
+		EnrollFee, 
+		EnrollType, 
+		PayPalAccount, 
+		Cancelled,
+		DetailPage,
+		DetailNewWin,
+		DetailURL,
+		ImageURL, 
+		ImageType, 
+		ImageWidth,
+		ImageHeight,
+		ImageDisplay,
+		Location,
+		Category,
+		Reminder,
+		TimezoneOffset,
+		SendReminder,
+		ReminderTime,
+		ReminderTimeMeasurement,
+		ReminderFrom,
+		SearchSubmitted,
+		CustomField1,
+		CustomField2,
+		EnrollListView,
+		DisplayEndDate,
+		AllDayEvent,
+		OwnerID,
+		LastUpdatedAt,
+		LastUpdatedID,
+		OriginalDateBegin,
+		NewEventEmailSent
+	)
+	VALUES
+	(
+		@PortalID,
+		@RecurMasterID,
+		@ModuleID,
+		@EventTimeBegin,
+		@Duration,
+		@EventName,
+		@EventDesc,
+		@Importance,
+		@CreatedByID,
+		@Notify,
+		@Approved,
+		@Signups,
+		@MaxEnrollment,
+		@EnrollRoleID,
+		@EnrollFee, 
+		@EnrollType,
+		@PayPalAccount, 
+		@Cancelled,
+		@DetailPage,
+		@DetailNewWin,
+		@DetailURL,
+		@ImageURL, 
+		@ImageType, 
+		@ImageWidth,
+		@ImageHeight,
+		@ImageDisplay,
+		@Location,
+		@Category,
+		@Reminder,
+		@TimezoneOffset,
+		@SendReminder,
+		@ReminderTime,
+		@ReminderTimeMeasurement,
+		@ReminderFrom,
+		@SearchSubmitted,
+		@CustomField1,
+		@CustomField2,
+		@EnrollListView,
+		@DisplayEndDate,
+		@AllDayEvent,
+		@OwnerID,
+		GetUTCDate(),
+		@LastUpdatedID,
+		@OriginalDateBegin,
+		@NewEventEmailSent
+	)
+ELSE
+	UPDATE {databaseOwner}[{objectQualifier}Events] SET
+		PortalID = @PortalID,
+		RecurMasterID = @RecurMasterID,
+		EventTimeBegin = @EventTimeBegin,
+		Duration = @Duration,
+		EventName = @EventName,
+		EventDesc = @EventDesc,
+		Importance = @Importance,
+		Notify = @Notify,
+		Approved = @Approved,
+		Signups = @Signups,
+		MaxEnrollment = @MaxEnrollment,
+		EnrollRoleID = @EnrollRoleID,
+		EnrollFee = @EnrollFee, 
+		EnrollType = @EnrollType,
+		PayPalAccount = @PayPalAccount, 
+		Cancelled = @Cancelled,
+		DetailPage = @DetailPage,
+		DetailNewWin = @DetailNewWin,
+		DetailURL = @DetailURL,
+		ImageURL = @ImageURL, 
+		ImageType = @ImageType, 
+		ImageWidth = @ImageWidth,
+		ImageHeight = @ImageHeight,
+		ImageDisplay = @ImageDisplay,
+		Location = @Location,
+		Category = @Category,
+		Reminder = @Reminder,
+		TimezoneOffset = @TimezoneOffset,
+		SendReminder = @SendReminder,
+		ReminderTime = @ReminderTime,
+		ReminderTimeMeasurement = @ReminderTimeMeasurement,
+		ReminderFrom = @ReminderFrom,
+		SearchSubmitted = @SearchSubmitted,
+		CustomField1 = @CustomField1,
+		CustomField2 = @CustomField2,
+		EnrollListView = @EnrollListView,
+		DisplayEndDate = @DisplayEndDate,
+		AllDayEvent = @AllDayEvent,
+		OwnerID = @OwnerID,
+		LastUpdatedAt = GetUTCDate(),
+		LastUpdatedID = @LastUpdatedID,
+		OriginalDateBegin = @OriginalDateBegin,
+		NewEventEmailSent = @NewEventEmailSent
+WHERE EventID = @EventID And ModuleID = @ModuleID
+
+IF @SaveOnly = 0
+SELECT E.PortalID, EventID, E.RecurMasterID, E.ModuleID, E.EventDateBegin, E.EventDateEnd,
+	E.EventTimeBegin, E.Duration, E.EventName, E.EventDesc,
+	E.Importance, E.CreatedDate, 
+    CreatedBy = U.DisplayName,
+	E.CreatedByID,
+	E.Every,
+	E.Period,
+	E.RepeatType,
+	E.Notify,
+	E.Approved,
+	E.Signups,
+	E.MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+    (Select count(*) from {databaseOwner}[{objectQualifier}Events] as E2 WHERE E2.RecurMasterID = E.RecurMasterID and E2.Cancelled = 0 and E2.Approved = 1) as NoOfRecurrences,
+    (Select max(EventDateBegin) from {databaseOwner}[{objectQualifier}Events] as E2 WHERE E2.RecurMasterID = E.RecurMasterID and E2.Cancelled = 0 and E2.Approved = 1) as LastRecurrence,
+	E.EnrollRoleID,
+	E.EnrollFee, 
+	E.EnrollType, 
+	E.PayPalAccount, 
+	E.Cancelled,
+	E.DetailPage,
+	E.DetailNewWin,
+	E.DetailURL,
+	E.ImageURL, 
+	E.ImageType, 
+	E.ImageWidth,
+	E.ImageHeight,
+	E.ImageDisplay,
+	c.Location,
+	c.LocationName,
+	c.MapURL,
+	b.Category,
+	b.CategoryName,
+	b.Color,
+	b.FontColor,
+	E.Reminder,
+	E.TimezoneOffset,
+	E.SendReminder,
+	E.ReminderTime,
+	E.ReminderTimeMeasurement,
+	E.ReminderFrom,
+	E.CustomField1,
+	E.CustomField2,
+	E.EnrollListView,
+	E.DisplayEndDate,
+	E.AllDayEvent,
+	E.OwnerID,
+	OwnerName = O.DisplayName,
+	E.LastUpdatedAt,
+    LastUpdatedBy = L.DisplayName,
+	E.LastUpdatedID,
+	r.RRULE,
+	RMOwnerID = r.OwnerID,
+	E.OriginalDateBegin,
+	E.NewEventEmailSent
+FROM {databaseOwner}[{objectQualifier}Events] E
+inner join {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r on E.RecurMasterID = r.RecurMasterID
+left outer join {databaseOwner}[{objectQualifier}Users] U on E.CreatedByID = U.UserID
+left outer join {databaseOwner}[{objectQualifier}Users] O on E.OwnerID = O.UserID
+left outer join {databaseOwner}[{objectQualifier}Users] L on E.LastUpdatedID = L.UserID
+left join {databaseOwner}[{objectQualifier}EventsCategory] b on E.Category = b.Category
+left join {databaseOwner}[{objectQualifier}EventsLocation] c on E.Location = c.Location
+WHERE EventID = scope_identity()
+GO
+
+/** EventsSignupsMyEnrollments **/
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsMyEnrollments
+(
+	@ModuleID int,
+	@UserID int
+)
+AS
+SET DATEFORMAT mdy
+Select DISTINCT s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  u.displayName as UserName, u.Email,
+  c.EventTimeBegin, DATEADD(mi, c.Duration, c.EventTimeBegin) as EventTimeEnd ,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select Sum(NoEnrolees) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		c.TimeZoneOffset,
+		NoEnrolees
+ from {databaseOwner}{objectQualifier}EventsSignups s 
+   Left Join {databaseOwner}{objectQualifier}Users u ON s.UserID = u.UserID
+   Left Join {databaseOwner}{objectQualifier}Events c ON s.EventID = c.EventID
+   Left Outer Join {databaseOwner}{objectQualifier}EventsMaster e ON s.ModuleID = e.SubEventID
+Where  s.Userid = @UserID AND (s.ModuleID = @ModuleID Or e.ModuleID = @ModuleID)
+ORDER BY c.EventTimeBegin desc
+GO
+

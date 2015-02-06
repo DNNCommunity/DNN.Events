@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lnkWeek.Text" xml:space="preserve">
+    <value>View Week</value>
+  </data>
+  <data name="NoScheduledEventsAdmin.Text" xml:space="preserve">
+    <value>Please Select Settings to configure Events Module...</value>
+  </data>
+  <data name="NoScheduledEvents.Text" xml:space="preserve">
+    <value>No Scheduled Events for Selected Day</value>
+  </data>
+  <data name="ConfirmDelete.Text" xml:space="preserve">
+    <value>Are you sure you wish to Delete this entry?</value>
+  </data>
+  <data name="MenuAdmin.Text" xml:space="preserve">
+    <value>Admin Options</value>
+  </data>
+  <data name="MenuModerate.Text" xml:space="preserve">
+    <value>Moderate Events</value>
+  </data>
+  <data name="MenuCategories.Text" xml:space="preserve">
+    <value>Edit Categories</value>
+  </data>
+  <data name="MenuLocations.Text" xml:space="preserve">
+    <value>Edit Locations</value>
+  </data>
+  <data name="MenuMyEnrollments.Text" xml:space="preserve">
+    <value>My Enrollments</value>
+  </data>
+  <data name="MenuAddEvents.Text" xml:space="preserve">
+    <value>Add Events</value>
+  </data>
+  <data name="ModuleHelp.Text" xml:space="preserve">
+    <value>&lt;h1&gt;DotNetNuke Events Module&lt;/h1&gt;
+&lt;p&gt;Welcome to the Calendar Module for DotNetNuke 3 (please use DNN 3.0.13 or 
+above).&amp;nbsp; The Calendar is a flexible module that support:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Month, Week and Detail View&lt;/li&gt;
+  &lt;li&gt;Moderated or Un-moderated Events and Enrollment&lt;/li&gt;
+  &lt;li&gt;Recurring Events: Daily, Weekly, Monthly or Annually&lt;/li&gt;
+  &lt;li&gt;Security roles for anonymous, editor (can create and edit their own 
+  events), moderators (can edit/delete/moderate all events), administrators (all 
+  rights)&lt;/li&gt;
+  &lt;li&gt;Multiple Calendars on a Page or Site with the ability to roll-up 
+  sub-calendars.&amp;nbsp; This is a powerful feature that supports individual, 
+  department, and division views of events.&lt;/li&gt;
+  &lt;li&gt;Separate, related List Calendar module that will show events from a 
+  selected calendar in a list view&lt;/li&gt;
+  &lt;li&gt;Enrollment for events, including either paid (PayPal) or free (optionally 
+  moderated) enrollment&lt;/li&gt;
+  &lt;li&gt;Calendar view customization via the module.css style sheet&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Once the Calendar module is installed, simply add and instance to a page.&amp;nbsp; 
+Then, select the &amp;quot;Admin Options&amp;quot; to setup the Calendar.&lt;/p&gt;
+&lt;p&gt;After the Calendar is setup,&amp;nbsp; simply select a date on the Calendar by 
+pressing the Day number in the calendar.&amp;nbsp; Focus will switch to that date.&amp;nbsp; 
+Then, if you have editor permission, select &amp;quot;Add Event&amp;quot; from the module menu.&amp;nbsp; 
+This will open the &amp;quot;Edit Event&amp;quot; form.&amp;nbsp; You will then minimally enter the 
+Start and End Date-Time for the Event (events may span multiple days), a Short 
+Description of the Event, and the Detailed Notes for the event.&amp;nbsp; 
+Optionally, if enabled, you may select an image for the event, the category and 
+location (if setup), the recurrence for the event (daily, weekly, etc.) and the 
+recurrence end date, and enrollment options (if enabled).&lt;/p&gt;
+&lt;p&gt;To view a Calendar Event, simply select the event in the Calendar or the link 
+in the detail view below the calendar.&amp;nbsp; If you wish, you can select the 
+&amp;quot;Week View&amp;quot; at the top of the Calendar in order to display the selected Week's 
+events.&lt;/p&gt;
+&lt;p&gt;If you a registered, you can select the &amp;quot;My Enrollments&amp;quot; option to display 
+events you have enrolled in.&amp;nbsp; Selecting a Detail Event view permits you to 
+signup or enroll, if you are registered and are in the correct role.&lt;/p&gt;
+&lt;p&gt;Moderator or Administrator roles may select &amp;quot;Moderate Events&amp;quot; to 
+approve/disapprove events and enrollment requests (if enabled).&amp;nbsp; Also 
+Moderator or Administrator roles may update Categories and Locations by 
+selecting the &amp;quot;Edit Categories&amp;quot; or &amp;quot;Edit Locations&amp;quot; options on the module menu.&lt;/p&gt;</value>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>Please Update Settings (Module Admin)</value>
+  </data>
+  <data name="Recurring.Text" xml:space="preserve">
+    <value>Recurring Event</value>
+  </data>
+  <data name="Reminder.Text" xml:space="preserve">
+    <value>Notification enabled</value>
+  </data>
+  <data name="Enroll.Text" xml:space="preserve">
+    <value>Enrollment enabled</value>
+  </data>
+</root>

@@ -1,0 +1,34 @@
+﻿'Remove old versions of events
+Install\Module\Events_05.00.03_Source.zip
+Install\Module\Events_05.00.03_Install.zip
+Install\Module\Events_05.00.03_Install.resources
+'Tidy up removed controls
+DesktopModules\Events\EventTZUpdate.ascx
+DesktopModules\Events\EventTZUpdate.ascx.vb
+DesktopModules\Events\App_LocalResources\EventTZUpdate.ascx.resx
+'Tidy up changed module structure
+DesktopModules\Events\03.01.00.SqlDataProvider
+DesktopModules\Events\03.02.00.SqlDataProvider
+DesktopModules\Events\03.03.00.SqlDataProvider
+DesktopModules\Events\03.03.01.SqlDataProvider
+DesktopModules\Events\03.03.02.SqlDataProvider
+DesktopModules\Events\03.03.03.SqlDataProvider
+DesktopModules\Events\03.03.05.SqlDataProvider
+DesktopModules\Events\03.03.07.SqlDataProvider
+DesktopModules\Events\03.03.08.SqlDataProvider
+DesktopModules\Events\04.00.00.SqlDataProvider
+DesktopModules\Events\04.00.01.SqlDataProvider
+DesktopModules\Events\04.00.02.SqlDataProvider
+DesktopModules\Events\04.01.00.SqlDataProvider
+DesktopModules\Events\04.01.01.SqlDataProvider
+DesktopModules\Events\04.01.02.SqlDataProvider
+DesktopModules\Events\05.00.00.SqlDataProvider
+DesktopModules\Events\05.00.01.SqlDataProvider
+DesktopModules\Events\05.00.02.SqlDataProvider
+DesktopModules\Events\05.00.03.SqlDataProvider
+DesktopModules\Events\Tooltip.js
+DesktopModules\Events\Validation.js
+DesktopModules\Events\Uninstall.SqlDataProvider
+Bin\DotNetNuke.Events.WebControls.dll
+Bin\DotNetNuke.Events.ScheduleControl.dll
+Bin\DotNetNuke.Modules.Events.SqlDataProvider.dll

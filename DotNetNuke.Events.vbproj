@@ -1,0 +1,609 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F13CD116-F8CC-4108-8691-F855EEBF7A4F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DotNetNuke.Events</RootNamespace>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>DotNetNuke.Modules.Events</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Flow</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE32Nav30</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>On</OptionStrict>
+    <RootNamespace>
+    </RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\Bin\</OutputPath>
+    <DocumentationFile>DotNetNuke.Modules.Events.xml</DocumentationFile>
+    <BaseAddress>1072168960</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>Bin\</OutputPath>
+    <DocumentationFile>DotNetNuke.Modules.Events.xml</DocumentationFile>
+    <BaseAddress>1072168960</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>None</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CountryListBox, Version=6.2.1.11, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\CountryListBox.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotNetNuke, Version=7.2.0.607, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\DotNetNuke.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotNetNuke.Web, Version=7.2.0.607, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\DotNetNuke.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral">
+      <HintPath>..\..\bin\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Extensions.Design" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Web.UI, Version=2013.3.1015.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Telerik.Web.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="DotNetNuke" />
+    <Import Include="DotNetNuke.Common" />
+    <Import Include="DotNetNuke.Common.Utilities" />
+    <Import Include="DotNetNuke.Data" />
+    <Import Include="DotNetNuke.Entities.Users" />
+    <Import Include="DotNetNuke.Framework" />
+    <Import Include="DotNetNuke.Services.Exceptions" />
+    <Import Include="DotNetNuke.Services.Localization" />
+    <Import Include="DotNetNuke.UI" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.HtmlControls" />
+    <Import Include="System.Web.UI.WebControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Components\EventTokenReplace.vb" />
+    <Compile Include="Components\iCalProvider.vb" />
+    <Compile Include="Components\Integration\Constants.vb" />
+    <Compile Include="Components\Integration\Content.vb" />
+    <Compile Include="Components\Integration\Journal.vb" />
+    <Compile Include="Components\SiteMapProvider.vb" />
+    <Compile Include="Components\DataProvider.vb" />
+    <Compile Include="Components\EventController.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\EventInfo.vb" />
+    <Compile Include="Components\EventNotification.vb" />
+    <Compile Include="Components\EventModuleSettings.vb" />
+    <Compile Include="Components\SqlDataProvider.vb" />
+    <Compile Include="SubControls\SelectLocation.ascx.designer.vb">
+      <DependentUpon>SelectLocation.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="SubControls\SelectLocation.ascx.vb">
+      <DependentUpon>SelectLocation.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubControls\EventUserGrid.ascx.designer.vb">
+      <DependentUpon>EventUserGrid.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="SubControls\EventUserGrid.ascx.vb">
+      <DependentUpon>EventUserGrid.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventRpt.ascx.designer.vb">
+      <DependentUpon>EventRpt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventRpt.ascx.vb">
+      <DependentUpon>EventRpt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventSettings.ascx.designer.vb">
+      <DependentUpon>EventSettings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventSettings.ascx.vb">
+      <DependentUpon>EventSettings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditEvents.ascx.designer.vb">
+      <DependentUpon>EditEvents.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EditEvents.ascx.vb">
+      <DependentUpon>EditEvents.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\EventBase.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventDay.ascx.designer.vb">
+      <DependentUpon>EventDay.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventDay.ascx.vb">
+      <DependentUpon>EventDay.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventDetails.ascx.designer.vb">
+      <DependentUpon>EventDetails.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventDetails.ascx.vb">
+      <DependentUpon>EventDetails.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventEditCategories.ascx.designer.vb">
+      <DependentUpon>EventEditCategories.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventEditCategories.ascx.vb">
+      <DependentUpon>EventEditCategories.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventEditLocations.ascx.designer.vb">
+      <DependentUpon>EventEditLocations.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventEditLocations.ascx.vb">
+      <DependentUpon>EventEditLocations.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubControls\EventIcons.ascx.designer.vb">
+      <DependentUpon>EventIcons.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="SubControls\EventIcons.ascx.vb">
+      <DependentUpon>EventIcons.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventIPN.aspx.designer.vb">
+      <DependentUpon>EventIPN.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EventIPN.aspx.vb">
+      <DependentUpon>EventIPN.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventList.ascx.designer.vb">
+      <DependentUpon>EventList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventList.ascx.vb">
+      <DependentUpon>EventList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventModerate.ascx.designer.vb">
+      <DependentUpon>EventModerate.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventModerate.ascx.vb">
+      <DependentUpon>EventModerate.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventMonth.ascx.designer.vb">
+      <DependentUpon>EventMonth.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventMonth.ascx.vb">
+      <DependentUpon>EventMonth.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventMyEnrollments.ascx.designer.vb">
+      <DependentUpon>EventMyEnrollments.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventMyEnrollments.ascx.vb">
+      <DependentUpon>EventMyEnrollments.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventPPEnroll.ascx.designer.vb">
+      <DependentUpon>EventPPEnroll.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventPPEnroll.ascx.vb">
+      <DependentUpon>EventPPEnroll.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventRSS.aspx.designer.vb">
+      <DependentUpon>EventRSS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EventRSS.aspx.vb">
+      <DependentUpon>EventRSS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events.ascx.designer.vb">
+      <DependentUpon>Events.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Events.ascx.vb">
+      <DependentUpon>Events.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventTemplateHelp.ascx.designer.vb">
+      <DependentUpon>EventTemplateHelp.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventTemplateHelp.ascx.vb">
+      <DependentUpon>EventTemplateHelp.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventVCal.aspx.designer.vb">
+      <DependentUpon>EventVCal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EventVCal.aspx.vb">
+      <DependentUpon>EventVCal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventWeek.ascx.designer.vb">
+      <DependentUpon>EventWeek.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EventWeek.ascx.vb">
+      <DependentUpon>EventWeek.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Installation\Attributes.vb" />
+    <Compile Include="SubControls\SelectCategory.ascx.designer.vb">
+      <DependentUpon>SelectCategory.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="SubControls\SelectCategory.ascx.vb">
+      <DependentUpon>SelectCategory.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings.ascx.designer.vb">
+      <DependentUpon>Settings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.ascx.vb">
+      <DependentUpon>Settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Content Include="EventEnrollees.xslt" />
+    <Content Include="EventSettings.ascx" />
+    <Content Include="EditEvents.ascx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="EventDay.ascx" />
+    <Content Include="EventDetails.ascx" />
+    <Content Include="EventEditCategories.ascx" />
+    <Content Include="EventEditLocations.ascx" />
+    <Content Include="Images\Categories.gif" />
+    <Content Include="Images\Locations.gif" />
+    <Content Include="Installation\CleanUp\Cleanup.05.02.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.02.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.02.03.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.02.04.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.00.00.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.00.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.00.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.00.03.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.00.04.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.01.00.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.01.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.01.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.01.03.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.01.04.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.02.00.txt" />
+    <Content Include="Installation\DNN_Events.png" />
+    <Content Include="Installation\ReleaseNotes\Release.06.01.05.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.02.00.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.01.04.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.01.03.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.01.01.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.00.04.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.00.03.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.00.02.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.05.02.03.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.05.02.01.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.05.02.02.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.05.02.04.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.00.00.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.00.01.txt" />
+    <Content Include="SubControls\SelectLocation.ascx" />
+    <Content Include="SubControls\EventIcons.ascx" />
+    <Content Include="EventIPN.aspx" />
+    <Content Include="EventList.ascx" />
+    <Content Include="EventModerate.ascx" />
+    <Content Include="EventMonth.ascx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="EventMyEnrollments.ascx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="EventPPEnroll.ascx" />
+    <Content Include="EventRSS.aspx" />
+    <Content Include="Events.ascx" />
+    <Content Include="EventTemplateHelp.ascx" />
+    <Content Include="EventVCal.aspx" />
+    <Content Include="EventWeek.ascx" />
+    <Content Include="Images\bell.gif" />
+    <Content Include="Images\cal-add.gif" />
+    <Content Include="Images\cal-bar.gif" />
+    <Content Include="Images\cal-enroll.gif" />
+    <Content Include="Images\cal-list.gif" />
+    <Content Include="Images\cal-month.gif" />
+    <Content Include="Images\cal-week.gif" />
+    <Content Include="Images\enroll.gif" />
+    <Content Include="Images\EnrollFull.gif" />
+    <Content Include="Images\HighPrio.gif" />
+    <Content Include="Images\LowPrio.gif" />
+    <Content Include="Images\moderate.gif" />
+    <Content Include="Images\rec.gif" />
+    <Content Include="Images\rss.gif" />
+    <Content Include="Images\SmallCalendar.gif" />
+    <Content Include="Images\vCalendar.gif" />
+    <Content Include="SubControls\SelectCategory.ascx" />
+    <Content Include="Settings.ascx" />
+    <Content Include="Themes\Default\Default.css" />
+    <Content Include="Themes\Default\gradient_Default.jpg" />
+    <Content Include="Themes\Events-Green\Events-Green.css" />
+    <Content Include="Themes\Events-Grey\Events-Grey.css" />
+    <Content Include="Themes\Events-Orange\Events-Orange.css" />
+    <Content Include="Themes\Events\Events.css" />
+    <Content Include="Themes\FixedBlue\FixedBlue.css" />
+    <Content Include="Themes\FixedBlue\gradient_LtBlue.jpg" />
+    <Content Include="Themes\Gray\gradient_Gray.jpg" />
+    <Content Include="Themes\Gray\Gray.css" />
+    <Content Include="Themes\MinimalExtropy\header_bg.jpg" />
+    <Content Include="Themes\MinimalExtropy\MinimalExtropy.css" />
+    <Content Include="Themes\MinimalExtropy\tooltip_bg.jpg" />
+    <Content Include="Themes\Small\gradient_Small.jpg" />
+    <Content Include="Themes\Small\Small.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\EventSettings.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Installation\Config\Config.txt" />
+    <Content Include="SubControls\EventUserGrid.ascx">
+      <SubType>Form</SubType>
+    </Content>
+    <Content Include="EventRpt.ascx" />
+    <Content Include="Images\iCal.gif" />
+    <Content Include="Installation\CleanUp\Cleanup.03.03.08.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.04.00.00.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.04.00.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.04.00.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.04.01.00.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.04.01.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.04.01.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.00.00.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.00.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.00.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.00.03.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.01.00.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.01.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.01.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.01.03.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.01.04.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.01.05.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.05.02.00.txt" />
+    <Content Include="Installation\License.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.05.01.04.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.05.01.05.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.05.02.00.txt" />
+    <Content Include="Scripts\Validation.js" />
+    <Content Include="App_LocalResources\EventRpt.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SubControls\App_LocalResources\EventUserGrid.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <EmbeddedResource Include="App_LocalResources\EditEvents.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventDay.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventDetails.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventEditCategories.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventEditLocations.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventList.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventModerate.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventMonth.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventMyEnrollments.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\EventPPEnroll.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\Events.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="App_LocalResources\EventTemplateHelp.ascx.resx" />
+    <EmbeddedResource Include="App_LocalResources\EventWeek.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="SubControls\App_LocalResources\EventIcons.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SubControls\App_LocalResources\SelectLocation.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <EmbeddedResource Include="SubControls\App_LocalResources\SelectCategory.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\Settings.ascx.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_LocalResources\SharedResources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Installation\03.01.00.SqlDataProvider" />
+    <None Include="Installation\03.02.00.SqlDataProvider" />
+    <None Include="Installation\03.03.00.SqlDataProvider" />
+    <None Include="Installation\03.03.01.SqlDataProvider" />
+    <None Include="Installation\03.03.02.SqlDataProvider" />
+    <None Include="Installation\03.03.03.SqlDataProvider" />
+    <None Include="Installation\03.03.05.SqlDataProvider" />
+    <None Include="Installation\03.03.07.SqlDataProvider" />
+    <None Include="Installation\03.03.08.SqlDataProvider" />
+    <None Include="Installation\04.00.00.SqlDataProvider" />
+    <None Include="Installation\04.00.01.SqlDataProvider" />
+    <None Include="Installation\04.00.02.SqlDataProvider" />
+    <None Include="Installation\04.01.00.SqlDataProvider" />
+    <None Include="Installation\04.01.01.SqlDataProvider" />
+    <None Include="Installation\04.01.02.SqlDataProvider" />
+    <None Include="Installation\05.00.00.SqlDataProvider" />
+    <None Include="Installation\05.00.01.SqlDataProvider" />
+    <None Include="Installation\05.00.02.SqlDataProvider" />
+    <None Include="Installation\05.00.03.SqlDataProvider" />
+    <None Include="Installation\05.01.00.SqlDataProvider" />
+    <None Include="Installation\05.01.01.SqlDataProvider" />
+    <None Include="Installation\05.01.02.SqlDataProvider" />
+    <None Include="Installation\05.01.03.SqlDataProvider" />
+    <None Include="Installation\05.01.04.SqlDataProvider" />
+    <None Include="Installation\05.02.00.SqlDataProvider" />
+    <None Include="Installation\05.02.01.SqlDataProvider" />
+    <None Include="Installation\05.02.02.SqlDataProvider" />
+    <None Include="Installation\05.02.03.SqlDataProvider" />
+    <None Include="Installation\05.02.04.SqlDataProvider" />
+    <None Include="Installation\06.00.00.SqlDataProvider" />
+    <None Include="Installation\06.00.02.SqlDataProvider" />
+    <None Include="Installation\06.01.00.SqlDataProvider" />
+    <None Include="Installation\06.01.01.SqlDataProvider" />
+    <None Include="Installation\06.01.02.SqlDataProvider" />
+    <None Include="Installation\06.01.03.SqlDataProvider" />
+    <Content Include="Installation\06.02.00.SqlDataProvider" />
+    <None Include="Installation\Install.05.02.04.SqlDataProvider" />
+    <None Include="Installation\Project.targets" />
+    <None Include="Installation\Uninstall.SqlDataProvider" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Controls\DotNetNuke.Events.ScheduleControl\DotNetNuke.Events.ScheduleControl.vbproj">
+      <Project>{E90DA1B8-E75D-4E59-AE77-407BE089CF1A}</Project>
+      <Name>DotNetNuke.Events.ScheduleControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(MSBuildProjectDirectory)\Installation\Project.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+</Project>

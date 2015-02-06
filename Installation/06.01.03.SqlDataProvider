@@ -1,0 +1,257 @@
+﻿/************************************************************/
+/*****                                                  *****/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for Events module 06.01.03 *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/************************************************************/
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****     Rename SplitIDs function to EventsSplitIDs   *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}SplitIDs]') and xtype in (N'FN', N'IF', N'TF'))
+drop function {databaseOwner}[{objectQualifier}SplitIDs]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSplitIDs]') and xtype in (N'FN', N'IF', N'TF'))
+drop function {databaseOwner}[{objectQualifier}EventsSplitIDs]
+GO
+
+/** SplitIDs Function **/
+
+CREATE FUNCTION {databaseOwner}[{objectQualifier}EventsSplitIDs]
+    (
+      @RecordIDList VARCHAR(1024)
+    )
+RETURNS @ParsedList TABLE ( RecordID INT )
+AS 
+    BEGIN
+        DECLARE @RecordID VARCHAR(10)
+          , @Pos INT
+
+        SET @RecordIDList = LTRIM(RTRIM(@RecordIDList)) + ','
+        SET @Pos = CHARINDEX(',', @RecordIDList, 1)
+
+        IF REPLACE(@RecordIDList, ',', '') <> '' 
+            BEGIN
+                WHILE @Pos > 0 
+                    BEGIN
+                        SET @RecordID = LTRIM(RTRIM(LEFT(@RecordIDList,
+                                                         @Pos - 1)))
+                        IF @RecordID <> '' 
+                            BEGIN
+                                INSERT  INTO @ParsedList
+                                        ( RecordID )
+                                VALUES  ( CAST(@RecordID AS INT) ) --Use Appropriate conversion
+                            END
+                        SET @RecordIDList = RIGHT(@RecordIDList,
+                                                  LEN(@RecordIDList) - @Pos)
+                        SET @Pos = CHARINDEX(',', @RecordIDList, 1)
+
+                    END
+            END	
+        RETURN
+    END
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****     Create Stored Procedures                     *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGetByRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsGetByRange]
+GO
+
+/** EventsSignupsMyEnrollments **/
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsSignupsMyEnrollments
+(
+    @ModuleID int,
+    @UserID int,
+    @SocialGroupId int,
+    @CategoryIDs as nvarchar(1024),
+    @BeginDate datetime,
+    @EndDate datetime
+
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+Select s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  u.displayName as UserName, u.Email,
+  e.EventTimeBegin, DATEADD(mi, e.Duration, e.EventTimeBegin) as EventTimeEnd,e.EventName,e.Importance,e.Approved as EventApproved,
+  e.MaxEnrollment,
+  (Select Sum(NoEnrolees) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = e.EventID and e.Signups = 1) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        r.EventTimeZoneId,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId
+FROM {databaseOwner}{objectQualifier}EventsRecurMaster AS r RIGHT OUTER JOIN
+     {databaseOwner}{objectQualifier}Events AS e ON r.RecurMasterID = e.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}{objectQualifier}EventsSignups AS s LEFT OUTER JOIN
+     {databaseOwner}{objectQualifier}Users AS u ON s.UserID = u.UserID ON e.EventID = s.EventID LEFT OUTER JOIN
+     {databaseOwner}{objectQualifier}EventsMaster AS M ON s.ModuleID = M.SubEventID
+Where  s.Userid = @UserID AND (s.ModuleID = @ModuleID Or M.ModuleID = @ModuleID)
+  AND (r.SocialGroupId = @SocialGroupId or (r.SocialGroupId is null and @SocialGroupId = -1))
+  AND (e.Category in (SELECT * FROM {databaseOwner}[{objectQualifier}EventsSplitIDs](@CategoryIDs)) or @CategoryIDs = '-1')
+  AND ((e.EventTimeBegin < DATEADD(DAY,1,@EndDate) AND DATEADD(minute,e.Duration,e.EventTimeBegin) >=  @BeginDate) OR 
+   (e.EventTimeBegin >= @BeginDate AND e.EventTimeBegin < DATEADD(DAY,1, @EndDate))) 
+ORDER BY e.EventTimeBegin desc
+END
+GO
+
+/**** EventsGetByRange ****/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsGetByRange]
+(
+ @ModuleIDs nvarchar(1024),
+ @BeginDate datetime,
+ @EndDate datetime,
+ @CategoryIDs nvarchar(1024),
+ @SocialGroupId int,
+ @SocialUserId int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+CREATE Table #EventIDs
+    (EventID Int, NoOfRecurrences Int, LastRecurrence DateTime)
+
+INSERT INTO #EventIDs (EventID, NoOfRecurrences, LastRecurrence) 
+SELECT DISTINCT e.EventID, Count(E2.EventID) as NoOfRecurrences, Max(E2.EventTimeBegin) as LastRecurrence
+ FROM {databaseOwner}[{objectQualifier}Events] E
+ LEFT OUTER JOIN {databaseOwner}[{objectQualifier}EventsMaster] M ON E.ModuleID = M.SubEventID 
+ LEFT JOIN {databaseOwner}[{objectQualifier}Events] as E2 ON E.RecurMasterID = E2.RecurMasterID
+ WHERE ((E.EventTimeBegin < DATEADD(DAY,1,@EndDate) AND DATEADD(minute,E.Duration,E.EventTimeBegin) >=  @BeginDate) OR 
+   (E.EventTimeBegin >= @BeginDate AND E.EventTimeBegin < DATEADD(DAY,1, @EndDate))) 
+   AND E.Approved = 1
+   AND E.Cancelled = 0
+   AND (E.ModuleID in (SELECT * FROM {databaseOwner}[{objectQualifier}EventsSplitIDs](@ModuleIDs)))
+GROUP By E.EventID
+
+SELECT E.PortalID, E.EventID, E.RecurMasterID, E.ModuleID, E.EventDateBegin, E.EventDateEnd,
+     E.EventTimeBegin, E.Duration, E.EventName, E.EventDesc,
+     E.Importance, E.CreatedDate, 
+     CreatedBy = U.DisplayName, 
+     E.CreatedByID, 
+     E.Every, 
+     E.Period, 
+     E.RepeatType, 
+     E.Notify, 
+     E.approved, 
+     E.Signups, 
+     E.MaxEnrollment, 
+     (Select Sum(NoEnrolees) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = E.EventID and E.Signups = 1) as Enrolled, 
+     ET.NoOfRecurrences,
+     ET.LastRecurrence,
+     E.EnrollRoleID, 
+     E.EnrollFee, 
+     E.EnrollType,
+     E.PayPalAccount, 
+     E.Cancelled, 
+     E.DetailPage, 
+     E.DetailNewWin, 
+     E.DetailURL, 
+     E.ImageURL, 
+     E.ImageType, 
+     E.ImageWidth, 
+     E.ImageHeight, 
+     E.ImageDisplay, 
+     E.Location, 
+     c.LocationName, 
+     c.MapURL, 
+     E.Category, 
+     b.CategoryName, 
+     b.Color, 
+     b.FontColor, 
+     E.Reminder, 
+     E.SendReminder, 
+     E.ReminderTime, 
+     E.ReminderTimeMeasurement, 
+     E.ReminderFrom, 
+     E.SearchSubmitted, 
+     E.CustomField1,
+     E.CustomField2, 
+     E.EnrollListView, 
+     E.DisplayEndDate, 
+     E.AllDayEvent, 
+     E.OwnerID, 
+     OwnerName = O.DisplayName, 
+     E.LastUpdatedAt, 
+     LastUpdatedBy = L.DisplayName, 
+     E.LastUpdatedID, 
+     RMOwnerID = r.OwnerID, 
+     r.RRULE, 
+     E.OriginalDateBegin, 
+     E.NewEventEmailSent,
+     r.EventTimeZoneId,
+     E.AllowAnonEnroll,
+     E.ContentItemId,
+     E.JournalItem,
+     r.SocialGroupId,
+     r.SocialUserId,
+     E.Summary,
+     E.Sequence,
+     RMSequence = r.Sequence,
+     SocialUserUserName = S.UserName,
+     SocialUserDisplayName = S.DisplayName
+ FROM {databaseOwner}[{objectQualifier}Events] E 
+ inner join {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r on E.RecurMasterID = r.RecurMasterID 
+ left outer join {databaseOwner}[{objectQualifier}Users] U on E.CreatedByID = U.UserID 
+ left outer join {databaseOwner}[{objectQualifier}Users] O on E.OwnerID = O.UserID 
+ left outer join {databaseOwner}[{objectQualifier}Users] L on E.LastUpdatedID = L.UserID 
+ left outer join {databaseOwner}[{objectQualifier}Users] S on r.SocialUserId = S.UserID 
+ left join {databaseOwner}[{objectQualifier}EventsCategory] b on E.Category = b.Category 
+ left join {databaseOwner}[{objectQualifier}EventsLocation] c on E.Location = c.Location 
+ left join #EventIDs ET on E.EventID = ET.EventID
+WHERE E.EventID in (Select EventID from #EventIDs)
+   AND (e.Category in (SELECT * FROM {databaseOwner}[{objectQualifier}EventsSplitIDs](@CategoryIDs)) or @CategoryIDs = '-1')
+   AND (r.SocialGroupId = @SocialGroupId or @SocialGroupId = -1)
+   AND (r.SocialUserId = @SocialUserId or @SocialUserId = -1)
+END
+GO
+
+

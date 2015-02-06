@@ -1,0 +1,8 @@
+﻿<h2>Release notes DNN Events 05.02.04</h2>
+<p>Events 05.02.04 will work for any DNN version <strong>5.5.0</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>TASKS</h3>
+<ul>
+    <li>SET NOCOUNT ON improves Stored Procedure performance in SQL Server</li>
+    <li>Support creation of fresh install script from verion 6.0.0.</li>
+</ul>

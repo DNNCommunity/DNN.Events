@@ -1,0 +1,69 @@
+﻿    /************************************************************/
+    /*****                                                  *****/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for Events module 05.01.04 *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****     Create Stored Procedures                     *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsMasterAssignedModules]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsMasterAssignedModules]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsMasterAvailableModules]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsMasterAvailableModules]
+GO
+
+/*** EventsMasterAssignedModules ***/
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsMasterAssignedModules
+(
+	@ModuleID int
+)
+AS
+Select a.ModuleID as ModuleID, 0 as PortalID, a.MasterID, a.SubEventID as SubEventID
+from {databaseOwner}{objectQualifier}EventsMaster a
+  left join {databaseOwner}{objectQualifier}TabModules t on a.SubEventID = t.ModuleID
+WHERE a.ModuleID = @ModuleID AND
+      t.IsDeleted = 0
+Group BY a.MasterID, a.ModuleID, a.SubEventID  
+Order By a.MasterID
+GO
+
+/*** EventsMasterAvailableModules ***/
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsMasterAvailableModules
+(
+	@PortalID int,
+	@ModuleID int
+)
+AS
+Select @ModuleID as ModuleID, c.PortalID, 0 as MasterID, a.ModuleID as SubEventID
+from {databaseOwner}{objectQualifier}Modules a
+  left join {databaseOwner}{objectQualifier}ModuleDefinitions b on a.ModuleDefID = b.ModuleDefID 
+  left join {databaseOwner}{objectQualifier}DesktopModules d on b.DesktopModuleID = d.DesktopModuleID
+  left join {databaseOwner}{objectQualifier}TabModules t on a.ModuleID = t.ModuleID
+  left join {databaseOwner}{objectQualifier}Tabs c on t.TabID = c.TabID
+  where
+     d.BusinessControllerClass = 'DotNetNuke.Modules.Events.EventController, DotNetNuke.Modules.Events' AND 
+     c.PortalID = @PortalID and 
+     a.ModuleID Not In  (select SubEventID from {databaseOwner}{objectQualifier}EventsMaster where ModuleID = @ModuleID) AND
+     a.ModuleID Not In (select ModuleID from {databaseOwner}{objectQualifier}EventsMaster where SubEventID = @ModuleID) AND
+     a.ModuleID != @ModuleID AND
+     t.IsDeleted = 0
+Group BY c.PortalID, a.ModuleID 
+Order By c.PortalID, a.ModuleID 
+GO
+

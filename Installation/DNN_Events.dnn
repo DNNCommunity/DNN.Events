@@ -1,0 +1,426 @@
+﻿<dotnetnuke type="Package" version="5.0">
+  <packages>
+    <package name="DNN_Events" type="Module" version="6.2.0">
+      <friendlyName>Events</friendlyName>
+      <description>This module renders single and recurring events and includes Master and Sub Calendars with Event Rollup, TimeZone Adjustment, Event Enrollment, and Event Notification.</description>
+      <iconFile>DesktopModules\Events\DNN_Events.png</iconFile>
+      <owner>
+        <name>DNNCorp</name>
+        <organization>DNNCorp</organization>
+        <url>http://www.dnnsoftware.com</url>
+        <email>support@dnnsoftware.com</email>
+      </owner>
+      <license src="License.txt"></license>
+      <releaseNotes src="Release.06.02.00.txt"></releaseNotes>
+      <azureCompatible>true</azureCompatible>
+      <dependencies>
+        <dependency type="CoreVersion">07.02.00</dependency>
+      </dependencies>
+      <components>
+        <component type="Script">
+          <scripts>
+            <basePath>DesktopModules\Events</basePath>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.01.00.SqlDataProvider</name>
+              <version>03.01.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.02.00.SqlDataProvider</name>
+              <version>03.02.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.03.00.SqlDataProvider</name>
+              <version>03.03.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.03.01.SqlDataProvider</name>
+              <version>03.03.01</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.03.02.SqlDataProvider</name>
+              <version>03.03.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.03.03.SqlDataProvider</name>
+              <version>03.03.03</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.03.05.SqlDataProvider</name>
+              <version>03.03.05</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.03.07.SqlDataProvider</name>
+              <version>03.03.07</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>03.03.08.SqlDataProvider</name>
+              <version>03.03.08</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>04.00.00.SqlDataProvider</name>
+              <version>04.00.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>04.00.01.SqlDataProvider</name>
+              <version>04.00.01</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>04.00.02.SqlDataProvider</name>
+              <version>04.00.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>04.01.00.SqlDataProvider</name>
+              <version>04.01.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>04.01.01.SqlDataProvider</name>
+              <version>04.01.01</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>04.01.02.SqlDataProvider</name>
+              <version>04.01.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.00.00.SqlDataProvider</name>
+              <version>05.00.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.00.01.SqlDataProvider</name>
+              <version>05.00.01</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.00.02.SqlDataProvider</name>
+              <version>05.00.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.00.03.SqlDataProvider</name>
+              <version>05.00.03</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.01.00.SqlDataProvider</name>
+              <version>05.01.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.01.01.SqlDataProvider</name>
+              <version>05.01.01</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.01.02.SqlDataProvider</name>
+              <version>05.01.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.01.03.SqlDataProvider</name>
+              <version>05.01.03</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.01.04.SqlDataProvider</name>
+              <version>05.01.04</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.02.00.SqlDataProvider</name>
+              <version>05.02.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.02.01.SqlDataProvider</name>
+              <version>05.02.01</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.02.02.SqlDataProvider</name>
+              <version>05.02.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.02.03.SqlDataProvider</name>
+              <version>05.02.03</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>05.02.04.SqlDataProvider</name>
+              <version>05.02.04</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>06.00.00.SqlDataProvider</name>
+              <version>06.00.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>06.00.02.SqlDataProvider</name>
+              <version>06.00.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>06.01.00.SqlDataProvider</name>
+              <version>06.01.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>06.01.01.SqlDataProvider</name>
+              <version>06.01.01</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>06.01.02.SqlDataProvider</name>
+              <version>06.01.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>06.01.03.SqlDataProvider</name>
+              <version>06.01.03</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>06.02.00.SqlDataProvider</name>
+              <version>06.02.00</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>Install.05.02.04.SqlDataProvider</name>
+              <version>05.02.04</version>
+            </script>
+            <script type="Uninstall">
+              <path>Installation</path>
+              <name>Uninstall.SqlDataProvider</name>
+            </script>
+          </scripts>
+        </component>
+        <component type="Module">
+          <desktopModule>
+            <moduleName>DNN_Events</moduleName>
+            <foldername>Events</foldername>
+            <businessControllerClass>DotNetNuke.Modules.Events.EventController,DotNetNuke.Modules.Events</businessControllerClass>
+            <supportedFeatures>
+              <supportedFeature type="Searchable" />
+              <supportedFeature type="Upgradeable" />
+            </supportedFeatures>
+            <moduleDefinitions>
+              <moduleDefinition>
+                <friendlyName>Events</friendlyName>
+                <defaultCacheTime>-1</defaultCacheTime>
+                <moduleControls>
+                  <moduleControl>
+                    <controlKey>Edit</controlKey>
+                    <controlSrc>DesktopModules/Events/EditEvents.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Edit Events</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Day</controlKey>
+                    <controlSrc>DesktopModules/Events/EventDay.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Events Day</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Details</controlKey>
+                    <controlSrc>DesktopModules/Events/EventDetails.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <supportsPopUps>False</supportsPopUps>
+                    <controlTitle>Events Details</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Categories</controlKey>
+                    <controlSrc>DesktopModules/Events/EventEditCategories.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Edit Event Categories</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Locations</controlKey>
+                    <controlSrc>DesktopModules/Events/EventEditLocations.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Edit Event Locations</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Moderate</controlKey>
+                    <controlSrc>DesktopModules/Events/EventModerate.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Moderate Events and Enrollment</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>PPEnroll</controlKey>
+                    <controlSrc>DesktopModules/Events/EventPPEnroll.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Event PayPal Enrollment</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey></controlKey>
+                    <controlSrc>DesktopModules/Events/Events.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <supportsPopUps>False</supportsPopUps>
+                    <controlTitle>Events Container</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>EventSettings</controlKey>
+                    <controlSrc>DesktopModules/Events/EventSettings.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Event Settings</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>TemplateHelp</controlKey>
+                    <controlSrc>DesktopModules/Events/EventTemplateHelp.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Event Template Help</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Settings</controlKey>
+                    <controlSrc>DesktopModules/Events/Settings.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <supportsPopUps>True</supportsPopUps>
+                    <controlTitle>Event Settings</controlTitle>
+                    <controlType>Admin</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                </moduleControls>
+                <permissions>
+                  <permission code="EVENTS_MODULE" key="EVENTSSET" name="Edit Settings" />
+                  <permission code="EVENTS_MODULE" key="EVENTSMOD" name="Events Moderator" />
+                  <permission code="EVENTS_MODULE" key="EVENTSEDT" name="Events Editor" />
+                  <permission code="EVENTS_MODULE" key="EVENTSCAT" name="Global Category Editor" />
+                  <permission code="EVENTS_MODULE" key="EVENTSLOC" name="Global Location Editor" />
+                </permissions>
+              </moduleDefinition>
+            </moduleDefinitions>
+          </desktopModule>
+          <eventMessage>
+            <processorType>DotNetNuke.Entities.Modules.EventMessageProcessor, DotNetNuke</processorType>
+            <processorCommand>UpgradeModule</processorCommand>
+            <attributes>
+              <businessControllerClass>DotNetNuke.Modules.Events.EventController,DotNetNuke.Modules.Events</businessControllerClass>
+              <desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
+              <upgradeVersionsList>01.01.01,04.00.02,04.01.00,05.02.00</upgradeVersionsList>
+            </attributes>
+          </eventMessage>
+        </component>
+        <component type="Assembly">
+          <assemblies>
+            <assembly>
+              <path>bin</path>
+              <name>DotNetNuke.Modules.Events.dll</name>
+            </assembly>
+            <assembly>
+              <path>bin</path>
+              <name>DotNetNuke.Modules.Events.ScheduleControl.dll</name>
+            </assembly>
+          </assemblies>
+        </component>
+        <component type="ResourceFile">
+          <resourceFiles>
+            <basePath>DesktopModules\Events</basePath>
+            <resourceFile>
+              <name>resources.zip</name>
+              <sourceFileName>resources.zip</sourceFileName>
+            </resourceFile>
+          </resourceFiles>
+        </component>
+        <component type="Cleanup" version="03.03.08" fileName="Installation\CleanUp\Cleanup.03.03.08.txt" />
+        <component type="Cleanup" version="04.00.00" fileName="Installation\CleanUp\Cleanup.04.00.00.txt" />
+        <component type="Cleanup" version="04.00.01" fileName="Installation\CleanUp\Cleanup.04.00.01.txt" />
+        <component type="Cleanup" version="04.00.02" fileName="Installation\CleanUp\Cleanup.04.00.02.txt" />
+        <component type="Cleanup" version="04.01.00" fileName="Installation\CleanUp\Cleanup.04.01.00.txt" />
+        <component type="Cleanup" version="04.01.01" fileName="Installation\CleanUp\Cleanup.04.01.01.txt" />
+        <component type="Cleanup" version="04.01.02" fileName="Installation\CleanUp\Cleanup.04.01.02.txt" />
+        <component type="Cleanup" version="05.00.00" fileName="Installation\CleanUp\Cleanup.05.00.00.txt" />
+        <component type="Cleanup" version="05.00.01" fileName="Installation\CleanUp\Cleanup.05.00.01.txt" />
+        <component type="Cleanup" version="05.00.02" fileName="Installation\CleanUp\Cleanup.05.00.02.txt" />
+        <component type="Cleanup" version="05.00.03" fileName="Installation\CleanUp\Cleanup.05.00.03.txt" />
+        <component type="Cleanup" version="05.01.00" fileName="Installation\CleanUp\Cleanup.05.01.00.txt" />
+        <component type="Cleanup" version="05.01.01" fileName="Installation\CleanUp\Cleanup.05.01.01.txt" />
+        <component type="Cleanup" version="05.01.02" fileName="Installation\CleanUp\Cleanup.05.01.02.txt" />
+        <component type="Cleanup" version="05.01.03" fileName="Installation\CleanUp\Cleanup.05.01.03.txt" />
+        <component type="Cleanup" version="05.01.04" fileName="Installation\CleanUp\Cleanup.05.01.04.txt" />
+        <component type="Cleanup" version="05.01.05" fileName="Installation\CleanUp\Cleanup.05.01.05.txt" />
+        <component type="Cleanup" version="05.02.00" fileName="Installation\CleanUp\Cleanup.05.02.00.txt" />
+        <component type="Cleanup" version="05.02.01" fileName="Installation\CleanUp\Cleanup.05.02.01.txt" />
+        <component type="Cleanup" version="05.02.02" fileName="Installation\CleanUp\Cleanup.05.02.02.txt" />
+        <component type="Cleanup" version="05.02.03" fileName="Installation\CleanUp\Cleanup.05.02.03.txt" />
+        <component type="Cleanup" version="05.02.04" fileName="Installation\CleanUp\Cleanup.05.02.04.txt" />
+        <component type="Cleanup" version="06.00.00" fileName="Installation\CleanUp\Cleanup.06.00.00.txt" />
+        <component type="Cleanup" version="06.00.01" fileName="Installation\CleanUp\Cleanup.06.00.01.txt" />
+        <component type="Cleanup" version="06.00.02" fileName="Installation\CleanUp\Cleanup.06.00.02.txt" />
+        <component type="Cleanup" version="06.00.03" fileName="Installation\CleanUp\Cleanup.06.00.03.txt" />
+        <component type="Cleanup" version="06.00.04" fileName="Installation\CleanUp\Cleanup.06.00.04.txt" />
+        <component type="Cleanup" version="06.01.00" fileName="Installation\CleanUp\Cleanup.06.01.00.txt" />
+        <component type="Cleanup" version="06.01.01" fileName="Installation\CleanUp\Cleanup.06.01.01.txt" />
+        <component type="Cleanup" version="06.01.02" fileName="Installation\CleanUp\Cleanup.06.01.02.txt" />
+        <component type="Cleanup" version="06.01.03" fileName="Installation\CleanUp\Cleanup.06.01.03.txt" />
+        <component type="Cleanup" version="06.01.04" fileName="Installation\CleanUp\Cleanup.06.01.04.txt" />
+        <component type="Cleanup" version="06.02.00" fileName="Installation\CleanUp\Cleanup.06.02.00.txt" />
+        <component type="Config">
+          <config>
+            <configFile>web.config</configFile>
+            <install>
+              <configuration>
+                <nodes>
+                  <node path="/configuration/dotnetnuke/sitemap/providers" action="update" key="name" collision="overwrite">
+                    <add name="DNNEventsSitemapProvider" type="DotNetNuke.Modules.Events.Providers.SiteMap, DotNetNuke.Modules.Events" providerPath="~\DesktopModules\Events\Components\" />
+                  </node>
+                </nodes>
+              </configuration>
+            </install>
+            <uninstall>
+              <configuration>
+                <nodes>
+                  <node path="/configuration/dotnetnuke/sitemap/providers/add[@name='DNNEventsSitemapProvider']" action="remove" />
+                </nodes>
+              </configuration>
+            </uninstall>
+          </config>
+        </component>
+      </components>
+    </package>
+  </packages>
+</dotnetnuke>

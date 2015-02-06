@@ -1,0 +1,6 @@
+﻿'Remove old versions of events
+Install\Module\Events_03.03.08_Install.resources
+'Remove AVCalendar components, no longer used
+DesktopModules\Events\ImportAVCalendar.ascx
+DesktopModules\Events\ImportAVCalendar.ascx.vb
+DesktopModules\Events\App_LocalResources\ImportAVCalendar.ascx.resx

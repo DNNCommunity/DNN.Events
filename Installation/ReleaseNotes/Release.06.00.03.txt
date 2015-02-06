@@ -1,0 +1,13 @@
+﻿<h2>Release notes DNN Events 06.00.03</h2>
+<p>Events 06.00.03 will work for any DNN version <strong>6.1.2</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Fixed problem where category filter stopped being applied when paging through months.</li>
+    <li>Fixed problem when categories could not be selected in edit view.</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+    <li>Added ability to display Category Select in single select mode - default is multi-select.</li>
+    <li>Added setting to enable the restriction of display events to those set in Filter Events by Category setting.</li>
+<ul>

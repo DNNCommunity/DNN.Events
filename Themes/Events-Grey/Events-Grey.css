@@ -1,0 +1,501 @@
+﻿/* ================================
+    CSS STYLES FOR DNN Event Module 
+   ================================
+*/
+.ThemeEvents-Grey .EvtHdrLftCol {
+width:33%;
+float:left;
+min-height:1px;
+}
+
+.ThemeEvents-Grey .EvtHdrMdlCol {
+width:34%;
+float:left;
+min-height:1px;
+text-align:center;
+}
+
+.ThemeEvents-Grey .EvtHdrRgtCol {
+width:33%;
+float:left;
+}
+
+.ThemeEvents-Grey .Eventtooltipheader, .ThemeEvents-Grey .Eventtooltipbody {
+	width: 300px;
+	z-index: 99;
+	font-size: 10px;
+	font-family: Arial;
+	padding: 5px;
+}
+.ThemeEvents-Grey .Eventtooltipheader {
+	border: #808080 1px solid;
+	background-color: #808080;
+	color: #FFFFFF;
+	font-weight: 700;
+	font-size: 11px;
+}
+.ThemeEvents-Grey .Eventtooltipbody {
+	border-left: #808080 1px solid;
+	border-right: #808080 1px solid;
+	border-bottom: #808080 1px solid;
+	background-color: #fff;
+}
+.ThemeEvents-Grey .Eventtooltipbody hr {
+	width: 100%;
+	color: #000000;
+	background-color: #e0e0e0;
+	height: 1px;
+	border: 0;
+}
+.ThemeEvents-Grey .Event {
+	table-layout: fixed;
+	width: 100%;
+	font-size: 9px;
+	color: #000;
+	font-family: Verdana;
+	text-align: center;
+	border-right: #808080 2px solid;
+	border-top: #808080 1px solid;
+	border-left: #808080 2px solid;
+	border-bottom: #808080 2px solid;
+	white-space: normal;
+}
+.ThemeEvents-Grey .EventTitle, .ThemeEvents-Grey .EventTitle td {
+	font-weight: 700;
+	font-size: 14px;
+	width: 100%;
+	color: #333333;
+	height: 20px;
+	text-align: center;
+	background-color: #e0e0e0;
+	font-family: Verdana;
+	border-bottom: 0 #808080 solid;
+}
+.ThemeEvents-Grey .EventDayHeader {
+	font-weight: 700;
+	font-size: 12px;
+	height: 16px;
+	background-color: silver;
+	vertical-align: middle;
+	font-family: Verdana;
+	border: #707070 1px solid;
+}
+.ThemeEvents-Grey .EventDay, .ThemeEvents-Grey .EventDayEvents,  .ThemeEvents-Grey .EventWeekendDayEvents{
+	font-size: 10px;
+	text-align: left;
+	height: 100px;
+	vertical-align: top;
+	color: #000000;
+	font-family: Verdana;
+	background-color: #C0C0C0;
+	border: 1px #808080 solid;
+}
+.ThemeEvents-Grey .EventDayEvents a,.ThemeEvents-Grey .EventDayEvents a:visited,.ThemeEvents-Grey .EventDayEvents a:hover, .ThemeEvents-Grey .EventWeekendDayEvents a,.ThemeEvents-Grey .EventWeekendDayEvents a:visited,.ThemeEvents-Grey .EventWeekendDayEvents a:hover  {
+    font-size:10px;
+    color:blue;
+    font-family:Verdana
+}
+.ThemeEvents-Grey .EventDayScroll {
+	width: 100%;
+	height: 88%;
+	overflow: auto;
+	position: static;
+	font-weight: bolder;
+	background-color: #fff;
+}
+.ThemeEvents-Grey .EventOtherMonthDay {
+	color: gray;
+	background-color: #DCDCDC;
+}
+.ThemeEvents-Grey .EventTodayDay {
+	font-weight: 700;
+	color: #00f;
+	background-color: #A9A9A9;
+	border: #000 2px solid;
+}
+.ThemeEvents-Grey .EventSelectedDay {
+	border: red 2px solid;
+	font-size: 10px;
+}
+.ThemeEvents-Grey .EventSelectedDay, .ThemeEvents-Grey .EventSelectedDay a, .ThemeEvents-Grey .EventSelectedDay a:visited, .ThemeEvents-Grey .EventSelectedDay a:hover  {
+	text-align: left;
+}
+.ThemeEvents-Grey .EventSelector {
+	background-color: #c0c0c0;
+}
+.ThemeEvents-Grey .EventSelector a, .ThemeEvents-Grey .EventSelector a:visited, .ThemeEvents-Grey .EventSelector a:hover {
+	color: #606060;
+	text-decoration: none;
+}
+.ThemeEvents-Grey .WeekTable table {
+	table-layout: auto;
+	width: 100%;
+	font-size: 10px;
+	color: #000;
+	font-family: Verdana;
+	text-align: center;
+	border: #808080 1px solid;
+}
+.ThemeEvents-Grey .WeekTable table td, .ThemeEvents-Grey .WeekTable table th {
+	border: 0;
+	padding: 3px;
+}
+.ThemeEvents-Grey .WeekItem {
+	text-align: center;
+	font-family: verdana,helvetica,arial;
+	font-size: 9px;
+	background-color: #FFF;
+	font-weight: 400;
+	background-color: #C0C0C0;
+	border: 1px #808080 solid;
+}
+.ThemeEvents-Grey .WeekDay {
+	font-weight: 700;
+	font-size: 9px;
+	color: #808080;
+	font-family: verdana,helvetica,arial;
+	background-color: #C0C0C0;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px #808080 solid;
+}
+.ThemeEvents-Grey .WeekBackground {
+	font-family: verdana,helvetica,arial;
+	font-size: 9px;
+	background-color: #fff;
+	border: 1px #808080 dotted;
+}
+.ThemeEvents-Grey .WeekTitle {
+	font-family: verdana,helvetica,arial;
+	font-size: 9px;
+	color: #000;
+	height: 15%;
+	text-align: center;
+	background-color: silver;
+	width: 11%;
+	border: 1px #808080 solid;
+}
+.ThemeEvents-Grey .WeekOfTitle {
+	font-weight: 700;
+	font-size: 10px;
+	width: 100%;
+	color: #333333;
+	font-family: verdana,helvetica,arial;
+	text-align: center;
+	vertical-align: middle;
+}
+.ThemeEvents-Grey .WeekNextPrev {
+	font-weight: 700;
+	font-family: verdana,helvetica,arial;
+	font-size: 10px;
+	width: 100%;
+	color: #606060;
+	text-align: center;
+	vertical-align: middle;
+}
+.ThemeEvents-Grey .WeekRangeheader {
+	text-align: center;
+	vertical-align: middle;
+	font-family: verdana,helvetica,arial;
+	font-size: 9px;
+	background-color: #DCDCDC;
+	border: none;
+}
+.ThemeEvents-Grey .ListTable {
+	width: 100%;
+}
+.ThemeEvents-Grey .ListDate, .ThemeEvents-Grey .ListRecurText, .ThemeEvents-Grey .ListRecurUntil {
+	font-size: 10px;
+	font-family: verdana,helvetica,arial;
+	text-align: left;
+	vertical-align: top;
+	width: 100px;
+}
+.ThemeEvents-Grey .ListLink {
+	font-weight: 700;
+	font-size: 10px;
+	font-family: verdana,helvetica,arial;
+	text-align: left;
+	vertical-align: top;
+}
+.ThemeEvents-Grey .ListHeader, .ThemeEvents-Grey .DetailEnrollGridHeader, .ThemeEvents-Grey .EditEnrollGridHeader, .ThemeEvents-Grey .EnrollGridHeader {
+	font-size: 12px;
+	font-weight: 700;
+	color: #000;
+	background-color: #C0C0C0;
+	font-family: verdana,helvetica,arial;
+	height: 32px;
+	text-align: left;
+	vertical-align: middle;
+}
+.ThemeEvents-Grey .DetailEnrollGridHeader, .ThemeEvents-Grey .EditEnrollGridHeader, .ThemeEvents-Grey .EnrollGridHeader {
+    text-align:center;
+}
+.ThemeEvents-Grey .DetailEnrollUser, .ThemeEvents-Grey .DetailEnrollDisplay,  .ThemeEvents-Grey .DetailEnrollDisplay a:link, .ThemeEvents-Grey .DetailEnrollEmail, .ThemeEvents-Grey .DetailEnrollEmail a:link, .ThemeEvents-Grey .DetailEnrollPhone, .ThemeEvents-Grey .DetailEnrollApproved, .ThemeEvents-Grey .DetailEnrollNo, .ThemeEvents-Grey .EditEnrollSelect, .ThemeEvents-Grey .EditEnrollUser, .ThemeEvents-Grey .EditEnrollDisplay,  .ThemeEvents-Grey .EditEnrollDisplay a:link, .ThemeEvents-Grey .EditEnrollEmail, .ThemeEvents-Grey .EditEnrollEmail a:link, .ThemeEvents-Grey .EditEnrollPhone, .ThemeEvents-Grey .EditEnrollApproved, .ThemeEvents-Grey .EditEnrollNo, .ThemeEvents-Grey .EditEnrollDate, .ThemeEvents-Grey .EditEnrollDate .ThemeEvents-Grey .EnrollSelect, .ThemeEvents-Grey .EnrollApproved, .ThemeEvents-Grey .EnrollNo, .ThemeEvents-Grey .EnrollFee, .ThemeEvents-Grey .EnrollDate  {
+    font-size:12px;
+    font-family:verdana,helvetica,arial;
+    text-align:center;
+    vertical-align:top;
+    font-weight:normal;
+}
+.ThemeEvents-Grey .ListDuration {
+	font-size: 10px;
+	font-family: verdana,helvetica,arial;
+	text-align: center;
+	vertical-align: top;
+	width: 60px;
+}
+.ThemeEvents-Grey .ListDataGrid, .ThemeEvents-Grey .DetailEnrollGrid, .ThemeEvents-Grey .EditEnrollGrid, .ThemeEvents-Grey .EnrollGrid {
+	border-right: #808080 2px solid;
+	border-top: #808080 1px solid;
+	border-left: #808080 2px solid;
+	border-bottom: #808080 2px solid;
+	background-color: #e8eef7;
+}
+.ThemeEvents-Grey .ListDataGrid td, .ThemeEvents-Grey .DetailEnrollGrid td, .ThemeEvents-Grey .EditEnrollGrid td, .ThemeEvents-Grey .EnrollGrid td {
+	border-color: #808080;
+	border-style: dotted;
+	border-width: 1px;
+}
+.ThemeEvents-Grey .ListEdit {
+	text-align: center;
+	vertical-align: top;
+	width: 1px;
+}
+.ThemeEvents-Grey .EventNextPrev, .ThemeEvents-Grey .EventNextPrev a:link, .ThemeEvents-Grey .EventNextPrev a, .ThemeEvents-Grey .EventNextPrev a:visited, .ThemeEvents-Grey .EventNextPrev a:hover {
+	font-size: 12px;
+	color: #666666;
+	padding: 0 0.5em;
+}
+.ThemeEvents-Grey .EventWeekendDay, .ThemeEvents-Grey .ListAlternate, .ThemeEvents-Grey .DetailEnrollGridAlternate, .ThemeEvents-Grey .EditEnrollGridAlternate, .ThemeEvents-Grey .EnrollGridAlternate {
+	background-color: #F5F5F5;
+}
+.ThemeEvents-Grey .ListTitle, .ThemeEvents-Grey .ListDescription, .ThemeEvents-Grey .ListCustomField1, .ThemeEvents-Grey .ListCustomField2, .ThemeEvents-Grey .EnrollTitle {
+	font-size: 10px;
+	font-family: verdana,helvetica,arial;
+	text-align: left;
+	vertical-align: top;
+}
+.ThemeEvents-Grey .ListCategory, .ThemeEvents-Grey .ListLocation, .ThemeEvents-Grey .ListLocation a {
+	font-size: 10px;
+	font-family: verdana,helvetica,arial;
+	text-align: left;
+	vertical-align: top;
+	width: 60px;
+}
+
+.ThemeEvents-Grey .RptTable {
+	border-right: #808080 2px solid;
+	border-top: #808080 1px solid;
+	border-left: #808080 2px solid;
+	border-bottom: #808080 2px solid;
+	background-color: #e8eef7;
+    border-collapse:collapse;
+    width:100%;
+}
+
+.ThemeEvents-Grey .RptRepeater  {
+    width:100%;
+}
+
+.ThemeEvents-Grey .RptRepeater td  {
+	border-color: #808080;
+	border-style: dotted;
+	border-width: 1px;
+}
+
+.ThemeEvents-Grey .RptHeader {
+	font-size: 12px;
+	font-weight: 700;
+	background-color: #C0C0C0;
+	font-family: verdana,helvetica,arial;
+	height: 32px;
+	text-align: center;
+	vertical-align: middle;
+    width:100%;
+}
+
+.ThemeEvents-Grey .RptNormal {
+	font-size: 10px;
+	font-family: verdana,helvetica,arial;
+	text-align: left;
+	vertical-align: top;
+}
+
+.ThemeEvents-Grey .RptAlternate {
+    background-color:#F5F5F5;
+	font-size: 10px;
+	font-family: verdana,helvetica,arial;
+	text-align: left;
+	vertical-align: top;
+}
+
+.ThemeEvents-Grey .RptPagerCurrentPage {
+    color: Red;
+}
+
+.ThemeEvents-Grey .RptPagerHeader td {
+	border-color: #808080;
+	border-style: dotted;
+	border-width: 1px;
+}
+
+.ThemeEvents-Grey .DetailReminderDiv, .ThemeEvents-Grey .DetailiCalDiv , 
+.ThemeEvents-Grey .DetailEnrollDiv, .ThemeEvents-Grey .DetailEnrollTableDiv,
+.ThemeEvents-Grey .DetailCommands,
+.ThemeEvents-Grey .DetailEventDetailsDiv1,
+.ThemeEvents-Grey .DetailEventDetailsDiv2,
+.ThemeEvents-Grey .DetailEventDetailsDiv3,
+.ThemeEvents-Grey .DetailEventDetailsDiv4  {
+width:90%;
+padding-left: 5px;
+}
+
+.ThemeEvents-Grey .DetailReminderLeft, .ThemeEvents-Grey .DetailReminderRight, 
+.ThemeEvents-Grey .DetailiCalLeft, .ThemeEvents-Grey .DetailiCalRight,
+.ThemeEvents-Grey .DetailEnrollLeft, .ThemeEvents-Grey .DetailEnrollRight,
+.ThemeEvents-Grey .DetailContentLeft, .ThemeEvents-Grey .DetailContentRight {
+text-align:left;
+float:left;
+}
+
+.ThemeEvents-Grey .DetailReminderLeft, .ThemeEvents-Grey .DetailReminderRight, 
+.ThemeEvents-Grey .DetailiCalLeft, .ThemeEvents-Grey .DetailiCalRight,
+.ThemeEvents-Grey .DetailEnrollLeft, .ThemeEvents-Grey .DetailEnrollRight,
+.ThemeEvents-Grey .DetailEnrollTableLeft, .ThemeEvents-Grey .DetailEnrollTableRight,
+.ThemeEvents-Grey .DetailContentLeft, .ThemeEvents-Grey .DetailContentRight {
+padding:5px 0 5px 0;
+}
+
+.ThemeEvents-Grey .DetailReminderLeft, .ThemeEvents-Grey .DetailiCalLeft, 
+.ThemeEvents-Grey .DetailEnrollLeft, .ThemeEvents-Grey .DetailContentLeft {
+width:35%;
+}
+
+.ThemeEvents-Grey .DetailClear {
+clear:both;
+}
+
+.ThemeEvents-Grey .IconBar {
+white-space:nowrap;
+}
+
+.ThemeEvents-Grey  .IconBar img, .ThemeEvents-Grey  .IconBar input{
+	vertical-align:baseline;
+}
+
+.ThemeEvents-Grey .TopIconBar {
+width:33%;
+vertical-align:top;
+}
+
+.ThemeEvents-Grey .TopIconBar DIV {
+float:right;
+}
+
+.ThemeEvents-Grey .BottomIconBar {
+padding-top:3px;
+}
+
+.ThemeEvents-Grey .IconBarPadding  {
+padding-right:2px;
+}
+
+.ThemeEvents-Grey .EditEvents .TimePicker, .ThemeEvents-Grey .EditEvents .DatePicker {
+Display:inline !important;
+float:left;
+margin-bottom:10px;
+}
+
+.ThemeEvents-Grey .EditEvents .DatePicker {
+width:150px !important;
+}
+
+.ThemeEvents-Grey .EditEvents .cmdDatePicker {
+    margin-top: 5px;
+}
+
+.ThemeEvents-Grey .EvtHdrMdlCol .DatePicker {
+Display:inline-block;
+}
+
+.ThemeEvents-Grey .EvtDateControls {
+margin-bottom:5px;
+}
+
+.ThemeEvents-Grey .RadPicker_Default .riTextBox {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    height: 20px;
+}
+
+.ThemeEvents-Grey .SelCategoryTR {
+height:35px;
+}
+
+.ThemeEvents-Grey  .SelCategoryTR div{
+vertical-align:middle;
+}
+
+.ThemeEvents-Grey  .SelCategory span{
+font-weight:bold;
+}
+
+html body .ThemeEvents-Grey .RadInput_Default .riTextBox.DateFormat,
+.ThemeEvents-Grey .RadComboBox_Default .rcbInput.CategoryFormat {
+font-size:11px;
+font-family:verdana,helvetica,arial;
+}
+
+.ThemeEvents-Grey .RadComboBox_Default.SelectCategory {
+width: 150px !important;
+}
+
+.ThemeEvents-Grey ul.dnnActions li.cmdRight {
+float:right;
+}
+
+.ThemeEvents-Grey .EventSettings .dnnFormItem INPUT[type='text'] {
+min-width:1px;
+}
+
+.ThemeEvents-Grey .dnnFormItem .autoWidth LABEL {
+width:auto;
+}
+
+.ThemeEvents-Grey .dnnFormItem .inputCenter INPUT {
+float:none;
+}
+
+.ThemeEvents-Grey .EditEvents .dnnFormItem .evtRecWeekDays label, .ThemeEvents-Grey .EditEvents .dnnFormItem .evtRecWeekDays input {
+float:none;
+width:auto;
+display:inline;
+}
+.ThemeEvents-Grey .EditEvents .evtShortInputFloat {
+float:none;
+min-width:1%;
+width:31px;
+}
+
+.ThemeEvents-Grey .EditEvents .evtShortInput {
+min-width:1%;
+width:31px;
+}
+
+.ThemeEvents-Grey .EditEvents .evtGridInput {
+float:none;
+}
+
+.ThemeEvents-Grey .EditEvents .SubHead {
+font-size:inherit;
+}
+
+.ThemeEvents-Grey .EditEvents .evtRadioTop .dnnRadiobutton {
+vertical-align:top;
+}
+
+.ThemeEvents-Grey .EditEvents .dnnForm.dnnTextEditor {
+float:left;
+width:auto;
+}

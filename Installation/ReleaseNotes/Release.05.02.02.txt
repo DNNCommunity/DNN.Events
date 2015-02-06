@@ -1,0 +1,14 @@
+﻿<h2>Release notes DNN Events 05.02.02</h2>
+<p>Events 05.02.02 will work for any DNN version <strong>5.5.0</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Scheduled search indexing process does not work. Fixed.</li>
+    <li>Ensure there is no HTML in Module Title when used in PayPal</li>
+    <li>Correctly display columns in user list after enrolee deletion</li>
+    <li>DNN core 6.1.x changed how the BusinessControllerClass attribute is formatted, so check ModuleName of Events had to change as well</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+    <li>Replace vbcrlf with space in tooltip</li>
+</ul>

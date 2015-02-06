@@ -1,0 +1,54 @@
+﻿/************************************************************/
+/*****                                                  *****/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for Events module 06.01.02 *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/************************************************************/
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****     Create Stored Procedures                     *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotificationGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsNotificationGet]
+GO
+
+/*** EventsNotificationGet ***/
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsNotificationGet
+    (
+      @EventID INT
+    , @UserEmail NVARCHAR(50)
+    , @ModuleID INT
+    )
+AS 
+    SELECT DISTINCT
+            NotificationID
+          , EventID
+          , PortalAliasID
+          , UserEmail
+          , NotificationSent
+          , NotifyByDateTime
+          , EventTimeBegin
+          , NotifyLanguage
+          , n.ModuleID
+          , n.TabID
+    FROM    {databaseOwner}{objectQualifier}EventsNotification n
+            LEFT OUTER JOIN {databaseOwner}{objectQualifier}EventsMaster m ON n.ModuleID = m.SubEventID
+            LEFT OUTER JOIN {databaseOwner}{objectQualifier}EventsMaster m2 ON n.ModuleID = m2.ModuleID
+    WHERE   EventID = @EventID
+            AND UserEmail = @UserEmail
+            AND (n.ModuleID = @ModuleID
+             OR m.ModuleID = @ModuleID
+             OR m2.SubEventID = @ModuleID)
+
+GO

@@ -1,0 +1,2112 @@
+﻿    /************************************************************/
+    /*****                                                  *****/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for Events module 05.00.03 *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****               Tidy Up Tables                     *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/**** Change EnrollRoleID to Int ****/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EnrollRoleID] Int
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}Events] 
+   SET EnrollRoleID = null
+ WHERE EnrollRoleID = 0
+ 
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [EnrollRoleID] Int
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster]
+   SET EnrollRoleID = null
+ WHERE EnrollRoleID = 0
+ 
+GO
+
+/**** Rename CreatedBy CreatedById and change to Int ****/
+
+sp_rename '{databaseOwner}[{objectQualifier}Events].CreatedBy', 'CreatedByID', 'COLUMN'
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [CreatedByID] Int
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}Events] 
+   SET CreatedByID = null
+ WHERE CreatedByID = 0
+ 
+GO
+
+/**** Remove EventTimeBegin from index ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignups]') AND name = N'IX_{objectQualifier}EventsSignups')
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups]
+	DROP CONSTRAINT [IX_{objectQualifier}EventsSignups]
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ADD CONSTRAINT
+	[IX_{objectQualifier}EventsSignups] UNIQUE NONCLUSTERED 
+	(
+	ModuleID,
+	EventID,
+	UserID
+	) ON [PRIMARY]
+
+GO
+
+/**** Drop EventMaster_2 Index - duplicate of EventMaster_1 ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsMaster]') AND name = N'IX_{objectQualifier}EventsMaster_2')
+drop index {databaseOwner}[{objectQualifier}EventsMaster].[IX_{objectQualifier}EventsMaster_2]
+GO
+
+/**** Drop PayPalPassword - not used ****/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] DROP COLUMN PayPalPassword
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] DROP COLUMN PayPalPassword
+GO
+
+/**** Drop TimeZoneOffset - not used ****/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] DROP COLUMN TimeZoneOffset
+GO
+
+/**** Change DetailURL to nVarchar ****/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [DetailURL] nVarchar(100)
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [DetailURL] nVarchar(100)
+GO
+
+/**** Change ImageURL to nVarchar ****/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [ImageURL] nVarchar(100)
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [ImageURL] nVarchar(100)
+GO
+
+/**** Change PayPalAccount to nVarchar ****/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [PayPalAccount] nVarchar(100)
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [PayPalAccount] nVarchar(100)
+GO
+
+/**** Change PPErrorLog attributes to nVvarchar ****/
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalStatus] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalReason] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalTransID] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalPayerID] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalPayerStatus] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalRecieverEmail] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalUserEmail] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalPayerEmail] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalFirstName] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalLastName] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalAddress] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalCity] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalState] nVarchar(25)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalZip] nVarchar(25)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalCountry] nVarchar(25)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [PayPalCurrency] nVarchar(25)
+GO
+
+/**** Change Signups attributes to nVvarchar ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignups]') AND name = N'IX_{objectQualifier}EventsSignups_1')
+DROP INDEX {databaseOwner}[{objectQualifier}EventsSignups].[IX_{objectQualifier}EventsSignups_1]
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalStatus] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalReason] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalTransID] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalPayerID] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalPayerStatus] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalRecieverEmail] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalUserEmail] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalPayerEmail] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalFirstName] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalLastName] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalAddress] nVarchar(100)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalCity] nVarchar(50)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalState] nVarchar(25)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalZip] nVarchar(25)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalCountry] nVarchar(25)
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [PayPalCurrency] nVarchar(25)
+GO
+
+CREATE  INDEX [IX_{objectQualifier}EventsSignups_1] ON {databaseOwner}[{objectQualifier}EventsSignups]([PayPalTransID]) ON [PRIMARY]
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****         Make appropriate fields not null         *****/
+/*****                                                  *****/
+/*****                     Events                       *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/**** ModuleID ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}Events]') AND name = N'IX_{objectQualifier}Events_2')
+DROP INDEX {databaseOwner}[{objectQualifier}Events].[IX_{objectQualifier}Events_2]
+GO
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}Events]') AND name = N'IX_{objectQualifier}Events_4')
+DROP INDEX {databaseOwner}[{objectQualifier}Events].[IX_{objectQualifier}Events_4]
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}Events]
+SET    ModuleID = {databaseOwner}[{objectQualifier}EventsRecurMaster].ModuleID
+FROM   {databaseOwner}[{objectQualifier}Events] INNER JOIN
+       {databaseOwner}[{objectQualifier}EventsRecurMaster] ON {databaseOwner}[{objectQualifier}Events].RecurMasterID = {databaseOwner}[{objectQualifier}EventsRecurMaster].RecurMasterID
+WHERE  {databaseOwner}[{objectQualifier}Events].ModuleID IS NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [ModuleID] Int NOT NULL
+GO
+
+CREATE  INDEX [IX_{objectQualifier}Events_2] ON {databaseOwner}[{objectQualifier}Events]([ModuleID]) ON [PRIMARY]
+GO
+
+CREATE  INDEX [IX_{objectQualifier}Events_4] ON {databaseOwner}[{objectQualifier}Events]([ModuleID], [RecurMasterID], [EventID]) ON [PRIMARY]
+GO
+
+/**** EventTimeBegin ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}Events]') AND name = N'IX_{objectQualifier}Events_5')
+DROP INDEX {databaseOwner}[{objectQualifier}Events].[IX_{objectQualifier}Events_5]
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET EventTimeBegin = GetDate() where EventTimeBegin is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EventTimeBegin] DateTime NOT NULL
+GO
+
+CREATE  INDEX [IX_{objectQualifier}Events_5] ON {databaseOwner}[{objectQualifier}Events]([EventTimeBegin]) ON [PRIMARY]
+GO
+
+/**** EventDateBegin ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}Events]') AND name = N'IX_{objectQualifier}Events_1')
+DROP INDEX {databaseOwner}[{objectQualifier}Events].[IX_{objectQualifier}Events_1]
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET EventDateBegin = EventTimeBegin where EventDateBegin is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EventDateBegin] DateTime NOT NULL
+GO
+
+CREATE  INDEX [IX_{objectQualifier}Events_1] ON {databaseOwner}[{objectQualifier}Events]([EventDateBegin]) ON [PRIMARY]
+GO
+
+/**** EventDateEnd ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}Events]') AND name = N'IX_{objectQualifier}Events_3')
+DROP INDEX {databaseOwner}[{objectQualifier}Events].[IX_{objectQualifier}Events_3]
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET EventDateEnd = EventDateBegin where EventDateEnd is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EventDateEnd] DateTime NOT NULL
+GO
+
+CREATE  INDEX [IX_{objectQualifier}Events_3] ON {databaseOwner}[{objectQualifier}Events]([EventDateEnd]) ON [PRIMARY]
+GO
+
+/**** Duration ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET Duration = 30 where Duration is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [Duration] Int NOT NULL
+GO
+
+/* EventName */
+
+UPDATE  {databaseOwner}[{objectQualifier}Events]
+		SET EventName = left(convert(nvarchar(100),EventName),100)
+		WHERE len(convert(nvarchar(200),EventName)) > 100
+GO
+
+UPDATE  {databaseOwner}[{objectQualifier}Events] SET EventName = 'Enter Event Name' where EventName is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EventName] NVARCHAR (100) NOT NULL
+GO
+
+/**** Importance ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET Importance = 2 where Importance is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [Importance] Int NOT NULL
+GO
+
+/**** RepeatType ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET RepeatType = 'N' where RepeatType is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [RepeatType] varchar(10) NOT NULL
+GO
+
+/**** Every ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET Every = '0' where Every is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [Every] varchar(10) NOT NULL
+GO
+
+/**** PortalID ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events]
+SET    PortalID = {databaseOwner}[{objectQualifier}Modules].PortalID
+FROM   {databaseOwner}[{objectQualifier}Events] INNER JOIN
+       {databaseOwner}[{objectQualifier}Modules] ON {databaseOwner}[{objectQualifier}Events].ModuleID = {databaseOwner}[{objectQualifier}Modules].ModuleID 
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [PortalID] Int NOT NULL
+GO
+
+/**** CreatedByID ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET CreatedByID = AdministratorId
+FROM   {databaseOwner}[{objectQualifier}Events] INNER JOIN
+       {databaseOwner}[{objectQualifier}Portals] ON {databaseOwner}[{objectQualifier}Events].PortalID = {databaseOwner}[{objectQualifier}Portals].PortalID
+WHERE  CreatedByID IS NULL
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [CreatedByID] Int NOT NULL
+GO
+
+/**** CreatedDate ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET CreatedDate = EventTimeBegin where CreatedDate is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [CreatedDate] DateTime NOT NULL
+GO
+
+/**** Approved ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET Approved = -1 where Approved is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [Approved] Bit NOT NULL
+GO
+
+/**** Signups ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET Signups = 0 where Signups is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [Signups] Bit NOT NULL
+GO
+
+/**** MaxEnrollment ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET MaxEnrollment = 0 where MaxEnrollment is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [MaxEnrollment] Int NOT NULL
+GO
+
+/**** EnrollFee ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET EnrollFee = 0 where EnrollFee is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EnrollFee] Money NOT NULL
+GO
+
+/**** EnrollType ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET EnrollType = 'Free' where EnrollType is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [EnrollType] varchar(10) NOT NULL
+GO
+
+/**** Cancelled ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET Cancelled = 0 where Cancelled is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [Cancelled] Bit NOT NULL
+GO
+
+/**** ImageDisplay ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET ImageDisplay = 0 where ImageDisplay is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [ImageDisplay] Bit NOT NULL
+GO
+
+/**** TimezoneOffset ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET TimezoneOffset = {databaseOwner}[{objectQualifier}Portals].TimezoneOffset
+FROM   {databaseOwner}[{objectQualifier}Events] INNER JOIN
+       {databaseOwner}[{objectQualifier}Portals] ON {databaseOwner}[{objectQualifier}Events].PortalID = {databaseOwner}[{objectQualifier}Portals].PortalID
+WHERE  {databaseOwner}[{objectQualifier}Events].TimezoneOffset IS NULL
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [TimezoneOffset] Int NOT NULL
+GO
+
+/**** SendReminder ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET SendReminder = 0 where SendReminder is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [SendReminder] Bit NOT NULL
+GO
+
+/**** ReminderTime ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET ReminderTime = 8 where ReminderTime is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [ReminderTime] Int NOT NULL
+GO
+
+/**** ReminderTimeMeasurement ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET ReminderTimeMeasurement = 'h' where ReminderTimeMeasurement is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [ReminderTimeMeasurement] varchar(2) NOT NULL
+GO
+
+/**** ReminderFrom ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events]
+SET    ReminderFrom = {databaseOwner}[{objectQualifier}Users].Email
+FROM   {databaseOwner}[{objectQualifier}Events] INNER JOIN
+       {databaseOwner}[{objectQualifier}Portals] ON {databaseOwner}[{objectQualifier}Events].PortalID = {databaseOwner}[{objectQualifier}Portals].PortalID INNER JOIN
+       {databaseOwner}[{objectQualifier}Users] ON {databaseOwner}[{objectQualifier}Portals].AdministratorId = {databaseOwner}[{objectQualifier}Users].UserID
+WHERE  {databaseOwner}[{objectQualifier}Events].ReminderFrom IS NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [ReminderFrom] nvarchar(100) NOT NULL
+GO
+
+/**** SearchSubmitted ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET SearchSubmitted = 0 where SearchSubmitted is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [SearchSubmitted] Bit NOT NULL
+GO
+
+/**** LastUpdatedAt ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET LastUpdatedAt = GetDate() where LastUpdatedAt is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [LastUpdatedAt] DateTime NOT NULL
+GO
+
+/**** DetailPage ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET DetailPage = 0 where DetailPage is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [DetailPage] Bit NOT NULL
+GO
+
+/**** DetailNewWin ****/
+
+UPDATE {databaseOwner}[{objectQualifier}Events] SET DetailNewWin = 0 where DetailNewWin is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}Events] ALTER COLUMN [DetailNewWin] Bit NOT NULL
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****         Make appropriate fields not null         *****/
+/*****                                                  *****/
+/*****                 EventsRecurMaster                *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/* EventName */
+
+UPDATE  {databaseOwner}[{objectQualifier}EventsRecurMaster] SET EventName = 'Enter Event Name' where EventName is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [EventName] NVARCHAR (100) NOT NULL
+GO
+
+/**** PortalID ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster]
+SET    PortalID = {databaseOwner}[{objectQualifier}Modules].PortalID
+FROM   {databaseOwner}[{objectQualifier}EventsRecurMaster] INNER JOIN
+       {databaseOwner}[{objectQualifier}Modules] ON {databaseOwner}[{objectQualifier}EventsRecurMaster].ModuleID = {databaseOwner}[{objectQualifier}Modules].ModuleID
+GO
+
+/**** Importance ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET Importance = 2 where Importance is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [Importance] Int NOT NULL
+GO
+
+/**** Approved ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET Approved = -1 where Approved is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [Approved] Bit NOT NULL
+GO
+
+/**** Signups ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET Signups = 0 where Signups is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [Signups] Bit NOT NULL
+GO
+
+/**** MaxEnrollment ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET MaxEnrollment = 0 where MaxEnrollment is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [MaxEnrollment] Int NOT NULL
+GO
+
+/**** EnrollFee ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET EnrollFee = 0 where EnrollFee is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [EnrollFee] Money NOT NULL
+GO
+
+/**** EnrollType ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET EnrollType = 'Free' where EnrollType is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [EnrollType] varchar(10) NOT NULL
+GO
+
+/**** ImageDisplay ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET ImageDisplay = 0 where ImageDisplay is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [ImageDisplay] Bit NOT NULL
+GO
+
+/**** TimezoneOffset ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET TimezoneOffset = {databaseOwner}[{objectQualifier}Portals].TimezoneOffset
+FROM   {databaseOwner}[{objectQualifier}EventsRecurMaster] INNER JOIN
+       {databaseOwner}[{objectQualifier}Portals] ON {databaseOwner}[{objectQualifier}EventsRecurMaster].PortalID = {databaseOwner}[{objectQualifier}Portals].PortalID
+WHERE  {databaseOwner}[{objectQualifier}EventsRecurMaster].TimezoneOffset IS NULL
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [TimezoneOffset] Int NOT NULL
+GO
+
+/**** SendReminder ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET SendReminder = 0 where SendReminder is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [SendReminder] Bit NOT NULL
+GO
+
+/**** ReminderTime ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET ReminderTime = 8 where ReminderTime is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [ReminderTime] Int NOT NULL
+GO
+
+/**** ReminderTimeMeasurement ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET ReminderTimeMeasurement = 'h' where ReminderTimeMeasurement is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [ReminderTimeMeasurement] varchar(2) NOT NULL
+GO
+
+/**** ReminderFrom ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster]
+SET    ReminderFrom = {databaseOwner}[{objectQualifier}Users].Email
+FROM   {databaseOwner}[{objectQualifier}EventsRecurMaster] INNER JOIN
+       {databaseOwner}[{objectQualifier}Portals] ON {databaseOwner}[{objectQualifier}EventsRecurMaster].PortalID = {databaseOwner}[{objectQualifier}Portals].PortalID INNER JOIN
+       {databaseOwner}[{objectQualifier}Users] ON {databaseOwner}[{objectQualifier}Portals].AdministratorId = {databaseOwner}[{objectQualifier}Users].UserID
+WHERE  {databaseOwner}[{objectQualifier}EventsRecurMaster].ReminderFrom IS NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [ReminderFrom] nvarchar(100) NOT NULL
+GO
+
+/**** DetailPage ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET DetailPage = 0 where DetailPage is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [DetailPage] Bit NOT NULL
+GO
+
+/**** DetailNewWin ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET DetailNewWin = 0 where DetailNewWin is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsRecurMaster] ALTER COLUMN [DetailNewWin] Bit NOT NULL
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****         Make appropriate fields not null         *****/
+/*****                                                  *****/
+/*****                   EventsMaster                   *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/**** ModuleID ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsMaster]') AND name = N'IX_{objectQualifier}EventsMaster_1')
+DROP INDEX {databaseOwner}[{objectQualifier}EventsMaster].[IX_{objectQualifier}EventsMaster_1]
+GO
+
+DELETE from  {databaseOwner}[{objectQualifier}EventsMaster] WHERE ModuleID is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsMaster] ALTER COLUMN [ModuleID] Int NOT NULL
+GO
+
+CREATE  INDEX [IX_{objectQualifier}EventsMaster_1] ON {databaseOwner}[{objectQualifier}EventsMaster]([ModuleID]) ON [PRIMARY]
+GO
+
+/**** SubEventID ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsMaster]') AND name = N'IX_{objectQualifier}EventsMaster')
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsMaster]
+	DROP CONSTRAINT [IX_{objectQualifier}EventsMaster]
+GO
+
+DELETE from  {databaseOwner}[{objectQualifier}EventsMaster] WHERE SubEventID is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsMaster] ALTER COLUMN [SubEventID] Int NOT NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsMaster] ADD 
+	CONSTRAINT [IX_{objectQualifier}EventsMaster] UNIQUE  NONCLUSTERED 
+	(
+		[MasterID],
+		[SubEventID]
+	)  ON [PRIMARY] 
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****         Make appropriate fields not null         *****/
+/*****                                                  *****/
+/*****                EventsNotification                *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/**** EventTimeBegin ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotification]') AND name = N'IX_{objectQualifier}EventsNotification_2')
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsNotification]
+	DROP CONSTRAINT [IX_{objectQualifier}EventsNotification_2]
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}EventsNotification]
+SET    EventTimeBegin = {databaseOwner}[{objectQualifier}Events].EventTimeBegin
+FROM   {databaseOwner}[{objectQualifier}EventsNotification] INNER JOIN
+       {databaseOwner}[{objectQualifier}Events] ON {databaseOwner}[{objectQualifier}EventsNotification].EventID = {databaseOwner}[{objectQualifier}Events].EventID
+WHERE  {databaseOwner}[{objectQualifier}EventsNotification].EventTimeBegin IS NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsNotification] ALTER COLUMN [EventTimeBegin] DateTime NOT NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsNotification] 
+ADD CONSTRAINT [IX_{objectQualifier}EventsNotification_2] UNIQUE NONCLUSTERED 
+	(
+	EventID,
+	UserEmail,
+	EventTimeBegin
+	) ON [PRIMARY]
+
+GO
+
+/**** NotifyByDateTime ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotification]') AND name = N'IX_{objectQualifier}EventsNotification')
+DROP INDEX {databaseOwner}[{objectQualifier}EventsNotification].[IX_{objectQualifier}EventsNotification]
+GO
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsNotification]') AND name = N'IX_{objectQualifier}EventsNotification_1')
+DROP INDEX {databaseOwner}[{objectQualifier}EventsNotification].[IX_{objectQualifier}EventsNotification_1]
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}EventsNotification]
+SET    NotifyByDateTime = DateAdd(Hour,8,EventTimeBegin)
+WHERE  NotifyByDateTime IS NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsNotification] ALTER COLUMN [NotifyByDateTime] DateTime NOT NULL
+GO
+
+CREATE  INDEX [IX_{objectQualifier}EventsNotification] ON {databaseOwner}[{objectQualifier}EventsNotification]([EventID], [NotifyByDateTime]) ON [PRIMARY]
+GO
+
+CREATE  INDEX [IX_{objectQualifier}EventsNotification_1] ON {databaseOwner}[{objectQualifier}EventsNotification]([NotifyByDateTime]) ON [PRIMARY]
+GO
+
+/**** NotifyLanguage ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsNotification]
+SET    NotifyLanguage = {databaseOwner}[{objectQualifier}EventsRecurMaster].CultureName
+FROM   {databaseOwner}[{objectQualifier}EventsNotification] INNER JOIN
+       {databaseOwner}[{objectQualifier}Events] ON {databaseOwner}[{objectQualifier}EventsNotification].EventID = {databaseOwner}[{objectQualifier}Events].EventID INNER JOIN
+       {databaseOwner}[{objectQualifier}EventsRecurMaster] ON {databaseOwner}[{objectQualifier}Events].RecurMasterID = {databaseOwner}[{objectQualifier}EventsRecurMaster].RecurMasterID
+WHERE  {databaseOwner}[{objectQualifier}EventsNotification].NotifyLanguage IS NULL
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsNotification] ALTER COLUMN [NotifyLanguage] nvarchar(10) NOT NULL
+GO
+
+/**** ModuleID ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsNotification]
+SET    ModuleID = {databaseOwner}[{objectQualifier}Events].ModuleID
+FROM   {databaseOwner}[{objectQualifier}EventsNotification] INNER JOIN
+       {databaseOwner}[{objectQualifier}Events] ON {databaseOwner}[{objectQualifier}EventsNotification].EventID = {databaseOwner}[{objectQualifier}Events].EventID
+WHERE  {databaseOwner}[{objectQualifier}EventsNotification].ModuleID IS NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsNotification] ALTER COLUMN [ModuleID] Int NOT NULL
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****         Make appropriate fields not null         *****/
+/*****                                                  *****/
+/*****                 EventsPPErrorLog                 *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/**** SignupID ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsPPErrorLog]') AND name = N'IX_{objectQualifier}EventsPPErrorLog_2')
+drop index {databaseOwner}[{objectQualifier}EventsPPErrorLog].[IX_{objectQualifier}EventsPPErrorLog_2]
+GO
+
+DELETE from {databaseOwner}[{objectQualifier}EventsPPErrorLog] where SignupID is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [SignupID] Int NOT NULL
+GO
+
+CREATE  INDEX [IX_{objectQualifier}EventsPPErrorLog_2] ON {databaseOwner}[{objectQualifier}EventsPPErrorLog]([SignupID]) ON [PRIMARY]
+GO
+
+/**** CreateDate ****/
+
+if exists (select * from dbo.sysindexes where id = object_id(N'{databaseOwner}[{objectQualifier}EventsPPErrorLog]') AND name = N'IX_{objectQualifier}EventsPPErrorLog')
+drop index {databaseOwner}[{objectQualifier}EventsPPErrorLog].[IX_{objectQualifier}EventsPPErrorLog]
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}EventsPPErrorLog] SET CreateDate = GetDate() where CreateDate is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsPPErrorLog] ALTER COLUMN [CreateDate] DateTime NOT NULL
+GO
+
+CREATE  INDEX [IX_{objectQualifier}EventsPPErrorLog] ON {databaseOwner}[{objectQualifier}EventsPPErrorLog]([CreateDate] DESC ) ON [PRIMARY]
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****         Make appropriate fields not null         *****/
+/*****                                                  *****/
+/*****                   EventsSignUps                  *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/**** CreateDate ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsSignups] SET CreateDate = GetDate() where CreateDate is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [CreateDate] DateTime NOT NULL
+GO
+
+/**** Approved ****/
+
+UPDATE {databaseOwner}[{objectQualifier}EventsSignups] SET Approved = -1 where Approved is Null
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] ALTER COLUMN [Approved] Bit NOT NULL
+GO
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****     Create Stored Procedures                     *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsGet]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGetByRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsGetByRange]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsRecurMasterSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsRecurMasterSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGetRecurrences]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsGetRecurrences]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsModerateEvents]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsModerateEvents]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsRecurMasterGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsRecurMasterGet]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsPPErrorLogAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsPPErrorLogAdd]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsUpgrade]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsUpgrade]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}SplitIDs]') and xtype in (N'FN', N'IF', N'TF'))
+drop function {databaseOwner}[{objectQualifier}SplitIDs]
+GO
+
+/** SplitIDs Function **/
+
+CREATE FUNCTION {databaseOwner}[{objectQualifier}SplitIDs]
+(
+	@RecordIDList varchar(500)
+)
+RETURNS 
+@ParsedList table
+(
+	RecordID int
+)
+AS
+BEGIN
+	DECLARE @RecordID varchar(10), @Pos int
+
+	SET @RecordIDList = LTRIM(RTRIM(@RecordIDList))+ ','
+	SET @Pos = CHARINDEX(',', @RecordIDList, 1)
+
+	IF REPLACE(@RecordIDList, ',', '') <> ''
+	BEGIN
+		WHILE @Pos > 0
+		BEGIN
+			SET @RecordID = LTRIM(RTRIM(LEFT(@RecordIDList, @Pos - 1)))
+			IF @RecordID <> ''
+			BEGIN
+				INSERT INTO @ParsedList (RecordID) 
+				VALUES (CAST(@RecordID AS int)) --Use Appropriate conversion
+			END
+			SET @RecordIDList = RIGHT(@RecordIDList, LEN(@RecordIDList) - @Pos)
+			SET @Pos = CHARINDEX(',', @RecordIDList, 1)
+
+		END
+	END	
+	RETURN
+END
+GO
+
+/**** EventsGet ****/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsGet]
+(
+	@EventID int,
+	@ModuleID int
+)
+AS
+SET DATEFORMAT mdy
+
+CREATE Table #RealModuleID
+	(EventID Int,
+	 ModuleID Int)
+
+
+Insert into #RealModuleID (EventID, ModuleID) Select distinct e.EventID, e.ModuleID
+			From {databaseOwner}[{objectQualifier}Events] e
+			left outer join {databaseOwner}[{objectQualifier}EventsMaster] m ON e.ModuleID = m.SubEventID 
+			WHERE EventID = @EventID  
+			And (e.ModuleID =  @ModuleID Or m.ModuleID = @ModuleID)
+
+SELECT E.PortalID, E.EventID, E.RecurMasterID, E.ModuleID, E.EventDateBegin, E.EventDateEnd,
+	E.EventTimeBegin, E.Duration, E.EventName, E.EventDesc,
+	E.Importance, E.CreatedDate, 
+    CreatedBy = u.DisplayName,
+	E.CreatedByID,
+	E.Every,
+	E.Period,
+	E.RepeatType,
+	E.Notify,
+	E.Approved,
+	E.Signups,
+	E.MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+    (Select count(*) from {databaseOwner}[{objectQualifier}Events] as E2 WHERE E2.RecurMasterID = E.RecurMasterID and E2.Cancelled = 0 and E2.Approved = 1) as NoOfRecurrences,
+    (Select max(EventDateBegin) from {databaseOwner}[{objectQualifier}Events] as E2 WHERE E2.RecurMasterID = E.RecurMasterID and E2.Cancelled = 0 and E2.Approved = 1) as LastRecurrence,
+	E.EnrollRoleID,
+	E.EnrollFee, 
+	E.EnrollType, 
+	E.PayPalAccount, 
+	E.Cancelled,
+	E.DetailPage,
+	E.DetailNewWin,
+	E.DetailURL,
+	E.ImageURL, 
+	E.ImageType, 
+	E.ImageWidth,
+	E.ImageHeight,
+	E.ImageDisplay,
+	E.Location,
+	c.LocationName,
+	c.MapURL,
+	E.Category,
+	b.CategoryName,
+	b.Color,
+	b.FontColor,
+	E.Reminder,
+	E.TimezoneOffset,
+	E.SendReminder,
+	E.ReminderTime,
+	E.ReminderTimeMeasurement,
+	E.ReminderFrom,
+	E.SearchSubmitted,
+	E.CustomField1,
+	E.CustomField2,
+	E.EnrollListView,
+	E.DisplayEndDate,
+	E.AllDayEvent,
+	E.OwnerID,
+	OwnerName = O.DisplayName,
+	E.LastUpdatedAt,
+    LastUpdatedBy = L.DisplayName,
+	E.LastUpdatedID,
+	r.RRULE, 
+	RMOwnerID = r.OwnerID,
+	E.OriginalDateBegin,
+	E.NewEventEmailSent
+FROM {databaseOwner}[{objectQualifier}Events] E
+inner join {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r on E.RecurMasterID = r.RecurMasterID
+left outer join {databaseOwner}[{objectQualifier}Users] U on E.CreatedByID = U.UserID
+left outer join {databaseOwner}[{objectQualifier}Users] O on E.OwnerID = O.UserID
+left outer join {databaseOwner}[{objectQualifier}Users] L on E.LastUpdatedID = L.UserID
+left join {databaseOwner}[{objectQualifier}EventsCategory] b on E.Category = b.Category
+left join {databaseOwner}[{objectQualifier}EventsLocation] c on E.Location = c.Location
+WHERE EventID = @EventID And e.ModuleID = (Select ModuleID from #RealModuleID where EventID = @EventID)
+GO
+
+/**** EventsGetByRange ****/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsGetByRange]
+(
+ @ModuleIDs nvarchar(255),
+ @BeginDate datetime,
+ @EndDate datetime,
+ @CategoryName nVarchar(50)
+)
+AS
+SET DATEFORMAT mdy
+
+CREATE Table #EventIDs
+	(EventID Int, NoOfRecurrences Int, LastRecurrence DateTime)
+
+
+INSERT INTO #EventIDs (EventID, NoOfRecurrences, LastRecurrence) 
+SELECT DISTINCT e.EventID, Count(E2.EventID) as NoOfRecurrences, Max(E2.EventDateBegin) as LastRecurrence
+ FROM {databaseOwner}[{objectQualifier}Events] E
+ LEFT OUTER JOIN {databaseOwner}[{objectQualifier}EventsMaster] M ON E.ModuleID = M.SubEventID 
+ LEFT JOIN {databaseOwner}[{objectQualifier}Events] as E2 ON E.RecurMasterID = E2.RecurMasterID
+ WHERE ((E.EventTimeBegin <= DATEADD(DAY,1,@EndDate) AND DATEADD(minute,E.Duration,E.EventTimeBegin) >=  @BeginDate) OR 
+   (E.EventTimeBegin BETWEEN @BeginDate AND DATEADD(DAY,1, @EndDate))) 
+   AND E.Approved = 1
+   AND E.Cancelled = 0
+   AND (E.ModuleID in (SELECT * FROM {databaseOwner}[{objectQualifier}SplitIDs](@ModuleIDs)))
+GROUP By E.EventID
+
+SELECT E.PortalID, E.EventID, E.RecurMasterID, E.ModuleID, E.EventDateBegin, E.EventDateEnd,
+ E.EventTimeBegin, E.Duration, E.EventName, E.EventDesc,
+ E.Importance, E.CreatedDate, 
+ CreatedBy = U.DisplayName, 
+ E.CreatedByID, 
+ E.Every, 
+ E.Period, 
+ E.RepeatType, 
+ E.Notify, 
+ E.approved, 
+ E.Signups, 
+ E.MaxEnrollment, 
+ (Select count(*) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = E.EventID and E.Signups = 1) as Enrolled, 
+ ET.NoOfRecurrences,
+ ET.LastRecurrence,
+ E.EnrollRoleID, 
+ E.EnrollFee, 
+ E.EnrollType,
+ E.PayPalAccount, 
+ E.Cancelled, 
+ E.DetailPage, 
+ E.DetailNewWin, 
+ E.DetailURL, 
+ E.ImageURL, 
+ E.ImageType, 
+ E.ImageWidth, 
+ E.ImageHeight, 
+ E.ImageDisplay, 
+ E.Location, 
+ c.LocationName, 
+ c.MapURL, 
+ E.Category, 
+ b.CategoryName, 
+ b.Color, 
+ b.FontColor, 
+ E.Reminder, 
+ E.TimezoneOffset, 
+ E.SendReminder, 
+ E.ReminderTime, 
+ E.ReminderTimeMeasurement, 
+ E.ReminderFrom, 
+ E.SearchSubmitted, 
+ E.CustomField1,
+ E.CustomField2, 
+ E.EnrollListView, 
+ E.DisplayEndDate, 
+ E.AllDayEvent, 
+ E.OwnerID, 
+ OwnerName = O.DisplayName, 
+ E.LastUpdatedAt, 
+ LastUpdatedBy = L.DisplayName, 
+ E.LastUpdatedID, 
+ RMOwnerID = r.OwnerID, 
+ r.RRULE, 
+ E.OriginalDateBegin, 
+ E.NewEventEmailSent 
+ FROM {databaseOwner}[{objectQualifier}Events] E 
+ inner join {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r on E.RecurMasterID = r.RecurMasterID 
+ left outer join {databaseOwner}[{objectQualifier}Users] U on E.CreatedByID = U.UserID 
+ left outer join {databaseOwner}[{objectQualifier}Users] O on E.OwnerID = O.UserID 
+ left outer join {databaseOwner}[{objectQualifier}Users] L on E.LastUpdatedID = L.UserID 
+ left join {databaseOwner}[{objectQualifier}EventsCategory] b on E.Category = b.Category 
+ left join {databaseOwner}[{objectQualifier}EventsLocation] c on E.Location = c.Location 
+ left join #EventIDs ET on E.EventID = ET.EventID
+WHERE E.EventID in (Select EventID from #EventIDs)
+   AND (b.CategoryName = @CategoryName or @CategoryName = N'')
+ORDER BY E.EventDateBegin, E.EventTimeBegin, E.EventDateEnd
+GO
+
+/* EventsSave */
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSave]
+(
+	@PortalID int,
+	@EventID int,
+	@RecurMasterID int,
+	@ModuleID int,
+	@EventDateBegin datetime,
+	@EventDateEnd datetime,
+	@EventTimeBegin datetime,
+	@Duration int,
+	@EventName nvarchar(100),
+	@EventDesc ntext,
+	@Importance int,
+	@CreatedByID int,
+	@Every int,
+	@Period nvarchar(10),
+	@RepeatType char(10),
+	@Notify nvarchar(2048),
+	@Approved bit,
+	@Signups bit,
+	@MaxEnrollment int,
+	@EnrollRoleID int,
+	@EnrollFee money, 
+	@EnrollType varchar(10),
+	@PayPalAccount nvarchar(100), 
+	@Cancelled bit,
+	@DetailPage bit,
+	@DetailNewWin bit,
+	@DetailURL nvarchar(100),
+	@ImageURL nvarchar(100), 
+	@ImageType varchar(1), 
+	@ImageWidth int,
+	@ImageHeight int,
+	@ImageDisplay bit,
+	@Location int,
+	@Category int,
+	@Reminder nvarchar(2048),
+	@TimezoneOffset int,
+	@SendReminder bit,
+	@ReminderTime int,
+	@ReminderTimeMeasurement varchar(2),
+	@ReminderFrom nvarchar(100),
+	@SearchSubmitted bit,
+	@CustomField1 nvarchar(100),
+	@CustomField2 nvarchar(100),
+	@EnrollListView bit,
+	@DisplayEndDate bit,
+	@AllDayEvent bit,
+	@OwnerID int,
+	@LastUpdatedID int,
+	@OriginalDateBegin datetime,
+	@NewEventEmailSent bit,
+	@SaveOnly bit
+)
+AS
+SET DATEFORMAT mdy
+IF @Location = -1 
+	Select @Location = Null
+
+IF @Category = -1 
+	Select @Category = Null
+
+IF @EnrollRoleID = -1 
+	Select @EnrollRoleID = Null
+
+IF @ImageURL = N'' 
+	Select @ImageURL = Null
+
+IF @ImageType = '' 
+	Select @ImageType = Null
+
+IF @DetailURL = N'' 
+	Select @DetailURL = Null
+
+IF @EventID = -1 OR @EventID IS NULL
+	INSERT {databaseOwner}[{objectQualifier}Events]
+	(
+		PortalID,
+		RecurMasterID,
+		ModuleID,
+		EventDateBegin,
+		EventDateEnd,
+		EventTimeBegin,
+		Duration,
+		EventName,
+		EventDesc,
+		Importance,
+		CreatedByID,
+		Every,
+		Period,
+		RepeatType,
+		Notify,
+		Approved,
+		Signups,
+		MaxEnrollment,
+		EnrollRoleID,
+		EnrollFee, 
+		EnrollType, 
+		PayPalAccount, 
+		Cancelled,
+		DetailPage,
+		DetailNewWin,
+		DetailURL,
+		ImageURL, 
+		ImageType, 
+		ImageWidth,
+		ImageHeight,
+		ImageDisplay,
+		Location,
+		Category,
+		Reminder,
+		TimezoneOffset,
+		SendReminder,
+		ReminderTime,
+		ReminderTimeMeasurement,
+		ReminderFrom,
+		SearchSubmitted,
+		CustomField1,
+		CustomField2,
+		EnrollListView,
+		DisplayEndDate,
+		AllDayEvent,
+		OwnerID,
+		LastUpdatedAt,
+		LastUpdatedID,
+		OriginalDateBegin,
+		NewEventEmailSent
+	)
+	VALUES
+	(
+		@PortalID,
+		@RecurMasterID,
+		@ModuleID,
+		@EventDateBegin,
+		@EventDateEnd,
+		@EventTimeBegin,
+		@Duration,
+		@EventName,
+		@EventDesc,
+		@Importance,
+		@CreatedByID,
+		@Every,
+		@Period,
+		@RepeatType,
+		@Notify,
+		@Approved,
+		@Signups,
+		@MaxEnrollment,
+		@EnrollRoleID,
+		@EnrollFee, 
+		@EnrollType,
+		@PayPalAccount, 
+		@Cancelled,
+		@DetailPage,
+		@DetailNewWin,
+		@DetailURL,
+		@ImageURL, 
+		@ImageType, 
+		@ImageWidth,
+		@ImageHeight,
+		@ImageDisplay,
+		@Location,
+		@Category,
+		@Reminder,
+		@TimezoneOffset,
+		@SendReminder,
+		@ReminderTime,
+		@ReminderTimeMeasurement,
+		@ReminderFrom,
+		@SearchSubmitted,
+		@CustomField1,
+		@CustomField2,
+		@EnrollListView,
+		@DisplayEndDate,
+		@AllDayEvent,
+		@OwnerID,
+		GetUTCDate(),
+		@LastUpdatedID,
+		@OriginalDateBegin,
+		@NewEventEmailSent
+	)
+ELSE
+	UPDATE {databaseOwner}[{objectQualifier}Events] SET
+		PortalID = @PortalID,
+		RecurMasterID = @RecurMasterID,
+		EventDateBegin = @EventDateBegin,
+		EventDateEnd = @EventDateEnd,
+		EventTimeBegin = @EventTimeBegin,
+		Duration = @Duration,
+		EventName = @EventName,
+		EventDesc = @EventDesc,
+		Importance = @Importance,
+		Every = @Every,
+		Period = @Period,
+		RepeatType = @RepeatType,
+		Notify = @Notify,
+		Approved = @Approved,
+		Signups = @Signups,
+		MaxEnrollment = @MaxEnrollment,
+		EnrollRoleID = @EnrollRoleID,
+		EnrollFee = @EnrollFee, 
+		EnrollType = @EnrollType,
+		PayPalAccount = @PayPalAccount, 
+		Cancelled = @Cancelled,
+		DetailPage = @DetailPage,
+		DetailNewWin = @DetailNewWin,
+		DetailURL = @DetailURL,
+		ImageURL = @ImageURL, 
+		ImageType = @ImageType, 
+		ImageWidth = @ImageWidth,
+		ImageHeight = @ImageHeight,
+		ImageDisplay = @ImageDisplay,
+		Location = @Location,
+		Category = @Category,
+		Reminder = @Reminder,
+		TimezoneOffset = @TimezoneOffset,
+		SendReminder = @SendReminder,
+		ReminderTime = @ReminderTime,
+		ReminderTimeMeasurement = @ReminderTimeMeasurement,
+		ReminderFrom = @ReminderFrom,
+		SearchSubmitted = @SearchSubmitted,
+		CustomField1 = @CustomField1,
+		CustomField2 = @CustomField2,
+		EnrollListView = @EnrollListView,
+		DisplayEndDate = @DisplayEndDate,
+		AllDayEvent = @AllDayEvent,
+		OwnerID = @OwnerID,
+		LastUpdatedAt = GetUTCDate(),
+		LastUpdatedID = @LastUpdatedID,
+		OriginalDateBegin = @OriginalDateBegin,
+		NewEventEmailSent = @NewEventEmailSent
+WHERE EventID = @EventID And ModuleID = @ModuleID
+
+IF @SaveOnly = 0
+SELECT E.PortalID, EventID, E.RecurMasterID, E.ModuleID, E.EventDateBegin, E.EventDateEnd,
+	E.EventTimeBegin, E.Duration, E.EventName, E.EventDesc,
+	E.Importance, E.CreatedDate, 
+    CreatedBy = U.DisplayName,
+	E.CreatedByID,
+	E.Every,
+	E.Period,
+	E.RepeatType,
+	E.Notify,
+	E.Approved,
+	E.Signups,
+	E.MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+    (Select count(*) from {databaseOwner}[{objectQualifier}Events] as E2 WHERE E2.RecurMasterID = E.RecurMasterID and E2.Cancelled = 0 and E2.Approved = 1) as NoOfRecurrences,
+    (Select max(EventDateBegin) from {databaseOwner}[{objectQualifier}Events] as E2 WHERE E2.RecurMasterID = E.RecurMasterID and E2.Cancelled = 0 and E2.Approved = 1) as LastRecurrence,
+	E.EnrollRoleID,
+	E.EnrollFee, 
+	E.EnrollType, 
+	E.PayPalAccount, 
+	E.Cancelled,
+	E.DetailPage,
+	E.DetailNewWin,
+	E.DetailURL,
+	E.ImageURL, 
+	E.ImageType, 
+	E.ImageWidth,
+	E.ImageHeight,
+	E.ImageDisplay,
+	c.Location,
+	c.LocationName,
+	c.MapURL,
+	b.Category,
+	b.CategoryName,
+	b.Color,
+	b.FontColor,
+	E.Reminder,
+	E.TimezoneOffset,
+	E.SendReminder,
+	E.ReminderTime,
+	E.ReminderTimeMeasurement,
+	E.ReminderFrom,
+	E.CustomField1,
+	E.CustomField2,
+	E.EnrollListView,
+	E.DisplayEndDate,
+	E.AllDayEvent,
+	E.OwnerID,
+	OwnerName = O.DisplayName,
+	E.LastUpdatedAt,
+    LastUpdatedBy = L.DisplayName,
+	E.LastUpdatedID,
+	r.RRULE,
+	RMOwnerID = r.OwnerID,
+	E.OriginalDateBegin,
+	E.NewEventEmailSent
+FROM {databaseOwner}[{objectQualifier}Events] E
+inner join {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r on E.RecurMasterID = r.RecurMasterID
+left outer join {databaseOwner}[{objectQualifier}Users] U on E.CreatedByID = U.UserID
+left outer join {databaseOwner}[{objectQualifier}Users] O on E.OwnerID = O.UserID
+left outer join {databaseOwner}[{objectQualifier}Users] L on E.LastUpdatedID = L.UserID
+left join {databaseOwner}[{objectQualifier}EventsCategory] b on E.Category = b.Category
+left join {databaseOwner}[{objectQualifier}EventsLocation] c on E.Location = c.Location
+WHERE EventID = scope_identity()
+GO
+
+/* EventsRecurMasterSave */
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsRecurMasterSave]
+(
+	@RecurMasterID int,
+	@ModuleID int,
+	@PortalID int,
+	@RRULE nvarchar(1000),
+	@DTSTART datetime,
+	@Duration nvarchar(50),
+	@Until datetime,
+	@EventName nvarchar(100),
+	@EventDesc ntext,
+	@Importance int,
+	@Notify nvarchar(2048),
+	@Approved bit,
+	@Signups bit,
+	@MaxEnrollment int,
+	@EnrollRoleID int,
+	@EnrollFee money, 
+	@EnrollType varchar(10),
+	@PayPalAccount nvarchar(100), 
+	@DetailPage bit,
+	@DetailNewWin bit,
+	@DetailURL nvarchar(100),
+	@ImageURL nvarchar(100), 
+	@ImageType varchar(1), 
+	@ImageWidth int,
+	@ImageHeight int,
+	@ImageDisplay bit,
+	@Location int,
+	@Category int,
+	@Reminder nvarchar(2048),
+	@TimezoneOffset int,
+	@SendReminder bit,
+	@ReminderTime int,
+	@ReminderTimeMeasurement varchar(2),
+	@ReminderFrom nvarchar(100),
+	@CustomField1 nvarchar(100),
+	@CustomField2 nvarchar(100),
+	@EnrollListView bit,
+	@DisplayEndDate bit,
+	@AllDayEvent bit,
+	@CultureName varchar(10),
+	@OwnerID int,
+	@CreatedByID int,
+	@UpdatedByID int
+)
+AS
+SET DATEFORMAT mdy
+IF @Location = -1 
+	Select @Location = Null
+
+IF @Category = -1 
+	Select @Category = Null
+
+IF @EnrollRoleID = -1 
+	Select @EnrollRoleID = Null
+
+IF @ImageURL = N'' 
+	Select @ImageURL = Null
+
+IF @ImageType = '' 
+	Select @ImageType = Null
+
+IF @DetailURL = N'' 
+	Select @DetailURL = Null
+
+IF @RecurMasterID = -1 OR @recurMasterID IS NULL
+	INSERT {databaseOwner}[{objectQualifier}EventsRecurMaster]
+	(
+		ModuleID,
+		PortalID,
+		RRULE,
+		DTSTART,
+		Duration,
+		Until,
+		EventName,
+		EventDesc,
+		Importance,
+		Notify,
+		Approved,
+		Signups,
+		MaxEnrollment,
+		EnrollRoleID,
+		EnrollFee, 
+		EnrollType, 
+		PayPalAccount, 
+		DetailPage,
+		DetailNewWin,
+		DetailURL,
+		ImageURL, 
+		ImageType, 
+		ImageWidth,
+		ImageHeight,
+		ImageDisplay,
+		Location,
+		Category,
+		Reminder,
+		TimezoneOffset,
+		SendReminder,
+		ReminderTime,
+		ReminderTimeMeasurement,
+		ReminderFrom,
+		CustomField1,
+		CustomField2,
+		EnrollListView,
+		DisplayEndDate,
+		AllDayEvent,
+		CultureName,
+		OwnerID,
+		CreatedByID,
+		CreatedDate,
+		UpdatedByID,
+		UpdatedDate
+	)
+	VALUES
+	(
+		@ModuleID,
+		@PortalID,
+		@RRULE,
+		@DTSTART,
+		@Duration,
+		@Until,
+		@EventName,
+		@EventDesc,
+		@Importance,
+		@Notify,
+		@Approved,
+		@Signups,
+		@MaxEnrollment,
+		@EnrollRoleID,
+		@EnrollFee, 
+		@EnrollType,
+		@PayPalAccount, 
+		@DetailPage,
+		@DetailNewWin,
+		@DetailURL,
+		@ImageURL, 
+		@ImageType, 
+		@ImageWidth,
+		@ImageHeight,
+		@ImageDisplay,
+		@Location,
+		@Category,
+		@Reminder,
+		@TimezoneOffset,
+		@SendReminder,
+		@ReminderTime,
+		@ReminderTimeMeasurement,
+		@ReminderFrom,
+		@CustomField1,
+		@CustomField2,
+		@EnrollListView,
+		@DisplayEndDate,
+		@AllDayEvent,
+		@CultureName,
+		@OwnerID,
+		@CreatedByID,
+		GetUTCDate(),
+		@UpdatedByID,
+		GetUTCDate()
+	)
+ELSE
+	UPDATE {databaseOwner}[{objectQualifier}EventsRecurMaster] SET
+		RRULE = @RRULE,
+		DTSTART = @DTSTART,
+		Duration = @Duration,
+		Until = @Until,
+		EventName = @EventName,
+		EventDesc = @EventDesc,
+		Importance = @Importance,
+		Notify = @Notify,
+		Approved = @Approved,
+		Signups = @Signups,
+		MaxEnrollment = @MaxEnrollment,
+		EnrollRoleID = @EnrollRoleID,
+		EnrollFee = @EnrollFee, 
+		EnrollType = @EnrollType,
+		PayPalAccount = @PayPalAccount, 
+		DetailPage = @DetailPage,
+		DetailNewWin = @DetailNewWin,
+		DetailURL = @DetailURL,
+		ImageURL = @ImageURL, 
+		ImageType = @ImageType, 
+		ImageWidth = @ImageWidth,
+		ImageHeight = @ImageHeight,
+		ImageDisplay = @ImageDisplay,
+		Location = @Location,
+		Category = @Category,
+		Reminder = @Reminder,
+		TimezoneOffset = @TimezoneOffset,
+		SendReminder = @SendReminder,
+		ReminderTime = @ReminderTime,
+		ReminderTimeMeasurement = @ReminderTimeMeasurement,
+		ReminderFrom = @ReminderFrom,
+		CustomField1 = @CustomField1,
+		CustomField2 = @CustomField2,
+		EnrollListView = @EnrollListView,
+		DisplayEndDate = @DisplayEndDate,
+		AllDayEvent = @AllDayEvent,
+		CultureName = @CultureName,
+		OwnerID = @OwnerID,
+		UpdatedByID = @UpdatedByID,
+		UpdatedDate = GetUTCDate()
+WHERE RecurMasterID = @RecurMasterID And ModuleID = @ModuleID
+      
+SELECT 	RecurMasterID, 
+	ModuleID, 
+	PortalID,
+	RRULE, 
+	DTSTART,
+	Duration,
+	Until,
+	EventName, 
+	EventDesc,
+	Importance,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+	(SELECT COUNT(*) FROM {databaseOwner}[{objectQualifier}Events] AS E INNER JOIN {databaseOwner}[{objectQualifier}EventsSignups] AS S ON E.EventID = S.EventID WHERE E.RecurMasterID = R.RecurMasterID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	DetailPage,
+	DetailNewWin,
+	DetailURL, 		
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	Location,
+	Category,
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement,
+	ReminderFrom,
+	CustomField1,
+	CustomField2,
+	EnrollListView,
+	DisplayEndDate,
+	AllDayEvent,
+	CultureName,
+	OwnerID,
+	CreatedByID,
+	CreatedDate,
+	UpdatedByID,
+	UpdatedDate
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] R
+WHERE RecurMasterID = scope_identity() or RecurMasterID = @RecurMasterID
+GO
+
+/*** EventsGetRecurrences ***/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsGetRecurrences]
+(
+	@RecurMasterID int,
+	@ModuleID int
+)
+AS
+ SELECT E.PortalID, EventID, RecurMasterID, ModuleID, EventDateBegin, EventDateEnd,
+	EventTimeBegin, Duration, EventName, EventDesc,
+	Importance, E.CreatedDate, 
+	CreatedBy = U.DisplayName,
+	E.CreatedByID,
+	Every,
+	Period,
+	RepeatType,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+	(Select count(*) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	Cancelled,
+	DetailPage,
+	DetailNewWin,
+	DetailURL,
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	E.Location,
+	c.LocationName,
+	c.MapURL,
+	E.Category,
+	b.CategoryName,
+	b.Color,
+	b.FontColor, 
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement,
+	ReminderFrom,
+	SearchSubmitted,
+	CustomField1,
+	CustomField2,
+	EnrollListView,
+	DisplayEndDate,
+	AllDayEvent,
+	OwnerID,
+	OwnerName = O.DisplayName,
+	LastUpdatedAt,
+	LastUpdatedBy = L.DisplayName,
+	LastUpdatedID,
+	OriginalDateBegin,
+	NewEventEmailSent 
+  FROM {databaseOwner}[{objectQualifier}Events] E
+  left outer join {databaseOwner}[{objectQualifier}Users] U on E.CreatedByID = U.UserID
+  left outer join {databaseOwner}[{objectQualifier}Users] O on E.OwnerID = O.UserID
+  left outer join {databaseOwner}[{objectQualifier}Users] L on E.LastUpdatedID = L.UserID
+  left join {databaseOwner}[{objectQualifier}EventsCategory] b on E.Category = b.Category
+  left join {databaseOwner}[{objectQualifier}EventsLocation] c on E.Location = c.Location
+  WHERE (RecurMasterID = @RecurMasterID AND ModuleID = @ModuleID) 
+  ORDER BY EventDateBegin, EventTimeBegin, EventDateEnd
+GO
+
+/*** EventsModerateEvents ***/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsModerateEvents]
+(
+	@ModuleID int
+)
+AS
+SET DATEFORMAT mdy
+SELECT EventID, ModuleID, EventDateBegin, EventDateEnd,
+	EventTimeBegin, Duration, EventName, EventDesc,
+	Importance, E.CreatedDate, 
+    CreatedBy = U.DisplayName,
+	CreatedByID,
+	Every,
+	Period,
+	RepeatType,
+	Notify,
+	Approved,
+	MaxEnrollment,
+	(Select count(*) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	Cancelled,
+	TimeZoneOffset
+FROM {databaseOwner}[{objectQualifier}Events] E
+left outer join {databaseOwner}[{objectQualifier}Users] U on E.CreatedByID = U.UserID
+WHERE Approved = 0
+	AND ModuleID = @ModuleID AND Cancelled = 0
+ORDER BY EventDateBegin, EventDateEnd, (SELECT (datepart(hour, EventTimeBegin) * 10000) +
+                      (datepart(minute, EventTimeBegin) * 100) +
+                      (datepart(second, EventTimeBegin)))
+
+GO
+
+/* EventsRecurMasterGet */
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsRecurMasterGet]
+(
+	@RecurMasterID int,
+	@ModuleID int
+)
+AS
+
+SELECT 	RecurMasterID, 
+	ModuleID, 
+	PortalID,
+	RRULE, 
+	DTSTART,
+	Duration,
+	Until,
+	EventName, 
+	EventDesc,
+	Importance,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+	(SELECT COUNT(*) FROM {databaseOwner}[{objectQualifier}Events] AS E INNER JOIN {databaseOwner}[{objectQualifier}EventsSignups] AS S ON E.EventID = S.EventID WHERE E.RecurMasterID = R.RecurMasterID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	DetailPage,
+	DetailNewWin,
+	DetailURL,
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	Location,
+	Category,
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement,
+	ReminderFrom,
+	CustomField1,
+	CustomField2,
+	EnrollListView,
+	DisplayEndDate,
+	AllDayEvent,
+	CultureName,
+	OwnerID,
+	CreatedByID,
+	CreatedDate,
+	UpdatedByID,
+	UpdatedDate
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] R
+WHERE RecurMasterID = @RecurMasterID 
+  AND ModuleID = @ModuleID
+GO
+
+/*** EventsPPErrorLogAdd ***/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsPPErrorLogAdd]
+(
+	@SignupID int, 
+    @PayPalStatus nvarchar(50), 
+	@PayPalReason nvarchar(100), 
+	@PayPalTransID nvarchar(50), 
+	@PayPalPayerID nvarchar(50), 
+   	@PayPalPayerStatus nvarchar(50), 
+	@PayPalRecieverEmail nvarchar(100), 
+	@PayPalUserEmail nvarchar(100), 
+   	@PayPalPayerEmail nvarchar(100), 
+	@PayPalFirstName nvarchar(50), 
+	@PayPalLastName nvarchar(50), 
+	@PayPalAddress nvarchar(100), 
+   	@PayPalCity nvarchar(25), 
+	@PayPalState nvarchar(25), 
+	@PayPalZip nvarchar(25), 
+	@PayPalCountry nvarchar(25), 
+   	@PayPalCurrency nvarchar(25), 
+	@PayPalPaymentDate datetime , 
+	@PayPalAmount money, 
+	@PayPalFee money
+)
+AS
+SET DATEFORMAT mdy
+INSERT {databaseOwner}[{objectQualifier}EventsPPErrorLog]
+(
+	SignupID,
+    PayPalStatus, 
+	PayPalReason, 
+	PayPalTransID, 
+	PayPalPayerID, 
+    PayPalPayerStatus, 
+	PayPalRecieverEmail, 
+	PayPalUserEmail,
+    PayPalPayerEmail, 
+	PayPalFirstName, 
+	PayPalLastName, 
+	PayPalAddress, 
+    PayPalCity, 
+	PayPalState, 
+	PayPalZip, 
+	PayPalCountry, 
+    PayPalCurrency, 
+	PayPalPaymentDate, 
+	PayPalAmount, 
+	PayPalFee
+)
+VALUES
+(
+	@SignupID,
+    @PayPalStatus, 
+	@PayPalReason, 
+	@PayPalTransID, 
+	@PayPalPayerID, 
+    @PayPalPayerStatus, 
+	@PayPalRecieverEmail, 
+	@PayPalUserEmail,
+    @PayPalPayerEmail, 
+	@PayPalFirstName, 
+	@PayPalLastName, 
+	@PayPalAddress, 
+    @PayPalCity, 
+	@PayPalState, 
+	@PayPalZip, 
+	@PayPalCountry, 
+    @PayPalCurrency, 
+	@PayPalPaymentDate, 
+	@PayPalAmount, 
+	@PayPalFee
+)
+
+Select s.PayPalID, s.SignupID, CreateDate,
+   		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+   		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+   		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+   		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+   		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee
+from {databaseOwner}[{objectQualifier}EventsPPErrorLog] s 
+Where  s.PayPalID = @@Identity
+GO
+
+/*** EventsSignupsSave ***/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsSave]
+(
+	@EventID int, 
+	@SignupID int, 
+	@ModuleID int, 
+	@UserID int,
+ 	@Approved int,
+    @PayPalStatus nvarchar(50), 
+	@PayPalReason nvarchar(100), 
+	@PayPalTransID nvarchar(50), 
+	@PayPalPayerID nvarchar(50), 
+	@PayPalPayerStatus nvarchar(50), 
+	@PayPalRecieverEmail nvarchar(100), 
+	@PayPalUserEmail nvarchar(100), 
+	@PayPalPayerEmail nvarchar(100), 
+	@PayPalFirstName nvarchar(50), 
+	@PayPalLastName nvarchar(50), 
+	@PayPalAddress nvarchar(100), 
+	@PayPalCity nvarchar(25), 
+	@PayPalState nvarchar(25), 
+	@PayPalZip nvarchar(25), 
+	@PayPalCountry nvarchar(25), 
+	@PayPalCurrency nvarchar(25), 
+	@PayPalPaymentDate datetime , 
+	@PayPalAmount money, 
+	@PayPalFee money
+)
+AS
+SET DATEFORMAT mdy
+IF @SignupID = 0 OR @SignupID IS NULL
+	INSERT {databaseOwner}[{objectQualifier}EventsSignups]
+	(
+		EventID,
+		ModuleID,
+		UserID,
+		Approved,
+		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee
+	)
+	VALUES
+	(
+		@EventID,
+		@ModuleID,
+		@UserID,
+		@Approved,
+ 		@PayPalStatus, 
+		@PayPalReason, 
+		@PayPalTransID, 
+		@PayPalPayerID, 
+		@PayPalPayerStatus, 
+		@PayPalRecieverEmail, 
+		@PayPalUserEmail,
+		@PayPalPayerEmail, 
+		@PayPalFirstName, 
+		@PayPalLastName, 
+		@PayPalAddress, 
+		@PayPalCity, 
+		@PayPalState, 
+		@PayPalZip, 
+		@PayPalCountry, 
+		@PayPalCurrency, 
+		@PayPalPaymentDate, 
+		@PayPalAmount, 
+		@PayPalFee
+	)
+ELSE
+	UPDATE {databaseOwner}[{objectQualifier}EventsSignups] SET
+		EventID = @EventID,
+		UserID = @UserID,
+		Approved = @Approved,
+ 		PayPalStatus = @PayPalStatus, 
+		PayPalReason = @PayPalReason, 
+		PayPalTransID = @PayPalTransID, 
+		PayPalPayerID = @PayPalPayerID, 
+		PayPalPayerStatus = @PayPalPayerStatus, 
+		PayPalRecieverEmail = @PayPalRecieverEmail, 
+		PayPalUserEmail = @PayPalUserEmail,
+		PayPalPayerEmail = @PayPalPayerEmail, 
+		PayPalFirstName = @PayPalFirstName, 
+		PayPalLastName = @PayPalLastName, 
+		PayPalAddress = @PayPalAddress, 
+		PayPalCity = @PayPalCity, 
+		PayPalState = @PayPalState, 
+		PayPalZip = @PayPalZip, 
+		PayPalCountry = @PayPalCountry, 
+		PayPalCurrency = @PayPalCurrency, 
+		PayPalPaymentDate = @PayPalPaymentDate, 
+		PayPalAmount = @PayPalAmount, 
+		PayPalFee = @PayPalFee
+	WHERE SignupID = @SignupID and ModuleID = @ModuleID
+
+Select s.EventID, s.SignupID, s.ModuleID, s.Userid, s.Approved,
+  u.DisplayName as UserName, u.Email,
+  c.EventTimeBegin,c.Duration,c.EventName,c.Importance,c.Approved as EventApproved,
+  c.MaxEnrollment,
+  (Select count(*) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = c.EventID and c.Signups = 1) as Enrolled,
+ 		PayPalStatus, 
+		PayPalReason, 
+		PayPalTransID, 
+		PayPalPayerID, 
+		PayPalPayerStatus, 
+		PayPalRecieverEmail, 
+		PayPalUserEmail,
+		PayPalPayerEmail, 
+		PayPalFirstName, 
+		PayPalLastName, 
+		PayPalAddress, 
+		PayPalCity, 
+		PayPalState, 
+		PayPalZip, 
+		PayPalCountry, 
+		PayPalCurrency, 
+		PayPalPaymentDate, 
+		PayPalAmount, 
+		PayPalFee,
+		c.TimeZoneOffset
+  from {databaseOwner}[{objectQualifier}EventsSignups] s 
+   Left Join {databaseOwner}[{objectQualifier}Users] u ON s.UserID = u.UserID
+   Left Join {databaseOwner}[{objectQualifier}Events] c ON s.EventID = c.EventID
+Where  s.SignupID = scope_identity()
+ORDER BY c.EventTimeBegin, c.EventName, UserName
+GO
+
+/*** EventsUpgrade ***/
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsUpgrade]
+(
+	@Version varchar(8)
+)
+AS
+
+IF @Version = '04.00.02'
+BEGIN
+-- Copy over Moderators from ModuleSettings
+INSERT INTO {databaseOwner}[{objectQualifier}ModulePermission] 
+		( 
+		RoleID, 
+		ModuleID, 
+		PermissionID, 
+		AllowAccess 
+		)
+SELECT	{databaseOwner}[{objectQualifier}Modulesettings].SettingValue AS RoleID, 
+		{databaseOwner}[{objectQualifier}Modulesettings].ModuleID, 
+		{databaseOwner}[{objectQualifier}Permission].PermissionID, 
+		- 1 AS AllowAccess
+FROM    {databaseOwner}[{objectQualifier}Modulesettings] INNER JOIN
+        {databaseOwner}[{objectQualifier}Modules] ON {databaseOwner}[{objectQualifier}Modulesettings].ModuleID = {databaseOwner}[{objectQualifier}Modules].ModuleID INNER JOIN
+        {databaseOwner}[{objectQualifier}ModuleDefinitions] ON {databaseOwner}[{objectQualifier}Modules].ModuleDefID = {databaseOwner}[{objectQualifier}ModuleDefinitions].ModuleDefID CROSS JOIN
+        {databaseOwner}[{objectQualifier}Permission]
+WHERE   ({databaseOwner}[{objectQualifier}Modulesettings].SettingName = 'moderatorroleid') AND 
+        ({databaseOwner}[{objectQualifier}Modulesettings].SettingValue <> '0') AND 
+        ({databaseOwner}[{objectQualifier}ModuleDefinitions].FriendlyName = N'Events') AND
+        ({databaseOwner}[{objectQualifier}Permission].PermissionCode = 'EVENTS_MODULE') AND 
+        ({databaseOwner}[{objectQualifier}Permission].PermissionKey = 'EVENTSMOD')
+
+-- Ensure Moderators have edit permissions
+
+INSERT INTO {databaseOwner}[{objectQualifier}ModulePermission] 
+		( 
+		RoleID, 
+		ModuleID, 
+		PermissionID, 
+		AllowAccess 
+		)
+SELECT  MP1.RoleID, MP1.ModuleID, P3.PermissionID, - 1 AS AllowAcces
+FROM    {databaseOwner}[{objectQualifier}ModulePermission] AS MP1 INNER JOIN
+        {databaseOwner}[{objectQualifier}Permission] AS P1 ON MP1.PermissionID = P1.PermissionID CROSS JOIN
+        {databaseOwner}[{objectQualifier}Permission] AS P3
+WHERE   (P1.PermissionCode = 'Events_Module') AND (P1.PermissionKey = 'EVENTSMOD') AND (MP1.RoleID NOT IN
+        (SELECT	MP2.RoleID
+         FROM   {databaseOwner}[{objectQualifier}ModulePermission] AS MP2 INNER JOIN
+                {databaseOwner}[{objectQualifier}Permission] AS P2 ON MP2.PermissionID = P2.PermissionID INNER JOIN
+                {databaseOwner}[{objectQualifier}Modules] AS M2 ON MP2.ModuleID = M2.ModuleID INNER JOIN
+                {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD2 ON M2.ModuleDefID = MD2.ModuleDefID
+         WHERE  (P2.PermissionCode = 'SYSTEM_MODULE_DEFINITION') AND (P2.PermissionKey = 'EDIT') AND (MD2.FriendlyName = N'Events') AND 
+                (M2.ModuleID = MP1.ModuleID))) AND (P3.PermissionCode = 'SYSTEM_MODULE_DEFINITION') AND (P3.PermissionKey = 'EDIT')
+
+-- Delete Moderator settings from ModuleSettings
+
+DELETE FROM {databaseOwner}[{objectQualifier}Modulesettings]
+FROM        {databaseOwner}[{objectQualifier}Modulesettings] INNER JOIN 
+			{databaseOwner}[{objectQualifier}Modules] ON {databaseOwner}[{objectQualifier}Modulesettings].ModuleID = {databaseOwner}[{objectQualifier}Modules].ModuleID INNER JOIN 
+			{databaseOwner}[{objectQualifier}ModuleDefinitions] ON {databaseOwner}[{objectQualifier}Modules].ModuleDefID = {databaseOwner}[{objectQualifier}ModuleDefinitions].ModuleDefID
+WHERE       ({databaseOwner}[{objectQualifier}Modulesettings].SettingName = 'moderatorroleid') AND ({databaseOwner}[{objectQualifier}ModuleDefinitions].FriendlyName = N'Events')
+
+END
+
+IF @Version = '04.01.00'
+BEGIN
+UPDATE    {databaseOwner}[{objectQualifier}EventsNotification]
+SET       EventID = E2.EventID
+FROM      {databaseOwner}[{objectQualifier}EventsNotification] INNER JOIN
+          {databaseOwner}[{objectQualifier}Events] AS E ON {databaseOwner}[{objectQualifier}EventsNotification].EventID = E.EventID LEFT OUTER JOIN
+          {databaseOwner}[{objectQualifier}Events] AS E2 ON E.RecurMasterID = E2.RecurMasterID AND {databaseOwner}[{objectQualifier}EventsNotification].EventTimeBegin = E2.EventTimeBegin
+WHERE     E2.EventTimeBegin IS NOT NULL
+
+
+UPDATE    {databaseOwner}[{objectQualifier}EventsSignups]
+SET       EventID = E2.EventID
+FROM      {databaseOwner}[{objectQualifier}EventsSignups] INNER JOIN
+          {databaseOwner}[{objectQualifier}Events] AS E ON {databaseOwner}[{objectQualifier}EventsSignups].EventID = E.EventID LEFT OUTER JOIN
+          {databaseOwner}[{objectQualifier}Events] AS E2 ON E.RecurMasterID = E2.RecurMasterID AND {databaseOwner}[{objectQualifier}EventsSignups].EventTimeBegin = E2.EventTimeBegin
+WHERE     E2.EventTimeBegin IS NOT NULL
+END
+GO
+

@@ -1,0 +1,165 @@
+﻿    /************************************************************/
+    /*****                                                  *****/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for Events module 3.3.8    *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+
+/*** Drop old Stored Procs (from 3.1.0) ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}AddEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}AddEvent]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}DeleteEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}DeleteEvent]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}GetEvent]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetEvents]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}GetEvents]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}GetEventsByDate]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}GetEventsByDate]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}UpdateEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}UpdateEvent]
+GO
+
+/*** Drop updated Stored Procs (from 3.1.0) ***/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGetByRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsGetByRange]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE PROCEDURE {databaseOwner}{objectQualifier}EventsGetByRange
+(
+	@Modules nvarchar(255),
+	@BeginDate datetime,
+	@EndDate datetime,
+	@Category nvarchar(50)
+)
+AS
+SET DATEFORMAT mdy
+IF (LEN(@Modules) = 0)
+BEGIN
+/** Added for Module Notification Scheduling 
+	NOTE: This version also checks for SendReminder = True
+**/
+  SELECT E.PortalID, EventID, ModuleID, EventDateBegin, EventDateEnd,
+	EventTimeBegin, Duration, EventName, EventDesc,
+	Importance, E.CreatedDate, 
+    --CreatedBy = {objectQualifier}Users.FirstName + ' ' + {objectQualifier}Users.LastName,
+    CreatedBy = U.DisplayName,
+	CreatorID =  E.CreatedBy,
+	Every,
+	Period,
+	RepeatType,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	PayPalPassword, 
+	Cancelled,
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	E.Location,
+	c.LocationName,
+	c.MapURL,
+	E.Category,
+	b.CategoryName,
+	b.Color,
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement,
+	ReminderFrom,
+	SearchSubmitted
+  FROM {databaseOwner}{objectQualifier}Events E
+  left outer join {databaseOwner}{objectQualifier}Users U on E.CreatedBy = U.UserID
+  left join {databaseOwner}{objectQualifier}EventsCategory b on E.Category = b.Category
+  left join {databaseOwner}{objectQualifier}EventsLocation c on E.Location = c.Location
+  WHERE (((EventTimeBegin <= @EndDate AND DATEADD(minute,Duration,EventTimeBegin) >= @BeginDate) OR 
+                   (EventTimeBegin BETWEEN @BeginDate  AND @EndDate) OR 
+                   (EventTimeBegin <=@EndDate AND EventDateEnd >= @BeginDate AND RepeatType <> 'N'))
+	AND (ModuleID in (SELECT * FROM {databaseOwner}[{objectQualifier}SplitIDs](@Modules)))
+	AND (Approved = 1)
+	AND (b.CategoryName = @Category OR @Category = ''))
+  ORDER BY EventDateBegin, EventTimeBegin, EventDateEnd
+END
+ELSE
+BEGIN
+  SELECT E.PortalID, EventID, ModuleID, EventDateBegin, EventDateEnd,
+	EventTimeBegin, Duration, EventName, EventDesc,
+	Importance, E.CreatedDate, 
+    --CreatedBy = {objectQualifier}Users.FirstName + ' ' + {objectQualifier}Users.LastName,
+    createdBy = U.DisplayName,
+	CreatorID =  E.CreatedBy,
+	Every,
+	Period,
+	RepeatType,
+	Notify,
+	Approved,
+	Signups,
+	MaxEnrollment,
+ 	(Select count(*) from {databaseOwner}{objectQualifier}EventsSignups WHERE EventID = E.EventID and E.Signups = 1) as Enrolled,
+	EnrollRoleID,
+	EnrollFee, 
+	EnrollType, 
+	PayPalAccount, 
+	PayPalPassword, 
+	Cancelled,
+	ImageURL, 
+	ImageType, 
+	ImageWidth,
+	ImageHeight,
+	ImageDisplay,
+	E.Location,
+	c.LocationName,
+	c.MapURL,
+	E.Category,
+	b.CategoryName,
+	b.Color,
+	Reminder,
+	TimezoneOffset,
+	SendReminder,
+	ReminderTime,
+	ReminderTimeMeasurement
+  FROM {databaseOwner}{objectQualifier}Events E
+  left outer join {databaseOwner}{objectQualifier}Users U on E.CreatedBy = U.UserID
+  left join {databaseOwner}{objectQualifier}EventsCategory b on E.Category = b.Category
+  left join {databaseOwner}{objectQualifier}EventsLocation c on E.Location = c.Location
+  WHERE (((EventTimeBegin <= @EndDate AND DATEADD(minute,Duration,EventTimeBegin) >= @BeginDate) OR 
+                   (EventTimeBegin BETWEEN @BeginDate  AND @EndDate) OR 
+                   (EventTimeBegin <=@EndDate AND EventDateEnd >= @BeginDate AND RepeatType <> 'N'))
+	AND (ModuleID in (SELECT * FROM {databaseOwner}[{objectQualifier}SplitIDs](@Modules)))
+	AND (Approved = 1)
+	AND (b.CategoryName = @Category OR @Category = ''))
+  ORDER BY EventDateBegin, EventTimeBegin, EventDateEnd
+END
+GO

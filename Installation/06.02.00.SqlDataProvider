@@ -1,0 +1,1209 @@
+﻿/************************************************************/
+/*****                                                  *****/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for Events module 06.02.00 *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/************************************************************/
+
+
+/***** EventsLocation Table *****/
+
+/* Add Street to EventsLocation Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsLocation' and column_name = 'Street')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsLocation] WITH NOCHECK ADD Street NVARCHAR(50) NULL
+END	
+GO
+
+/* Add Postal Code to EventsLocation Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsLocation' and column_name = 'PostalCode')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsLocation] WITH NOCHECK ADD PostalCode NVARCHAR(50) NULL
+END	
+GO
+
+/* Add City to EventsLocation Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsLocation' and column_name = 'City')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsLocation] WITH NOCHECK ADD City NVARCHAR(50) NULL
+END	
+GO
+
+/* Add Region to EventsLocation Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsLocation' and column_name = 'Region')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsLocation] WITH NOCHECK ADD Region NVARCHAR(50) NULL
+END	
+GO
+
+/* Add Country to EventsLocation Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsLocation' and column_name = 'Country')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsLocation] WITH NOCHECK ADD Country NVARCHAR(50) NULL
+END	
+GO
+
+
+/***** EventsLocation Stored Procedures *****/
+
+/*** EventsLocationGet ***/
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsLocationGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsLocationGet]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsLocationGet]
+(
+	@Location int,
+	@PortalID int
+)
+AS
+SELECT	Location
+	,	PortalID
+	,	LocationName
+	,	MapURL
+	,	Street
+	,	PostalCode
+	,	City
+	,	Region
+	,	Country
+FROM	{databaseOwner}[{objectQualifier}EventsLocation]
+WHERE	Location = @Location
+	AND	PortalID = @PortalID
+GO
+
+/*** EventsLocationGetByName ***/
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsLocationGetByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsLocationGetByName]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsLocationGetByName]
+(
+	@LocationName nvarchar(50)
+,	@PortalID int
+)
+AS
+SELECT	Location
+	,	PortalID
+	,	LocationName
+	,	MapURL
+	,	Street
+	,	PostalCode
+	,	City
+	,	Region
+	,	Country
+FROM	{databaseOwner}[{objectQualifier}EventsLocation]
+WHERE	LocationName = @LocationName
+	AND	PortalID = @PortalID
+GO
+
+/*** EventsLocationList ***/
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsLocationList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsLocationList]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsLocationList]
+(
+	@PortalID int
+)
+AS
+SELECT	Location
+	,	PortalID
+	,	LocationName
+	,	MapURL
+	,	Street
+	,	PostalCode
+	,	City
+	,	Region
+	,	Country
+FROM	{databaseOwner}[{objectQualifier}EventsLocation]
+WHERE	PortalID = @PortalID
+ORDER BY	LocationName
+GO
+
+/*** EventsLocationSave ***/
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsLocationSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsLocationSave]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsLocationSave]
+(
+	@PortalID int,
+	@Location int,
+	@LocationName nvarchar(50),
+	@MapURL nvarchar(255),
+	@Street nvarchar(50),
+	@PostalCode nvarchar(50),
+	@City nvarchar(50),
+	@Region nvarchar(50),
+	@Country nvarchar(50)
+
+)
+AS
+IF @Location = 0 OR @Location IS NULL
+	INSERT {databaseOwner}[{objectQualifier}EventsLocation]
+	(
+		PortalID,
+		LocationName,
+		MapURL,
+		Street,
+		PostalCode,
+		City,
+		Region,
+		Country
+	)
+	VALUES
+	(
+		@PortalID,
+		@LocationName,
+		@MapURL,
+		@Street,
+		@PostalCode,
+		@City,
+		@Region,
+		@Country
+	)
+ELSE
+	UPDATE {databaseOwner}[{objectQualifier}EventsLocation] SET
+		LocationName = @LocationName,
+		MapURL = @MapURL,
+		Street = @Street,
+		PostalCode = @PostalCode,
+		City = @City,
+		Region = @Region,
+		Country = @Country
+	WHERE	Location = @Location
+		AND	PortalID = @PortalID
+
+SELECT	Location
+	,	PortalID
+	,	LocationName
+	,	MapURL
+	,	Street
+	,	PostalCode
+	,	City
+	,	Region
+	,	Country
+FROM	{databaseOwner}[{objectQualifier}EventsLocation]
+WHERE	Location = scope_identity()
+GO
+
+
+/***** EventsSignups Table *****/
+
+/* Add FirstName to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'FirstName')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD FirstName NVARCHAR(50) NULL
+END	
+GO
+
+/* Add LastName to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'LastName')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD LastName NVARCHAR(50) NULL
+END	
+GO
+
+/* Add Company to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'Company')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD Company NVARCHAR(50) NULL
+END	
+GO
+
+/* Add JobTitle to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'JobTitle')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD JobTitle NVARCHAR(50) NULL
+END	
+GO
+
+/* Add ReferenceNumber to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'ReferenceNumber')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD ReferenceNumber NVARCHAR(50) NULL
+END	
+GO
+
+
+/*** Add Address Fields to EventsSignups Table ***/
+
+/* Add Street to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'Street')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD Street NVARCHAR(50) NULL
+END	
+GO
+
+/* Add Postal Code to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'PostalCode')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD PostalCode NVARCHAR(50) NULL
+END	
+GO
+
+/* Add City to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'City')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD City NVARCHAR(50) NULL
+END	
+GO
+
+/* Add Region to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'Region')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD Region NVARCHAR(50) NULL
+END	
+GO
+
+/* Add Country to EventsSignups Table */
+if not exists (select * from information_schema.columns 
+	where table_name = '{objectQualifier}EventsSignups' and column_name = 'Country')
+BEGIN
+ALTER TABLE {databaseOwner}[{objectQualifier}EventsSignups] WITH NOCHECK ADD Country NVARCHAR(50) NULL
+END	
+GO
+
+
+/***** EventsSignups Stored Procedures *****/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsSave]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsSave]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetEventRecurMaster]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGetEventRecurMaster]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetUser]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGetUser]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetAnonUser]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGetAnonUser]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGetEvent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGetEvent]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsGet]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsGet]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsModerateSignups]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsModerateSignups]
+GO
+
+
+/*** EventsSignupsSave ***/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsSave]
+(
+    @EventID int, 
+    @SignupID int, 
+    @ModuleID int, 
+    @UserID int,
+    @Approved int,
+    @PayPalStatus nvarchar(50), 
+    @PayPalReason nvarchar(100), 
+    @PayPalTransID nvarchar(50), 
+    @PayPalPayerID nvarchar(50), 
+    @PayPalPayerStatus nvarchar(50), 
+    @PayPalRecieverEmail nvarchar(100), 
+    @PayPalUserEmail nvarchar(100), 
+    @PayPalPayerEmail nvarchar(100), 
+    @PayPalFirstName nvarchar(50), 
+    @PayPalLastName nvarchar(50), 
+    @PayPalAddress nvarchar(100), 
+    @PayPalCity nvarchar(25), 
+    @PayPalState nvarchar(25), 
+    @PayPalZip nvarchar(25), 
+    @PayPalCountry nvarchar(25), 
+    @PayPalCurrency nvarchar(25), 
+    @PayPalPaymentDate datetime , 
+    @PayPalAmount money, 
+    @PayPalFee money,
+    @NoEnrolees int,
+    @AnonEmail nvarchar(256),
+    @AnonName nvarchar(128),
+    @AnonTelephone nvarchar(50),
+    @AnonCulture nvarchar(10),
+    @AnonTimeZoneId nvarchar(100),
+	@FirstName nvarchar(50),
+	@LastName nvarchar(50),
+	@Company nvarchar(50),
+	@JobTitle nvarchar(50),
+	@ReferenceNumber nvarchar(50),
+	@Street nvarchar(50),
+	@PostalCode nvarchar(50),
+	@City nvarchar(50),
+	@Region nvarchar(50),
+	@Country nvarchar(50)
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+IF @SignupID = 0 OR @SignupID IS NULL
+    INSERT {databaseOwner}[{objectQualifier}EventsSignups]
+    (
+        EventID,
+        ModuleID,
+        UserID,
+        Approved,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+		FirstName,
+		LastName,
+		Company,
+		JobTitle,
+		ReferenceNumber,
+		Street,
+		PostalCode,
+		City,
+		Region,
+		Country
+    )
+    VALUES
+    (
+        @EventID,
+        @ModuleID,
+        @UserID,
+        @Approved,
+        @PayPalStatus, 
+        @PayPalReason, 
+        @PayPalTransID, 
+        @PayPalPayerID, 
+        @PayPalPayerStatus, 
+        @PayPalRecieverEmail, 
+        @PayPalUserEmail,
+        @PayPalPayerEmail, 
+        @PayPalFirstName, 
+        @PayPalLastName, 
+        @PayPalAddress, 
+        @PayPalCity, 
+        @PayPalState, 
+        @PayPalZip, 
+        @PayPalCountry, 
+        @PayPalCurrency, 
+        @PayPalPaymentDate, 
+        @PayPalAmount, 
+        @PayPalFee,
+        @NoEnrolees,
+        @AnonEmail,
+        @AnonName,
+        @AnonTelephone,
+        @AnonCulture,
+		@FirstName,
+		@LastName,
+		@Company,
+		@JobTitle,
+		@ReferenceNumber,
+		@Street,
+		@PostalCode,
+		@City,
+		@Region,
+		@Country
+    )
+ELSE
+    UPDATE {databaseOwner}[{objectQualifier}EventsSignups] SET
+        EventID = @EventID,
+        UserID = @UserID,
+        Approved = @Approved,
+        PayPalStatus = @PayPalStatus, 
+        PayPalReason = @PayPalReason, 
+        PayPalTransID = @PayPalTransID, 
+        PayPalPayerID = @PayPalPayerID, 
+        PayPalPayerStatus = @PayPalPayerStatus, 
+        PayPalRecieverEmail = @PayPalRecieverEmail, 
+        PayPalUserEmail = @PayPalUserEmail,
+        PayPalPayerEmail = @PayPalPayerEmail, 
+        PayPalFirstName = @PayPalFirstName, 
+        PayPalLastName = @PayPalLastName, 
+        PayPalAddress = @PayPalAddress, 
+        PayPalCity = @PayPalCity, 
+        PayPalState = @PayPalState, 
+        PayPalZip = @PayPalZip, 
+        PayPalCountry = @PayPalCountry, 
+        PayPalCurrency = @PayPalCurrency, 
+        PayPalPaymentDate = @PayPalPaymentDate, 
+        PayPalAmount = @PayPalAmount, 
+        PayPalFee = @PayPalFee,
+        NoEnrolees = @NoEnrolees,
+        AnonEmail = @AnonEmail,
+        AnonName = @AnonName,
+        AnonTelephone = @AnonTelephone,
+        AnonCulture = @AnonCulture,
+        AnonTimeZoneId = @AnonTimeZoneId,
+		FirstName = @FirstName,
+		LastName = @LastName,
+		Company = @Company,
+		JobTitle = @JobTitle,
+		ReferenceNumber = @ReferenceNumber,
+		Street = @Street,
+		PostalCode = @PostalCode,
+		City = @City,
+		Region = @Region,
+		Country = @Country
+    WHERE	SignupID = @SignupID
+		AND	ModuleID = @ModuleID
+
+SELECT	s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.DisplayName as UserName,
+		u.Email,
+		c.EventTimeBegin,
+		c.Duration,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT SUM(NoEnrolees)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        r.EventTimeZoneId,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID
+Where  s.SignupID = scope_identity()
+ORDER BY c.EventTimeBegin, c.EventName, UserName
+END
+GO
+
+/*** EventsSignupsGetEventRecurMaster ***/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsGetEventRecurMaster]
+(
+    @RecurMasterID int,
+    @ModuleID int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+SELECT DISTINCT
+		s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.DisplayName as UserName,
+		u.Email,
+		c.EventTimeBegin,
+		c.Duration,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT SUM(NoEnrolees)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        r.EventTimeZoneId,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsMaster] AS m ON s.ModuleID = m.SubEventID
+Where  r.RecurMasterID = @RecurMasterID And
+       (s.ModuleID = @ModuleID Or m.ModuleID = @ModuleID)
+ORDER BY c.EventTimeBegin, c.EventName, UserName
+END
+GO
+
+/*** EventsSignupsGetUser ***/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsGetUser]
+(
+    @EventID int,
+    @UserID int,
+    @ModuleID int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+SELECT DISTINCT
+		s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.DisplayName as UserName,
+		u.Email,
+		c.EventTimeBegin,
+		c.Duration,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT SUM(NoEnrolees)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        r.EventTimeZoneId,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsMaster] AS m ON s.ModuleID = m.SubEventID
+Where  s.EventID = @EventID And
+             s.Userid = @UserID And
+             (s.ModuleID = @ModuleID Or m.ModuleID = @ModuleID)
+END
+GO
+
+/*** EventsSignupsGetAnonUser ***/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsGetAnonUser]
+(
+    @EventID int,
+    @AnonEmail nvarchar(256),
+    @ModuleID int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+SELECT DISTINCT
+		s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.DisplayName as UserName,
+		u.Email,
+		c.EventTimeBegin,
+		c.Duration,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT SUM(NoEnrolees)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        r.EventTimeZoneId,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsMaster] AS m ON s.ModuleID = m.SubEventID
+Where  s.EventID = @EventID And
+             s.AnonEmail = @AnonEmail And
+             (s.ModuleID = @ModuleID Or m.ModuleID = @ModuleID)
+END
+GO
+
+/*** EventsSignupsGet ***/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsGet]
+(
+    @SignupID int,
+    @ModuleID int,
+    @PPIPN bit
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+SELECT DISTINCT
+		s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.DisplayName as UserName,
+		u.Email,
+		c.EventTimeBegin,
+		c.Duration,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT SUM(NoEnrolees)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        r.EventTimeZoneId,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsMaster] AS m ON s.ModuleID = m.SubEventID
+Where  s.SignupID = @SignupID And
+       (s.ModuleID = @ModuleID Or m.ModuleID = @ModuleID Or @PPIPN <> 0)
+END
+GO
+
+/*** EventsSignupsGetEvent ***/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsGetEvent]
+(
+    @EventID int,
+    @ModuleID int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+SELECT DISTINCT
+		s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.DisplayName as UserName,
+		u.Email,
+		c.EventTimeBegin,
+		c.Duration,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT SUM(NoEnrolees)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        r.EventTimeZoneId,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsMaster] AS m ON s.ModuleID = m.SubEventID
+Where  s.EventID = @EventID And
+       (s.ModuleID = @ModuleID Or m.ModuleID = @ModuleID)
+ORDER BY c.EventTimeBegin, c.EventName, UserName
+END
+GO
+
+/** EventsSignupsMyEnrollments **/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsSignupsMyEnrollments]
+(
+    @ModuleID int,
+    @UserID int,
+    @SocialGroupId int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+SELECT	s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.displayName as UserName,
+		u.Email,
+		c.EventTimeBegin,
+		DATEADD(mi, c.Duration, c.EventTimeBegin) as EventTimeEnd,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT SUM(NoEnrolees)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        NoEnrolees,
+        r.EventTimeZoneId,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsMaster] AS e ON s.ModuleID = e.SubEventID
+Where  s.Userid = @UserID AND (s.ModuleID = @ModuleID Or e.ModuleID = @ModuleID)
+  AND (r.SocialGroupId = @SocialGroupId or (r.SocialGroupId is null and @SocialGroupId = 0))
+ORDER BY c.EventTimeBegin desc
+END
+GO
+
+/*** EventsModerateSignups ***/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsModerateSignups]
+(
+    @ModuleID int,
+    @SocialGroupId int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+SELECT	s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.DisplayName as UserName,
+		u.Email,
+		c.EventDateBegin,
+		c.EventTimeBegin,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT COUNT(*)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID
+Where s.Approved = 0
+  AND s.ModuleID = @ModuleID
+  AND (r.SocialGroupId = @SocialGroupId or (r.SocialGroupId is null and @SocialGroupId = 0))
+ORDER BY c.EventDateBegin, c.EventTimeBegin, c.EventName, UserName
+END
+GO
+
+
+/***** Events Stored Procedures *****/
+
+/*** EventsGetByRange ***/
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}EventsGetByRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsGetByRange]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsGetByRange]
+(
+ @ModuleIDs nvarchar(1024),
+ @BeginDate datetime,
+ @EndDate datetime,
+ @CategoryIDs nvarchar(1024),
+ @LocationIDs nvarchar(1024),
+ @SocialGroupId int,
+ @SocialUserId int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+CREATE Table #EventIDs
+    (EventID Int, NoOfRecurrences Int, LastRecurrence DateTime)
+
+INSERT INTO #EventIDs (EventID, NoOfRecurrences, LastRecurrence) 
+SELECT DISTINCT e.EventID, Count(E2.EventID) as NoOfRecurrences, Max(E2.EventTimeBegin) as LastRecurrence
+ FROM {databaseOwner}[{objectQualifier}Events] E
+ LEFT OUTER JOIN {databaseOwner}[{objectQualifier}EventsMaster] M ON E.ModuleID = M.SubEventID 
+ LEFT JOIN {databaseOwner}[{objectQualifier}Events] as E2 ON E.RecurMasterID = E2.RecurMasterID
+ WHERE ((E.EventTimeBegin < DATEADD(DAY,1,@EndDate) AND DATEADD(minute,E.Duration,E.EventTimeBegin) >=  @BeginDate) OR 
+   (E.EventTimeBegin >= @BeginDate AND E.EventTimeBegin < DATEADD(DAY,1, @EndDate))) 
+   AND E.Approved = 1
+   AND E.Cancelled = 0
+   AND (E.ModuleID in (SELECT * FROM {databaseOwner}[{objectQualifier}EventsSplitIDs](@ModuleIDs)))
+GROUP By E.EventID
+
+SELECT E.PortalID, E.EventID, E.RecurMasterID, E.ModuleID, E.EventDateBegin, E.EventDateEnd,
+     E.EventTimeBegin, E.Duration, E.EventName, E.EventDesc,
+     E.Importance, E.CreatedDate, 
+     CreatedBy = U.DisplayName, 
+     E.CreatedByID, 
+     E.Every, 
+     E.Period, 
+     E.RepeatType, 
+     E.Notify, 
+     E.approved, 
+     E.Signups, 
+     E.MaxEnrollment, 
+     (Select Sum(NoEnrolees) from {databaseOwner}[{objectQualifier}EventsSignups] WHERE EventID = E.EventID and E.Signups = 1) as Enrolled, 
+     ET.NoOfRecurrences,
+     ET.LastRecurrence,
+     E.EnrollRoleID, 
+     E.EnrollFee, 
+     E.EnrollType,
+     E.PayPalAccount, 
+     E.Cancelled, 
+     E.DetailPage, 
+     E.DetailNewWin, 
+     E.DetailURL, 
+     E.ImageURL, 
+     E.ImageType, 
+     E.ImageWidth, 
+     E.ImageHeight, 
+     E.ImageDisplay, 
+     E.Location, 
+     c.LocationName, 
+     c.MapURL, 
+     E.Category, 
+     b.CategoryName, 
+     b.Color, 
+     b.FontColor, 
+     E.Reminder, 
+     E.SendReminder, 
+     E.ReminderTime, 
+     E.ReminderTimeMeasurement, 
+     E.ReminderFrom, 
+     E.SearchSubmitted, 
+     E.CustomField1,
+     E.CustomField2, 
+     E.EnrollListView, 
+     E.DisplayEndDate, 
+     E.AllDayEvent, 
+     E.OwnerID, 
+     OwnerName = O.DisplayName, 
+     E.LastUpdatedAt, 
+     LastUpdatedBy = L.DisplayName, 
+     E.LastUpdatedID, 
+     RMOwnerID = r.OwnerID, 
+     r.RRULE, 
+     E.OriginalDateBegin, 
+     E.NewEventEmailSent,
+     r.EventTimeZoneId,
+     E.AllowAnonEnroll,
+     E.ContentItemId,
+     E.JournalItem,
+     r.SocialGroupId,
+     r.SocialUserId,
+     E.Summary,
+     E.Sequence,
+     RMSequence = r.Sequence,
+     SocialUserUserName = S.UserName,
+     SocialUserDisplayName = S.DisplayName
+ FROM {databaseOwner}[{objectQualifier}Events] E 
+ inner join {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r on E.RecurMasterID = r.RecurMasterID 
+ left outer join {databaseOwner}[{objectQualifier}Users] U on E.CreatedByID = U.UserID 
+ left outer join {databaseOwner}[{objectQualifier}Users] O on E.OwnerID = O.UserID 
+ left outer join {databaseOwner}[{objectQualifier}Users] L on E.LastUpdatedID = L.UserID 
+ left outer join {databaseOwner}[{objectQualifier}Users] S on r.SocialUserId = S.UserID 
+ left join {databaseOwner}[{objectQualifier}EventsCategory] b on E.Category = b.Category 
+ left join {databaseOwner}[{objectQualifier}EventsLocation] c on E.Location = c.Location 
+ left join #EventIDs ET on E.EventID = ET.EventID
+WHERE E.EventID in (Select EventID from #EventIDs)
+   AND (e.Category in (SELECT * FROM {databaseOwner}[{objectQualifier}EventsSplitIDs](@CategoryIDs)) or @CategoryIDs = '-1')
+   AND (e.Location in (SELECT * FROM {databaseOwner}[{objectQualifier}EventsSplitIDs](@LocationIDs)) or @LocationIDs = '-1')
+   AND (r.SocialGroupId = @SocialGroupId or @SocialGroupId = -1)
+   AND (r.SocialUserId = @SocialUserId or @SocialUserId = -1)
+END
+GO

@@ -1,0 +1,33 @@
+﻿<h2>Release notes DNN Events 06.00.00</h2>
+<p>Events 06.00.00 will work for any DNN version <strong>6.1.2</strong> and up.
+Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+    <li>Events: Popup Date.</li>
+    <li>Colorpicker of categories does not work with DNN6.</li>
+    <li>Export to desktop in Events Module does not handle DST correctly.</li>
+</ul>
+<h3>NEW FEATURES</h3>
+<ul>
+	<li>Option for Enrolments - Only Allow Free Events.</li>
+	<li>Calendar Image Resize.</li>
+	<li>Category DropDown Menu.</li>
+	<li>Sorting in repeater view.</li>
+	<li>Add DST and User Time Zone support.</li>
+	<li>Added token for edit button.</li>
+	<li>Enable css based positioning of bottom icon bar.</li>
+	<li>Added X-WR-CALNAME to iCal to name the feed.</li>
+	<li>Added ability to remove url from location in iCal.</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+    <li>Implement new Icon API in DNN 6.</li>
+    <li>Remove use of TABLE based layouts.</li>
+    <li>Change .dnn file from .dnn5 to .dnn6.</li>
+    <li>Ensure module supports DNN 6 popups correctly.</li>
+    <li>Standardise on DNN 6 Error Messaging.</li>
+    <li>URL Detail character limit.</li>
+    <li>Create a clean SQL install script for new major release.</li>
+    <li>Remove deprecated api calls.</li>
+    <li>SET NOCOUNT ON improves Stored Procedure performance in SQL Server.</li>
+</ul>

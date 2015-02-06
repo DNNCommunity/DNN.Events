@@ -1,0 +1,6 @@
+﻿'Remove old versions of events
+Install\Module\Events_04.00.02_Install.resources
+Install\Module\Events_04.00.02_Install.zip
+DesktopModules\Events\App_LocalResources\EventNotification.resx
+DesktopModules\Events\App_LocalResources\EventEventImport.ascx.resx
+DesktopModules\Events\EventIPN.aspx.resx

@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lblSignup.Text" xml:space="preserve">
+    <value>You are not enrolled for this event!</value>
+  </data>
+  <data name="EnrollForEvent.Text" xml:space="preserve">
+    <value>Enroll for this Event?</value>
+  </data>
+  <data name="cmdvEventExport.Text" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="returnButton.Text" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="plCreatedBy.Text" xml:space="preserve">
+    <value>Created by</value>
+  </data>
+  <data name="plOn.Text" xml:space="preserve">
+    <value>on</value>
+  </data>
+  <data name="FirstDay.Text" xml:space="preserve">
+    <value>st day</value>
+  </data>
+  <data name="ThirdDay.Text" xml:space="preserve">
+    <value>rd day</value>
+  </data>
+  <data name="FourthDay.Text" xml:space="preserve">
+    <value>th day</value>
+  </data>
+  <data name="FifthDay.Text" xml:space="preserve">
+    <value>th day</value>
+  </data>
+  <data name="SixthDay.Text" xml:space="preserve">
+    <value>th day</value>
+  </data>
+  <data name="SeventhDay.Text" xml:space="preserve">
+    <value>th day</value>
+  </data>
+  <data name="EighthDay.Text" xml:space="preserve">
+    <value>th day</value>
+  </data>
+  <data name="NinethDay.Text" xml:space="preserve">
+    <value>th day</value>
+  </data>
+  <data name="SureYouWantToEnroll.Text" xml:space="preserve">
+    <value>Are You Sure You Want To Enroll?</value>
+  </data>
+  <data name="NotEnrolledForThisEvent.Text" xml:space="preserve">
+    <value>You are not enrolled for this event...&lt;br&gt;press this link to enroll!</value>
+  </data>
+  <data name="YouAreEnrolledForThisEvent.Text" xml:space="preserve">
+    <value>You are enrolled and approved for this event!</value>
+  </data>
+  <data name="EnrolledButNotApproved.Text" xml:space="preserve">
+    <value>You are enrolled for this event, but not yet approved!</value>
+  </data>
+  <data name="ControlTitle_details.Text" xml:space="preserve">
+    <value>Event Detail</value>
+  </data>
+  <data name="plTimeZone.Text" xml:space="preserve">
+    <value>Time Zone:</value>
+  </data>
+  <data name="StatusPPSuccess.Text" xml:space="preserve">
+    <value>You have been successfully enrolled for this event. Thanks!</value>
+  </data>
+  <data name="editButton.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="deleteButton.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="cmdNotify.Text" xml:space="preserve">
+    <value>Remind me about this Event @</value>
+  </data>
+  <data name="StatusPPCancelled.Text" xml:space="preserve">
+    <value>You have successfully cancelled the paid enrollment.</value>
+  </data>
+  <data name="hypLocation.Text" xml:space="preserve">
+    <value>Select to display map link</value>
+  </data>
+  <data name="valEmail.Text" xml:space="preserve">
+    <value>Invalid Email Address!</value>
+  </data>
+  <data name="editSeriesButton.Text" xml:space="preserve">
+    <value>Edit Series</value>
+  </data>
+  <data name="Hours.Text" xml:space="preserve">
+    <value>Hour(s)</value>
+  </data>
+  <data name="lblTimeBefore.Text" xml:space="preserve">
+    <value>before event starts</value>
+  </data>
+  <data name="Minutes.Text" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="LoginToEnroll.Text" xml:space="preserve">
+    <value>Login to Enroll for this Event</value>
+  </data>
+  <data name="chkReminderRec.Text" xml:space="preserve">
+    <value>Remind about all Events in this series?</value>
+  </data>
+  <data name="ReminderAlreadyReg.Text" xml:space="preserve">
+    <value>{0} is already registered for getting a reminder on {1}</value>
+  </data>
+  <data name="cmdvEventExportSeries.Text" xml:space="preserve">
+    <value>Export Series</value>
+  </data>
+  <data name="TokenUnknown.Text" xml:space="preserve">
+    <value>Token not found</value>
+  </data>
+  <data name="deleteSeriesButton.Text" xml:space="preserve">
+    <value>Delete Series</value>
+  </data>
+  <data name="lblNoEnrolee.Text" xml:space="preserve">
+    <value>No. of Enrollees:</value>
+  </data>
+  <data name="valNoEnrolees.Text" xml:space="preserve">
+    <value>Number of Enrollees must be in range 1 to {0}</value>
+  </data>
+  <data name="lblMaxNoEnrolees.Text" xml:space="preserve">
+    <value>(Max {0})</value>
+  </data>
+  <data name="cmdvEventSeriesTooltip.Text" xml:space="preserve">
+    <value>Export event series as iCal file for import to calendar application</value>
+  </data>
+  <data name="cmdvEventTooltip.Text" xml:space="preserve">
+    <value>Export event as iCal file for import to calendar application</value>
+  </data>
+  <data name="EnrollTooLate.Text" xml:space="preserve">
+    <value>Event has started, it is no longer possible to enroll.</value>
+  </data>
+  <data name="cmdEmail.Text" xml:space="preserve">
+    <value>Email this event to me @</value>
+  </data>
+  <data name="ConfirmationiCal.Text" xml:space="preserve">
+    <value>Event has been emailed as a .ics to {0}</value>
+  </data>
+  <data name="valAnonName.Text" xml:space="preserve">
+    <value>Name must be entered</value>
+  </data>
+  <data name="YouAreAlreadyEnrolledForThisEvent.Text" xml:space="preserve">
+    <value>You are already enrolled for this event!</value>
+  </data>
+  <data name="lblAnonEmail.Text" xml:space="preserve">
+    <value>Email Address:</value>
+  </data>
+  <data name="lblAnonName.Text" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="lblAnonTelephone.Text" xml:space="preserve">
+    <value>Phone No:</value>
+  </data>
+  <data name="cmdvEventSignupsDownload.Text" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="cmdvEventSignupsTooltip.Text" xml:space="preserve">
+    <value>Download the enrollees for this event as an XML file</value>
+  </data>
+</root>

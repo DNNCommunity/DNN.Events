@@ -1,0 +1,1098 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="1.Text" xml:space="preserve">
+    <value>1st</value>
+  </data>
+  <data name="2.Text" xml:space="preserve">
+    <value>2nd</value>
+  </data>
+  <data name="3.Text" xml:space="preserve">
+    <value>3rd</value>
+  </data>
+  <data name="4.Text" xml:space="preserve">
+    <value>4th</value>
+  </data>
+  <data name="5.Text" xml:space="preserve">
+    <value>5th</value>
+  </data>
+  <data name="6.Text" xml:space="preserve">
+    <value>6th</value>
+  </data>
+  <data name="7.Text" xml:space="preserve">
+    <value>7th</value>
+  </data>
+  <data name="8.Text" xml:space="preserve">
+    <value>8th</value>
+  </data>
+  <data name="9.Text" xml:space="preserve">
+    <value>9th</value>
+  </data>
+  <data name="10.Text" xml:space="preserve">
+    <value>10th</value>
+  </data>
+  <data name="11.Text" xml:space="preserve">
+    <value>11th</value>
+  </data>
+  <data name="12.Text" xml:space="preserve">
+    <value>12th</value>
+  </data>
+  <data name="13.Text" xml:space="preserve">
+    <value>13th</value>
+  </data>
+  <data name="14.Text" xml:space="preserve">
+    <value>14th</value>
+  </data>
+  <data name="15.Text" xml:space="preserve">
+    <value>15th</value>
+  </data>
+  <data name="16.Text" xml:space="preserve">
+    <value>16th</value>
+  </data>
+  <data name="17.Text" xml:space="preserve">
+    <value>17th</value>
+  </data>
+  <data name="18.Text" xml:space="preserve">
+    <value>18th</value>
+  </data>
+  <data name="19.Text" xml:space="preserve">
+    <value>19th</value>
+  </data>
+  <data name="20.Text" xml:space="preserve">
+    <value>20th</value>
+  </data>
+  <data name="21.Text" xml:space="preserve">
+    <value>21st</value>
+  </data>
+  <data name="22.Text" xml:space="preserve">
+    <value>22nd</value>
+  </data>
+  <data name="23.Text" xml:space="preserve">
+    <value>23rd</value>
+  </data>
+  <data name="24.Text" xml:space="preserve">
+    <value>24th</value>
+  </data>
+  <data name="25.Text" xml:space="preserve">
+    <value>25th</value>
+  </data>
+  <data name="26.Text" xml:space="preserve">
+    <value>26th</value>
+  </data>
+  <data name="27.Text" xml:space="preserve">
+    <value>27th</value>
+  </data>
+  <data name="28.Text" xml:space="preserve">
+    <value>28th</value>
+  </data>
+  <data name="29.Text" xml:space="preserve">
+    <value>29th</value>
+  </data>
+  <data name="30.Text" xml:space="preserve">
+    <value>30th</value>
+  </data>
+  <data name="31.Text" xml:space="preserve">
+    <value>31st</value>
+  </data>
+  <data name="moderateemailsubject.Text" xml:space="preserve">
+    <value>Event(s)/Enrollment(s) for DNN Event Module '[module:moduletitle]' require Approval: [event:title]</value>
+  </data>
+  <data name="moderateemailmessage.Text" xml:space="preserve">
+    <value>Event(s)/Enrollment(s) for DNN Event Module '[module:moduletitle]' require your attention and/or approval: [event:title]&lt;br /&gt;
+&lt;br /&gt;
+&lt;a href="[event:moderateurl]"&gt;Click here to go to moderation page&lt;/a&gt;</value>
+  </data>
+  <data name="txtEnrollSubject.Text" xml:space="preserve">
+    <value>Event [event:title] Enrollment - Status</value>
+  </data>
+  <data name="txtEmailSubject.Text" xml:space="preserve">
+    <value>The event/enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] - has been updated</value>
+  </data>
+  <data name="txtEmailMessage.Text" xml:space="preserve">
+    <value>The event/enrollment for Event: [event:title] on  [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] - [event:recurring] - has been updated</value>
+  </data>
+  <data name="txtEnrollMessageApproved.Text" xml:space="preserve">
+    <value> - Enrollment for user [event:signupusername] has been approved</value>
+  </data>
+  <data name="txtEnrollMessagePaying.Text" xml:space="preserve">
+    <value>The enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] has been updated - Enrollment for user [event:signupusername] is awaiting payment</value>
+  </data>
+  <data name="txtEnrollMessageDenied.Text" xml:space="preserve">
+    <value> - Enrollment for user [event:signupusername] has been denied</value>
+  </data>
+  <data name="txtEnrollMessageDeleted.Text" xml:space="preserve">
+    <value>The event/enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] has been updated - Enrollment for user [event:signupusername] has been deleted</value>
+  </data>
+  <data name="txtEnrollMessageAdded.Text" xml:space="preserve">
+    <value>The enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] has been updated - Enrollment for user [event:signupusername] has been added</value>
+  </data>
+  <data name="txtEnrollMessagePaid.Text" xml:space="preserve">
+    <value>The enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] has been updated - Enrollment for user [event:signupusername] has been paid and approved</value>
+  </data>
+  <data name="txtEnrollMessagePending.Text" xml:space="preserve">
+    <value>The enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] has been updated - Enrollment for user [event:signupusername] is payment pending</value>
+  </data>
+  <data name="Edit Settings.Permission" xml:space="preserve">
+    <value>Edit Settings</value>
+  </data>
+  <data name="Events Moderator.Permission" xml:space="preserve">
+    <value>Events Moderator</value>
+  </data>
+  <data name="Global Category Editor.Permission" xml:space="preserve">
+    <value>Global Category Editor</value>
+  </data>
+  <data name="Global Location Editor.Permission" xml:space="preserve">
+    <value>Global Location Editor</value>
+  </data>
+  <data name="Days.Text" xml:space="preserve">
+    <value>Day(s)</value>
+  </data>
+  <data name="RecurringWeeksOn.Text" xml:space="preserve">
+    <value>Every {0} week(s) on {1}</value>
+  </data>
+  <data name="RecurringYearsOn.Text" xml:space="preserve">
+    <value>Every year on {0:d MMMM}</value>
+  </data>
+  <data name="First.Text" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="Fourth.Text" xml:space="preserve">
+    <value>Fourth</value>
+  </data>
+  <data name="Last.Text" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="Months.Text" xml:space="preserve">
+    <value>Month(s)</value>
+  </data>
+  <data name="OneTimeEvent.Text" xml:space="preserve">
+    <value>One time event</value>
+  </data>
+  <data name="Second.Text" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="Third.Text" xml:space="preserve">
+    <value>Third</value>
+  </data>
+  <data name="Weeks.Text" xml:space="preserve">
+    <value>Week(s)</value>
+  </data>
+  <data name="Years.Text" xml:space="preserve">
+    <value>Year(s)</value>
+  </data>
+  <data name="EnrollApproved.Text" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="EnrollDisplayName.Text" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="EnrollEmail.Text" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="EnrollPhone.Text" xml:space="preserve">
+    <value>Phone No.</value>
+  </data>
+  <data name="EnrollUserName.Text" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="lblEnrolledUsers.Text" xml:space="preserve">
+    <value>Enrolled Users:</value>
+  </data>
+  <data name="RSSFeedDescDefault.Text" xml:space="preserve">
+    <value>Enter Feed Description</value>
+  </data>
+  <data name="RSSFeedTitleDefault.Text" xml:space="preserve">
+    <value>Enter Feed Title</value>
+  </data>
+  <data name="plCategory.Text" xml:space="preserve">
+    <value>Category:</value>
+  </data>
+  <data name="plLocation.Text" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="lnkToday.Text" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Enroll.Text" xml:space="preserve">
+    <value>Enrollment</value>
+  </data>
+  <data name="EnrollEnabled.Text" xml:space="preserve">
+    <value>Enrollment enabled</value>
+  </data>
+  <data name="HighPrio.Text" xml:space="preserve">
+    <value>High Priority</value>
+  </data>
+  <data name="LowPrio.Text" xml:space="preserve">
+    <value>Low Priority</value>
+  </data>
+  <data name="Priority.Text" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="Recurring.Text" xml:space="preserve">
+    <value>Recurring</value>
+  </data>
+  <data name="RecurringEvent.Text" xml:space="preserve">
+    <value>Recurring Event</value>
+  </data>
+  <data name="Reminder.Text" xml:space="preserve">
+    <value>Reminder</value>
+  </data>
+  <data name="ReminderEnabled.Text" xml:space="preserve">
+    <value>Reminder enabled</value>
+  </data>
+  <data name="Events.Text" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="lblReminderConfirmation.Text" xml:space="preserve">
+    <value>You will be reminded about this event on {0}</value>
+  </data>
+  <data name="Total.Text" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="NormPrio.Text" xml:space="preserve">
+    <value>Normal Priority</value>
+  </data>
+  <data name="txtEnrollMessageCancelled.Text" xml:space="preserve">
+    <value>The enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] has been updated - Enrollment for user [event:signupusername] has been cancelled</value>
+  </data>
+  <data name="txtEnrollMessageIncorrect.Text" xml:space="preserve">
+    <value>The enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] has been updated - Enrollment for user [event:signupusername] has received incorrect payment</value>
+  </data>
+  <data name="plImportance.Text" xml:space="preserve">
+    <value>Importance:</value>
+  </data>
+  <data name="High.Text" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Low.Text" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="Normal.Text" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="MenuRSS.Text" xml:space="preserve">
+    <value>Events RSS</value>
+  </data>
+  <data name="MenuAddEvents.Text" xml:space="preserve">
+    <value>Add Event</value>
+  </data>
+  <data name="MenuCategories.Text" xml:space="preserve">
+    <value>Edit Categories</value>
+  </data>
+  <data name="MenuDetail.Text" xml:space="preserve">
+    <value>Event Detail</value>
+  </data>
+  <data name="MenuList.Text" xml:space="preserve">
+    <value>List view</value>
+  </data>
+  <data name="MenuLocations.Text" xml:space="preserve">
+    <value>Edit Locations</value>
+  </data>
+  <data name="MenuModerate.Text" xml:space="preserve">
+    <value>Moderate Events</value>
+  </data>
+  <data name="MenuMonth.Text" xml:space="preserve">
+    <value>Month view</value>
+  </data>
+  <data name="MenuMyEnrollments.Text" xml:space="preserve">
+    <value>My Enrollments</value>
+  </data>
+  <data name="MenuPPEnroll.Text" xml:space="preserve">
+    <value>Event Enroll (Paid)</value>
+  </data>
+  <data name="MenuWeek.Text" xml:space="preserve">
+    <value>Week view</value>
+  </data>
+  <data name="MenuSubscribe.Text" xml:space="preserve">
+    <value>Subscribe</value>
+  </data>
+  <data name="MenuUnsubscribe.Text" xml:space="preserve">
+    <value>Unsubscribe</value>
+  </data>
+  <data name="txtNewEventEmailMessage.Text" xml:space="preserve">
+    <value>New Event: [event:titleurl] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] to [DISPLAYENDDATE][NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT][/DISPLAYENDDATE] [IFTIMEZONEDISPLAY]([event:timezone])[/IFTIMEZONEDISPLAY] - [event:recurring] - has been added</value>
+  </data>
+  <data name="txtNewEventEmailSubject.Text" xml:space="preserve">
+    <value>New Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] </value>
+  </data>
+  <data name="TokenCategoryLabel.Text" xml:space="preserve">
+    <value>Category:</value>
+  </data>
+  <data name="TokenCustomField1Label.Text" xml:space="preserve">
+    <value>Custom Field 1:</value>
+  </data>
+  <data name="TokenCustomField2Label.Text" xml:space="preserve">
+    <value>Custom Field 2:</value>
+  </data>
+  <data name="TokenDescriptionLabel.Text" xml:space="preserve">
+    <value>Description:</value>
+  </data>
+  <data name="TokenEnddateLabel.Text" xml:space="preserve">
+    <value>End Date/Time:</value>
+  </data>
+  <data name="TokenImporatanceLabel.Text" xml:space="preserve">
+    <value>Importance:</value>
+  </data>
+  <data name="TokenLocationLabel.Text" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="TokenRecurranceLabel.Text" xml:space="preserve">
+    <value>Recurring Event:</value>
+  </data>
+  <data name="TokenStartdateLabel.Text" xml:space="preserve">
+    <value>Start Date/Time:</value>
+  </data>
+  <data name="EventDetailsTemplate.Text" xml:space="preserve">
+    <value>&lt;div id="divEventDetailsTemplate1" class="SubHead DetailEventDetailsDiv1"&gt;
+&lt;span class="Head"&gt;[event:title]&lt;/span&gt; [event:eventimage]
+&lt;/div&gt;
+[BREAK]
+[BREAK]
+&lt;div id="divEventDetailsTemplate3" class="SubHead DetailEventDetailsDiv3"&gt;
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:startdatelabel]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;span class="Normal"&gt;[NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT]&lt;/span&gt;
+&lt;span class="Normal"&gt;[IFTIMEZONEDISPLAY][event:timezone][/IFTIMEZONEDISPLAY]&lt;/span&gt;
+&lt;/div&gt;
+[DISPLAYENDDATE]
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:enddatelabel]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;span class="Normal"&gt;[NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT]&lt;/span&gt;
+&lt;span class="Normal"&gt;[IFTIMEZONEDISPLAY][event:timezone][/IFTIMEZONEDISPLAY]&lt;/span&gt;
+&lt;/div&gt;
+[/DISPLAYENDDATE]
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:recurringlabel]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;span class="Normal"&gt;[event:recurring]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:importancelabel]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;span class="Normal"&gt;[event:importance]&lt;/span&gt;
+&lt;/div&gt;
+[DISPLAYCUSTOMFIELD1]
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:customfield1label]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;span class="Normal"&gt;[event:customfield1]&lt;/span&gt;
+&lt;/div&gt;
+[/DISPLAYCUSTOMFIELD1]
+[DISPLAYCUSTOMFIELD2]
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:customfield2label]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;span class="Normal"&gt;[event:customfield2]&lt;/span&gt;
+&lt;/div&gt;
+[/DISPLAYCUSTOMFIELD2]
+[IFHASCATEGORY]
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:categorylabel]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;span class="Normal"&gt;[event:category]&lt;/span&gt;
+&lt;/div&gt;
+[/IFHASCATEGORY]
+[IFHASLOCATION]
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:locationlabel]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;span class="Normal"&gt;[event:location]&lt;/span&gt;
+&lt;/div&gt;
+[/IFHASLOCATION]
+&lt;div class="DetailClear DetailContentLeft SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:descriptionlabel]&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="DetailContentRight"&gt;
+&lt;div class="Normal"&gt;[event:description]&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+[BREAK]
+&lt;div id="divEventDetailsTemplate4" class="Normal DetailEventDetailsDiv4"&gt;
+[event:ownedbylabel] [event:ownedbyprofile] [event:createddatelabel] [event:createddate|D]
+&lt;/div&gt;</value>
+  </data>
+  <data name="Category.Header" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CustomField1.Header" xml:space="preserve">
+    <value>Custom Field 1</value>
+  </data>
+  <data name="CustomField2.Header" xml:space="preserve">
+    <value>Custom Field 2</value>
+  </data>
+  <data name="Description.Header" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Duration.Header" xml:space="preserve">
+    <value>No. Days</value>
+  </data>
+  <data name="Event End.Header" xml:space="preserve">
+    <value>Event End</value>
+  </data>
+  <data name="Event Start.Header" xml:space="preserve">
+    <value>Event Start</value>
+  </data>
+  <data name="Image.Header" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Location.Header" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="RecurText.Header" xml:space="preserve">
+    <value>Recurring</value>
+  </data>
+  <data name="RecurUntil.Header" xml:space="preserve">
+    <value>Until</value>
+  </data>
+  <data name="Time.Header" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Title.Header" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="txtTooltipTemplateTitleNT.Text" xml:space="preserve">
+    <value>Events for {0}</value>
+  </data>
+  <data name="txtEmailMessageName.Text" xml:space="preserve">
+    <value>Moderate Event/Enrollment Email  Approve/Deny - Body</value>
+  </data>
+  <data name="txtEmailSubjectName.Text" xml:space="preserve">
+    <value>Moderate Event/Enrollment Email  Approve/Deny - Subject</value>
+  </data>
+  <data name="txtEnrollMessageAddedName.Text" xml:space="preserve">
+    <value>Enrollment Email - User Added by Editor</value>
+  </data>
+  <data name="txtEnrollMessageApprovedName.Text" xml:space="preserve">
+    <value>Enrollment Email - Approved Suffix</value>
+  </data>
+  <data name="txtEnrollMessageCancelledName.Text" xml:space="preserve">
+    <value>Enrollment Email - Enrollment Cancelled</value>
+  </data>
+  <data name="txtEnrollMessageDeletedName.Text" xml:space="preserve">
+    <value>Enrollment Email - User Deleted by Editor</value>
+  </data>
+  <data name="txtEnrollMessageDeniedName.Text" xml:space="preserve">
+    <value>Enrollment Email - Denied Suffix</value>
+  </data>
+  <data name="txtEnrollMessageIncorrectName.Text" xml:space="preserve">
+    <value>Enrollment Email - Incorrect Payment</value>
+  </data>
+  <data name="txtEnrollMessagePaidName.Text" xml:space="preserve">
+    <value>Enrollment Email - User Paid</value>
+  </data>
+  <data name="txtEnrollMessagePayingName.Text" xml:space="preserve">
+    <value>Enrollment Email - User Paying</value>
+  </data>
+  <data name="txtEnrollMessagePendingName.Text" xml:space="preserve">
+    <value>Enrollment Email - User Payment Pending</value>
+  </data>
+  <data name="txtEnrollMessageSubject.Text" xml:space="preserve">
+    <value>The enrollment for Event: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] has been updated</value>
+  </data>
+  <data name="txtEnrollMessageSubjectName.Text" xml:space="preserve">
+    <value>Enrollment Email - Subject Line</value>
+  </data>
+  <data name="moderateemailmessageName.Text" xml:space="preserve">
+    <value>Moderate Event/Enrollment Email Action Required - Body</value>
+  </data>
+  <data name="moderateemailsubjectName.Text" xml:space="preserve">
+    <value>Moderate Event/Enrollment Email Action Required - Subject</value>
+  </data>
+  <data name="txtNewEventEmailMessageName.Text" xml:space="preserve">
+    <value>New Event Notification - Body</value>
+  </data>
+  <data name="txtNewEventEmailSubjectName.Text" xml:space="preserve">
+    <value>New Event Notification - Subject</value>
+  </data>
+  <data name="txtMessage.Text" xml:space="preserve">
+    <value>You requested reminding about the following Event:&lt;br /&gt;
+&lt;br /&gt;
+[event:title]&lt;br /&gt;
+&lt;br /&gt;
+on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT] [event:timezone]&lt;br /&gt;
+to [NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT]&lt;br /&gt;
+[event:description]</value>
+  </data>
+  <data name="txtMessageName.Text" xml:space="preserve">
+    <value>Reminder Email - Body</value>
+  </data>
+  <data name="txtSubject.Text" xml:space="preserve">
+    <value>Event Reminder: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT]</value>
+  </data>
+  <data name="txtSubjectName.Text" xml:space="preserve">
+    <value>Reminder Email - Subject Line</value>
+  </data>
+  <data name="txtDayEventTimeBegin.Text" xml:space="preserve">
+    <value>[NOTALLDAYEVENT]g[/NOTALLDAYEVENT][ALLDAYEVENT]d[/ALLDAYEVENT]</value>
+  </data>
+  <data name="txtDayEventTimeBeginName.Text" xml:space="preserve">
+    <value>Day View Start Date Format</value>
+  </data>
+  <data name="txtDayEventTimeEnd.Text" xml:space="preserve">
+    <value>[NOTALLDAYEVENT]g[/NOTALLDAYEVENT][ALLDAYEVENT]d[/ALLDAYEVENT]</value>
+  </data>
+  <data name="txtDayEventTimeEndName.Text" xml:space="preserve">
+    <value>Day View End Date Format</value>
+  </data>
+  <data name="txtListEventTimeBegin.Text" xml:space="preserve">
+    <value>[NOTALLDAYEVENT]g[/NOTALLDAYEVENT][ALLDAYEVENT]d[/ALLDAYEVENT]</value>
+  </data>
+  <data name="txtListEventTimeBeginName.Text" xml:space="preserve">
+    <value>List View Start Date Format</value>
+  </data>
+  <data name="txtListEventTimeEnd.Text" xml:space="preserve">
+    <value>[NOTALLDAYEVENT]g[/NOTALLDAYEVENT][ALLDAYEVENT]d[/ALLDAYEVENT]</value>
+  </data>
+  <data name="txtListEventTimeEndName.Text" xml:space="preserve">
+    <value>List View End Date Format</value>
+  </data>
+  <data name="NewEventTemplate.Text" xml:space="preserve">
+    <value>Enter event description</value>
+  </data>
+  <data name="NewEventTemplateName.Text" xml:space="preserve">
+    <value>New Event Description</value>
+  </data>
+  <data name="TokenCreatedByLabel.Text" xml:space="preserve">
+    <value>Created by</value>
+  </data>
+  <data name="TokenCreatedOnLabel.Text" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="TokenLastUpdatedByLabel.Text" xml:space="preserve">
+    <value>Last updated by</value>
+  </data>
+  <data name="TokenLastUpdatedOnLabel.Text" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="TokenOwnedByLabel.Text" xml:space="preserve">
+    <value>Owned by</value>
+  </data>
+  <data name="ConfirmEventDelete.Text" xml:space="preserve">
+    <value>Are you sure you wish to Delete this entry?</value>
+  </data>
+  <data name="ConfirmEventSeriesDelete.Text" xml:space="preserve">
+    <value>Are you sure you wish to Delete ALL recurrences?</value>
+  </data>
+  <data name="txtDayEventDescription.Text" xml:space="preserve">
+    <value>[event:description]</value>
+  </data>
+  <data name="txtDayEventDescriptionName.Text" xml:space="preserve">
+    <value>Day View Description</value>
+  </data>
+  <data name="txtListEventDescription.Text" xml:space="preserve">
+    <value>[event:description]</value>
+  </data>
+  <data name="txtListEventDescriptionName.Text" xml:space="preserve">
+    <value>List View Description</value>
+  </data>
+  <data name="txtMonthEventText.Text" xml:space="preserve">
+    <value>[event:title]</value>
+  </data>
+  <data name="txtMonthEventTextName.Text" xml:space="preserve">
+    <value>Month View Event Text</value>
+  </data>
+  <data name="txtWeekEventText.Text" xml:space="preserve">
+    <value>[event:title]</value>
+  </data>
+  <data name="txtWeekEventTextName.Text" xml:space="preserve">
+    <value>Week View Event Text</value>
+  </data>
+  <data name="TokenAllDayEventText.Text" xml:space="preserve">
+    <value>(All Day)</value>
+  </data>
+  <data name="TokenMaxEnrollmentsLabel.Text" xml:space="preserve">
+    <value>Max Enrollments:</value>
+  </data>
+  <data name="TokenNoEnrollmentsLabel.Text" xml:space="preserve">
+    <value>No. Enrollments:</value>
+  </data>
+  <data name="txtRSSDescription.Text" xml:space="preserve">
+    <value>[IFHASIMAGE]&lt;a href="[event:imageurl]"&gt;[event:eventimage]&lt;/a&gt;[/IFHASIMAGE]
+&lt;table&gt;
+[IFHASCATEGORY]
+&lt;tr valign="top"&gt;
+&lt;td class="SubHead"&gt;
+&lt;span class="SubHead"&gt;[event:categorylabel]&lt;/span&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;span class="Normal"&gt;[event:category]&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+[/IFHASCATEGORY]
+[IFHASLOCATION]
+&lt;tr valign="top"&gt;
+&lt;td&gt;
+[event:locationlabel]
+&lt;/td&gt;
+&lt;td&gt;
+[event:location]
+&lt;/td&gt;
+&lt;/tr&gt;
+[/IFHASLOCATION]
+&lt;tr valign="top"&gt;
+&lt;td&gt;
+[event:importancelabel]
+&lt;/td&gt;
+&lt;td&gt;
+[event:importance]
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+[event:description]</value>
+  </data>
+  <data name="txtRSSDescriptionName.Text" xml:space="preserve">
+    <value>RSS Feed - Event Description</value>
+  </data>
+  <data name="txtRSSTitle.Text" xml:space="preserve">
+    <value>[event:title] - [NOTALLDAYEVENT][event:startdate|g][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|d] [event:alldayeventtext][/ALLDAYEVENT]</value>
+  </data>
+  <data name="txtRSSTitleName.Text" xml:space="preserve">
+    <value>RSS Feed - Event Title</value>
+  </data>
+  <data name="Unlimited.Text" xml:space="preserve">
+    <value>Unlimited</value>
+  </data>
+  <data name="EnrollFull.Text" xml:space="preserve">
+    <value>Enrollment full</value>
+  </data>
+  <data name="ViewEvent.Text" xml:space="preserve">
+    <value>View Event Details</value>
+  </data>
+  <data name="MenuTTSubscribe.Text" xml:space="preserve">
+    <value>Subscribe to new event notifications</value>
+  </data>
+  <data name="MenuTTUnsubscribe.Text" xml:space="preserve">
+    <value>Unsubscribe from new event notifications</value>
+  </data>
+  <data name="EventDetailsTemplateName.Text" xml:space="preserve">
+    <value>Event Details</value>
+  </data>
+  <data name="txtTooltipTemplateTitleNTName.Text" xml:space="preserve">
+    <value>Event Tooltip Title - Month View - No Event Titles</value>
+  </data>
+  <data name="txtTooltipTemplateBody.Text" xml:space="preserve">
+    <value>[event:description]</value>
+  </data>
+  <data name="txtTooltipTemplateBodyName.Text" xml:space="preserve">
+    <value>Event Tooltip Body - Other</value>
+  </data>
+  <data name="txtTooltipTemplateBodyNT.Text" xml:space="preserve">
+    <value>[event:title] - [NOTALLDAYEVENT][event:startdate|g][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|d][/ALLDAYEVENT][DISPLAYENDDATE] - [NOTALLDAYEVENT][event:enddate|g][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|d][/ALLDAYEVENT][/DISPLAYENDDATE]</value>
+  </data>
+  <data name="txtTooltipTemplateBodyNTName.Text" xml:space="preserve">
+    <value>Event Tooltip Body - Month View - No Event Titles</value>
+  </data>
+  <data name="txtTooltipTemplateTitle.Text" xml:space="preserve">
+    <value>[event:title] - [NOTALLDAYEVENT][event:startdate|g][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|d][/ALLDAYEVENT][DISPLAYENDDATE] - [NOTALLDAYEVENT][event:enddate|g][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|d][/ALLDAYEVENT][/DISPLAYENDDATE]</value>
+  </data>
+  <data name="txtTooltipTemplateTitleName.Text" xml:space="preserve">
+    <value>Event Tooltip Title - Other</value>
+  </data>
+  <data name="txtWeekTitleDate.Text" xml:space="preserve">
+    <value>{0:ddd}&lt;br /&gt;{0:d}</value>
+  </data>
+  <data name="txtWeekTitleDateName.Text" xml:space="preserve">
+    <value>Week View Title Date Format</value>
+  </data>
+  <data name="txtMonthDayEventCount.Text" xml:space="preserve">
+    <value>{0} Event(s)</value>
+  </data>
+  <data name="txtMonthDayEventCountName.Text" xml:space="preserve">
+    <value>Month View No Cell Events Text</value>
+  </data>
+  <data name="TokenSignupdateLabel.Text" xml:space="preserve">
+    <value>Enrollment Date/Time:</value>
+  </data>
+  <data name="EnrollNo.Text" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="TokenNoenroleesLabel.Text" xml:space="preserve">
+    <value>Number of people enrolled</value>
+  </data>
+  <data name="txtEnrollMessageWaiting.Text" xml:space="preserve">
+    <value> - Enrollment for user [event:signupusername] is awaiting approval</value>
+  </data>
+  <data name="txtEnrollMessageWaitingName.Text" xml:space="preserve">
+    <value>Enrollment Email - Awaiting Approval Suffix</value>
+  </data>
+  <data name="MenuSettings.Text" xml:space="preserve">
+    <value>Edit Settings</value>
+  </data>
+  <data name="TokenEnrollFeeFree.Text" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="TokenEnrollFeeLabel.Text" xml:space="preserve">
+    <value>Event Fee:</value>
+  </data>
+  <data name="TokenEnrollFeePaid.Text" xml:space="preserve">
+    <value>{0:#0.00} {1}</value>
+  </data>
+  <data name="txtDayLocation.Text" xml:space="preserve">
+    <value>[event:location]</value>
+  </data>
+  <data name="txtDayLocationName.Text" xml:space="preserve">
+    <value>Day View Location</value>
+  </data>
+  <data name="txtListLocation.Text" xml:space="preserve">
+    <value>[event:location]</value>
+  </data>
+  <data name="txtListLocationName.Text" xml:space="preserve">
+    <value>List View Location</value>
+  </data>
+  <data name="TokenReminderLabel.Text" xml:space="preserve">
+    <value>Reminder:</value>
+  </data>
+  <data name="txtEditViewEmailBody.Text" xml:space="preserve">
+    <value>There is a new Event:&lt;br /&gt;
+&lt;br /&gt;
+[event:title]&lt;br /&gt;
+&lt;br /&gt;
+on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT][IFTIMEZONEDISPLAY] [event:timezone][/IFTIMEZONEDISPLAY]&lt;br /&gt;
+to [NOTALLDAYEVENT][event:enddate][/NOTALLDAYEVENT][ALLDAYEVENT][event:enddate|D][/ALLDAYEVENT]&lt;br /&gt;
+[event:description]</value>
+  </data>
+  <data name="txtEditViewEmailBodyName.Text" xml:space="preserve">
+    <value>Edit View Default Event Email - Body</value>
+  </data>
+  <data name="txtEditViewEmailSubject.Text" xml:space="preserve">
+    <value>Event Notification: [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT]</value>
+  </data>
+  <data name="txtEditViewEmailSubjectName.Text" xml:space="preserve">
+    <value>Edit View Default Event Email - Subject</value>
+  </data>
+  <data name="EveryXDays.Text" xml:space="preserve">
+    <value>Every {0} days</value>
+  </data>
+  <data name="EveryXMonths.Text" xml:space="preserve">
+    <value>Every {0} months</value>
+  </data>
+  <data name="EveryXWeeks.Text" xml:space="preserve">
+    <value>Every {0} weeks</value>
+  </data>
+  <data name="EveryXYears.Text" xml:space="preserve">
+    <value>Every {0} years</value>
+  </data>
+  <data name="RecurringEveryMonth.Text" xml:space="preserve">
+    <value>Every {0} month(s) on the {1}</value>
+  </data>
+  <data name="RecurringEveryMonth2.Text" xml:space="preserve">
+    <value>Every {0} months on the {1} {2}</value>
+  </data>
+  <data name="RecurringInMonth.Text" xml:space="preserve">
+    <value>On the {0} {1} of the month</value>
+  </data>
+  <data name="RecurringUntil.Text" xml:space="preserve">
+    <value>until {0} (total {1} events)</value>
+  </data>
+  <data name="AllCategories.Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="UserDeleted.Text" xml:space="preserve">
+    <value>Deleted User</value>
+  </data>
+  <data name="txtSEOPageTitle.Text" xml:space="preserve">
+    <value>[event:title]  &gt; {0}</value>
+  </data>
+  <data name="txtSEOPageTitleName.Text" xml:space="preserve">
+    <value>SEO - Page Title</value>
+  </data>
+  <data name="txtSEOPageDescription.Text" xml:space="preserve">
+    <value>[event:description]</value>
+  </data>
+  <data name="txtSEOPageDescriptionName.Text" xml:space="preserve">
+    <value>SEO - Description</value>
+  </data>
+  <data name="txtListRptBody.Text" xml:space="preserve">
+    <value>&lt;div&gt;
+[event:startdate]&lt;/br&gt;
+[PRIVATE][event:title][/PRIVATE]
+[NOTPRIVATE]&lt;div style='background-color:[event:categorybackcolor];color:[event:categoryfontcolor]'&gt;[event:importanceicon][event:enrollicon][event:remindericon][event:recurringicon][event:viewicon][event:titleurl]&lt;/div&gt;&lt;/br&gt;[event:description][/NOTPRIVATE]
+&lt;/div&gt;</value>
+  </data>
+  <data name="txtListRptBodyName.Text" xml:space="preserve">
+    <value>List Repeater View Body</value>
+  </data>
+  <data name="txtListRptFooter.Text" xml:space="preserve">
+    <value>&lt;div&gt;
+[event:repeaterfootertext]
+&lt;/div&gt;</value>
+  </data>
+  <data name="txtListRptFooterName.Text" xml:space="preserve">
+    <value>List Repeater View Footer</value>
+  </data>
+  <data name="txtListRptHeader.Text" xml:space="preserve">
+    <value>&lt;div&gt;
+[event:repeaterheadertext][IFZEROEVENTS]&lt;br /&gt;&lt;br /&gt;[event:repeaterzeroeventstext][/IFZEROEVENTS]
+&lt;/div&gt;</value>
+  </data>
+  <data name="txtListRptHeaderName.Text" xml:space="preserve">
+    <value>List Repeater View Header</value>
+  </data>
+  <data name="TokenListRptFooter.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TokenListRptHeader.Text" xml:space="preserve">
+    <value>Event List</value>
+  </data>
+  <data name="MenuiCal.Text" xml:space="preserve">
+    <value>iCalendar</value>
+  </data>
+  <data name="Print.Text" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="EventiCalBody.Text" xml:space="preserve">
+    <value>Please find attached the calendar entry for [event:title] on [NOTALLDAYEVENT][event:startdate][/NOTALLDAYEVENT][ALLDAYEVENT][event:startdate|D][/ALLDAYEVENT]</value>
+  </data>
+  <data name="EventiCalBodyName.Text" xml:space="preserve">
+    <value>iCal Email Body</value>
+  </data>
+  <data name="EventiCalSubject.Text" xml:space="preserve">
+    <value>[event:title]</value>
+  </data>
+  <data name="EventiCalSubjectName.Text" xml:space="preserve">
+    <value>iCal Email Subject</value>
+  </data>
+  <data name="Events Editor.Permission" xml:space="preserve">
+    <value>Events Editor</value>
+  </data>
+  <data name="TokenListRptHeaderZeroEvents.Text" xml:space="preserve">
+    <value>No events to display</value>
+  </data>
+  <data name="EditEvent.Text" xml:space="preserve">
+    <value>Edit Event</value>
+  </data>
+  <data name="DatePickerTooltip.Text" xml:space="preserve">
+    <value>Open the calendar popup.</value>
+  </data>
+  <data name="TimePickerTooltip.Text" xml:space="preserve">
+    <value>Open the time view popup.....</value>
+  </data>
+  <data name="NoCategories.Text" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="SelectAllCategories.Text" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="TokenDurationDaysLabel.Text" xml:space="preserve">
+    <value>Days</value>
+  </data>
+  <data name="txtEnrollMessageApprovedMsgName.Text" xml:space="preserve">
+    <value>Enrollment Email - Approved</value>
+  </data>
+  <data name="txtEnrollMessageWaitingMsgName.Text" xml:space="preserve">
+    <value>Enrollment Email - Awaiting Approval</value>
+  </data>
+  <data name="AnonUser.Text" xml:space="preserve">
+    <value>Unauthenticated User</value>
+  </data>
+  <data name="TokenSocialGroupRoleNameLabel.Text" xml:space="preserve">
+    <value>Group Name:</value>
+  </data>
+  <data name="TokenSummaryLabel.Text" xml:space="preserve">
+    <value>Summary:</value>
+  </data>
+  <data name="TokenSocialUserDisplayNameLabel.Text" xml:space="preserve">
+    <value>Display Name:</value>
+  </data>
+  <data name="TokenSocialUserUserNameLabel.Text" xml:space="preserve">
+    <value>User Name:</value>
+  </data>
+  <data name="invalidReminderDays.Text" xml:space="preserve">
+    <value>Invalid Reminder Time (1-30 days)</value>
+  </data>
+  <data name="invalidReminderHours.Text" xml:space="preserve">
+    <value>Invalid Reminder Time (1-24 hours)</value>
+  </data>
+  <data name="invalidReminderMinutes.Text" xml:space="preserve">
+    <value>Invalid Reminder Time (15-60 minutes)</value>
+  </data>
+  <data name="AllLocations.Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="NoLocations.Text" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="SelectAllLocations.Text" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="TokenLocationAddressLabel.Text" xml:space="preserve">
+    <value>Address:</value>
+  </data>
+  <data name="TokenNoVacanciesLabel.Text" xml:space="preserve">
+    <value>No. Vacancies:</value>
+  </data>
+  <data name="City.Header" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Company.Header" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Country.Header" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Email.Header" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Enrollee.Header" xml:space="preserve">
+    <value>Enrollee</value>
+  </data>
+  <data name="EnrollmentsFile.Text" xml:space="preserve">
+    <value>Enrollments</value>
+  </data>
+  <data name="Event Name.Header" xml:space="preserve">
+    <value>Event Name</value>
+  </data>
+  <data name="FirstName.Header" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="FullName.Header" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="JobTitle.Header" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="LastName.Header" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Phone.Header" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="PostalCode.Header" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="ReferenceNumber.Header" xml:space="preserve">
+    <value>Reference Number</value>
+  </data>
+  <data name="Region.Header" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="Street.Header" xml:space="preserve">
+    <value>Street</value>
+  </data>
+</root>

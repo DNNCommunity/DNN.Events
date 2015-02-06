@@ -1,0 +1,2 @@
+Install\Module\Events_03.03.07_Install.resources
+Install\Module\Events_03.02.00_Install.resources

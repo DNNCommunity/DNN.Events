@@ -1,0 +1,13 @@
+﻿<h2>Release notes DNN Events 06.02.00</h2>
+<p>Events 06.02.00 will work for any DNN version <strong>7.2.0</strong> and up. Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+
+<h3>NEW FEATURES</h3>
+<ul>
+	<li>Added address fields to event locations..</li>
+	<li>Added address, name, company and other enrollee fields to event signups.</li>
+	<li>Added option to use a custom enrollment page, including module settings.</li>
+	<li>Added filtering of events by location name, including module settings.</li>
+	<li>Added option to restrict selection of categories and of locations to time frame from settings (list view only).</li>
+	<li>Added new tokens for locations, events and signups; added new token conditions for events.</li>
+	<li>Added option to download the enrollees for an event as a CSV file (single event only).</li>
+</ul>

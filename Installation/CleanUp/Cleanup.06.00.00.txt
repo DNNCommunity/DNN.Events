@@ -1,0 +1,13 @@
+﻿'Remove old versions of events
+Install\Module\Events_05.02.04_Source.zip
+Install\Module\Events_05.02.04_Install.zip
+'Tidy up debug files
+Bin\DotNetNuke.Modules.Events.pdb
+Bin\DotNetNuke.Modules.Events.ScheduleControl.pdb
+'Tidy up redundant images
+DesktopModules\Events\Images\colorpicker.gif
+DesktopModules\Events\Images\email.gif
+DesktopModules\Events\Images\false.gif
+DesktopModules\Events\Images\settings.gif
+DesktopModules\Events\Images\true.gif
+DesktopModules\Events\Images\view.gif

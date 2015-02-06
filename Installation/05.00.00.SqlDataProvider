@@ -1,0 +1,29 @@
+﻿    /************************************************************/
+    /*****                                                  *****/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for Events module 05.00.00 *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****               Miscellaneous Updates              *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/* Update Module Settings EventTheme */
+
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = '0,'+[SettingValue]+','
+WHERE SettingName = 'EventTheme' and
+Left(SettingValue,1) <> '0' and
+Left(SettingValue,1) <> '1' 
+GO
+
+

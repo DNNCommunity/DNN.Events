@@ -1,0 +1,25 @@
+﻿<h2>Release notes DNN Events 05.01.05</h2>
+<p>Events 05.01.05 will work for any DNN version 5.2.0 and up.
+Full details on the changes can be found in 
+great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">
+http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Conversion Date/time error for some date formats</li>
+	<li>Use of invalid value in maximum enrolments caused error</li>
+	<li>DNN 5.5 Emails on new event were sent without any html</li>
+	<li>ToolTip formatting was lost on Next/Previous</li>
+	<li>Some localization texts were missing on some parts of Event List Settings</li>
+	<li>The localization Key plPrewiew.Help in Category Edit was missing </li>
+	<li>Error when a deleted event detail page was accessed with a direct URL</li>
+	<li>Category Background Color & Font Color were saved, but not displayed correctly</li>
+	<li>Opening Event Details page resulted in an error for non standard ports</li>
+	<li>Upgrade to 5.1.4 from 4.0.x or older versions failed because of incorrect handling of module settings</li>
+	<li>Event Settings failed on load if the "new event email role" is deleted</li>
+	<li>User with no PreferredLocale caused Object Reference error in SendEmails</li>
+	<li>Blank e-mail templated caused error</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+	<li>Changed DTS handling in .ics export, it now refers to server timezone i.s.o. DNN site timezone</li>
+</ul>

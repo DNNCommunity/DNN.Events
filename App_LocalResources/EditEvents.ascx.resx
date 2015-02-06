@@ -1,0 +1,714 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EventSettings.Text" xml:space="preserve">
+    <value>Event Settings</value>
+  </data>
+  <data name="ImageSettings.Text" xml:space="preserve">
+    <value>Image Settings</value>
+  </data>
+  <data name="RecurringSettings.Text" xml:space="preserve">
+    <value>Recurring Settings</value>
+  </data>
+  <data name="EnrollmentSettings.Text" xml:space="preserve">
+    <value>Enrollment Settings</value>
+  </data>
+  <data name="lblStartDateTime.Text" xml:space="preserve">
+    <value>Start Date/Time:</value>
+  </data>
+  <data name="lblEndDateTime.Text" xml:space="preserve">
+    <value>End Date/Time:</value>
+  </data>
+  <data name="lblImportance.Text" xml:space="preserve">
+    <value>Importance:</value>
+  </data>
+  <data name="lblCategory.Text" xml:space="preserve">
+    <value>Category:</value>
+  </data>
+  <data name="lblLocation.Text" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="lblNotes.Text" xml:space="preserve">
+    <value>Notes:</value>
+  </data>
+  <data name="lblDisplayImage.Text" xml:space="preserve">
+    <value>Display Image:</value>
+  </data>
+  <data name="lblImageURL.Text" xml:space="preserve">
+    <value>Image URL:</value>
+  </data>
+  <data name="lblWidth.Text" xml:space="preserve">
+    <value>Width:</value>
+  </data>
+  <data name="lblHeight.Text" xml:space="preserve">
+    <value>Height:</value>
+  </data>
+  <data name="lblOneTimeEvent.Text" xml:space="preserve">
+    <value>One Time Event</value>
+  </data>
+  <data name="lblRecurEndDate.Text" xml:space="preserve">
+    <value>Repeat until date:</value>
+  </data>
+  <data name="lblDayRepeat.Text" xml:space="preserve">
+    <value>Repeat Daily:</value>
+  </data>
+  <data name="lblWeekRepeat.Text" xml:space="preserve">
+    <value>Repeat Weekly:</value>
+  </data>
+  <data name="lblMonthRepeat.Text" xml:space="preserve">
+    <value>Repeat Monthly:</value>
+  </data>
+  <data name="lblAnnualRepeat.Text" xml:space="preserve">
+    <value>Repeat Annually</value>
+  </data>
+  <data name="lblEvery.Text" xml:space="preserve">
+    <value>Repeated every:</value>
+  </data>
+  <data name="lblRepetitionWeek.Text" xml:space="preserve">
+    <value>Repetition frequency (weeks):</value>
+  </data>
+  <data name="lblWeekDays.Text" xml:space="preserve">
+    <value>On:</value>
+  </data>
+  <data name="lblRepeatedOn2.Text" xml:space="preserve">
+    <value>Repeated on day:</value>
+  </data>
+  <data name="lblRepetitionMonth.Text" xml:space="preserve">
+    <value>Repetition frequency (months):</value>
+  </data>
+  <data name="lblRepeatOnDate.Text" xml:space="preserve">
+    <value>Repeat on date:</value>
+  </data>
+  <data name="lblTypeOfEnrollment.Text" xml:space="preserve">
+    <value>Type of Enrollment:</value>
+  </data>
+  <data name="lblMaxEnrollment.Text" xml:space="preserve">
+    <value>Max. Enrollment:</value>
+  </data>
+  <data name="lblEnrollmentRole.Text" xml:space="preserve">
+    <value>Enrollee Role:</value>
+  </data>
+  <data name="lblFree.Text" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="lblPaidFee.Text" xml:space="preserve">
+    <value>Paid  Fee:</value>
+  </data>
+  <data name="lblPayPalAccount.Text" xml:space="preserve">
+    <value>PayPal Account:</value>
+  </data>
+  <data name="lblCurrentEnrolled.Text" xml:space="preserve">
+    <value>Currently Enrolled:</value>
+  </data>
+  <data name="lblEnrolledUsers.Text" xml:space="preserve">
+    <value>Enrolled Users:</value>
+  </data>
+  <data name="lblEventEmail.Text" xml:space="preserve">
+    <value>Email Details:</value>
+  </data>
+  <data name="lblEmailSubject.Text" xml:space="preserve">
+    <value>Email Subject:</value>
+  </data>
+  <data name="lblEmailMessage.Text" xml:space="preserve">
+    <value>Email Message:</value>
+  </data>
+  <data name="chkAttachEvent.Text" xml:space="preserve">
+    <value>Attach Event?</value>
+  </data>
+  <data name="lblCreatedBy.Text" xml:space="preserve">
+    <value>Created by:</value>
+  </data>
+  <data name="lblOn.Text" xml:space="preserve">
+    <value>on</value>
+  </data>
+  <data name="lnkSelectedEmail.Text" xml:space="preserve">
+    <value>Email Selected Enrolled Users</value>
+  </data>
+  <data name="lnkEmail.Text" xml:space="preserve">
+    <value>Email All Enrolled Users</value>
+  </data>
+  <data name="lnkSelectedDelete.Text" xml:space="preserve">
+    <value>Delete Selected Enrolled Users</value>
+  </data>
+  <data name="updateButton.Text" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="deleteButton.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="valRequiredTitle.Text" xml:space="preserve">
+    <value>Title Required</value>
+  </data>
+  <data name="valConflict.Text" xml:space="preserve">
+    <value>Conflict with existing Event! Change Date/Time</value>
+  </data>
+  <data name="valRequiredStartDate.Text" xml:space="preserve">
+    <value>Start Date is Required</value>
+  </data>
+  <data name="valValidEndDate.Text" xml:space="preserve">
+    <value>Invalid End Date or End Date smaller than Start Date</value>
+  </data>
+  <data name="valWidth.Text" xml:space="preserve">
+    <value>Width must be a valid Integer or Blank</value>
+  </data>
+  <data name="valHeight.Text" xml:space="preserve">
+    <value>Height must be a valid Integer or Blank</value>
+  </data>
+  <data name="valValidRecurEndDate.Text" xml:space="preserve">
+    <value>Recurring End Date cannot be prior to Event Start Date</value>
+  </data>
+  <data name="valW1Day.Text" xml:space="preserve">
+    <value>Weekly Recurring Event: Interval Required (1-99)</value>
+  </data>
+  <data name="valBadFee.Text" xml:space="preserve">
+    <value>Numeric fee &gt; 0.00 required for Paid Enrollment</value>
+  </data>
+  <data name="valPayPalAccount.Text" xml:space="preserve">
+    <value>PayPal Account required for Paid Enrollment</value>
+  </data>
+  <data name="ConfirmSendToAllEnrolled.Text" xml:space="preserve">
+    <value>Are You Sure You Wish To Send an Email to ALL Enrolled Users?</value>
+  </data>
+  <data name="ConfirmSendToAllSelected.Text" xml:space="preserve">
+    <value>Are You Sure You Wish To Send an Email to SELECTED Enrolled Users?</value>
+  </data>
+  <data name="ConfirmDeleteSelected.Text" xml:space="preserve">
+    <value>Are You Sure You Wish To Delete to SELECTED Enrolled Users?</value>
+  </data>
+  <data name="lblModerated.Text" xml:space="preserve">
+    <value>(Moderated)</value>
+  </data>
+  <data name="Select.Text" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="None.Text" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Days.Text" xml:space="preserve">
+    <value>Day(s)</value>
+  </data>
+  <data name="Weeks.Text" xml:space="preserve">
+    <value>Week(s)</value>
+  </data>
+  <data name="Months.Text" xml:space="preserve">
+    <value>Month(s)</value>
+  </data>
+  <data name="Years.Text" xml:space="preserve">
+    <value>Year(s)</value>
+  </data>
+  <data name="ControlTitle_edit.Text" xml:space="preserve">
+    <value>Edit Event</value>
+  </data>
+  <data name="Attachment.Text" xml:space="preserve">
+    <value>The attachment is a file that can load the event into Microsoft Outlook and other Desktop Calendar Applications!</value>
+  </data>
+  <data name="EnrollMessage.Text" xml:space="preserve">
+    <value>The following is a message related to your enrollment in Event: [event:title] on: [event:startdate]</value>
+  </data>
+  <data name="lblTimeZone.Text" xml:space="preserve">
+    <value>Time Zone:</value>
+  </data>
+  <data name="lblSendReminder.Text" xml:space="preserve">
+    <value>Send Reminder:</value>
+  </data>
+  <data name="Seconds.Text" xml:space="preserve">
+    <value>Seconds</value>
+  </data>
+  <data name="Minutes.Text" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="Hours.Text" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="Yes.Text" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="NotificationSettings.Text" xml:space="preserve">
+    <value>Notification Settings</value>
+  </data>
+  <data name="lblEmailTo.Text" xml:space="preserve">
+    <value>Email To:</value>
+  </data>
+  <data name="lblBodyMessage.Text" xml:space="preserve">
+    <value>Prepend Body Message:</value>
+  </data>
+  <data name="lblEmailToComment.Text" xml:space="preserve">
+    <value>(Separate email addresses by a comma.)</value>
+  </data>
+  <data name="First.Text" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="Second.Text" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="Third.Text" xml:space="preserve">
+    <value>Third</value>
+  </data>
+  <data name="Fourth.Text" xml:space="preserve">
+    <value>Fourth</value>
+  </data>
+  <data name="Last.Text" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="lblNotifyEmailSubject.Help" xml:space="preserve">
+    <value>Email Subject for notification.</value>
+  </data>
+  <data name="lblNotifyEmailMessage.Help" xml:space="preserve">
+    <value>Email Message for notification.</value>
+  </data>
+  <data name="lblRecEvent.Text" xml:space="preserve">
+    <value>Recurring Event:</value>
+  </data>
+  <data name="lblAllowErollment.Text" xml:space="preserve">
+    <value>Allow Enrollment:</value>
+  </data>
+  <data name="lblTitle.Text" xml:space="preserve">
+    <value>Title:</value>
+  </data>
+  <data name="lblNotifyEmailSubject.Text" xml:space="preserve">
+    <value>Email Subject:</value>
+  </data>
+  <data name="lblNotifyEmailMessage.Text" xml:space="preserve">
+    <value>Email Message:</value>
+  </data>
+  <data name="lblEnrollRoleNote.Text" xml:space="preserve">
+    <value>(select "None" for All Registered)</value>
+  </data>
+  <data name="lblRepeatedOn1.Text" xml:space="preserve">
+    <value>Repeated on:</value>
+  </data>
+  <data name="lblEndDate.Text" xml:space="preserve">
+    <value>Recurrence End Date:</value>
+  </data>
+  <data name="lblEmailFrom.Text" xml:space="preserve">
+    <value>Email From:</value>
+  </data>
+  <data name="lblPeriodicEvent.Text" xml:space="preserve">
+    <value>Periodic Event:</value>
+  </data>
+  <data name="lblWeeklyEvent.Text" xml:space="preserve">
+    <value>Weekly Event:</value>
+  </data>
+  <data name="lblMonthlyEvent.Text" xml:space="preserve">
+    <value>Monthly Event:</value>
+  </data>
+  <data name="lblYearlyEvent.Text" xml:space="preserve">
+    <value>Annual Event:</value>
+  </data>
+  <data name="lblStartDateTime.Help" xml:space="preserve">
+    <value>Enter Event Start Date and Time</value>
+  </data>
+  <data name="lblEndDateTime.Help" xml:space="preserve">
+    <value>Enter Event End Date and Time (can span multiple days)</value>
+  </data>
+  <data name="lblTimeZone.Help" xml:space="preserve">
+    <value>Time Zone Event will occur in.  Note: All Events for the specific Event Module Instance will be the same (see module settings).</value>
+  </data>
+  <data name="lblImportance.Help" xml:space="preserve">
+    <value>Select an Importance for display in Calendar views.</value>
+  </data>
+  <data name="lblCategory.Help" xml:space="preserve">
+    <value>Select a Category for the Event (supports event filtering)</value>
+  </data>
+  <data name="lblLocation.Help" xml:space="preserve">
+    <value>Select Event Location</value>
+  </data>
+  <data name="lblNotes.Help" xml:space="preserve">
+    <value>Enter a more detailed description for the Event (note this will optionally be displayed on the Calendar view as a popup)</value>
+  </data>
+  <data name="lblDisplayImage.Help" xml:space="preserve">
+    <value>Determines if an image will be associated/displayed with the Event</value>
+  </data>
+  <data name="lblImageURL.Help" xml:space="preserve">
+    <value>Select the Image from a URL or File Location on the Web Server</value>
+  </data>
+  <data name="lblWidth.Help" xml:space="preserve">
+    <value>Image Width for Display (defaults to actual width)</value>
+  </data>
+  <data name="lblHeight.Help" xml:space="preserve">
+    <value>Image display height (defaults to actual image height)</value>
+  </data>
+  <data name="lblRecEvent.Help" xml:space="preserve">
+    <value>Determines if this is a recurring event</value>
+  </data>
+  <data name="lblEndDate.Help" xml:space="preserve">
+    <value>Recurrence End Date (must be &gt; than the Start Date for the Event in order for the event to occur at least once)</value>
+  </data>
+  <data name="lblPeriodicEvent.Help" xml:space="preserve">
+    <value>Period Repeat Pattern (i.e. Daily, Weekly, Monthly or Yearly)</value>
+  </data>
+  <data name="lblWeeklyEvent.Help" xml:space="preserve">
+    <value>Detailed Weekly Event Pattern (allows a more detailed weekly recurrence pattern)</value>
+  </data>
+  <data name="lblMonthlyEvent.Help" xml:space="preserve">
+    <value>Detailed Monthly Repeat Pattern (allows for more detailed Monthly recurrence pattern)</value>
+  </data>
+  <data name="lblYearlyEvent.Help" xml:space="preserve">
+    <value>Annually repeat the event on a specific date</value>
+  </data>
+  <data name="lblSendReminder.Help" xml:space="preserve">
+    <value>Used to enable automatic email notifications for the event (background). Enable and set the number of minutes, days, hours before the event to send the notice.  Note:The DNN Scheduler be enabled by the Web Host Provider.</value>
+  </data>
+  <data name="lblEmailFrom.Help" xml:space="preserve">
+    <value>When sending event notices, this email will be marked from this address.</value>
+  </data>
+  <data name="lblAllowErollment.Help" xml:space="preserve">
+    <value>If enabled will allow users to Enroll in this event</value>
+  </data>
+  <data name="lblTypeOfEnrollment.Help" xml:space="preserve">
+    <value>Type of Enrollment: Free or Paypal (requires PayPal account to be setup correctly)</value>
+  </data>
+  <data name="lblMaxEnrollment.Help" xml:space="preserve">
+    <value>Max. Number of Enrollees per recurrence of the Event (note: 0 = unlimited)</value>
+  </data>
+  <data name="lblEnrollmentRole.Help" xml:space="preserve">
+    <value>Only Users that are in this Role will be allowed to Enroll in the Event</value>
+  </data>
+  <data name="lblTitle.Help" xml:space="preserve">
+    <value>Enter Event brief Title (used for Calendar views)</value>
+  </data>
+  <data name="lblEmailSubject.Help" xml:space="preserve">
+    <value>Email Subject for reminder.</value>
+  </data>
+  <data name="lblEmailMessage.Help" xml:space="preserve">
+    <value>Email Message for reminder.</value>
+  </data>
+  <data name="valEmail.Text" xml:space="preserve">
+    <value>Valid Email Address required</value>
+  </data>
+  <data name="EventStart.Text" xml:space="preserve">
+    <value>Event Start</value>
+  </data>
+  <data name="ReminderSettings.Text" xml:space="preserve">
+    <value>Reminder Settings</value>
+  </data>
+  <data name="lblCustomField1.Text" xml:space="preserve">
+    <value>Custom Field 1:</value>
+  </data>
+  <data name="lblCustomField1.Help" xml:space="preserve">
+    <value>Enter text for Custom Field 1</value>
+  </data>
+  <data name="lblCustomField2.Text" xml:space="preserve">
+    <value>Custom Field 2:</value>
+  </data>
+  <data name="lblCustomField2.Help" xml:space="preserve">
+    <value>Enter text for Custom Field 2</value>
+  </data>
+  <data name="lblTimeBefore.Help" xml:space="preserve">
+    <value>The amount of time before the event the notification will be sent out</value>
+  </data>
+  <data name="lblTimeBefore.Text" xml:space="preserve">
+    <value>Time Before Event:</value>
+  </data>
+  <data name="deleteSeriesButton.Text" xml:space="preserve">
+    <value>Delete Series</value>
+  </data>
+  <data name="lblOwner.Help" xml:space="preserve">
+    <value>Select Owner of the Event (must be a module editor)</value>
+  </data>
+  <data name="lblOwner.Text" xml:space="preserve">
+    <value>Owner:</value>
+  </data>
+  <data name="valValidEndTime.Text" xml:space="preserve">
+    <value>End date/time must be greater than start date/time</value>
+  </data>
+  <data name="lblEnrollListView.Help" xml:space="preserve">
+    <value>Display Enrollment list on Detail View</value>
+  </data>
+  <data name="lblEnrollListView.Text" xml:space="preserve">
+    <value>Enroll List on Detail View:</value>
+  </data>
+  <data name="updateSeriesButton.Text" xml:space="preserve">
+    <value>Update Series</value>
+  </data>
+  <data name="valM2Every.Text" xml:space="preserve">
+    <value>Monthly Recurring Event: Interval Required (1-99)</value>
+  </data>
+  <data name="valP1Every.Text" xml:space="preserve">
+    <value>Periodic Recurring Event: Interval Required (1-999)</value>
+  </data>
+  <data name="valRequiredEndDate.Text" xml:space="preserve">
+    <value>End Date Is Required</value>
+  </data>
+  <data name="valRequiredEndTime.Text" xml:space="preserve">
+    <value>End Time Is Required</value>
+  </data>
+  <data name="valRequiredRecurEndDate.Text" xml:space="preserve">
+    <value>Recurring End Date Is Required</value>
+  </data>
+  <data name="valRequiredYearEventDate.Text" xml:space="preserve">
+    <value>Annual Repeat Date Is Required</value>
+  </data>
+  <data name="valValidStartDate.Text" xml:space="preserve">
+    <value>Invalid Start Date</value>
+  </data>
+  <data name="valValidYearEventDate.Text" xml:space="preserve">
+    <value>Invalid Annual Repeat Date</value>
+  </data>
+  <data name="copyButton.Text" xml:space="preserve">
+    <value>Copy as New Event</value>
+  </data>
+  <data name="copySeriesButton.Text" xml:space="preserve">
+    <value>Copy as New Event Series</value>
+  </data>
+  <data name="ConfirmEventCopy.Text" xml:space="preserve">
+    <value>Have you set all the correct details for the new Event?</value>
+  </data>
+  <data name="lblRegUsers.Help" xml:space="preserve">
+    <value>Select users to enroll to event, then click Enroll Selected Users. Use filters to filter the list of users. Optionally you can specify a qty for the number of enrollees.</value>
+  </data>
+  <data name="lblRegUsers.Text" xml:space="preserve">
+    <value>Enroll User to Event:</value>
+  </data>
+  <data name="lnkAddRegUser.Text" xml:space="preserve">
+    <value>Enroll User</value>
+  </data>
+  <data name="valValidRecurStartDate.Text" xml:space="preserve">
+    <value>For recurring event, start date must be smaller than Recurrence End Date. If necessary edit series, to change recurrence end date.</value>
+  </data>
+  <data name="valValidRecurStartDate2.Text" xml:space="preserve">
+    <value>For recurring event, start date must be greater than Recurrence Start Date. If necessary edit series, to change recurrence start date.</value>
+  </data>
+  <data name="btnCopyStartdate.Text" xml:space="preserve">
+    <value>Copy to End Date</value>
+  </data>
+  <data name="lblDisplayEndDate.Help" xml:space="preserve">
+    <value>Display End Date in all Views</value>
+  </data>
+  <data name="lblDisplayEndDate.Text" xml:space="preserve">
+    <value>Display End Date:</value>
+  </data>
+  <data name="lblAllDayEvent.Help" xml:space="preserve">
+    <value>All Day Event</value>
+  </data>
+  <data name="lblAllDayEvent.Text" xml:space="preserve">
+    <value>All Day Event:</value>
+  </data>
+  <data name="LimitChars.Text" xml:space="preserve">
+    <value>Maximum Characters allowed:</value>
+  </data>
+  <data name="valLocationConflict.Text" xml:space="preserve">
+    <value>Conflict with existing Event! Change Date/Time or Location</value>
+  </data>
+  <data name="lblDetailPage.Text" xml:space="preserve">
+    <value>Custom Detail Page:</value>
+  </data>
+  <data name="lblDetailURL.Text" xml:space="preserve">
+    <value>URL of Detail Page</value>
+  </data>
+  <data name="lblDetailPage.Help" xml:space="preserve">
+    <value>Activate this option if you want to specify an existing page as event detail page</value>
+  </data>
+  <data name="lblDetailURL.Help" xml:space="preserve">
+    <value>Select the detail page for this event</value>
+  </data>
+  <data name="valW1Day3.Text" xml:space="preserve">
+    <value>At least one day must be ticked</value>
+  </data>
+  <data name="lblPayPalAccount.Help" xml:space="preserve">
+    <value>PayPal account for paid for events</value>
+  </data>
+  <data name="OwnerDeleted.Text" xml:space="preserve">
+    <value>Event Owner (Deleted)</value>
+  </data>
+  <data name="valValidRecurEndDate2.Text" xml:space="preserve">
+    <value>Recurrence choices generate no event occurences</value>
+  </data>
+  <data name="lblMaxNoEnrolees.Text" xml:space="preserve">
+    <value>(Max {0})</value>
+  </data>
+  <data name="lblNoEnrolee.Text" xml:space="preserve">
+    <value>No. of Enrollees:</value>
+  </data>
+  <data name="valNoEnrolees.Text" xml:space="preserve">
+    <value>Number of Enrollees must be in range 1 to {0}</value>
+  </data>
+  <data name="valValidStartDate2.Text" xml:space="preserve">
+    <value>Invalid Start Date - event cannot start more than {0} days ago</value>
+  </data>
+  <data name="lblMaxRecurrences.Text" xml:space="preserve">
+    <value>Maximum {0} event occurences. See administrator for details.</value>
+  </data>
+  <data name="lblEventEmailBody.Help" xml:space="preserve">
+    <value>The message you want to send.</value>
+  </data>
+  <data name="lblEventEmailBody.Text" xml:space="preserve">
+    <value>Email Message:</value>
+  </data>
+  <data name="lblEventEmailFrom.Help" xml:space="preserve">
+    <value>Email address to mail from.</value>
+  </data>
+  <data name="lblEventEmailFrom.Text" xml:space="preserve">
+    <value>Email From:</value>
+  </data>
+  <data name="lblEventEmailSubject.Help" xml:space="preserve">
+    <value>Subject of the email.</value>
+  </data>
+  <data name="lblEventEmailSubject.Text" xml:space="preserve">
+    <value>Email Subject:</value>
+  </data>
+  <data name="lblEventEmailChk.Help" xml:space="preserve">
+    <value>Used to set the role to send an event email to. Email is sent when update is clicked.</value>
+  </data>
+  <data name="lblEventEmailChk.Text" xml:space="preserve">
+    <value>Send Email to Role:</value>
+  </data>
+  <data name="lblEventEmailRole.Help" xml:space="preserve">
+    <value>New event emails will be sent to this role when update is clicked.</value>
+  </data>
+  <data name="lblEventEmailRole.Text" xml:space="preserve">
+    <value>Role to Send Mail To:</value>
+  </data>
+  <data name="EnrolleeRoleDeleted.Text" xml:space="preserve">
+    <value>Enrollee Role (Deleted)</value>
+  </data>
+  <data name="valMaxEnrollment.Text" xml:space="preserve">
+    <value>Max. Number of Enrollees must be in range 0 to 9999</value>
+  </data>
+  <data name="valValidStartTime2.Text" xml:space="preserve">
+    <value>Start time must be a multiple of {0} minutes</value>
+  </data>
+  <data name="valRequiredStartTime.Text" xml:space="preserve">
+    <value>Start Time Is Required</value>
+  </data>
+  <data name="valValidEndTime2.Text" xml:space="preserve">
+    <value>End time must be a multiple of {0} minutes</value>
+  </data>
+  <data name="AdvancedSettings.Text" xml:space="preserve">
+    <value>Advanced Settings</value>
+  </data>
+  <data name="BasicSettings.Text" xml:space="preserve">
+    <value>Basic Settings</value>
+  </data>
+  <data name="plAllowAnonEnroll.Help" xml:space="preserve">
+    <value>When enabled, anonymous users may enroll to the event</value>
+  </data>
+  <data name="plAllowAnonEnroll.Text" xml:space="preserve">
+    <value>Allow Anonymous Enrollment:</value>
+  </data>
+  <data name="lblSummary.Help" xml:space="preserve">
+    <value>Summary of the event.</value>
+  </data>
+  <data name="lblSummary.Text" xml:space="preserve">
+    <value>Summary:</value>
+  </data>
+</root>

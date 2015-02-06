@@ -1,0 +1,62 @@
+﻿    /************************************************************/
+    /*****                                                  *****/
+    /*****       SqlDataProvider                            *****/
+    /*****       Install/Upgrade for Events module 04.01.02 *****/
+    /*****                                                  *****/
+    /***** Note: To manually execute this script you must   *****/
+    /*****       perform a search AND replace operation     *****/
+    /*****       for {databaseOwner} AND {objectQualifier}  *****/
+    /*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+    /*****                                                  *****/
+    /************************************************************/
+
+/************************************************************/
+/************************************************************/
+/*****                                                  *****/
+/*****               Miscellaneous Updates              *****/
+/*****                                                  *****/
+/************************************************************/
+/************************************************************/
+
+/* Update Module Settings EventsListFields */
+
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'01','EB')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'02','BD')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'03','ED')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'04','EN')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'05','IM')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'06','DU')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'07','CA')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'08','LO')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'09','C1')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'10','C2')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'11','DE')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'12','RT')
+WHERE SettingName = 'EventsListFields'
+GO
+UPDATE {databaseOwner}{objectQualifier}ModuleSettings SET SettingValue = Replace([SettingValue],'13','RU')
+WHERE SettingName = 'EventsListFields'
+GO
+
