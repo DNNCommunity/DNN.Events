@@ -30,7 +30,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Open Source Web Application Framework")> 
 <Assembly: AssemblyCompany("DNN Corp")> 
 <Assembly: AssemblyProduct("http://www.dnnsoftware.com")> 
-<Assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2014 by DNN Corp. All Rights Reserved.")> 
+<Assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2015 by DNN Corp. All Rights Reserved.")> 
 <Assembly: AssemblyTrademark("DotNetNuke")> 
 <Assembly: CLSCompliant(True)> 
 <Assembly: ComVisibleAttribute(False)> 
@@ -48,5 +48,5 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("6.2.0.0")> 
-<Assembly: AssemblyFileVersionAttribute("6.2.0.0")> 
+<Assembly: AssemblyVersion("6.2.1.0")> 
+<Assembly: AssemblyFileVersionAttribute("6.2.1.0")> 

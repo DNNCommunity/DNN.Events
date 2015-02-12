@@ -1,0 +1,7 @@
+﻿<h2>Release notes DNN Events 06.02.01</h2>
+<p>Events 06.02.01 will work for any DNN version <strong>7.2.0</strong> and up. Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>. </p>
+
+<h3>BUG FIXES</h3>
+<ul>
+	<li>An error has occurred. Error: Calendar is currently unavailable when clicking My Enrollments. Fixed.</li>
+</ul>
