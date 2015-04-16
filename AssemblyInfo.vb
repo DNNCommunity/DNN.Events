@@ -1,6 +1,6 @@
 '
 ' DotNetNuke? - http://www.dnnsoftware.com
-' Copyright (c) 2002-2014
+' Copyright (c) 2002-2015
 ' by DNNCorp
 '
 ' Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -48,5 +48,5 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("6.2.1.0")> 
-<Assembly: AssemblyFileVersionAttribute("6.2.1.0")> 
+<Assembly: AssemblyVersion("6.2.2.0")> 
+<Assembly: AssemblyFileVersionAttribute("6.2.2.0")> 

@@ -1,0 +1,89 @@
+﻿/************************************************************/
+/*****                                                  *****/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for Events module 06.02.02 *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/************************************************************/
+
+if exists (select * from dbo.sysobjects
+			where id = object_id(N'{databaseOwner}[{objectQualifier}EventsModerateSignups]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}[{objectQualifier}EventsModerateSignups]
+GO
+
+/*** EventsModerateSignups ***/
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}EventsModerateSignups]
+(
+    @ModuleID int,
+    @SocialGroupId int
+)
+AS
+BEGIN
+SET NOCOUNT ON;
+SET DATEFORMAT mdy;
+
+SELECT	s.EventID,
+		s.SignupID,
+		s.ModuleID,
+		s.Userid,
+		s.Approved,
+		u.DisplayName as UserName,
+		u.Email,
+		c.EventDateBegin,
+		c.EventTimeBegin,
+		c.EventName,
+		c.Importance,
+		c.Approved as EventApproved,
+		c.MaxEnrollment,
+		(	SELECT COUNT(*)
+			FROM {databaseOwner}[{objectQualifier}EventsSignups]
+			WHERE EventID = c.EventID AND c.Signups = 1
+		) as Enrolled,
+        PayPalStatus, 
+        PayPalReason, 
+        PayPalTransID, 
+        PayPalPayerID, 
+        PayPalPayerStatus, 
+        PayPalRecieverEmail, 
+        PayPalUserEmail,
+        PayPalPayerEmail, 
+        PayPalFirstName, 
+        PayPalLastName, 
+        PayPalAddress, 
+        PayPalCity, 
+        PayPalState, 
+        PayPalZip, 
+        PayPalCountry, 
+        PayPalCurrency, 
+        PayPalPaymentDate, 
+        PayPalAmount, 
+        PayPalFee,
+        AnonEmail,
+        AnonName,
+        AnonTelephone,
+        AnonCulture,
+        AnonTimeZoneId,
+		S.FirstName,
+		S.LastName,
+		S.Company,
+		S.JobTitle,
+		S.ReferenceNumber,
+		S.Street,
+		S.PostalCode,
+		S.City,
+		S.Region,
+		S.Country
+FROM {databaseOwner}[{objectQualifier}EventsRecurMaster] AS r RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Events] AS c ON r.RecurMasterID = c.RecurMasterID RIGHT OUTER JOIN
+     {databaseOwner}[{objectQualifier}EventsSignups] AS s LEFT OUTER JOIN
+     {databaseOwner}[{objectQualifier}Users] AS u ON s.UserID = u.UserID ON c.EventID = s.EventID
+Where s.Approved = 0
+  AND s.ModuleID = @ModuleID
+  AND (r.SocialGroupId = @SocialGroupId or (r.SocialGroupId is null and @SocialGroupId = -1))
+ORDER BY c.EventDateBegin, c.EventTimeBegin, c.EventName, UserName
+END
+GO
