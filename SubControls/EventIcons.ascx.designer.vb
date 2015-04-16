@@ -51,6 +51,24 @@ Namespace DotNetNuke.Modules.Events
         Protected WithEvents btnSettings As Global.System.Web.UI.WebControls.HyperLink
 
         '''<summary>
+        '''btnCategories control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnCategories As Global.System.Web.UI.WebControls.HyperLink
+
+        '''<summary>
+        '''btnLocations control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnLocations As Global.System.Web.UI.WebControls.HyperLink
+
+        '''<summary>
         '''btnModerate control.
         '''</summary>
         '''<remarks>

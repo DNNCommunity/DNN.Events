@@ -3,10 +3,14 @@
     <asp:Label ID="lblSubscribe" runat="server" CssClass="SubHead IconBarPadding" >Subscribe</asp:Label>
     <asp:ImageButton ID="btnSubscribe" runat="server" AlternateText="Subscribe" 
         IconKey="Unchecked" visible="false" cssClass="IconBarPadding"/>
-    <asp:Image ID="imgBar"  runat="server"
+    <asp:Image ID="imgBar" runat="server"
         ImageUrl="~/DesktopModules/Events/Images/cal-bar.gif" visible="true" cssClass="IconBarPadding"/>
     <asp:Hyperlink ID="btnSettings" runat="server" AlternateText="Edit Settings" 
         IconKey="EditTab" visible="false"/>
+    <asp:Hyperlink ID="btnCategories" runat="server" AlternateText="Edit Categories" 
+        ImageUrl="~/DesktopModules/Events/Images/Categories.gif" visible="false"/>
+    <asp:Hyperlink ID="btnLocations" runat="server" AlternateText="Edit Locations" 
+        ImageUrl="~/DesktopModules/Events/Images/Locations.gif" visible="false"/>
     <asp:ImageButton ID="btnModerate" runat="server" AlternateText="Moderate Events" 
         ImageUrl="~/DesktopModules/Events/Images/moderate.gif" visible="false" />
     <asp:HyperLink ID="btnAdd" runat="server" AlternateText="Add Events" 
