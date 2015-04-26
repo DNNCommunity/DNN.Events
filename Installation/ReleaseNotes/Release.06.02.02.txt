@@ -1,0 +1,11 @@
+﻿<h2>Release notes DNN Events 06.02.02</h2>
+<p>Events 06.02.02 will work for any DNN version <strong>7.2.0</strong> and up. Full details on the changes can be found in great detail at <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>.</p>
+<h3>CHANGES</h3>
+<ul>
+    <li>Editing categories and editing locations are now available from the icon bar, in addition to the action menu.</li>
+    <li>Editing categories and editing locations have their own icon images, both in the icon bar and in the action menu.</li>
+</ul>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>No enrollments visible after clicking Moderate Events. Fixed.</li>
+</ul>
