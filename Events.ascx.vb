@@ -271,20 +271,20 @@ Namespace DotNetNuke.Modules.Events
                     End If
                     If IsCategoryEditor() Then
                         If _socialGroupId > 0 Then
-                            Actions.Add(GetNextActionID(), Localization.GetString("MenuCategories", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/SmallCalendar.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("groupid", _socialGroupId.ToString, "Categories"), "?"), False, securityLevel, True, False)
+                            Actions.Add(GetNextActionID(), Localization.GetString("MenuCategories", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/Categories.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("groupid", _socialGroupId.ToString, "Categories"), "?"), False, securityLevel, True, False)
                         ElseIf _socialUserId > 0 Then
-                            Actions.Add(GetNextActionID(), Localization.GetString("MenuCategories", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/SmallCalendar.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("userid", _socialUserId.ToString, "Categories"), "?"), False, securityLevel, True, False)
+                            Actions.Add(GetNextActionID(), Localization.GetString("MenuCategories", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/Categories.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("userid", _socialUserId.ToString, "Categories"), "?"), False, securityLevel, True, False)
                         Else
-                            Actions.Add(GetNextActionID(), Localization.GetString("MenuCategories", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/SmallCalendar.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("Categories"), "?"), False, securityLevel, True, False)
+                            Actions.Add(GetNextActionID(), Localization.GetString("MenuCategories", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/Categories.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("Categories"), "?"), False, securityLevel, True, False)
                         End If
                     End If
                     If IsLocationEditor() Then
                         If _socialGroupId > 0 Then
-                            Actions.Add(GetNextActionID(), Localization.GetString("MenuLocations", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/SmallCalendar.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("groupid", _socialGroupId.ToString, "Locations"), "?"), False, securityLevel, True, False)
+                            Actions.Add(GetNextActionID(), Localization.GetString("MenuLocations", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/Locations.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("groupid", _socialGroupId.ToString, "Locations"), "?"), False, securityLevel, True, False)
                         ElseIf _socialUserId > 0 Then
-                            Actions.Add(GetNextActionID(), Localization.GetString("MenuLocations", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/SmallCalendar.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("userid", _socialUserId.ToString, "Locations"), "?"), False, securityLevel, True, False)
+                            Actions.Add(GetNextActionID(), Localization.GetString("MenuLocations", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/Locations.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("userid", _socialUserId.ToString, "Locations"), "?"), False, securityLevel, True, False)
                         Else
-                            Actions.Add(GetNextActionID(), Localization.GetString("MenuLocations", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/SmallCalendar.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("Locations"), "?"), False, securityLevel, True, False)
+                            Actions.Add(GetNextActionID(), Localization.GetString("MenuLocations", LocalResourceFile), Entities.Modules.Actions.ModuleActionType.ContentOptions, "", "../DesktopModules/Events/Images/Locations.gif", objEventInfoHelper.AddSkinContainerControls(EditUrl("Locations"), "?"), False, securityLevel, True, False)
                         End If
                     End If
 

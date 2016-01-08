@@ -83,13 +83,18 @@ Namespace DotNetNuke.Modules.Events
                 btnAdd.Visible = False
                 btnModerate.Visible = False
                 btnSettings.Visible = False
+                btnCategories.Visible = False
+                btnLocations.Visible = False
                 btnSubscribe.Visible = False
                 lblSubscribe.Visible = False
                 imgBar.Visible = False
+
                 If Request.IsAuthenticated() Then
+                    Dim objEventInfoHelper As New EventInfoHelper(ModuleId, TabId, PortalId, Settings)
+
+                    'Module Editor.
                     If IsModuleEditor() Then
                         btnAdd.ToolTip = Localization.GetString("MenuAddEvents", LocalResourceFile)
-                        Dim objEventInfoHelper As New EventInfoHelper(ModuleId, TabId, PortalId, Settings)
                         If socialGroupId > 0 Then
                             btnAdd.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("groupid", socialGroupId.ToString, "Edit"), "?")
                             btnAdd.Visible = True
@@ -103,15 +108,15 @@ Namespace DotNetNuke.Modules.Events
                             btnAdd.Visible = True
                         End If
                     End If
-                    If Settings.moderateall And (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString) Or IsModerator()) Then
+                    If Settings.Moderateall And (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString) Or IsModerator()) Then
                         btnModerate.Visible = True
                         btnModerate.AlternateText = Localization.GetString("MenuModerate", LocalResourceFile)
                         btnModerate.ToolTip = Localization.GetString("MenuModerate", LocalResourceFile)
                     End If
+                    ' Settings Editor.
                     If PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString) Or IsSettingsEditor() Then
                         btnSettings.Visible = True
                         btnSettings.ToolTip = Localization.GetString("MenuSettings", LocalResourceFile)
-                        Dim objEventInfoHelper As New EventInfoHelper(ModuleId, TabId, PortalId, Settings)
                         If socialGroupId > 0 Then
                             btnSettings.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("groupid", socialGroupId.ToString, "EventSettings"), "?")
                         ElseIf socialUserId > 0 Then
@@ -120,7 +125,32 @@ Namespace DotNetNuke.Modules.Events
                             btnSettings.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("EventSettings"), "?")
                         End If
                     End If
-                    If Settings.neweventemails = "Subscribe" Then
+                    ' Categories Editor.
+                    If PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString) Or IsCategoryEditor() Then
+                        btnCategories.Visible = True
+                        btnCategories.ToolTip = Localization.GetString("MenuCategories", LocalResourceFile)
+                        If socialGroupId > 0 Then
+                            btnCategories.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("groupid", socialGroupId.ToString, "Categories"), "?")
+                        ElseIf socialUserId > 0 Then
+                            btnCategories.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("userid", socialUserId.ToString, "Categories"), "?")
+                        Else
+                            btnCategories.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("Categories"), "?")
+                        End If
+                    End If
+                    ' Locations Editor.
+                    If PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString) Or IsLocationEditor() Then
+                        btnLocations.Visible = True
+                        btnLocations.ToolTip = Localization.GetString("MenuLocations", LocalResourceFile)
+                        If socialGroupId > 0 Then
+                            btnLocations.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("groupid", socialGroupId.ToString, "Locations"), "?")
+                        ElseIf socialUserId > 0 Then
+                            btnLocations.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("userid", socialUserId.ToString, "Locations"), "?")
+                        Else
+                            btnLocations.NavigateUrl = objEventInfoHelper.AddSkinContainerControls(EditUrl("Locations"), "?")
+                        End If
+                    End If
+
+                    If Settings.Neweventemails = "Subscribe" Then
                         btnSubscribe.Visible = True
                         lblSubscribe.Visible = True
                         imgBar.Visible = True
