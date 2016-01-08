@@ -1,5 +1,6 @@
 <%@ Control Language="vb" AutoEventWireup="false" Codebehind="SelectLocation.ascx.vb" Inherits="DotNetNuke.Modules.Events.SelectLocation" %>
 <%@ Register Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" TagPrefix="dnn" %>
+<%@ Register Assembly="DotNetNuke.Web.Deprecated" Namespace="DotNetNuke.Web.UI.WebControls" TagPrefix="dnn" %>
 
 <div class="SelCategoryTR">
     <div class="SelCategory SubHead">

@@ -1,6 +1,7 @@
 <%@ Control Language="vb" AutoEventWireup="false" Codebehind="EventEditCategories.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventEditCategories" %>
 <%@ Register Src="~/controls/LabelControl.ascx" TagName="Label" TagPrefix="dnn" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
+<%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web.Deprecated" Namespace="DotNetNuke.Web.UI.WebControls" %>
 <asp:Panel ID="pnlEventsModuleCategories" runat="server">
 <div class="dnnForm EventEditCategories">
     <div id="divDeleteError" runat="server" visible="false" class="dnnForm" >
