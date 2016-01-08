@@ -376,6 +376,7 @@
     <Content Include="Installation\CleanUp\Cleanup.06.02.01.txt" />
     <Content Include="Installation\DNN_Events.png" />
     <Content Include="Installation\ReleaseNotes\Release.06.01.05.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.03.00.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.02.00.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.01.04.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.01.03.txt" />
