@@ -29,14 +29,14 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("DotNetNuke.Modules.Events")> 
 <Assembly: AssemblyDescription("Open Source Web Application Framework")> 
 <Assembly: AssemblyCompany("DNN Corp")> 
-<Assembly: AssemblyProduct("http://www.dnnsoftware.com")> 
-<Assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2015 by DNN Corp. All Rights Reserved.")> 
+<Assembly: AssemblyProduct("http://www.dnnsoftware.com")>
+<Assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2016 by DNN Corp. All Rights Reserved.")>
 <Assembly: AssemblyTrademark("DotNetNuke")> 
 <Assembly: CLSCompliant(True)> 
 <Assembly: ComVisibleAttribute(False)> 
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("8796CA21-77F8-48A8-902D-C71872C048D3")> 
+<Assembly: Guid("8796CA21-77F8-48A8-902D-C71872C048D3")>
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -48,5 +48,5 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 
-<Assembly: AssemblyVersion("6.2.1.0")> 
-<Assembly: AssemblyFileVersionAttribute("6.2.1.0")> 
+<Assembly: AssemblyVersion("6.2.2.0")>
+<Assembly: AssemblyFileVersion("6.2.2.0")>

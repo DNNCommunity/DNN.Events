@@ -367,7 +367,9 @@
     <Content Include="Installation\CleanUp\Cleanup.06.01.02.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.01.03.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.01.04.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.02.00.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.02.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.02.02.txt" />
     <Content Include="Installation\DNN_Events.png" />
     <Content Include="Installation\ReleaseNotes\Release.06.01.05.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.02.00.txt" />
@@ -383,6 +385,8 @@
     <Content Include="Installation\ReleaseNotes\Release.05.02.04.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.00.00.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.00.01.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.02.01.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.02.02.txt" />
     <Content Include="SubControls\SelectLocation.ascx" />
     <Content Include="SubControls\EventIcons.ascx" />
     <Content Include="EventIPN.aspx" />
@@ -563,6 +567,7 @@
     <None Include="Installation\06.01.02.SqlDataProvider" />
     <None Include="Installation\06.01.03.SqlDataProvider" />
     <Content Include="Installation\06.02.00.SqlDataProvider" />
+    <Content Include="Installation\06.02.02.SqlDataProvider" />
     <None Include="Installation\Install.05.02.04.SqlDataProvider" />
     <None Include="Installation\Project.targets" />
     <None Include="Installation\Uninstall.SqlDataProvider" />

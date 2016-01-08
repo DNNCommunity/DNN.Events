@@ -1,11 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DotNetNuke.Events.ScheduleControl", "Controls\DotNetNuke.Events.ScheduleControl\DotNetNuke.Events.ScheduleControl.vbproj", "{E90DA1B8-E75D-4E59-AE77-407BE089CF1A}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DotNetNuke.Events", "DotNetNuke.Events.vbproj", "{F13CD116-F8CC-4108-8691-F855EEBF7A4F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E90DA1B8-E75D-4E59-AE77-407BE089CF1A} = {E90DA1B8-E75D-4E59-AE77-407BE089CF1A}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
