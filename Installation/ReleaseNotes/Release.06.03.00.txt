@@ -1,0 +1,9 @@
+﻿<h2>Release notes DNN Events 06.03.00</h2>
+<p>Events 06.03.00 will work for any DNN version <strong>8.0.0</strong> and up.
+ Full details on the changes can be found in great detail at
+  <a href="http://dnnevents.codeplex.com/workitem/list/basic">http://dnnevents.codeplex.com/workitem/list/basic</a>.</p>
+<h3>NEW FEATURES</h3>
+<ul>
+	<li>Added dependency on .NET 4.5</li>
+	<li>Referenced new DLLs from DNN 8.0.0</li>
+</ul>
