@@ -236,7 +236,7 @@ Namespace DotNetNuke.Modules.Events
                         If Settings.Eventtooltiplist Then
                             tooltip = HttpUtility.HtmlEncode(CType(DataBinder.Eval(e.Item.DataItem, "Tooltip"), String))
                         End If
-                        rptBody.Text = AddTooltip(_rptCurrentItemCount, tooltip, rptRowStart & rptRowBody & rptRowEnd)
+                        rptBody.Text = AddTooltip(_rptCurrentItemCount, tooltip, rptRowStart) & rptRowBody & rptRowEnd
                     Else
                         rptBody.Text = rptRowBody
                     End If
@@ -248,9 +248,9 @@ Namespace DotNetNuke.Modules.Events
             If Settings.Eventtooltiplist Then
                 Dim ttClientId As String = "ctlEvents_Mod_" & ModuleId.ToString & "_RptRowBody_" & itemCount.ToString
                 fullTooltip = "ID=""" & ttClientId & """ title=""" & toolTip & """"
-                toolTipManager.TargetControls.Add(ttClientId, True)
+                toolTipManager.TargetControls.Add(clientId, True)
             End If
-            Return Replace(body, "[event:repeatertooltip]", fullTooltip)
+            Return Replace(Body, "[event:repeatertooltip]", fullTooltip)
         End Function
 
         Private Sub rptPages_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptPager.ItemDataBound

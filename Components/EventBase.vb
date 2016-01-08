@@ -133,7 +133,7 @@ Namespace DotNetNuke.Modules.Events
                 Dim socialGroupID As Integer = GetUrlGroupId()
                 If socialGroupID > -1 Then
                     Dim objRoleCtl As New RoleController
-                    Dim objRoleInfo As RoleInfo = objRoleCtl.GetRoleById(socialGroupID, PortalSettings.PortalId)
+                    Dim objRoleInfo As RoleInfo = objRoleCtl.GetRole(socialGroupID, PortalSettings.PortalId)
                     If Not objRoleInfo Is Nothing Then
                         If Not PortalSettings.UserInfo.IsInRole(objRoleInfo.RoleName) Then
                             Return False
@@ -256,7 +256,7 @@ Namespace DotNetNuke.Modules.Events
                     If objModulePermission.UserID < 0 Then
                         Dim objCtlRole As New RoleController
                         If objModulePermission.RoleID <> PortalSettings.AdministratorRoleId Then
-                            Dim lstUsers As ArrayList = CType(objCtlRole.GetUsersByRole(PortalId, objModulePermission.RoleName), ArrayList)
+                            Dim lstUsers As ArrayList = objCtlRole.GetUsersByRoleName(PortalId, objModulePermission.RoleName)
                             Dim objUser As UserInfo
                             For Each objUser In lstUsers
                                 If Not moderators.Contains(objUser) Then
@@ -495,9 +495,9 @@ Namespace DotNetNuke.Modules.Events
 
         Public Sub EventEmailAddRoleUsers(ByVal roleId As Integer, ByVal objEventEmailInfo As EventEmailInfo)
             Dim objRoleController As New RoleController
-            Dim objRole As RoleInfo = objRoleController.GetRoleById(roleId, PortalId)
+            Dim objRole As RoleInfo = objRoleController.GetRole(roleId, PortalId)
             If Not objRole Is Nothing Then
-                Dim lstUsers As ArrayList = CType(objRoleController.GetUsersByRole(PortalId, objRole.RoleName), ArrayList)
+                Dim lstUsers As ArrayList = objRoleController.GetUsersByRoleName(PortalId, objRole.RoleName)
                 For Each objUser As UserInfo In lstUsers
                     objEventEmailInfo.UserEmails.Add(objUser.Email)
                     objEventEmailInfo.UserLocales.Add(objUser.Profile.PreferredLocale)
@@ -959,7 +959,7 @@ Namespace DotNetNuke.Modules.Events
 #Region "Private Routines"
         Private Function GetUserTimeZoneId() As String
             If HttpContext.Current.Request.IsAuthenticated Then
-                Dim objUser As UserInfo = UserController.Instance.GetCurrentUserInfo()
+                Dim objUser As UserInfo = UserController.GetCurrentUserInfo
                 Dim authUserTimeZone As TimeZoneInfo = objUser.Profile.PreferredTimeZone
                 Return authUserTimeZone.Id
             End If
@@ -978,7 +978,7 @@ Namespace DotNetNuke.Modules.Events
             If HttpContext.Current Is Nothing Then
                 portalTimeZoneId = Entities.Portals.PortalController.GetPortalSetting("TimeZone", PortalId, String.Empty)
             Else
-                portalTimeZoneId = Entities.Portals.PortalController.Instance.GetCurrentPortalSettings.TimeZone.Id
+                portalTimeZoneId = Entities.Portals.PortalController.GetCurrentPortalSettings.TimeZone.Id
             End If
             Return portalTimeZoneId
         End Function

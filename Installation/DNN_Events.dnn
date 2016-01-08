@@ -305,7 +305,7 @@
                     <supportsPopUps>False</supportsPopUps>
                     <controlTitle>Events Container</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey>EventSettings</controlKey>

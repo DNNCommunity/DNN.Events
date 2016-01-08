@@ -160,7 +160,7 @@ Namespace DotNetNuke.Modules.Events
                 ' but not removed from the recycle bin
                 If _eventInfo.ModuleID <> ModuleId Then
                     Dim objCtlModule As New Entities.Modules.ModuleController
-                    Dim objModules As ArrayList = CType(objCtlModule.GetTabModulesByModule(_eventInfo.ModuleID), ArrayList)
+                    Dim objModules As ArrayList = objCtlModule.GetModuleTabs(_eventInfo.ModuleID)
                     Dim objModule As Entities.Modules.ModuleInfo
                     Dim isDeleted As Boolean = True
                     For Each objModule In objModules
