@@ -299,7 +299,7 @@ Namespace DotNetNuke.Modules.Events
                 'groupnamelabel
                 'groupname
                 Dim roleController As New RoleController
-                Dim rolename As String = roleController.GetRole(eventInfo.SocialGroupId, eventInfo.PortalID).RoleName
+                Dim rolename As String = roleController.GetRoleById(eventInfo.SocialGroupId, eventInfo.PortalID).RoleName
                 dict.Add("socialgrouprolenamelabel", Localization.GetString("TokenSocialGroupRoleNameLabel", LocalResourceFile))
                 dict.Add("socialgrouprolename", rolename)
                 dict.Add("socialgrouproleid", eventInfo.SocialGroupId.ToString)
@@ -525,8 +525,8 @@ Namespace DotNetNuke.Modules.Events
                 Dim roleController As New RoleController
                 Dim userRolesIList As Generic.IList(Of UserRoleInfo)
                 Dim userRoles As New ArrayList
-                If Not UserController.GetCurrentUserInfo() Is Nothing Then
-                    userRolesIList = roleController.GetUserRoles(UserController.GetCurrentUserInfo, True)
+                If Not UserController.Instance.GetCurrentUserInfo() Is Nothing Then
+                    userRolesIList = roleController.GetUserRoles(UserController.Instance.GetCurrentUserInfo, True)
                     ' ReSharper disable NotAccessedVariable
                     Dim i As Integer = 0
                     ' ReSharper restore NotAccessedVariable
@@ -535,7 +535,7 @@ Namespace DotNetNuke.Modules.Events
                         i += 1
                     Next
                 End If
-                For Each role In roleController.GetPortalRoles(eventInfo.PortalID)
+                For Each role In roleController.GetRoles(eventInfo.PortalID)
                     sourceText = TokenOneParameter(sourceText, "HASROLE_" + role.RoleName, userRoles.Contains(role.RoleName))
                     sourceText = TokenOneParameter(sourceText, "HASNOTROLE_" + role.RoleName, Not userRoles.Contains(role.RoleName))
                 Next
@@ -557,9 +557,9 @@ Namespace DotNetNuke.Modules.Events
                 Dim blNotEnroled As Boolean = False
                 If eventInfo.Signups Then
                     blNotEnroled = True
-                    If Not UserController.GetCurrentUserInfo() Is Nothing Then
+                    If Not UserController.Instance.GetCurrentUserInfo() Is Nothing Then
                         Dim signupsController As New EventSignupsController
-                        Dim signupInfo As EventSignupsInfo = signupsController.EventsSignupsGetUser(eventInfo.EventID, UserController.GetCurrentUserInfo().UserID, eventInfo.ModuleID)
+                        Dim signupInfo As EventSignupsInfo = signupsController.EventsSignupsGetUser(eventInfo.EventID, UserController.Instance.GetCurrentUserInfo().UserID, eventInfo.ModuleID)
                         If Not signupInfo Is Nothing Then
                             blEnroled = signupInfo.Approved
                             blNotEnroled = Not signupInfo.Approved
@@ -689,7 +689,7 @@ Namespace DotNetNuke.Modules.Events
                 If (sourceText.Contains("[event:reminder]") Or sourceText.Contains("[event:remindericon]")) Then
                     Dim notificationInfo As String = ""
                     img = ""
-                    Dim userEmail As String = Entities.Users.UserController.GetCurrentUserInfo().Email
+                    Dim userEmail As String = Entities.Users.UserController.Instance.GetCurrentUserInfo().Email
                     If eventInfo.SendReminder And HttpContext.Current.Request.IsAuthenticated Then
                         Dim objEventNotificationController As EventNotificationController = New EventNotificationController
                         notificationInfo = objEventNotificationController.NotifyInfo(eventInfo.EventID, userEmail, eventInfo.ModuleID, LocalResourceFile, eventInfo.EventTimeZoneId)
@@ -742,7 +742,7 @@ Namespace DotNetNuke.Modules.Events
 
             'View page url
             If settings.DetailPageAllowed And eventInfo.DetailPage Then
-                Dim strUserID As String = Entities.Users.UserController.GetCurrentUserInfo().UserID.ToString
+                Dim strUserID As String = UserController.Instance.GetCurrentUserInfo().UserID.ToString
                 Dim userID As Integer = -1
                 If IsNumeric(strUserID) Then
                     userID = CInt(strUserID)

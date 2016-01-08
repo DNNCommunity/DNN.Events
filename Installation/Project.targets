@@ -355,6 +355,7 @@
 		<CreateItem
 		  Exclude="**\.svn\**;
 			$(MSBuildProjectDirectory)\_*\**;
+			$(MSBuildProjectDirectory)\.git\**;
 			$(MSBuildProjectDirectory)\obj\**;
 			$(MSBuildProjectDirectory)\**\obj\**;
 			$(MSBuildProjectDirectory)\bin\**;
@@ -476,7 +477,8 @@
 			$(MSBuildProjectDirectory)\_ReSharper.*\**;
 			$(MSBuildProjectDirectory)\obj\**;
 			$(MSBuildProjectDirectory)\bin\**;
-      $(MSBuildProjectDirectory)\$tf\**"
+			$(MSBuildProjectDirectory)\$tf\**;
+			$(MSBuildProjectDirectory)\.git\**"
 		  Include="$(MSBuildProjectDirectory)\**\*.*" >
 			<Output TaskParameter="Include" ItemName="srcsources" />
 		</CreateItem>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -40,7 +40,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -62,6 +62,7 @@
     <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
     <DebugType>full</DebugType>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>Bin\</OutputPath>
@@ -82,6 +83,7 @@
     <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
     <DebugType>None</DebugType>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CountryListBox, Version=6.2.1.11, Culture=neutral, processorArchitecture=MSIL">
@@ -97,6 +99,11 @@
     <Reference Include="DotNetNuke.Web, Version=7.2.0.607, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\DotNetNuke.Web.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotNetNuke.Web.Deprecated, Version=8.0.0.674, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\DotNetNuke.Web.Deprecated.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral">
@@ -369,6 +376,7 @@
     <Content Include="Installation\CleanUp\Cleanup.06.01.04.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.02.00.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.02.01.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.03.00.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.02.02.txt" />
     <Content Include="Installation\DNN_Events.png" />
     <Content Include="Installation\ReleaseNotes\Release.06.01.05.txt" />
@@ -387,6 +395,7 @@
     <Content Include="Installation\ReleaseNotes\Release.06.00.01.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.02.01.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.02.02.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.06.03.00.txt" />
     <Content Include="SubControls\SelectLocation.ascx" />
     <Content Include="SubControls\EventIcons.ascx" />
     <Content Include="EventIPN.aspx" />
@@ -569,8 +578,17 @@
     <Content Include="Installation\06.02.00.SqlDataProvider" />
     <Content Include="Installation\06.02.02.SqlDataProvider" />
     <None Include="Installation\Install.05.02.04.SqlDataProvider" />
-    <None Include="Installation\Project.targets" />
+    <None Include="Installation\Project.targets">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Installation\Uninstall.SqlDataProvider" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />

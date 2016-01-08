@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 *.sln.GhostDoc.xml
+web.config
 
 # Build results
 [Dd]ebug/
@@ -18,6 +19,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+[Ii]nstallation/*.zip
 
 # Roslyn cache directories
 *.ide/

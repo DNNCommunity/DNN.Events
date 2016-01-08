@@ -145,9 +145,9 @@ Namespace DotNetNuke.Modules.Events
 
             Dim tmpUsers As ArrayList
             If roleName <> regRoleName Or searchField <> "1" Then
-                tmpUsers = objCtlRole.GetUsersByRoleName(PortalId, roleName)
+                tmpUsers = CType(objCtlRole.GetUsersByRole(PortalId, roleName), ArrayList)
             Else
-                tmpUsers = objCtlRole.GetUsersByRoleName(PortalId, searchText)
+                tmpUsers = CType(objCtlRole.GetUsersByRole(PortalId, searchText), ArrayList)
             End If
 
             Dim objCtlEventSignups As New EventSignupsController

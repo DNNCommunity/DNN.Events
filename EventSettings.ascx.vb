@@ -841,7 +841,7 @@ Namespace DotNetNuke.Modules.Events
 
         Private Sub LoadNewEventEmailRoles(ByVal roleID As Integer)
             Dim objRoles As New Security.Roles.RoleController
-            ddNewEventEmailRoles.DataSource = objRoles.GetPortalRoles(PortalId)
+            ddNewEventEmailRoles.DataSource = objRoles.GetRoles(PortalId)
             ddNewEventEmailRoles.DataTextField = "RoleName"
             ddNewEventEmailRoles.DataValueField = "RoleID"
             ddNewEventEmailRoles.DataBind()

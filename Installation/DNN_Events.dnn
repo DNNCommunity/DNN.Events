@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNN_Events" type="Module" version="6.2.2">
+    <package name="DNN_Events" type="Module" version="6.3.0">
       <friendlyName>Events</friendlyName>
       <description>This module renders single and recurring events and includes Master and Sub Calendars with Event Rollup, TimeZone Adjustment, Event Enrollment, and Event Notification.</description>
       <iconFile>DesktopModules\Events\DNN_Events.png</iconFile>
@@ -11,10 +11,10 @@
         <email>support@dnnsoftware.com</email>
       </owner>
       <license src="License.txt"></license>
-      <releaseNotes src="Release.06.02.02.txt"></releaseNotes>
+      <releaseNotes src="Release.06.03.00.txt"></releaseNotes>
       <azureCompatible>true</azureCompatible>
       <dependencies>
-        <dependency type="CoreVersion">07.02.00</dependency>
+        <dependency type="CoreVersion">08.00.00</dependency>
       </dependencies>
       <components>
         <component type="Script">
@@ -305,7 +305,7 @@
                     <supportsPopUps>False</supportsPopUps>
                     <controlTitle>Events Container</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey>EventSettings</controlKey>
@@ -411,6 +411,7 @@
         <component type="Cleanup" version="06.02.00" fileName="Installation\CleanUp\Cleanup.06.02.00.txt" />
         <component type="Cleanup" version="06.02.01" fileName="Installation\CleanUp\Cleanup.06.02.01.txt" />
         <component type="Cleanup" version="06.02.02" fileName="Installation\CleanUp\Cleanup.06.02.02.txt" />
+        <component type="Cleanup" version="06.03.00" fileName="Installation\CleanUp\Cleanup.06.03.00.txt" />
         <component type="Config">
           <config>
             <configFile>web.config</configFile>

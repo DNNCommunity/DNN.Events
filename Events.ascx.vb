@@ -1,6 +1,6 @@
 '
 ' DotNetNuke® - http://www.dnnsoftware.com
-' Copyright (c) 2002-2013
+' Copyright (c) 2002-2016
 ' by DNNCorp
 '
 ' Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -18,10 +18,7 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 
-Imports DotNetNuke.Common
-Imports DotNetNuke.Services.Exceptions
 Imports DotNetNuke.Security
-Imports DotNetNuke.Services.Localization
 
 Namespace DotNetNuke.Modules.Events
 
@@ -29,9 +26,9 @@ Namespace DotNetNuke.Modules.Events
     <DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSMOD", "Events Moderator")> _
     <DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSEDT", "Events Editor")> _
     <DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSCAT", "Global Category Editor")> _
-    <DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSLOC", "Global Location Editor")> _
-    <DNNtc.ModuleDependencies(DNNtc.ModuleDependency.CoreVersion, "07.02.00")> _
-    <DNNtc.ModuleControlProperties("", "Events Container", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", True, False)> _
+    <DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSLOC", "Global Location Editor")>
+    <DNNtc.ModuleDependencies(DNNtc.ModuleDependency.CoreVersion, "08.00.00")>
+    <DNNtc.ModuleControlProperties("", "Events Container", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", True, False)>
     Partial Class Events
         Inherits EventBase
         Implements Entities.Modules.IActionable

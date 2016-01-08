@@ -815,7 +815,7 @@ Namespace DotNetNuke.Modules.Events
         Public Property StandardEmail() As String
             Get
                 If _standardEmail Is Nothing Then
-                    Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.GetCurrentPortalSettings
+                    Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.Instance.GetCurrentPortalSettings
                     If Not portalsettings Is Nothing Then
                         _standardEmail = portalsettings.Email
                     End If
@@ -1547,7 +1547,7 @@ Namespace DotNetNuke.Modules.Events
         Public Property Reminderfrom() As String
             Get
                 If _reminderfrom Is Nothing Then
-                    Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.GetCurrentPortalSettings
+                    Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.Instance.GetCurrentPortalSettings
                     If Not portalsettings Is Nothing Then
                         _reminderfrom = portalsettings.Email
                     End If
@@ -1571,7 +1571,7 @@ Namespace DotNetNuke.Modules.Events
         Public Property Paypalaccount() As String
             Get
                 If _paypalaccount Is Nothing Then
-                    Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.GetCurrentPortalSettings
+                    Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.Instance.GetCurrentPortalSettings
                     If Not portalsettings Is Nothing Then
                         _paypalaccount = portalsettings.Email
                     End If
@@ -1775,7 +1775,7 @@ Namespace DotNetNuke.Modules.Events
         Public Property Neweventemailrole() As Integer
             Get
                 If _neweventemailrole < 0 Then
-                    Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.GetCurrentPortalSettings
+                    Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.Instance.GetCurrentPortalSettings
                     If Not portalsettings Is Nothing Then
                         _neweventemailrole = portalsettings.RegisteredRoleId
                     End If
@@ -1890,7 +1890,7 @@ Namespace DotNetNuke.Modules.Events
             Get
                 If _timeZoneId Is Nothing Then
                     If _timeZone Is Nothing Then
-                        Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.GetCurrentPortalSettings
+                        Dim portalsettings As Entities.Portals.PortalSettings = Entities.Portals.PortalController.Instance.GetCurrentPortalSettings
                         If Not portalsettings Is Nothing Then
                             _timeZoneId = portalsettings.TimeZone.Id
                         End If

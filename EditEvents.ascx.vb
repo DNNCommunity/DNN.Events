@@ -804,7 +804,7 @@ Namespace DotNetNuke.Modules.Events
 
         Public Sub LoadEnrollRoles(ByVal roleID As Integer)
             Dim objRoles As New RoleController
-            ddEnrollRoles.DataSource = objRoles.GetPortalRoles(PortalId)
+            ddEnrollRoles.DataSource = objRoles.GetRoles(PortalId)
             ddEnrollRoles.DataTextField = "RoleName"
             ddEnrollRoles.DataValueField = "RoleID"
             ddEnrollRoles.DataBind()
@@ -822,7 +822,7 @@ Namespace DotNetNuke.Modules.Events
 
         Public Sub LoadNewEventEmailRoles(ByVal roleID As Integer)
             Dim objRoles As New RoleController
-            ddEventEmailRoles.DataSource = objRoles.GetPortalRoles(PortalId)
+            ddEventEmailRoles.DataSource = objRoles.GetRoles(PortalId)
             ddEventEmailRoles.DataTextField = "RoleName"
             ddEventEmailRoles.DataValueField = "RoleID"
             ddEventEmailRoles.DataBind()
@@ -908,7 +908,7 @@ Namespace DotNetNuke.Modules.Events
                     If objModulePermission.PermissionKey = "EVENTSEDT" Then
                         If objModulePermission.UserID < 0 Then
                             Dim objCtlRole As New RoleController
-                            Dim lstRoleUsers As ArrayList = objCtlRole.GetUsersByRoleName(PortalId, objModulePermission.RoleName)
+                            Dim lstRoleUsers As ArrayList = CType(objCtlRole.GetUsersByRole(PortalId, objModulePermission.RoleName), ArrayList)
                             For Each objUser As UserInfo In lstRoleUsers
                                 objEventModuleEditor = New EventUser
                                 objEventModuleEditor.UserID = objUser.UserID
