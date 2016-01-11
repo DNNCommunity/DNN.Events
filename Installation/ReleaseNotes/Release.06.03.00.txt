@@ -1,6 +1,4 @@
 ﻿<h2>Release notes DNN Events 06.03.00</h2>
 <p>Events 06.03.00 will work for any DNN version <strong>8.0.0</strong> and up. Full details on the changes can be found in great detail at <a href="https://github.com/DNNCommunity/DNN.Events/issues">the repository on GitHub</a>. </p>
-<h3>CHANGES</h3>
-<ul>
-	<li>Updated to support DNN 8, solved all breaking changes</li>
-</ul>
+<h3>ENHANCEMENTS</h3><ul><li>Icons in the Events toolbar for Category and Location maintenance</li><li>Updated Events extension icon to BW</li></ul>
+<h3>CHANGES</h3><ul><li>Updated to support DNN 8, solved all breaking changes</li></ul>
