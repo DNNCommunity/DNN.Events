@@ -96,8 +96,7 @@
       <HintPath>..\..\bin\DotNetNuke.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DotNetNuke.Web, Version=7.2.0.607, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="DotNetNuke.Web">
       <HintPath>..\..\bin\DotNetNuke.Web.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -578,7 +577,7 @@
     <Content Include="Installation\06.02.00.SqlDataProvider" />
     <Content Include="Installation\06.02.02.SqlDataProvider" />
     <None Include="Installation\Install.05.02.04.SqlDataProvider" />
-    <None Include="Installation\Project.targets">
+    <None Include=".build\Project.targets">
       <SubType>Designer</SubType>
     </None>
     <None Include="Installation\Uninstall.SqlDataProvider" />
@@ -604,7 +603,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
-  <Import Project="$(MSBuildProjectDirectory)\Installation\Project.targets" />
+  <Import Project="$(MSBuildProjectDirectory)\.build\Project.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<!-- Imports and setup: Do not modify! -->
-	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
-	<Import Project="$(MSBuildExtensionsPath)\MSBuildDNNtcTasks\DNNtc.MSBuild.Tasks.targets" />
+	<Import Project="$(MSBuildProjectDirectory)\.build\MSBuild.Community.Tasks.Targets" />
+	<Import Project="$(MSBuildProjectDirectory)\.build\DNNtc.MSBuild.Tasks.targets" />
 	<PropertyGroup>
 		<BinDir>$(MSBuildProjectDirectory)\bin</BinDir>
 	</PropertyGroup>
@@ -52,7 +52,7 @@
 		<IconFile>DNN_Events.png</IconFile>
 		<ModuleDescription>This module renders single and recurring events and includes Master and Sub Calendars with Event Rollup, TimeZone Adjustment, Event Enrollment, and Event Notification.</ModuleDescription>
 		<azureCompatible>true</azureCompatible>
-		<AlsoBuildSourcesZip>true</AlsoBuildSourcesZip>
+		<AlsoBuildSourcesZip>false</AlsoBuildSourcesZip>
 		<defaultCacheTime>-1</defaultCacheTime>
 	</PropertyGroup>
 
@@ -363,6 +363,7 @@
 			$(MSBuildProjectDirectory)\Properties\*.*;
 			$(MSBuildProjectDirectory)\Dependencies\*.*; 
 			$(MSBuildProjectDirectory)\*ReSharper*\**;
+			$(MSBuildProjectDirectory)\*GhostDoc.*;
 			$(MSBuildProjectDirectory)\Installation\*.png;
 			$(MSBuildProjectDirectory)\Installation\Config\*.*;
 			$(MSBuildProjectDirectory)\tmpCompressScript\**;
@@ -469,16 +470,17 @@
 		<!-- Get files -->
 		<CreateItem
 		  Exclude="**\.svn\**;
+			$(MSBuildProjectDirectory)\.git\**;
 			$(MSBuildProjectDirectory)\**\*.vspscc;
 			$(MSBuildProjectDirectory)\**\*.vssscc;
 			$(MSBuildProjectDirectory)\**\*.suo;
 			$(MSBuildProjectDirectory)\**\*.user;
 			$(MSBuildProjectDirectory)\**\*.zip;
 			$(MSBuildProjectDirectory)\_ReSharper.*\**;
+			$(MSBuildProjectDirectory)\*GhostDoc.*;
 			$(MSBuildProjectDirectory)\obj\**;
 			$(MSBuildProjectDirectory)\bin\**;
-			$(MSBuildProjectDirectory)\$tf\**;
-			$(MSBuildProjectDirectory)\.git\**"
+      $(MSBuildProjectDirectory)\$tf\**"
 		  Include="$(MSBuildProjectDirectory)\**\*.*" >
 			<Output TaskParameter="Include" ItemName="srcsources" />
 		</CreateItem>
