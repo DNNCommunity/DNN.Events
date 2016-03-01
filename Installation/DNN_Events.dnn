@@ -1,4 +1,4 @@
-﻿<dotnetnuke type="Package" version="5.0">
+<dotnetnuke type="Package" version="5.0">
   <packages>
     <package name="DNN_Events" type="Module" version="6.3.0">
       <friendlyName>Events</friendlyName>
