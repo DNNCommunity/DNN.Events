@@ -29,7 +29,9 @@ The Events module is part of the standard core modules of DNN, the web content m
 
 The Events module support various way of displaying events, all handled by selectable CSS based themes that can be created and modified.  
 
-![DNNEvents](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents.png)
+![DNNEvents](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents.png)  
+
+See [Event views](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Views) for more information.
 
 # Various types of Events  
 
@@ -75,8 +77,18 @@ Users can be notified by e-mail on events related to events:
 
 The Events module supports themes (skins): standard themes are installed automatically, custom themes can be created and uploaded by the user.  
 
-![DNNEvents2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png)
+![DNNEvents2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png)  
+
+See [Event themes](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Themes) for more samples of Event themes  
+
+# Related pages  
+
+[Home](https://github.com/DNNCommunity/DNN.Events/blob/development/README.md)  
+[Event views](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Views)  
+[Event settings](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Settings)  
+[Templating Event views](https://github.com/DNNCommunity/DNN.Events/wiki/Templating-Event-Themes)  
+[Event themes](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Themes)  
 
 #Supported by
 
-[![ReSharper](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/ReSharper Support.png)](https://www.jetbrains.com/resharper/)
+[![ReSharper](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/ReSharper Support.png)](https://www.jetbrains.com/resharper/)  
