@@ -27,7 +27,11 @@ The Events module is part of the standard core modules of DNN, the web content m
 
 The Events module support various way of displaying events, all handled by selectable CSS based themes that can be created and modified.  
 
-![DNNEvents](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents.png)  
+Calendar Month View|List View
+-------------------|---------  
+![DNNEvents](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents.png)|![List View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/List View.png)  
+**Week View**|**Detail View**    
+![Week View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Week View.png)|![Detail View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Detail View.png)  
 
 See [Event views](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Views) for more information.
 
@@ -56,7 +60,7 @@ Event edit and an approval rights, maintenance of standard tables like category 
 
 If specified, visitors can enroll for events with various validations and settings.
 
-  *Enrollment for registered users  
+  * Enrollment for registered users  
   * Enrollment approval cycle or automatic enrollment  
   * Enrollment with limited number of possible attendees  
   * Free Enrollment of payed (PayPal) enrollment  
@@ -75,7 +79,12 @@ Users can be notified by e-mail on events related to events:
 
 The Events module supports themes (skins): standard themes are installed automatically, custom themes can be created and uploaded by the user.  
 
-![DNNEvents2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png)  
+Events theme|Blue theme  
+------------|----------  
+![DNNEvents2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png)|![Event Themes2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Event themes2.png)    
+**Grey theme**|**Small theme**  
+![Event Themes3](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Event Themes3.png)|![Event Themes4](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Event Themes4.png)  
+
 
 See [Event themes](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Themes) for more samples of Event themes  
 
@@ -84,8 +93,9 @@ See [Event themes](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Themes)
 [Home](https://github.com/DNNCommunity/DNN.Events/blob/development/README.md)  
 [Event views](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Views)  
 [Event settings](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Settings)  
-[Templating Event views](https://github.com/DNNCommunity/DNN.Events/wiki/Templating-Event-Themes)  
 [Event themes](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Themes)  
+[Templating Event views](https://github.com/DNNCommunity/DNN.Events/wiki/Templating-Event-Themes)  
+
 
 #Supported by
 
