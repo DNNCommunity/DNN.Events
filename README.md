@@ -75,4 +75,4 @@ Users can be notified by e-mail on events related to events:
 
 The Events module supports themes (skins): standard themes are installed automatically, custom themes can be created and uploaded by the user.  
 
-![DNNEvents2](DNNEvents2.png)  
+![DNNEvents2]((https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png))  
