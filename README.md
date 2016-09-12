@@ -3,13 +3,11 @@ The Events module is part of the standard core modules of DNN, the web content m
  
  Please view the [Wiki](https://github.com/DNNCommunity/DNN.Events/wiki) for full documentation  
 
-## The latest version of DNN Events and its source code can now be downloaded from [our repository hosted at GitHub](https://github.com/DNNCommunity/DNN.Events).
-
   * Install and source packages can be downloaded from [the releases page on GitHub](https://github.com/DNNCommunity/DNN.Events/releases).
   * Feature requests, bug reports and general questions can be submitted via [the issues page on GitHub](https://github.com/DNNCommunity/DNN.Events/issues).  
   * More Information about our [move to GitHub](https://github.com/DNNCommunity/home/wiki).  
   
-**Note**: The latest install packages will still be mirrored on CodePlex. However, the source code repository there is no longer maintained. For the latest version of the DNN Events source code, please visit the releases page, or fork the project to your own GitHub repository and start contributing today!  
+**Note**: For the latest version of the DNN Events source code, please visit the releases page, or fork the project to your own GitHub repository and start contributing today!  
 
 # Getting started
 
