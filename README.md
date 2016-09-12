@@ -81,9 +81,9 @@ The Events module supports themes (skins): standard themes are installed automat
 
 Events theme|Blue theme  
 ------------|----------  
-![DNNEvents2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png)|![Event Themes2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Event themes2.png)    
+![DNNEvents2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png)|![Event Themes2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/EventThemes2.png)    
 **Grey theme**|**Small theme**  
-![Event Themes3](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Event Themes3.png)|![Event Themes4](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Event Themes4.png)  
+![Event Themes3](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/EventThemes3.png)|![Event Themes4](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/EventThemes4.png)  
 
 
 See [Event themes](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Themes) for more samples of Event themes  
