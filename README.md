@@ -79,5 +79,4 @@ The Events module supports themes (skins): standard themes are installed automat
 
 #Supported by
 
-![ReSharper](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/ReSharper Support.png)
-
+[![ReSharper](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/ReSharper Support.png)](https://www.jetbrains.com/resharper/)
