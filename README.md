@@ -29,7 +29,7 @@ The Events module is part of the standard core modules of DNN, the web content m
 
 The Events module support various way of displaying events, all handled by selectable CSS based themes that can be created and modified.  
 
-![DNNEvents](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Event.png)
+![DNNEvents](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents.png)
 
 # Various types of Events  
 
