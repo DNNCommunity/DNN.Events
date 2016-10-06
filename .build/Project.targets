@@ -1,0 +1,560 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!-- Imports and setup: Do not modify! -->
+	<Import Project="$(MSBuildProjectDirectory)\.build\MSBuild.Community.Tasks.Targets" />
+	<Import Project="$(MSBuildProjectDirectory)\.build\DNNtc.MSBuild.Tasks.targets" />
+	<PropertyGroup>
+		<BinDir>$(MSBuildProjectDirectory)\bin</BinDir>
+	</PropertyGroup>
+	<!--####################################################################### -->
+	<!--
+	 When building your project in Debug Mode, nothing extra is being done.
+	 When building in Release Mode, the following steps are       
+	 undertaken:                                                                                                                         
+																																		 
+	  1. Before Build, Get the versionnumber                                                                                             
+																																		 
+	  2. After build, Create 
+	  .DNN File                                                                                            
+	  3. After build create the SOURCES package                                                                                          
+																																		 
+	  4. After build, Create INSTALL.DNN File                                                                                            
+	  5. After build create the INSTALL                                                                                                  
+																																		 
+	  6. Copy the local Bin folder to the website                                                                                        
+	-->
+	<!--####################################################################### -->
+	<!--                                                                                                                                     
+	   Include in ProjectFile:                                                                                                           
+	   <Import Project="$(MSBuildProjectDirectory)\Installation\Project.targets" />                                                      
+																																		 
+	   Add to each Module UserControl                                                                                                    
+	   [DNNtc.ModuleControlProperties()]                                                                                                 
+	-->
+	<!--####################################################################### -->
+	<!--Settings-->
+	<!--####################################################################### -->
+	<!--Company properties-->
+	<PropertyGroup>
+		<CompanyName>DNNCorp</CompanyName>
+		<CompanyUrl>http://www.dnnsoftware.com</CompanyUrl>
+		<CompanyEmail>support@dnnsoftware.com</CompanyEmail>
+	</PropertyGroup>
+
+	<!--You may change these properties when needed-->
+	<PropertyGroup>
+		<!--Fill in the folder where the output will be build to-->
+		<BinDir>$(MSBuildProjectDirectory)\bin</BinDir>
+		<!--Module properties.-->
+		<ModuleName>DNN_Events</ModuleName>
+		<FolderName>Events</FolderName>
+		<FriendlyName>Events</FriendlyName>
+		<IconFile>DNN_Events.png</IconFile>
+		<ModuleDescription>This module renders single and recurring events and includes Master and Sub Calendars with Event Rollup, TimeZone Adjustment, Event Enrollment, and Event Notification.</ModuleDescription>
+		<azureCompatible>true</azureCompatible>
+		<AlsoBuildSourcesZip>false</AlsoBuildSourcesZip>
+		<defaultCacheTime>-1</defaultCacheTime>
+	</PropertyGroup>
+
+	<!--Add EXTRA dll's these will be added to the Package. The output of the project is automatically added-->
+	<ItemGroup>
+		<!--EXAMPLE:  <AssemblyFileToInclude Include="$(BinDir)\AjaxControlToolkit.dll" />-->
+		<AssemblyFileToInclude Include="$(BinDir)\DotNetNuke.Modules.Events.ScheduleControl.dll" />
+	</ItemGroup>
+	<!--####################################################################### -->
+	<!--END Settings. !Do not change anything below this line!  -->
+	<!--####################################################################### -->
+	<!--Do not change these settings -->
+	<PropertyGroup>
+		<InstallDir>$(MSBuildProjectDirectory)\Installation</InstallDir>
+		<dnnFile>$(InstallDir)\$(ModuleName).dnn</dnnFile>
+	</PropertyGroup>
+	<!--For start Versioning: Do not modify EVER!!! -->
+	<PropertyGroup>
+		<Major>1</Major>
+		<Minor>0</Minor>
+		<Build>0</Build>
+		<FileMajor>0</FileMajor>
+		<FileMinor>0</FileMinor>
+		<FileBuild>0</FileBuild>
+	</PropertyGroup>
+	<!--Assembly file for version information: Do not modify-->
+	<ItemGroup>
+		<AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\**\AssemblyInfo.*" />
+	</ItemGroup>
+	<!--MAIN Actions -->
+	<Target Name="BeforeBuild">
+		<!--Determine the version info-->
+		<CallTarget Targets="SetVersionInfo" />
+	</Target>
+	<Target Name="AfterBuild">
+		<!--When the buildtype = release the package is created -->
+		<CallTarget Targets="Release" />
+		<CallTarget Targets="CopyDeployFiles" />
+	</Target>
+	<!--####################################################################### -->
+	<!-- Set Version Number -->
+	<Target Name="SetVersionInfo" Condition="'$(ConfigurationName)'=='Release'">
+		<!--Get the Assemblyfile-->
+		<ReadLinesFromFile
+	  File="%(AssemblyInfoFiles.FullPath)" >
+			<Output
+		TaskParameter="Lines"
+		ItemName="ItemsFromFile"/>
+		</ReadLinesFromFile>
+		<!--Update the properties with the updated Fileversion-->
+		<GetVersionInfo Version="%(ItemsFromFile.Identity)">
+			<Output TaskParameter="Major" PropertyName="Major" />
+			<Output TaskParameter="Minor" PropertyName="Minor" />
+			<Output TaskParameter="Build" PropertyName="Build" />
+		</GetVersionInfo>
+		<!-- DNN == single digits to be prefixed with a zero -->
+		<CreateProperty Value="0$(Major)" Condition="$(Major) &lt;= 9" >
+			<Output TaskParameter="Value" PropertyName="FileMajor" />
+		</CreateProperty>
+		<CreateProperty Value="0$(Minor)" Condition="$(Minor) &lt;= 9" >
+			<Output TaskParameter="Value" PropertyName="FileMinor" />
+		</CreateProperty>
+		<CreateProperty Value="0$(Build)" Condition="$(Build) &lt;= 9" >
+			<Output TaskParameter="Value" PropertyName="FileBuild" />
+		</CreateProperty>
+    <!-- DNN == non-single digits not to be prefixed with a zero.. -->
+    <CreateProperty Value="$(Major)" Condition="$(Major) &gt; 9" >
+      <Output TaskParameter="Value" PropertyName="FileMajor" />
+    </CreateProperty>
+    <CreateProperty Value="$(Minor)" Condition="$(Minor) &gt; 9" >
+      <Output TaskParameter="Value" PropertyName="FileMinor" />
+    </CreateProperty>
+    <CreateProperty Value="$(Build)" Condition="$(Build) &gt; 9" >
+      <Output TaskParameter="Value" PropertyName="FileBuild" />
+    </CreateProperty>
+  </Target>
+	<!-- Release -->
+	<Target Name="Release" Condition="'$(ConfigurationName)'=='Release'" >
+		<CallTarget Targets="RemoveZips" />
+		<CallTarget Targets="CreateDnnFile" />
+		<CallTarget Targets="RePlaceTabs" />
+		<CallTarget Targets="ZipInstall" />
+		<CallTarget Targets="ResetScripts" />
+		<CallTarget Targets="ZipSource" Condition="'$(AlsoBuildSourcesZip)'=='true'" />
+	</Target>
+	<!-- Remove previous files -->
+	<Target Name="RemoveZips">
+		<CreateItem Include="$(InstallDir)\*.zip;">
+			<Output TaskParameter="Include" ItemName="deleteFiles" />
+		</CreateItem>
+		<Delete ContinueOnError="true" Files="@(deleteFiles)">
+		</Delete>
+	</Target>
+	<!--Create DNN file-->
+	<Target Name="CreateDnnFile">
+		<!--Write the empty dnn file-->
+		<CreateFile Target="$(dnnFile)" />
+		<!--Create the reference to the dnn file to replace text in it-->
+		<CreateItem Include="$(dnnFile)" >
+			<Output TaskParameter="Include" ItemName="ModulednnFile"/>
+		</CreateItem>
+		<!--replace Modulename-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@ModuleName@" ReplacementText="$(ModuleName)" />
+		<!--Replace Module description-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@Description@" ReplacementText="$(ModuleDescription)" />
+		<!--Replace Module iconfile -->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@iconFile@" ReplacementText="DesktopModules\$(FolderName)\$(IconFile)" Condition="Exists('$(MSBuildProjectDirectory)\Installation\$(IconFile)')" />
+		<FileUpdate Files="@(ModulednnFile)" Regex="@iconFile@" ReplacementText=' ' Condition="!Exists('$(MSBuildProjectDirectory)\Installation\$(IconFile)')" />
+		<!--Replace Foldername-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@FolderName@" ReplacementText="$(FolderName)" />
+		<!--Replace Friendlyname-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@FriendlyName@" ReplacementText="$(FriendlyName)" />
+		<!--Replace DefaultCacheTime-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@defaultCacheTime@" ReplacementText="$(defaultCacheTime)" />
+		<!--Replace azureCompatibility-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@azureCompatible@" ReplacementText="$(azureCompatible)" />
+		<!--replace company information-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@CompanyName@" ReplacementText="$(CompanyName)" />
+		<FileUpdate Files="@(ModulednnFile)" Regex="@CompanyUrl@" ReplacementText="$(CompanyUrl)" />
+		<FileUpdate Files="@(ModulednnFile)" Regex="@CompanyEmail@" ReplacementText="$(CompanyEmail)" />
+		<!--Update the Versionnumber-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@version@" ReplacementText="$(Major).$(Minor).$(Build)" />
+		<!--Release Component-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@Releasetxt@" ReplacementText=' src="Release.$(FileMajor).$(FileMinor).$(FileBuild).txt"' Condition="Exists('$(MSBuildProjectDirectory)\Installation\ReleaseNotes\Release.$(FileMajor).$(FileMinor).$(FileBuild).txt')" />
+		<FileUpdate Files="@(ModulednnFile)" Regex="@Releasetxt@" ReplacementText=' ' Condition="!Exists('$(MSBuildProjectDirectory)\Installation\ReleaseNotes\Release.$(FileMajor).$(FileMinor).$(FileBuild).txt')" />
+		<!--Replace the Dependencies component-->
+		<CreateItem Include="$(MSBuildProjectDirectory)\**\*.ascx.vb;
+				$(MSBuildProjectDirectory)\**\*.ascx.cs;">
+			<Output TaskParameter="Include" ItemName="Dependencies" />
+		</CreateItem>
+		<DependenciesComponent Files="@(Dependencies)" >
+			<Output TaskParameter="ResultString" PropertyName="Dependencies" />
+		</DependenciesComponent>
+		<FileUpdate Files="@(ModulednnFile)" Regex="@Dependencies@" ReplacementText="$(Dependencies)" />
+		<!--Update the Script (sqldataprovider) files-->
+		<CreateItem Include="$(InstallDir)\*.sqldataprovider">
+			<Output TaskParameter="Include" ItemName="scriptFiles" />
+		</CreateItem>
+		<ScriptComponent Path="Installation" Files="@(scriptFiles)" >
+			<Output TaskParameter="ResultString" PropertyName="ScriptComponent" />
+		</ScriptComponent>
+		<FileUpdate Files="@(ModulednnFile)" Regex="@ScriptComponent@" ReplacementText="$(ScriptComponent)" />
+		<!--Replace the Businesscontroller Class part AND the Supported Features part AND the eventMessage-->
+		<CreateItem Include="$(MSBuildProjectDirectory)\**\*.vb;$(MSBuildProjectDirectory)\**\*.cs;" Exclude="$(MSBuildProjectDirectory)\Installation\**;$(MSBuildProjectDirectory)\**\AssemblyInfo.*;">
+			<Output TaskParameter="Include" ItemName="BusinessController" />
+		</CreateItem>
+		<BusinessControllerComponent Files="@(BusinessController)" >
+			<Output TaskParameter="ResultString" PropertyName="BusinessController" />
+			<Output TaskParameter="SupportedFeatures" PropertyName="SupportedFeatures" />
+			<Output TaskParameter="EventMessage" PropertyName="EventMessage" />
+		</BusinessControllerComponent>
+		<FileUpdate Files="@(ModulednnFile)" Regex="@BusinessControllerClass@" ReplacementText="$(BusinessController)" />
+		<FileUpdate Files="@(ModulednnFile)" Regex="@SupportedFeatures@" ReplacementText="$(SupportedFeatures)" />
+		<FileUpdate Files="@(ModulednnFile)" Regex="@EventMessage@" ReplacementText="$(EventMessage)" />
+		<!--Replace the Permissions part-->
+		<CreateItem Include="$(MSBuildProjectDirectory)\**\*.vb;
+				$(MSBuildProjectDirectory)\**\*.cs;">
+			<Output TaskParameter="Include" ItemName="permissions" />
+		</CreateItem>
+		<ModulePermissionComponent Files="@(permissions)" >
+			<Output TaskParameter="ResultString" PropertyName="Permissions" />
+		</ModulePermissionComponent>
+		<FileUpdate Files="@(ModulednnFile)" Regex="@Permissions@" ReplacementText="$(Permissions)" />
+		<!--Get the controls-->
+		<CreateItem Include="$(MSBuildProjectDirectory)\**\*.ascx.vb;
+				$(MSBuildProjectDirectory)\**\*.ascx.cs;">
+			<Output TaskParameter="Include" ItemName="UserControls" />
+		</CreateItem>
+		<ModuleControlsComponent ModuleName="$(FolderName)" Files="@(UserControls)" >
+			<Output TaskParameter="ResultString" PropertyName="moduleControls" />
+		</ModuleControlsComponent>
+		<FileUpdate Files="@(ModulednnFile)" Regex="@moduleControls@" ReplacementText="$(moduleControls)" />
+		<!--Update the Module (assembly) files-->
+		<CreateItem Include="**\bin\$(AssemblyName).dll;@(AssemblyFileToInclude)">
+			<Output TaskParameter="Include" ItemName="assemblyFiles" />
+		</CreateItem>
+		<AssemblyComponent Path="bin" Files="@(assemblyFiles)" >
+			<Output TaskParameter="ResultString" PropertyName="assemblyComponent" />
+		</AssemblyComponent>
+		<FileUpdate Files="@(ModulednnFile)" Regex="@assemblyComponent@" ReplacementText="$(assemblyComponent)" />
+		<!--Update the CleanupComponent section-->
+		<CreateItem Include="$(MSBuildProjectDirectory)\Installation\CleanUp\*.txt">
+			<Output TaskParameter="Include" ItemName="CleanUpFiles" />
+		</CreateItem>
+		<CleanUpComponent Files="@(CleanUpFiles)" >
+			<Output TaskParameter="ResultString" PropertyName="cleanUpComponent" />
+		</CleanUpComponent>
+		<FileUpdate Files="@(ModulednnFile)" Regex="@CleanupFiles@" ReplacementText="$(cleanUpComponent)" />
+		<!--Update the Config section-->
+		<CreateItem Include="$(MSBuildProjectDirectory)\Installation\Config\Config.txt">
+			<Output TaskParameter="Include" ItemName="ConfigFiles" />
+		</CreateItem>
+		<ConfigComponent Files="@(ConfigFiles)" >
+			<Output TaskParameter="ResultString" PropertyName="configComponent" />
+		</ConfigComponent>
+		<FileUpdate Files="@(ModulednnFile)" Regex="@ConfigItems@" ReplacementText="$(configComponent)" />
+	</Target>
+	<!--Replace the @tab@ string with a tab-->
+	<Target Name="RePlaceTabs">
+		<CreateItem Include="$(dnnFile)" >
+			<Output TaskParameter="Include" ItemName="ModulednnFile"/>
+		</CreateItem>
+		<!--replace tabs-->
+		<FileUpdate Files="@(ModulednnFile)" Regex="@tab@" ReplacementText="  " />
+		<!-- Start formatting of DNN manifest file -->
+		<ItemGroup>
+			<DnnXmlFileComponentToFormat Include="@(ModulednnFile)" />
+		</ItemGroup>
+		<Message Text="Dnn file found = $(ModulednnFile)"/>
+		<FormatDnnXmlFileComponent DnnFiles="@(DnnXmlFileComponentToFormat)">
+			<Output TaskParameter="ResultString" PropertyName="formatDnnXmlFileComponent" />
+		</FormatDnnXmlFileComponent>
+		<!-- End formatting of DNN manifest file -->
+	</Target>
+	<!--####################################################################### -->
+	<!-- Make zip file for installation -->
+	<Target Name="ZipInstall">
+		<!--Clean dirs-->
+		<RemoveDir ContinueOnError="true" Directories="$(InstallDir)\tmp" />
+		<RemoveDir ContinueOnError="true" Directories="$(MSBuildProjectDirectory)\tmpCompressScript" />
+		<RemoveDir ContinueOnError="true" Directories="$(MSBuildProjectDirectory)\tmpCompressCSS" />
+		<MakeDir Directories="$(InstallDir)\tmp" />
+		<MakeDir Directories="$(MSBuildProjectDirectory)\tmpCompressScript" />
+		<MakeDir Directories="$(MSBuildProjectDirectory)\tmpCompressCSS" />
+		<!--Copy script files to temp location, compress the original scripts and later place the backup of the original back to the original location -->
+		<CreateItem Include="$(MSBuildProjectDirectory)\**\*.js;" Exclude="$(MSBuildProjectDirectory)\tmpCompressScript\**\*.js" >
+			<Output TaskParameter="Include" ItemName="ScriptsToCompressFiles"/>
+		</CreateItem>
+		<Copy ContinueOnError="true" SourceFiles="@(ScriptsToCompressFiles)" DestinationFolder="$(MSBuildProjectDirectory)\tmpCompressScript\%(RecursiveDir)">
+		</Copy>
+		<!--Copy CSS files -->
+		<CreateItem Include="$(MSBuildProjectDirectory)\**\*.css;" Exclude="$(MSBuildProjectDirectory)\tmpCompressCSS\**\*.css" >
+			<Output TaskParameter="Include" ItemName="StylesheetsToCompressFiles"/>
+		</CreateItem>
+		<Copy ContinueOnError="true" SourceFiles="@(StylesheetsToCompressFiles)" DestinationFolder="$(MSBuildProjectDirectory)\tmpCompressCSS\%(RecursiveDir)">
+		</Copy>
+		<!-- Show selected files -->
+		<Message Text="Found files" />
+		<Message Text="Original scripts found = @(ScriptsToCompressFiles)"/>
+		<Message Text="Original stylesheets found = @(StylesheetsToCompressFiles)"/>
+		<!-- Select only the original scripts, to make it writable -->
+		<ItemGroup>
+			<ScriptFilesToCompress Include="$(MSBuildProjectDirectory)\**\*.js;" Exclude="$(MSBuildProjectDirectory)\**\*.min.js;$(MSBuildProjectDirectory)\tmpCompressScript\**\*.js" >
+			</ScriptFilesToCompress>
+		</ItemGroup>
+		<ItemGroup>
+			<StylesheetFilesToCompress Include="$(MSBuildProjectDirectory)\**\*.css;" Exclude="$(MSBuildProjectDirectory)\tmpCompressCSS\**\*.css" >
+			</StylesheetFilesToCompress>
+		</ItemGroup>
+		<!--Make Scripts and CSS writable-->
+		<Attrib Files="%(ScriptFilesToCompress.FullPath)" ReadOnly="false" />
+		<Attrib Files="%(StylesheetFilesToCompress.FullPath)" ReadOnly="false" />
+		<!-- Compress script files on original location, see http://yuicompressor.codeplex.com/ for details-->
+		<!-- Parameters: 
+		EnableCompression: (False/True), default True. Enables compression on all files or not.
+		IsVerboseLogging: (False/True), default False. Enables logging.
+		IsObfuscateJavascript: (False/True), default False. Obfuscates javascript.
+		PreserveAllSemicolons: (False/True), default False. Preserves semicolons in the script.
+		DisableOptimizations: (False/True), default False.
+		LineBreakPosition: a positive integer value where to break the line, for easy reading
+		Encoding options: if empty, Default encoding is used.
+			- Default (default)
+			- ASCII
+			- UTF7
+			- UTF8
+			- UTF32
+			- Unicode
+			- other values like "windows-1250"
+		ThreadCulture: "" (default empty), will select the CurrentCulture or a specified version, for example en-US.
+		IsEvalIgnored: (False/True), default False.
+	-->
+		<CompressScriptComponent Files="@(ScriptsToCompressFiles)" 
+			EnableCompression="True"
+			IsVerboseLogging="False" 
+			IsObfuscateJavascript="True" 
+			PreserveAllSemicolons="True" 
+			DisableOptimizations="False" 
+			LineBreakPosition="218"
+			Encoding="Default"
+			ThreadCulture=""
+			IsEvalIgnored="False">
+			<Output TaskParameter="ResultString" PropertyName="compressScriptComponent" />
+		</CompressScriptComponent>
+		<!-- Compress css files on original location, see http://yuicompressor.codeplex.com/ for details-->
+		<!-- Parameters: 
+			EnableCompression: (False/True), default True. Enables compression on all files or not.
+			LineBreakPosition: a positive integer value where to break the line, for easy reading
+			CompressionType options: 
+				- Hybrid
+				- MichaelAshRegexEnhancements (default)
+				- StockYuiCompressor
+	-->
+		<CompressCssComponent Files="@(StylesheetsToCompressFiles)" 
+			EnableCompression="True"
+			LineBreakPosition="218" 
+			CompressionType="MichaelAshRegexEnhancements" >
+			<Output TaskParameter="ResultString" PropertyName="compressCssComponent" />
+		</CompressCssComponent>
+		<!-- Get files -->
+		<CreateItem
+		  Exclude="**\.svn\**;
+			$(MSBuildProjectDirectory)\_*\**;
+			$(MSBuildProjectDirectory)\.git\**;
+			$(MSBuildProjectDirectory)\obj\**;
+			$(MSBuildProjectDirectory)\**\obj\**;
+			$(MSBuildProjectDirectory)\bin\**;
+			$(MSBuildProjectDirectory)\My Project\*.*;
+			$(MSBuildProjectDirectory)\Properties\*.*;
+			$(MSBuildProjectDirectory)\Dependencies\*.*; 
+			$(MSBuildProjectDirectory)\*ReSharper*\**;
+			$(MSBuildProjectDirectory)\*GhostDoc.*;
+			$(MSBuildProjectDirectory)\Installation\*.png;
+			$(MSBuildProjectDirectory)\Installation\Config\*.*;
+			$(MSBuildProjectDirectory)\tmpCompressScript\**;
+			$(MSBuildProjectDirectory)\tmpCompressCSS\**"
+		  Include="$(MSBuildProjectDirectory)\**\*.ascx;
+			$(MSBuildProjectDirectory)\**\*.aspx;
+			$(MSBuildProjectDirectory)\**\*.css;
+			$(MSBuildProjectDirectory)\**\*.xml;
+			$(MSBuildProjectDirectory)\**\*.xslt;
+			$(MSBuildProjectDirectory)\**\*.resx;
+			$(MSBuildProjectDirectory)\**\*.rpt;
+			$(MSBuildProjectDirectory)\**\*.gif;
+			$(MSBuildProjectDirectory)\**\*.jpg;
+			$(MSBuildProjectDirectory)\**\*.png;
+			$(MSBuildProjectDirectory)\**\*.js;">
+			<Output TaskParameter="Include" ItemName="resources" />
+		</CreateItem>
+		<!-- Include module png as IconFile in resources zip -->
+		<!-- First copy it to the root of the module because else the Installation folder will be in the Resources zip -->
+		<CreateItem Include="$(MSBuildProjectDirectory)\Installation\$(IconFile);" >
+			<Output TaskParameter="Include" ItemName="moduleIconFile"/>
+		</CreateItem>
+		<Message Text="ModuleIconFile: @(moduleIconFile)" />
+		<Copy ContinueOnError="true" SourceFiles="@(moduleIconFile)" DestinationFolder="$(MSBuildProjectDirectory)">
+		</Copy>
+		<CreateItem Include="$(MSBuildProjectDirectory)\$(IconFile);">
+			<Output TaskParameter="Include" ItemName="resources" />
+		</CreateItem>
+		<CreateItem Include="$(InstallDir)\resources.zip;
+					$(dnnFile);
+		  $(InstallDir)\License.txt;
+		  $(InstallDir)\ReleaseNotes\Release.$(FileMajor).$(FileMinor).$(FileBuild).txt;" >
+			<Output TaskParameter="Include" ItemName="install"/>
+		</CreateItem>
+		<CreateItem Include="$(InstallDir)\*.SqlDataProvider;" >
+			<Output TaskParameter="Include" ItemName="sql"/>
+		</CreateItem>
+		<CreateItem Include="$(InstallDir)\CleanUp\*.txt;" >
+			<Output TaskParameter="Include" ItemName="cleanup"/>
+		</CreateItem>
+		<CreateItem Include="**\bin\$(AssemblyName).dll;@(AssemblyFileToInclude)" >
+			<Output TaskParameter="Include" ItemName="dll"/>
+		</CreateItem>
+		<!-- Create resources.zip -->
+		<Zip Files="@(resources)"
+		 WorkingDirectory="$(MSBuildProjectDirectory)"
+		 ZipFileName="$(InstallDir)\resources.zip" />
+		<!-- Copy installation files to tmp and creates installation zip -->
+		<Copy ContinueOnError="true" SourceFiles="@(install)" DestinationFolder="$(InstallDir)\tmp">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(sql)" DestinationFolder="$(InstallDir)\tmp\Installation">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(cleanup)" DestinationFolder="$(InstallDir)\tmp\Installation\CleanUp">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(dll)" DestinationFolder="$(InstallDir)\tmp\bin">
+		</Copy>
+		<CreateItem Include="$(InstallDir)\tmp\**\*.*">
+			<Output TaskParameter="Include" ItemName="ZipInstallFiles" />
+		</CreateItem>
+		<Zip Files="@(ZipInstallFiles)" WorkingDirectory="$(InstallDir)\tmp"
+		 ZipFileName="$(InstallDir)\$(ModuleName)_$(FileMajor).$(FileMinor).$(FileBuild)_Install.zip" />
+		<!-- Cleanup -->
+		<RemoveDir ContinueOnError="true" Directories="$(InstallDir)\tmp" />
+		<Delete Files="$(InstallDir)\resources.zip">
+		</Delete>
+		<!-- Cleanup copied Iconfile from root -->
+		<Delete Files="$(MSBuildProjectDirectory)\$(IconFile)">
+		</Delete>
+	</Target>
+	<Target Name="ResetScripts">
+		<Message Text="Start Reset Scripts" />
+		<!--Select backupped script files -->
+		<CreateItem Include="$(MSBuildProjectDirectory)\tmpCompressScript\**\*.js">
+			<Output TaskParameter="Include" ItemName="resetScriptFiles"/>
+		</CreateItem>
+		<!--Select backupped css files -->
+		<CreateItem Include="$(MSBuildProjectDirectory)\tmpCompressCSS\**\*.css">
+			<Output TaskParameter="Include" ItemName="resetCssFiles"/>
+		</CreateItem>
+		<Message Text="Build dir = $(MSBuildProjectDirectory)" />
+		<!-- Restore the original script files to the original location -->
+		<Copy ContinueOnError="true" SourceFiles="@(resetScriptFiles)" DestinationFolder="$(MSBuildProjectDirectory)\%(RecursiveDir)">
+		</Copy>
+		<!-- Restore the original css files to the original location -->
+		<Copy ContinueOnError="true" SourceFiles="@(resetCssFiles)" DestinationFolder="$(MSBuildProjectDirectory)\%(RecursiveDir)">
+		</Copy>
+		<Message Text="END Reset Scripts" />
+		<!-- Remove tmp script and CSS location -->
+		<RemoveDir ContinueOnError="true" Directories="$(MSBuildProjectDirectory)\tmpCompressScript" />
+		<RemoveDir ContinueOnError="true" Directories="$(MSBuildProjectDirectory)\tmpCompressCSS" />
+	</Target>
+	<!--####################################################################### -->
+	<!-- Source code zip file -->
+	<Target Name="ZipSource">
+		<!-- zip source code -->
+		<RemoveDir ContinueOnError="true" Directories="$(InstallDir)\tmpsrc" />
+		<MakeDir Directories="$(InstallDir)\tmpsrc" />
+		<!--change dnn file-->
+		<CreateItem Include="$(dnnFile)" >
+			<Output TaskParameter="Include" ItemName="srcModulednnFile"/>
+		</CreateItem>
+		<!--replace Modulename-->
+		<FileUpdate Files="@(srcModulednnFile)" Regex="resources.zip" ReplacementText="sources.zip" />
+		<!-- Get files -->
+		<CreateItem
+		  Exclude="**\.svn\**;
+			$(MSBuildProjectDirectory)\.git\**;
+			$(MSBuildProjectDirectory)\**\*.vspscc;
+			$(MSBuildProjectDirectory)\**\*.vssscc;
+			$(MSBuildProjectDirectory)\**\*.suo;
+			$(MSBuildProjectDirectory)\**\*.user;
+			$(MSBuildProjectDirectory)\**\*.zip;
+			$(MSBuildProjectDirectory)\_ReSharper.*\**;
+			$(MSBuildProjectDirectory)\*GhostDoc.*;
+			$(MSBuildProjectDirectory)\obj\**;
+			$(MSBuildProjectDirectory)\bin\**;
+      $(MSBuildProjectDirectory)\$tf\**"
+		  Include="$(MSBuildProjectDirectory)\**\*.*" >
+			<Output TaskParameter="Include" ItemName="srcsources" />
+		</CreateItem>
+		<!-- Include module png as IconFile in resources zip -->
+		<!-- First copy it to the root of the module for correct Installation -->
+		<Message Text="ModuleIconFile: @(moduleIconFile)" />
+		<Copy ContinueOnError="true" SourceFiles="@(moduleIconFile)" DestinationFolder="$(MSBuildProjectDirectory)">
+		</Copy>
+		<CreateItem Include="$(MSBuildProjectDirectory)\$(IconFile);">
+			<Output TaskParameter="Include" ItemName="srcsources" />
+		</CreateItem>
+		<CreateItem Include="$(InstallDir)\sources.zip;
+					$(dnnFile); 
+		  $(InstallDir)\License.txt;
+		  $(InstallDir)\ReleaseNotes\Release.$(FileMajor).$(FileMinor).$(FileBuild).txt;" >
+			<Output TaskParameter="Include" ItemName="srcinstall"/>
+		</CreateItem>
+		<CreateItem Include="$(InstallDir)\*.SqlDataProvider;" >
+			<Output TaskParameter="Include" ItemName="srcsql"/>
+		</CreateItem>
+		<CreateItem Include="$(BinDir)\*.dll;" >
+			<Output TaskParameter="Include" ItemName="srcdll"/>
+		</CreateItem>
+		<CreateItem Include="$(InstallDir)\*.txt;" >
+			<Output TaskParameter="Include" ItemName="srcLicense"/>
+		</CreateItem>
+		<CreateItem Include="$(InstallDir)\CleanUp\*.txt;" >
+			<Output TaskParameter="Include" ItemName="srcCleanUp"/>
+		</CreateItem>
+		<CreateItem Include="$(InstallDir)\Config\*.txt;" >
+			<Output TaskParameter="Include" ItemName="srcConfig"/>
+		</CreateItem>
+		<!-- Create Sources.zip -->
+		<Zip Files="@(srcsources)"
+		 WorkingDirectory="$(MSBuildProjectDirectory)"
+		 ZipFileName="$(InstallDir)\sources.zip" />
+		<!-- Copy installation files to tmp and creates installation zip -->
+		<Copy ContinueOnError="true" SourceFiles="@(srcinstall)" DestinationFolder="$(InstallDir)\tmpsrc">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(srcsql)" DestinationFolder="$(InstallDir)\tmpsrc\Installation">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(srcdll)" DestinationFolder="$(InstallDir)\tmpsrc\bin">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(srcCleanUp)" DestinationFolder="$(InstallDir)\tmpsrc\Installation\CleanUp">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(srcConfig)" DestinationFolder="$(InstallDir)\tmpsrc\Installation\Config">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(srcReleaseNotes)" DestinationFolder="$(InstallDir)\tmpsrc">
+		</Copy>
+		<Copy ContinueOnError="true" SourceFiles="@(srcLicense)" DestinationFolder="$(InstallDir)\tmpsrc">
+		</Copy>
+		<CreateItem
+	  Exclude="$(InstallDir)\**\resources.zip;" 
+	  Include="$(InstallDir)\tmpsrc\**\*.*">
+			<Output TaskParameter="Include" ItemName="srcZipInstallFiles" />
+		</CreateItem>
+		<Zip Files="@(srcZipInstallFiles)" WorkingDirectory="$(InstallDir)\tmpsrc"
+		 ZipFileName="$(InstallDir)\$(ModuleName)_$(FileMajor).$(FileMinor).$(FileBuild)_Source.zip" />
+		<!-- Cleanup -->
+		<FileUpdate Files="@(srcModulednnFile)" Regex="sources.zip" ReplacementText="resources.zip" />
+		<RemoveDir ContinueOnError="true" Directories="$(InstallDir)\tmpsrc" />
+		<Delete Files="$(InstallDir)\sources.zip">
+		</Delete>
+		<!-- Cleanup copied Iconfile from root -->
+		<Delete Files="$(MSBuildProjectDirectory)\$(IconFile)">
+		</Delete>
+	</Target>
+	<!-- Copy files to dev folder -->
+	<Target Name="CopyDeployFiles">
+		<!--Get the .dll .pdb files-->
+		<CreateItem Include=" $(BinDir)\*.pdb;$(BinDir)\*.dll">
+			<Output TaskParameter="Include" ItemName="BinFiles" />
+		</CreateItem>
+		<!--Copy the files-->
+		<Copy SourceFiles="@(BinFiles)" DestinationFolder="..\..\bin\" SkipUnchangedFiles="true" ContinueOnError="false" />
+	</Target>
+</Project>
