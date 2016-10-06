@@ -7,6 +7,7 @@
 *.sln.docstates
 *.sln.GhostDoc.xml
 web.config
+.vs/
 
 # Build results
 [Dd]ebug/
