@@ -555,6 +555,6 @@
 			<Output TaskParameter="Include" ItemName="BinFiles" />
 		</CreateItem>
 		<!--Copy the files-->
-		<Copy SourceFiles="@(BinFiles)" DestinationFolder="..\..\bin\" SkipUnchangedFiles="true" ContinueOnError="false" />
+		<Copy SourceFiles="@(BinFiles)" DestinationFolder="..\..\DNNEvents\DNNEventsTEST\bin\" SkipUnchangedFiles="true" ContinueOnError="false" />
 	</Target>
 </Project>
