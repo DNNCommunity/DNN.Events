@@ -44,7 +44,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\Bin\</OutputPath>
+    <OutputPath>Bin\</OutputPath>
     <DocumentationFile>DotNetNuke.Modules.Events.xml</DocumentationFile>
     <BaseAddress>1072168960</BaseAddress>
     <ConfigurationOverrideFile>
@@ -377,6 +377,7 @@
     <Content Include="Installation\CleanUp\Cleanup.06.02.01.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.03.00.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.02.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.06.03.01.txt" />
     <Content Include="Installation\DNN_Events.png" />
     <Content Include="Installation\ReleaseNotes\Release.06.01.05.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.02.00.txt" />
@@ -580,6 +581,7 @@
     <None Include=".build\Project.targets">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Installation\ReleaseNotes\Release.06.03.01.txt" />
     <None Include="Installation\Uninstall.SqlDataProvider" />
     <Content Include="web.config" />
     <None Include="web.Debug.config">
