@@ -443,9 +443,12 @@ Namespace DotNetNuke.Modules.Events
             Dim eventimagebool As Boolean
             If Boolean.TryParse(CStr(eventimagesetting), eventimagebool) AndAlso (eventimagebool And eventInfo.ImageDisplay) Then
                 sourceText = TokenOneParameter(sourceText, "IFHASIMAGE", True)
+                sourceText = TokenOneParameter(sourceText, "IFNOTHASIMAGE", False)
             Else
                 sourceText = TokenOneParameter(sourceText, "IFHASIMAGE", False)
+                sourceText = TokenOneParameter(sourceText, "IFNOTHASIMAGE", True)
             End If
+
             If eventInfo.Category > 0 Then
                 sourceText = TokenOneParameter(sourceText, "IFHASCATEGORY", True)
             Else

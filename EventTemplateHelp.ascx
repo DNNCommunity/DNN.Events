@@ -609,6 +609,12 @@ The following tokens can be used to alter what is displayed based on options sto
             <td>[IFHASIMAGE]&lt;a href=&quot;[event:imageurl]&quot;&gt;[event:eventimage]&lt;/a&gt;[/IFHASIMAGE]</td>
         </tr>
         <tr>
+            <td>IFNOTHASIMAGE</td>
+            <td>Includes the text specified within the token if the event hasn't been assigned an 
+                image.</td>
+            <td>[IFNOTHASIMAGE]No image[/IFNOTHASIMAGE]</td>
+        </tr>
+        <tr>
             <td>IFHASCATEGORY</td>
             <td>Includes the text specified within the token if the event has been assigned to a 
                 Category.</td>
