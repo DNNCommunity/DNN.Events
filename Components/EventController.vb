@@ -655,15 +655,18 @@ Namespace DotNetNuke.Modules.Events
             Implements IComparer
 
             Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
-                Dim xdatetimeid As String
-                Dim ydatetimeid As String
                 Dim xEventInfo As EventInfo = CType(x, EventInfo)
                 Dim yEventInfo As EventInfo = CType(y, EventInfo)
 
                 Dim objEventTimeZoneUtilities As New EventTimeZoneUtilities
-                xdatetimeid = Format(objEventTimeZoneUtilities.ConvertToUTCTimeZone(xEventInfo.EventTimeBegin, xEventInfo.EventTimeZoneId), "yyyyMMddHHmm") + Format(xEventInfo.EventID, "00000000")
-                ydatetimeid = Format(objEventTimeZoneUtilities.ConvertToUTCTimeZone(yEventInfo.EventTimeBegin, yEventInfo.EventTimeZoneId), "yyyyMMddHHmm") + Format(yEventInfo.EventID, "00000000")
-                Return CInt(xdatetimeid < ydatetimeid)
+
+                Dim result As Integer
+                result = Date.Compare(objEventTimeZoneUtilities.ConvertToUTCTimeZone(xEventInfo.EventTimeBegin, xEventInfo.EventTimeZoneId), objEventTimeZoneUtilities.ConvertToUTCTimeZone(yEventInfo.EventTimeBegin, yEventInfo.EventTimeZoneId))
+                If result = 0 Then
+                    result = xEventInfo.EventID.CompareTo(yEventInfo.EventID)
+                End If
+
+                Return result
             End Function
         End Class
 
