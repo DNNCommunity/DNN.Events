@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" Codebehind="EventPPEnroll.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventPPEnroll" %>
+<%@ Control Language="C#" AutoEventWireup="true" Codebehind="EventPPEnroll.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventPPEnroll" %>
 <%@ Register Src="~/controls/LabelControl.ascx" TagName="Label" TagPrefix="dnn" %>
 <%@ Register Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls" TagPrefix="dnn" %>
 <asp:Panel ID="pnlEventsModulePayPal" runat="server">
@@ -40,9 +40,10 @@
         </div>
     </fieldset>
     <ul class="dnnActions dnnClear">
-        <li><asp:LinkButton ID="cmdReturn" runat="server" resourcekey="cmdReturn" CssClass="dnnPrimaryAction" CausesValidation="False" Visible="False" /></li>
-        <li><asp:LinkButton ID="cmdPurchase" runat="server" resourcekey="cmdPurchase" CssClass="dnnPrimaryAction"/></li>
-        <li><asp:LinkButton ID="cancelButton" runat="server" resourcekey="cancelButton" CssClass="dnnSecondaryAction" CausesValidation="False" /></li>
+        <li><asp:LinkButton OnClick="cmdReturn_Click" ID="cmdReturn" runat="server" resourcekey="cmdReturn" CssClass="dnnPrimaryAction" CausesValidation="False" Visible="False" /></li>
+        <li><asp:LinkButton OnClick="cmdPurchase_Click" ID="cmdPurchase" runat="server" resourcekey="cmdPurchase" CssClass="dnnPrimaryAction"/></li>
+        <li><asp:LinkButton OnClick="cancelButton_Click" ID="cancelButton" runat="server" resourcekey="cancelButton" CssClass="dnnSecondaryAction" CausesValidation="False" /></li>
     </ul>
 </div>
 </asp:Panel>
+

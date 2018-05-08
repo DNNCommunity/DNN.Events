@@ -1,1 +1,2 @@
-<%@ Page Language="vb" AutoEventWireup="false" Codebehind="EventRSS.aspx.vb" Inherits="DotNetNuke.Modules.Events.EventRSS" Explicit="True" %>
+<%@ Page Language="C#" AutoEventWireup="true" Codebehind="EventRSS.aspx.cs" Inherits="DotNetNuke.Modules.Events.EventRSS" Explicit="True" %>
+

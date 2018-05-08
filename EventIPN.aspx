@@ -1,4 +1,4 @@
-<%@ Page Language="vb" AutoEventWireup="false" Codebehind="EventIPN.aspx.vb" Inherits="DotNetNuke.Modules.Events.EventIPN" %>
+<%@ Page Language="C#" AutoEventWireup="true" Codebehind="EventIPN.aspx.cs" Inherits="DotNetNuke.Modules.Events.EventIPN" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html dir="ltr">
 	<head>
@@ -14,3 +14,4 @@
 		</form>
 	</body>
 </html>
+

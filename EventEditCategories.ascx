@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" Codebehind="EventEditCategories.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventEditCategories" %>
+<%@ Control Language="C#" AutoEventWireup="true" Codebehind="EventEditCategories.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventEditCategories" %>
 <%@ Register Src="~/controls/LabelControl.ascx" TagName="Label" TagPrefix="dnn" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web.Deprecated" Namespace="DotNetNuke.Web.UI.WebControls" %>
@@ -60,9 +60,9 @@
             </table>
         </div>
         <ul class="dnnActions dnnClear">
-            <li><asp:LinkButton ID="cmdAdd" runat="server" CssClass="dnnPrimaryAction" resourcekey="cmdAdd" ValidationGroup="CategoryUpdate" /></li>
-            <li><asp:LinkButton ID="cmdUpdate" runat="server" CssClass="dnnSecondaryAction" resourcekey="cmdUpdate" Visible="false" ValidationGroup="CategoryUpdate" /></li>
-            <li><asp:LinkButton ID="returnButton" runat="server" CssClass="dnnSecondaryAction" resourcekey="returnButton" CausesValidation="False" /></li>
+            <li><asp:LinkButton OnClick="cmdAdd_Click" ID="cmdAdd" runat="server" CssClass="dnnPrimaryAction" resourcekey="cmdAdd" ValidationGroup="CategoryUpdate" /></li>
+            <li><asp:LinkButton OnClick="cmdUpdate_Click" ID="cmdUpdate" runat="server" CssClass="dnnSecondaryAction" resourcekey="cmdUpdate" Visible="false" ValidationGroup="CategoryUpdate" /></li>
+            <li><asp:LinkButton OnClick="returnButton_Click" ID="returnButton" runat="server" CssClass="dnnSecondaryAction" resourcekey="returnButton" CausesValidation="False" /></li>
         </ul>
     </div>
     <div style="width:50%;float:left">
@@ -83,21 +83,21 @@
                 </asp:TemplateColumn>
                 <asp:TemplateColumn HeaderText="PortalID" Visible="False">
                     <ItemTemplate>
-                        <asp:Label ID="Label2" runat="server" Text="<%# Container.DataItem.PortalID.ToString %>">
+                        <asp:Label ID="Label2" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "PortalID") %>'>
                         </asp:Label>
                     </ItemTemplate>
                 </asp:TemplateColumn>
                 <asp:TemplateColumn HeaderText="Category" Visible="False">
                     <ItemTemplate>
-                        <asp:Label ID="Label1" runat="server" Text="<%# Container.DataItem.Category.ToString %>">
+                        <asp:Label ID="Label1" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Category") %>'>
                         </asp:Label>
                     </ItemTemplate>
                 </asp:TemplateColumn>
                 <asp:TemplateColumn HeaderText="Category Name">
                     <ItemTemplate>
-                        <asp:Panel runat="server" BackColor="<%# GetColor(ctype(Container.DataItem.Color,String)) %>">
-                            <asp:LinkButton ID="lnkCategoryName" runat="server" forecolor="<%# GetColor(ctype(Container.DataItem.FontColor,string)) %>" CommandArgument="Select"
-                                CommandName="Select" Text="<%# Container.DataItem.CategoryName %>">
+                        <asp:Panel runat="server" BackColor='<%# GetColor((string)DataBinder.Eval(Container.DataItem, "Color")) %>'>
+                            <asp:LinkButton ID="lnkCategoryName" runat="server" forecolor='<%# GetColor((string)DataBinder.Eval(Container.DataItem, "FontColor")) %>' CommandArgument="Select"
+                                CommandName="Select" Text='<%# DataBinder.Eval(Container.DataItem, "CategoryName") %>'>
                             </asp:LinkButton>
                         </asp:Panel>
                     </ItemTemplate>
@@ -108,4 +108,5 @@
     </div>
 </div>
 </asp:Panel>
+
 

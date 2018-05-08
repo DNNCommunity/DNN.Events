@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="EventSettings.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventSettings" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EventSettings.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventSettings" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="URL" Src="~/controls/URLControl.ascx" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls"  %>   
@@ -12,9 +12,30 @@
         <li><a href="#GeneralSettings"><%=LocalizeString("GeneralSettings")%></a></li>
         <li><a href="#DisplaySettings"><%=LocalizeString("DisplaySettings")%></a></li>
         <li><a href="#EmailandReminderSettings"><%=LocalizeString("EmailandReminderSettings")%></a></li>
-        <% If ddlSocialGroupModule.SelectedValue <> 3 Then%><li><a href="#EnrollandModSettings"><%=LocalizeString("EnrollandModSettings")%></a></li><% End If%>
-        <% If ddlSocialGroupModule.SelectedValue = 1 Then%><li><a href="#SubcalendarSettings"><%=LocalizeString("SubcalendarSettings")%></a></li><% End If%>
-        <% If ddlSocialGroupModule.SelectedValue <> 3 Then%><li><a href="#SEOandSitemapSettings"><%=LocalizeString("SEOandSitemapSettings")%></a></li><% End If%>
+        <% 
+if (int.Parse(ddlSocialGroupModule.SelectedValue) != 3)
+{
+
+%><li><a href="#EnrollandModSettings"><%=LocalizeString("EnrollandModSettings")%></a></li><% 
+}
+
+%>
+        <% 
+if (int.Parse(ddlSocialGroupModule.SelectedValue) == 1)
+{
+
+%><li><a href="#SubcalendarSettings"><%=LocalizeString("SubcalendarSettings")%></a></li><% 
+}
+
+%>
+        <% 
+if (int.Parse(ddlSocialGroupModule.SelectedValue) != 3)
+{
+
+%><li><a href="#SEOandSitemapSettings"><%=LocalizeString("SEOandSitemapSettings")%></a></li><% 
+}
+
+%>
         <li><a href="#IntegrationSettings"><%=LocalizeString("IntegrationSettings")%></a></li>
         <li><a href="#TemplateSettings"><%=LocalizeString("TemplateSettings")%></a></li>
     </ul>
@@ -48,12 +69,19 @@
                     <dnn:Label ID="plEnableSearch" Text="Event Height/Width:" runat="server" ControlName="txtEventWidth"></dnn:Label>
                     <asp:CheckBox ID="chkEnableSearch" runat="server" Checked="True"></asp:CheckBox>
                 </div>
-                <% If ddlSocialGroupModule.SelectedValue = 1 Then%>
+                <% 
+if (int.Parse(ddlSocialGroupModule.SelectedValue) == 1)
+{
+
+%>
                     <div class="dnnFormItem">
                         <dnn:Label ID="lblOwnerChangeAllowed" runat="server" Text="Owner Change Allowed" ControlName="lblOwnerChangeAllowed"></dnn:Label>
                         <asp:CheckBox ID="chkOwnerChangeAllowed" runat="server" Checked="False"></asp:CheckBox>
                     </div>
-                <% End If%>
+                <% 
+}
+
+%>
                 <div class="dnnFormItem">
                     <dnn:Label ID="plExpireEvents" runat="server" Text="Expire Events Older Than:" ControlName="txtExpireEvents"></dnn:Label>
                     <asp:TextBox ID="txtExpireEvents" runat="server" CssClass="NormalTextBox" Width="32px"></asp:TextBox>&nbsp;
@@ -404,12 +432,12 @@
                                 <table id="Table3" cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                         <td valign="top" align="center">
-                                            <asp:LinkButton ID="cmdAdd" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;>&nbsp;"></asp:LinkButton>
+                                            <asp:LinkButton ID="cmdAdd" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;>&nbsp;" OnClick="cmdAdd_Click"></asp:LinkButton>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td valign="top" align="center">
-                                            <asp:LinkButton ID="cmdRemove" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;<&nbsp;"></asp:LinkButton>
+                                            <asp:LinkButton ID="cmdRemove" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;<&nbsp;" OnClick="cmdRemove_Click"></asp:LinkButton>
                                         </td>
                                     </tr>
                                     <tr>
@@ -419,12 +447,12 @@
                                     </tr>
                                     <tr>
                                         <td valign="bottom" align="center">
-                                            <asp:LinkButton ID="cmdAddAll" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;>>&nbsp;"></asp:LinkButton>
+                                            <asp:LinkButton ID="cmdAddAll" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;>>&nbsp;" OnClick="cmdAddAll_Click"></asp:LinkButton>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td valign="bottom" align="center">
-                                            <asp:LinkButton ID="cmdRemoveAll" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;<<&nbsp;"></asp:LinkButton>
+                                            <asp:LinkButton ID="cmdRemoveAll" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;<<&nbsp;" OnClick="cmdRemoveAll_Click"></asp:LinkButton>
                                         </td>
                                     </tr>
                                 </table>
@@ -570,7 +598,11 @@
         <h2 class="dnnFormSectionHead" id="dnnPanel-EventEmailSettings"><a href="" class="dnnSectionExpanded"><%=LocalizeString("EventEmailSettings")%></a></h2>
         <fieldset class="dnnClear">
             <div>
-                <% If ddlSocialGroupModule.SelectedValue = 1 Then%>
+                <% 
+if (int.Parse(ddlSocialGroupModule.SelectedValue) == 1)
+{
+
+%>
                     <div class="dnnFormItem">
                         <dnn:Label ID="lblNewEventEmail" runat="server" Text="Send New Event Email" ControlName="lblNewEventEmail"></dnn:Label>
                         <table cellspacing="0" cellpadding="0" border="0">
@@ -589,7 +621,10 @@
                             </tr>
                         </table>
                     </div>
-                <% End If%>
+                <% 
+}
+
+%>
                 <div class="dnnFormItem">
                     <dnn:Label ID="plNewPerEventEmail" Text="Allow New Per Event Email:" runat="server" ControlName="plNewPerEventEmail"></dnn:Label>
                     <asp:CheckBox ID="chkNewPerEventEmail" runat="server" Checked="False"></asp:CheckBox>
@@ -623,7 +658,11 @@
             </div>
         </fieldset>
 	</div>
-    <% If ddlSocialGroupModule.SelectedValue <> 3 Then%>
+    <% 
+if (int.Parse(ddlSocialGroupModule.SelectedValue) != 3)
+{
+
+%>
         <div class="EnrollandModSettings dnnClear" id="EnrollandModSettings">
             <h2 class="dnnFormSectionHead" id="dnnPanel-EnrollmentSettings"><a href="" class="dnnSectionExpanded"><%=LocalizeString("EnrollmentSettings")%></a></h2>
             <fieldset class="dnnClear">
@@ -901,14 +940,21 @@
                 </div>
             </fieldset>
 	    </div>
-    <% End If%>
-    <% If ddlSocialGroupModule.SelectedValue = 1 Then%>
+    <% 
+}
+
+%>
+    <% 
+if (int.Parse(ddlSocialGroupModule.SelectedValue) == 1)
+{
+
+%>
         <div class="SubcalendarSettings dnnClear" id="SubcalendarSettings" >
             <fieldset class="dnnClear">
                 <div>
                     <div class="dnnFormItem">
                         <dnn:Label ID="plMaster" Text="Master Event" runat="server" ControlName="chkMasterEvent"></dnn:Label>
-                        <asp:CheckBox ID="chkMasterEvent" runat="server" AutoPostBack="True"></asp:CheckBox>
+                        <asp:CheckBox ID="chkMasterEvent" runat="server" AutoPostBack="True" OnCheckedChanged="chkMasterEvent_CheckedChanged"></asp:CheckBox>
                     </div>
                     <div id="divMasterEvent" runat="server">
                         <div class="dnnFormItem">
@@ -941,12 +987,12 @@
                                         <table id="Table2" cellspacing="0" cellpadding="0" border="0">
                                             <tr>
                                                 <td valign="top" align="center">
-                                                    <asp:LinkButton ID="cmdAddCals" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;>&nbsp;"></asp:LinkButton>
+                                                    <asp:LinkButton ID="cmdAddCals" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;>&nbsp;" OnClick="cmdAddCals_Click"></asp:LinkButton>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td valign="top" align="center">
-                                                    <asp:LinkButton ID="cmdRemoveCals" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;<&nbsp;"></asp:LinkButton>
+                                                    <asp:LinkButton ID="cmdRemoveCals" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;<&nbsp;" OnClick="cmdRemoveCals_Click"></asp:LinkButton>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -956,12 +1002,12 @@
                                             </tr>
                                             <tr>
                                                 <td valign="bottom" align="center">
-                                                    <asp:LinkButton ID="cmdAddAllCals" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;>>&nbsp;"></asp:LinkButton>
+                                                    <asp:LinkButton ID="cmdAddAllCals" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;>>&nbsp;" OnClick="cmdAddAllCals_Click"></asp:LinkButton>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td valign="bottom" align="center">
-                                                    <asp:LinkButton ID="cmdRemoveAllCals" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;<<&nbsp;"></asp:LinkButton>
+                                                    <asp:LinkButton ID="cmdRemoveAllCals" CssClass="CommandButton" runat="server" EnableViewState="False" Text="&nbsp;<<&nbsp;" OnClick="cmdRemoveAllCals_Click"></asp:LinkButton>
                                                 </td>
                                             </tr>
                                         </table>
@@ -976,8 +1022,15 @@
                 </div>
             </fieldset>
 	    </div>
-    <% End If%>
-    <% If Not ddlSocialGroupModule.SelectedValue = 3 Then%>
+    <% 
+}
+
+%>
+    <% 
+if (!(int.Parse(ddlSocialGroupModule.SelectedValue) == 3))
+{
+
+%>
         <div class="SEOandSitemapSettings dnnClear" id="SEOandSitemapSettings">
             <h2 class="dnnFormSectionHead" id="dnnPanel-SEOSettings"><a href="" class="dnnSectionExpanded"><%=LocalizeString("SEOSettings")%></a></h2>
             <fieldset class="dnnClear">
@@ -1018,7 +1071,10 @@
                 </div>
             </fieldset>
 	    </div>
-    <% End If%>
+    <% 
+}
+
+%>
     <div class="IntegrationSettings dnnClear" id="IntegrationSettings">
         <h2 class="dnnFormSectionHead" id="dnnPanel-RSSSettings"><a href="" class="dnnSectionExpanded"><%=LocalizeString("RSSSettings")%></a></h2>
         <fieldset class="dnnClear">
@@ -1147,7 +1203,7 @@
                 <div class="dnnFormItem">
                     <dnn:Label ID="plTemplates" runat="server" Text="Event Templates" ControlName="ddlTemplates"></dnn:Label>
                     <a runat="server" id="lnkTemplatesHelp" target="_blank">Help</a>
-                    <asp:DropDownList ID="ddlTemplates" runat="server" AutoPostBack="true" CssClass="NormalTextBox">
+                    <asp:DropDownList ID="ddlTemplates" runat="server" AutoPostBack="true" CssClass="NormalTextBox" OnSelectedIndexChanged="ddlTemplates_SelectedIndexChanged">
                     </asp:DropDownList>
                 </div>
                 <div>
@@ -1155,8 +1211,8 @@
                     </asp:TextBox>
                 </div>
                 <div>
-                    <dnn:CommandButton ID="cmdUpdateTemplate" IconKey="Save" ResourceKey="cmdUpdateTemplate" runat="server" CssClass="CommandButton" EnableViewState="False" />&nbsp;
-                    <dnn:CommandButton ID="cmdResetTemplate" IconKey="Restore" ResourceKey="cmdResetTemplate" runat="server" CssClass="CommandButton" EnableViewState="False" />&nbsp;
+                    <dnn:CommandButton ID="cmdUpdateTemplate" IconKey="Save" ResourceKey="cmdUpdateTemplate" runat="server" CssClass="CommandButton" EnableViewState="False"  OnClick="cmdUpdateTemplate_Click"/>&nbsp;
+                    <dnn:CommandButton ID="cmdResetTemplate" IconKey="Restore" ResourceKey="cmdResetTemplate" runat="server" CssClass="CommandButton" EnableViewState="False"  OnClick="cmdResetTemplate_Click"/>&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:Label ID="lblTemplateUpdated" runat="server" CssClass="SubHead" Visible="false">Template Updated</asp:Label>
                 </div>
@@ -1164,8 +1220,8 @@
         </fieldset>
     </div>
     <ul class="dnnActions dnnClear">
-        <li><asp:LinkButton ID="updateButton" ResourceKey="updateButton" runat="server" CssClass="dnnPrimaryAction" /></li>
-        <li><asp:LinkButton ID="cancelButton" ResourceKey="cancelButton" runat="server" CssClass="dnnSecondaryAction" CausesValidation="False" /></li>
+        <li><asp:LinkButton OnClick="updateButton_Click" ID="updateButton" ResourceKey="updateButton" runat="server" CssClass="dnnPrimaryAction" /></li>
+        <li><asp:LinkButton OnClick="cancelButton_Click" ID="cancelButton" ResourceKey="cancelButton" runat="server" CssClass="dnnSecondaryAction" CausesValidation="False" /></li>
     </ul>
 </div>
 </asp:Panel>
@@ -1186,3 +1242,4 @@
         });
     } (jQuery, window.Sys));
 </script>
+

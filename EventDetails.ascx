@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="EventDetails.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventDetails" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EventDetails.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventDetails" %>
 
 <asp:Panel ID="pnlEventsModuleDetails" runat="server" class="DetailEvent">
 	<div id="divMessage" runat="server">
@@ -10,7 +10,7 @@
             <div id="rem1" runat="server" visible="false">
                 <asp:Image ID="imgNotify" runat="server" ImageUrl="Images/bell.gif" />&nbsp;
                 <asp:LinkButton ID="cmdNotify" CssClass="CommandButton" runat="server" BorderStyle="none" 
-                    resourcekey="cmdNotify" ValidationGroup="EventEmail">Notify Me for this Event @</asp:LinkButton><br />
+                    resourcekey="cmdNotify" ValidationGroup="EventEmail" OnClick="cmdNotify_Click">Notify Me for this Event @</asp:LinkButton><br />
 		        <asp:CheckBox ID="chkReminderRec" resourcekey="chkReminderRec" Visible="false" runat="server" CssClass="SubHead" Text=""></asp:CheckBox><br /> 
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="SubHead DetailiCalLeft">
             <asp:Image ID="imgEmail" runat="server" IconKey="Email" />&nbsp;
             <asp:LinkButton ID="cmdEmail" CssClass="CommandButton" runat="server" BorderStyle="none" 
-                resourcekey="cmdEmail" ValidationGroup="EventEmailiCal"></asp:LinkButton>
+                resourcekey="cmdEmail" ValidationGroup="EventEmailiCal" OnClick="cmdEmail_Click"></asp:LinkButton>
         </div>
         <div class="SubHead DetailiCalRight">
 		    <div id="iCal1" runat="server">
@@ -61,7 +61,7 @@
             <div id="enroll1" runat="server" visible="false">
                 <asp:Image ID="imgEnroll" runat="server" ImageUrl="Images/enroll.gif" />&nbsp;
                 <asp:LinkButton ID="cmdSignup" CssClass="CommandButton" runat="server" BorderStyle="none" 
-                        ValidationGroup="EventSignup">Enroll for this Event?</asp:LinkButton>
+                        ValidationGroup="EventSignup" OnClick="cmdSignup_Click">Enroll for this Event?</asp:LinkButton>
             </div>
             <div id="enroll4" runat="server" visible="false">
                 <asp:Image ID="imgEnrollTooLate" runat="server" ImageUrl="Images/EnrollFull.gif" />&nbsp;
@@ -143,18 +143,19 @@
                 </Columns>
             </asp:DataGrid>
         </div>
-        <asp:LinkButton ID="cmdvEventSignups" CssClass="" runat="server" resourcekey="cmdvEventSignups" causesvalidation="False" />
+        <asp:LinkButton ID="cmdvEventSignups" CssClass="" runat="server" resourcekey="cmdvEventSignups" causesvalidation="False"  OnClick="cmdvEventSignups_Click"/>
     </div>
     <div id="divEventDetails4" runat="server" class="DetailClear DetailEventDetails4" />
     <div class="DetailClear"></div>
     <ul class="DetailCommands dnnActions dnnClear">
-        <li><asp:LinkButton ID="returnButton" CssClass="dnnPrimaryAction" runat="server" resourcekey="returnButton" causesvalidation="False" /></li>
+        <li><asp:LinkButton OnClick="returnButton_Click" ID="returnButton" CssClass="dnnPrimaryAction" runat="server" resourcekey="returnButton" causesvalidation="False" /></li>
         <li><asp:hyperlink ID="editButton" CssClass="dnnSecondaryAction" runat="server" resourcekey="editButton" causesvalidation="False" /></li>
         <li><asp:hyperlink ID="editSeriesButton" CssClass="dnnSecondaryAction" runat="server" resourcekey="editSeriesButton" causesvalidation="False" Visible="False" /></li>
-        <li><asp:LinkButton ID="deleteButton" CssClass="dnnSecondaryAction" runat="server" resourcekey="deleteButton" causesvalidation="False" /></li>
-        <li><asp:LinkButton ID="deleteSeriesButton" CssClass="dnnSecondaryAction" runat="server" resourcekey="deleteSeriesButton" causesvalidation="False" Visible="False" /></li>
-        <li class="cmdRight"><asp:HyperLink ID="cmdPrint" runat="server" CssClass="dnnSecondaryAction" IconKey="Print" > </asp:HyperLink></li>
-        <li class="cmdRight"><asp:LinkButton ID="cmdvEventSeries" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdvEventExportSeries" causesvalidation="False" /></li>
-        <li class="cmdRight"><asp:LinkButton ID="cmdvEvent" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdvEventExport" causesvalidation="False" /></li>
+        <li><asp:LinkButton OnClick="deleteButton_Click" ID="deleteButton" CssClass="dnnSecondaryAction" runat="server" resourcekey="deleteButton" causesvalidation="False" /></li>
+        <li><asp:LinkButton OnClick="deleteSeriesButton_Click" ID="deleteSeriesButton" CssClass="dnnSecondaryAction" runat="server" resourcekey="deleteSeriesButton" causesvalidation="False" Visible="False" /></li>
+        <li class="cmdRight"><asp:HyperLink OnPreRender="cmdPrint_PreRender" ID="cmdPrint" runat="server" CssClass="dnnSecondaryAction" IconKey="Print" > </asp:HyperLink></li>
+        <li class="cmdRight"><asp:LinkButton OnClick="cmdvEventSeries_Click" ID="cmdvEventSeries" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdvEventExportSeries" causesvalidation="False" /></li>
+        <li class="cmdRight"><asp:LinkButton OnClick="cmdvEvent_Click" ID="cmdvEvent" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdvEventExport" causesvalidation="False" /></li>
     </ul>
 </asp:Panel>
+

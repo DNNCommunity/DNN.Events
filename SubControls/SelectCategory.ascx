@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" Codebehind="SelectCategory.ascx.vb" Inherits="DotNetNuke.Modules.Events.SelectCategory" %>
+<%@ Control Language="C#" AutoEventWireup="true" Codebehind="SelectCategory.ascx.cs" Inherits="DotNetNuke.Modules.Events.SelectCategory" %>
 <%@ Register Assembly="DotNetNuke.Web" Namespace="DotNetNuke.Web.UI.WebControls" TagPrefix="dnn" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke.Web.Deprecated" Namespace="DotNetNuke.Web.UI.WebControls" %>
 
@@ -8,7 +8,8 @@
         <dnn:DnnComboBox ID="ddlCategories" runat="server" CheckBoxes="True" EnableCheckAllItemsCheckBox="true" 
 		    AllowCustomText="False" DataValueField="Category" DataTextField="CategoryName"  InputCssClass="CategoryFormat" DropDownCssClass="CategoryFormat" CssClass="SelectCategory">
 		</dnn:DnnComboBox>
-        <asp:Button ID="btnUpdate" runat="server" style="display:none" />
+        <asp:Button ID="btnUpdate" runat="server" style="display:none"  OnClick="btnUpdate_Click"/>
     </div>
 </div>
+
 
