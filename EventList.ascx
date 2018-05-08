@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="EventList.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventList" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EventList.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventList" %>
 <%@ Register TagPrefix="evt" TagName="Category" Src="~/DesktopModules/Events/SubControls/SelectCategory.ascx" %>
 <%@ Register TagPrefix="evt" TagName="Location" Src="~/DesktopModules/Events/SubControls/SelectLocation.ascx" %>
 <%@ Register TagPrefix="evt" TagName="Icons" Src="~/DesktopModules/Events/SubControls/EventIcons.ascx" %>
@@ -9,16 +9,16 @@
         ID="toolTipManager" runat="server"  HideEvent="LeaveTargetAndToolTip" Modal="False" EnableShadow="True" CssClass="Eventtooltip" ShowCallout="False"  />
 <div>
     <div class="EvtHdrLftCol">
-        <evt:Category ID="SelectCategory" runat="server"></evt:Category>
+        <evt:Category ID="SelectCategory" runat="server" OnCategorySelectedChanged="SelectCategory_CategorySelected"></evt:Category>
     </div>
     <div class="EvtHdrMdlCol">
-        <evt:Location ID="SelectLocation" runat="server"></evt:Location>
+        <evt:Location ID="SelectLocation" runat="server" OnLocationSelectedChanged="SelectLocation_LocationSelected"></evt:Location>
     </div>
     <div class="TopIconBar EvtHdrRgtCol">
         <evt:Icons ID="EventIcons" runat="server"></evt:Icons>
     </div>
     <div style="clear:both">
-        <asp:GridView ID="gvEvents" ClientIDMode="AutoID" AllowPaging="True" PageSize="25" AllowSorting="True" GridLines="None" runat="server" CssClass="ListDataGrid" Width="100%" AutoGenerateColumns="False">
+        <asp:GridView ID="gvEvents" ClientIDMode="AutoID" AllowPaging="True" PageSize="25" AllowSorting="True" GridLines="None" runat="server" CssClass="ListDataGrid" Width="100%" AutoGenerateColumns="False" OnRowCreated="gvEvents_RowCreated" OnRowDataBound="gvEvents_RowDataBound" OnPageIndexChanging="gvEvents_PageIndexChanging" OnRowCommand="gvEvents_RowCommand" OnSorting="gvEvents_Sorting">
             <AlternatingRowStyle CssClass="ListAlternate" />
 		    <RowStyle CssClass="ListNormal"/>
             <PagerStyle CssClass="ListPager" />

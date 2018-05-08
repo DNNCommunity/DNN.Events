@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" Codebehind="EventMyEnrollments.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventMyEnrollments" %>
+<%@ Control Language="C#" AutoEventWireup="true" Codebehind="EventMyEnrollments.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventMyEnrollments" %>
 <%@ Register TagPrefix="evt" TagName="Icons" Src="~/DesktopModules/Events/SubControls/EventIcons.ascx" %>
 <div>
     <div class="EvtHdrLftCol"></div>
@@ -12,7 +12,7 @@
     </div>
     <div style="clear:both">
         <asp:DataGrid ID="grdEnrollment" runat="server" AutoGenerateColumns="False" CellPadding="2" CssClass="EnrollGrid"
-            DataKeyField="SignupID" GridLines="None" OnItemCommand="grdEnrollment_ItemCommand" Width="100%">
+            DataKeyField="SignupID" GridLines="None" OnItemCommand="grdEnrollment_ItemCommand" Width="100%" OnItemCommand="grdEnrollment_ItemCommand">
             <EditItemStyle VerticalAlign="Bottom"></EditItemStyle>
            	<AlternatingItemStyle CssClass="EnrollGridAlternate"></AlternatingItemStyle>
             <ItemStyle VerticalAlign="Top"></ItemStyle>
@@ -73,8 +73,8 @@
         </asp:DataGrid>
     </div>
     <ul class="dnnActions dnnClear">
-        <li><asp:LinkButton ID="returnButton" runat="server" CssClass="dnnPrimaryAction" CausesValidation="False" resourcekey="returnButton" /></li>
-        <li><asp:LinkButton ID="lnkSelectedDelete" runat="server" resourcekey="lnkSelectedDelete" CssClass="dnnSecondaryAction" /></li>
+        <li><asp:LinkButton OnClick="returnButton_Click" ID="returnButton" runat="server" CssClass="dnnPrimaryAction" CausesValidation="False" resourcekey="returnButton" /></li>
+        <li><asp:LinkButton OnClick="lnkSelectedDelete_Click" ID="lnkSelectedDelete" runat="server" resourcekey="lnkSelectedDelete" CssClass="dnnSecondaryAction" /></li>
     </ul>
     <div class="BottomIconBar" >
         <evt:Icons ID="EventIcons2" runat="server"></evt:Icons>

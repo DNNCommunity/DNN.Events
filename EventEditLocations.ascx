@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" Codebehind="EventEditLocations.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventEditLocations" %>
+<%@ Control Language="C#" AutoEventWireup="true" Codebehind="EventEditLocations.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventEditLocations" %>
 <%@ Register Src="~/controls/LabelControl.ascx" TagName="Label" TagPrefix="dnn" %>
 <%@ Register Assembly="CountryListBox" Namespace="DotNetNuke.UI.WebControls" TagPrefix="dnn2" %>
 <%@ Register TagPrefix="dnn" TagName="Address" Src="~/controls/Address.ascx"%>
@@ -42,9 +42,9 @@
             <asp:TextBox ID="txtRegion" runat="server" CssClass="NormalTextBox" Width="200px"></asp:TextBox>
         </div>
         <ul class="dnnActions dnnClear">
-            <li><asp:LinkButton ID="cmdAdd" runat="server" CssClass="dnnPrimaryAction" resourcekey="cmdAdd" ValidationGroup="EventEditLocation" /></li>
-            <li><asp:LinkButton ID="cmdUpdate" runat="server" CssClass="dnnSecondaryAction" resourcekey="cmdUpdate" Visible="false" ValidationGroup="EventEditLocation" /></li>
-            <li><asp:LinkButton ID="returnButton" CssClass="dnnSecondaryAction" runat="server" resourcekey="returnButton" CausesValidation="False" /></li>
+            <li><asp:LinkButton OnClick="cmdAdd_Click" ID="cmdAdd" runat="server" CssClass="dnnPrimaryAction" resourcekey="cmdAdd" ValidationGroup="EventEditLocation" /></li>
+            <li><asp:LinkButton OnClick="cmdUpdate_Click" ID="cmdUpdate" runat="server" CssClass="dnnSecondaryAction" resourcekey="cmdUpdate" Visible="false" ValidationGroup="EventEditLocation" /></li>
+            <li><asp:LinkButton OnClick="returnButton_Click" ID="returnButton" CssClass="dnnSecondaryAction" runat="server" resourcekey="returnButton" CausesValidation="False" /></li>
         </ul>
     </div>
     <div style="width:50%;float:left">
@@ -65,27 +65,27 @@
                 </asp:TemplateColumn>
                 <asp:TemplateColumn Visible="False" HeaderText="PortalID">
                     <ItemTemplate>
-                        <asp:Label ID="Label2" runat="server" Text="<%# Container.DataItem.PortalID.ToString %>">
+                        <asp:Label ID="Label2" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "PortalID") %>'>
                         </asp:Label>
                     </ItemTemplate>
                 </asp:TemplateColumn>
                 <asp:TemplateColumn Visible="False" HeaderText="Location">
                     <ItemTemplate>
-                        <asp:Label ID="Label1" runat="server" Text="<%# Container.DataItem.Location.ToString %>">
+                        <asp:Label ID="Label1" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Location") %>'>
                         </asp:Label>
                     </ItemTemplate>
                 </asp:TemplateColumn>
                 <asp:TemplateColumn HeaderText="Location Name">
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkLocationName" CommandName="Select" CommandArgument="Select" Text="<%# Container.DataItem.LocationName %>"
+                        <asp:LinkButton ID="lnkLocationName" CommandName="Select" CommandArgument="Select" Text='<%# DataBinder.Eval(Container.DataItem, "LocationName") %>'
                             runat="server">
                         </asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateColumn>
                 <asp:TemplateColumn HeaderText="Map URL">
                     <ItemTemplate>
-                        <asp:HyperLink ID="lnkMapURL" Target="_blank" NavigateUrl="<%# Container.DataItem.MapURL.ToString() %>" runat="server">
-								<%# Container.DataItem.MapURL.ToString() %>
+                        <asp:HyperLink ID="lnkMapURL" Target="_blank" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "MapURL") %>' runat="server">
+								<%# DataBinder.Eval(Container.DataItem, "MapURL") %>
                         </asp:HyperLink>
                     </ItemTemplate>
                 </asp:TemplateColumn>

@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="EditEvents.ascx.vb" Inherits="DotNetNuke.Modules.Events.EditEvents" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EditEvents.ascx.cs" Inherits="DotNetNuke.Modules.Events.EditEvents" %>
 <%@ Register TagPrefix="dnn" TagName="TextEditor" Src="~/controls/texteditor.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="URL" Src="~/controls/URLControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
@@ -46,7 +46,7 @@
                         <asp:RequiredFieldValidator id="valRequiredStartTime" runat="server" Display="Dynamic" cssclass="dnnFormMessage dnnFormError" resourcekey="valRequiredStartTime" 
                                 ControlToValidate="tpStartTime" EnableViewState="false"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="valValidStartTime2" runat="server" SetFocusOnError="true"
-                                ControlToValidate="tpStartTime" ClientValidationFunction="ValidateTime" cssclass="dnnFormMessage dnnFormError" Text="*" />
+                                ControlToValidate="tpStartTime" ClientValidationFunction="ValidateTime" cssclass="dnnFormMessage dnnFormError" Text="*"  OnServerValidate="valValidStartTime2_ServerValidate"/>
                         <asp:CustomValidator id="valConflict" runat="server" cssclass="dnnFormMessage dnnFormError"   
                                 ControlToValidate="txtP1Every" Visible="False" EnableViewState="false"></asp:CustomValidator>
                         <asp:CustomValidator id="valLocationConflict" runat="server" cssclass="dnnFormMessage dnnFormError" 
@@ -67,7 +67,7 @@
                     <asp:CustomValidator id="valValidEndTime" runat="server" Display="Dynamic" cssclass="dnnFormMessage dnnFormError" resourcekey="valValidEndTime" ControlToValidate="dpEndDate" EnableViewState="false"></asp:CustomValidator>
                     <asp:RequiredFieldValidator id="valRequiredEndTime" runat="server" Display="Dynamic" cssclass="dnnFormMessage dnnFormError" resourcekey="valRequiredEndTime" ControlToValidate="tpEndTime" EnableViewState="false"></asp:RequiredFieldValidator>
                     <asp:CustomValidator ID="valValidEndTime2" runat="server" SetFocusOnError="true"
-                            ControlToValidate="tpEndTime" ClientValidationFunction="ValidateTime" cssclass="dnnFormMessage dnnFormError" Text="*" />
+                            ControlToValidate="tpEndTime" ClientValidationFunction="ValidateTime" cssclass="dnnFormMessage dnnFormError" Text="*"  OnServerValidate="valValidEndTime2_ServerValidate"/>
                 </div>
                 <div class="dnnFormItem">
                     <dnn:Label id="lblDisplayEndDate" runat="server"></dnn:Label>
@@ -428,7 +428,7 @@
                         <div class="dnnFormItem" id="divAddUser" runat="server">
                             <dnn:Label id="lblRegUsers" runat="server"></dnn:Label>
                             <div style="display:inline-block">
-                                <evt:AddUser ID="grdAddUser" runat="server" />
+                                <evt:AddUser ID="grdAddUser" runat="server"  OnAddSelectedUsers="grdAddUser_AddSelectedUsers"/>
                                 <div id="divNoEnrolees" runat="server" visible="false">
                                     <asp:Label id="lblNoEnrolee" runat="server" resourcekey="lblNoEnrolee">No. of Enrolees</asp:Label>&nbsp;
                                     <asp:TextBox id="txtNoEnrolees" runat="server" cssclass="NormalTextBox evtShortInputFloat" Font-Size="8pt" MaxLength="3" >1</asp:TextBox>&nbsp;
@@ -485,7 +485,7 @@
                                         <HeaderStyle CssClass="EditEnrollGridHeader"></HeaderStyle>
                                         <ItemStyle CssClass="EditEnrollDate"></ItemStyle>
                                         <ItemTemplate>
-                                            <asp:Label id="lblEventBegin" runat="server" Text='<%# Format(DataBinder.Eval(Container.DataItem,"EnrollTimeBegin","{0:d}")) %>'>
+                                            <asp:Label id="lblEventBegin" runat="server" Text='<%# string.Format(DataBinder.Eval(Container.DataItem,"EnrollTimeBegin","{0:d}")) %>'>
                                             </asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
@@ -532,10 +532,10 @@
     </div>
     <div class="dnnClear"> </div>
     <ul class="dnnActions dnnClear">
-        <li><asp:LinkButton id="updateButton" runat="server" cssclass="dnnPrimaryAction" /></li>
-        <li><asp:LinkButton id="cancelButton" runat="server" cssclass="dnnSecondaryAction" resourcekey="cancelButton" CausesValidation="False" /></li>
-        <li><asp:LinkButton id="deleteButton" runat="server" cssclass="dnnSecondaryAction" CausesValidation="False" /></li>
-        <li><asp:LinkButton id="copyButton" runat="server" cssclass="dnnSecondaryAction" /></li>
+        <li><asp:LinkButton OnClick="updateButton_Click" id="updateButton" runat="server" cssclass="dnnPrimaryAction" /></li>
+        <li><asp:LinkButton OnClick="cancelButton_Click" id="cancelButton" runat="server" cssclass="dnnSecondaryAction" resourcekey="cancelButton" CausesValidation="False" /></li>
+        <li><asp:LinkButton OnClick="deleteButton_Click" id="deleteButton" runat="server" cssclass="dnnSecondaryAction" CausesValidation="False" /></li>
+        <li><asp:LinkButton OnClick="copyButton_Click" id="copyButton" runat="server" cssclass="dnnSecondaryAction" /></li>
     </ul>
     <asp:Panel id="pnlAudit" Visible="false" HorizontalAlign="Left" runat="server" width="100%">
         <hr />
@@ -564,3 +564,4 @@
         });
     } (jQuery, window.Sys));
 </script>
+

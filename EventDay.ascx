@@ -1,4 +1,4 @@
-<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="EventDay.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventDay" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EventDay.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventDay" %>
 <%@ Register TagPrefix="evt" TagName="Category" Src="~/DesktopModules/Events/SubControls/SelectCategory.ascx" %>
 <%@ Register TagPrefix="evt" TagName="Location" Src="~/DesktopModules/Events/SubControls/SelectLocation.ascx" %>
 <%@ Register TagPrefix="evt" TagName="Icons" Src="~/DesktopModules/Events/SubControls/EventIcons.ascx" %>
@@ -11,15 +11,15 @@
     <div style="text-align:center">
         <div class="EvtHdrLftCol"></div>
         <div class="EvtHdrMdlCol">
-            <evt:Category ID="SelectCategory" runat="server"></evt:Category>
-            <evt:Location ID="SelectLocation" runat="server"></evt:Location>
+            <evt:Category ID="SelectCategory" runat="server" OnCategorySelectedChanged="SelectCategory_CategorySelected"></evt:Category>
+            <evt:Location ID="SelectLocation" runat="server" OnLocationSelectedChanged="SelectLocation_LocationSelected"></evt:Location>
         </div>
         <div class="TopIconBar EvtHdrRgtCol">
             <evt:Icons ID="EventIcons" runat="server"></evt:Icons>
         </div>
         <div style="clear:both">
             <asp:DataGrid ID="lstEvents" ClientIDMode="AutoID" CellPadding="2" AutoGenerateColumns="False" GridLines="None" runat="server" ShowHeader="False"
-                CssClass="ListDataGrid" DataKeyField="EventID" Width="100%">
+                CssClass="ListDataGrid" DataKeyField="EventID" Width="100%" OnItemDataBound="lstEvents_ItemDataBound" OnItemCommand="lstEvents_ItemCommand">
            		<AlternatingItemStyle CssClass="ListAlternate"></AlternatingItemStyle>
                 <Columns>
                     <asp:TemplateColumn>
@@ -50,7 +50,7 @@
                         <HeaderStyle CssClass="ListHeader"></HeaderStyle>
                         <ItemStyle CssClass="ListTitle"></ItemStyle>
                         <ItemTemplate>
-                            <asp:label ID="lblIcons" Text='<%# Databinder.Eval(Container.DataItem, "Icons")%>' runat="server"></asp:label>
+                            <asp:label ID="lblIcons" Text='<%# DataBinder.Eval(Container.DataItem, "Icons")%>' runat="server"></asp:label>
                             <asp:HyperLink ID="lnkEvent" CssClass="ListTitle" runat="Server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"URL") %>' Target='<%# DataBinder.Eval(Container.DataItem,"Target") %>'
                                 Text='<%# DataBinder.Eval(Container.DataItem,"EventName") %>' forecolor='<%# DataBinder.Eval(Container.DataItem,"CategoryFontColor") %>'>
                             </asp:HyperLink>
@@ -140,7 +140,8 @@
             <evt:Icons ID="EventIcons2" runat="server"></evt:Icons>
         </div>
         <ul class="dnnActions dnnClear">
-            <li><asp:LinkButton ID="returnButton" runat="server" CssClass="dnnPrimaryAction" IconKey="Lt"  CausesValidation="False" resourcekey="returnButton"/></li>
+            <li><asp:LinkButton OnClick="returnButton_Click" ID="returnButton" runat="server" CssClass="dnnPrimaryAction" IconKey="Lt"  CausesValidation="False" resourcekey="returnButton"/></li>
         </ul>
     </div>
 </asp:Panel>
+

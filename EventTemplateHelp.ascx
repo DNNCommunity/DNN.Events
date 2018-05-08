@@ -1,4 +1,4 @@
-﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="EventTemplateHelp.ascx.vb" Inherits="DotNetNuke.Modules.Events.EventTemplateHelp" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EventTemplateHelp.ascx.cs" Inherits="DotNetNuke.Modules.Events.EventTemplateHelp" %>
 <asp:Panel ID="pnlEventsModuleTHelp" runat="server">
 <h1>Template help</h1>
 <table>
