@@ -1015,7 +1015,7 @@ namespace DotNetNuke.Modules.Events
 				{
 					try
 					{
-						variable = (TimeZones) (valueTable[valueName]);
+						variable = (TimeZones)Convert.ToInt32(valueTable[valueName]);
 					}
 					catch (Exception)
 					{
@@ -1029,7 +1029,7 @@ namespace DotNetNuke.Modules.Events
 				{
 					try
 					{
-						variable = (DisplayCategories) (valueTable[valueName]);
+						variable = (DisplayCategories)Convert.ToInt32(valueTable[valueName]);
 					}
 					catch (Exception)
 					{
@@ -1043,7 +1043,7 @@ namespace DotNetNuke.Modules.Events
 				{
 					try
 					{
-						variable = (DisplayLocations) (valueTable[valueName]);
+						variable = (DisplayLocations)Convert.ToInt32(valueTable[valueName]);
 					}
 					catch (Exception)
 					{
@@ -1057,7 +1057,7 @@ namespace DotNetNuke.Modules.Events
 				{
 					try
 					{
-						variable = (SocialModule) (valueTable[valueName]);
+						variable = (SocialModule)Convert.ToInt32(valueTable[valueName]);
 					}
 					catch (Exception)
 					{
@@ -1071,7 +1071,7 @@ namespace DotNetNuke.Modules.Events
 				{
 					try
 					{
-						variable = (SocialGroupPrivacy) (valueTable[valueName]);
+						variable = (SocialGroupPrivacy)Convert.ToInt32(valueTable[valueName]);
 					}
 					catch (Exception)
 					{
@@ -1085,7 +1085,7 @@ namespace DotNetNuke.Modules.Events
 				{
 					try
 					{
-						variable = (SortDirection) (valueTable[valueName]);
+						variable = (SortDirection)Convert.ToInt32(valueTable[valueName]);
 					}
 					catch (Exception)
 					{
@@ -1176,13 +1176,14 @@ namespace DotNetNuke.Modules.Events
 					_eventtooltipday = System.Convert.ToBoolean(_allsettings["eventtooltip"]);
 					_eventtooltiplist = System.Convert.ToBoolean(_allsettings["eventtooltip"]);
 				}
+
 				if (!ReferenceEquals(_allsettings["SocialGroupModule"], null))
 				{
-					if ((SocialModule)this._allsettings["SocialGroupModule"] == SocialModule.UserProfile)
+					if ((SocialModule)Convert.ToInt32(this._allsettings["SocialGroupModule"]) == SocialModule.UserProfile)
 					{
 						_socialUserPrivate = false;
 					}
-					if ((SocialModule)this._allsettings["SocialGroupModule"] == SocialModule.SocialGroup)
+					if ((SocialModule)Convert.ToInt32(this._allsettings["SocialGroupModule"]) == SocialModule.SocialGroup)
 					{
 						_socialGroupSecurity = SocialGroupPrivacy.OpenToAll;
 					}
