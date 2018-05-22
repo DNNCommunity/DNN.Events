@@ -940,14 +940,4 @@
     }
 
     #endregion
-
-    #region EventModuleRepository
-
-    /// <summary>
-    ///     The <see cref="SettingsRepository{T}" /> used for storing and retrieving <see cref="EventModuleSettings" />
-    /// </summary>
-    public class EventModuleSettingsRepository : SettingsRepository<EventModuleSettings>
-    { }
-
-    #endregion
 }
