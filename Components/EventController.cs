@@ -1373,18 +1373,6 @@ namespace DotNetNuke.Modules.Events
             {
                 objCtlEventRecurMaster.EventsRecurMasterDelete(recurMasterID, moduleID);
 
-                //var module = default(ModuleInfo); // TODO: Fill
-                //var repository = new EventModuleSettingsRepository();
-                //var settings = repository.GetSettings(module);
-                //settings.RecurDummy = "99999";
-                //settings.ModuleCategoryIDs = new ArrayList(new [] { 1, 2 });
-                //repository.SaveSettings(module, settings);
-
-                //EventModuleSettings ems = new EventModuleSettings();
-                //EventModuleSettings settings = ems.GetEventModuleSettings(moduleID, localResourceFile);
-                //settings.RecurDummy = "99999";
-                //settings.SaveSettings(moduleID);
-
                 var moduleController = new ModuleController();
                 var moduleInfo = moduleController.GetModule(moduleID);
 

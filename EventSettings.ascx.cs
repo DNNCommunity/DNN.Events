@@ -1413,14 +1413,12 @@ namespace DotNetNuke.Modules.Events
                 emSettings.EnrolListDaysAfter = int.Parse(txtEnrolListDaysAfter.Text);
 
                 emSettings.JournalIntegration = chkJournalIntegration.Checked;
-
-                var objDesktopModule = default(DesktopModuleInfo);
-                objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", 0);
+              
+                var objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", 0);
 
                 emSettings.Version = objDesktopModule.Version;
 
                 repository.SaveSettings(this.ModuleConfiguration, emSettings);
-                //emSettings.SaveSettings(ModuleId);
 
                 CreateThemeDirectory();
 
@@ -1793,7 +1791,7 @@ namespace DotNetNuke.Modules.Events
                 UpdateSettings();
                 Response.Redirect(GetSocialNavigateUrl(), true);
             }
-            catch (Exception ex) //Module failed to load
+            catch (Exception) //Module failed to load
             {
                 //ProcessModuleLoadException(Me, exc)
             }
