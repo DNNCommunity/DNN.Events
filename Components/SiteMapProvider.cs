@@ -104,8 +104,7 @@ namespace DotNetNuke.Modules.Events.Providers
 					}
 					moduleIds.Add(objModule.ModuleID);
 					
-					EventModuleSettings ems = new EventModuleSettings();
-					EventModuleSettings settings = ems.GetEventModuleSettings(objModule.ModuleID, null);
+					EventModuleSettings settings = EventModuleSettings.GetEventModuleSettings(objModule.ModuleID, null);
 					if (!settings.EnableSitemap)
 					{
 						continue;

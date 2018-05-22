@@ -217,8 +217,7 @@ namespace DotNetNuke.Modules.Events
 					}
 				}
 				
-				EventModuleSettings ems = new EventModuleSettings();
-				_settings = ems.GetEventModuleSettings(_moduleID, localResourceFile);
+				this._settings = EventModuleSettings.GetEventModuleSettings(this._moduleID, localResourceFile);
 				
 				if (_settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay)
 				{

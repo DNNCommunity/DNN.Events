@@ -214,8 +214,9 @@ namespace DotNetNuke.Modules.Events
             ArrayList lstModules = objModules.GetModulesByDefinition(PortalId, objDesktopModule.FriendlyName);
             foreach (Entities.Modules.ModuleInfo objModule in lstModules)
             {
-                EventModuleSettings ems = new EventModuleSettings();
-                ArrayList categories = ems.GetEventModuleSettings(objModule.ModuleID, null).ModuleCategoryIDs;
+                var categories = this.Settings.ModuleCategoryIDs;
+                //EventModuleSettings ems = new EventModuleSettings();
+                //ArrayList categories = ems.GetEventModuleSettings(objModule.ModuleID, null).ModuleCategoryIDs;
                 if (categories.Contains(category))
                 {
                     lblDeleteError.Text = string.Format(Localization.GetString("lblDeleteError", LocalResourceFile), objModule.ModuleTitle);

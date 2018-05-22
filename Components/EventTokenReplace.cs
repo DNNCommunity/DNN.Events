@@ -118,8 +118,7 @@ namespace DotNetNuke.Modules.Events
 				}
 				
 				//Module settings
-				EventModuleSettings ems = new EventModuleSettings();
-				EventModuleSettings settings = ems.GetEventModuleSettings(ModuleID, LocalResourceFile);
+				EventModuleSettings settings = EventModuleSettings.GetEventModuleSettings(ModuleID, LocalResourceFile);
 				
 				
 				Services.Tokens.TokenReplace trn = new Services.Tokens.TokenReplace(Services.Tokens.Scope.DefaultSettings, ModuleID);

@@ -67,8 +67,7 @@ namespace DotNetNuke.Modules.Events
                 AJAX.RegisterPostBackControl(cmdUpgrade);
             }
 
-            EventModuleSettings ems = new EventModuleSettings();
-            EventModuleSettings emSettings = ems.GetEventModuleSettings(ModuleId, LocalResourceFile);
+            EventModuleSettings emSettings = EventModuleSettings.GetEventModuleSettings(this.ModuleId, this.LocalResourceFile);
 
             string dummyRmid = emSettings.RecurDummy;
             divUpgrade.Visible = false;
@@ -233,8 +232,7 @@ namespace DotNetNuke.Modules.Events
         #region Links, Buttons and Events
         protected void cmdUpgrade_Click(object sender, EventArgs e)
         {
-            EventModuleSettings ems = new EventModuleSettings();
-            EventModuleSettings emSettings = ems.GetEventModuleSettings(ModuleId, LocalResourceFile);
+            EventModuleSettings emSettings = EventModuleSettings.GetEventModuleSettings(ModuleId, LocalResourceFile);
 
             string dummyRmid = emSettings.RecurDummy;
             divUpgrade.Visible = false;

@@ -1011,8 +1011,7 @@ namespace DotNetNuke.Modules.Events
         //*** Implement ISearchable
         public Services.Search.SearchItemInfoCollection GetSearchItems(ModuleInfo modInfo)
         {
-            EventModuleSettings ems = new EventModuleSettings();
-            EventModuleSettings settings = ems.GetEventModuleSettings(modInfo.ModuleID, null);
+           EventModuleSettings settings = EventModuleSettings.GetEventModuleSettings(modInfo.ModuleID, null);
 
             Entities.Portals.PortalController objPortals = new Entities.Portals.PortalController();
             Entities.Portals.PortalInfo objPortal = default(Entities.Portals.PortalInfo);
@@ -1244,8 +1243,7 @@ namespace DotNetNuke.Modules.Events
                     {
                         continue;
                     }
-                    EventModuleSettings ems = new EventModuleSettings();
-                    EventModuleSettings settings = ems.GetEventModuleSettings(objModule.ModuleID, null);
+                    EventModuleSettings settings = EventModuleSettings.GetEventModuleSettings(objModule.ModuleID, null);
 
                     string maxRecurrences = settings.Maxrecurrences.ToString();
 
@@ -1374,10 +1372,14 @@ namespace DotNetNuke.Modules.Events
             if (lstEvents.Count == 0)
             {
                 objCtlEventRecurMaster.EventsRecurMasterDelete(recurMasterID, moduleID);
-                EventModuleSettings ems = new EventModuleSettings();
-                EventModuleSettings settings = ems.GetEventModuleSettings(moduleID, localResourceFile);
+
+                var moduleController = new ModuleController();
+                var moduleInfo = moduleController.GetModule(moduleID);
+
+                var repository = new EventModuleSettingsRepository();
+                var settings = EventModuleSettings.GetEventModuleSettings(moduleID, localResourceFile);
                 settings.RecurDummy = "99999";
-                settings.SaveSettings(moduleID);
+                repository.SaveSettings(moduleInfo, settings);
                 return true;
             }
             else
@@ -2984,9 +2986,8 @@ namespace DotNetNuke.Modules.Events
             var with_1 = objEventEmailInfo;
             string userEmail = "";
             int itemNo = 0;
-
-            EventModuleSettings ems = new EventModuleSettings();
-            EventModuleSettings settings = ems.GetEventModuleSettings(ModuleID, LocalResourceFile);
+          
+            EventModuleSettings settings = EventModuleSettings.GetEventModuleSettings(ModuleID, LocalResourceFile);
             EventBase objEventBase = new EventBase();
             string displayTimeZoneId = objEventBase.GetDisplayTimeZoneId(settings, objEvent.PortalID, "User");
 
@@ -3079,8 +3080,7 @@ namespace DotNetNuke.Modules.Events
         private string GetBodyFormat(string body)
         {
             string bodyformat = "";
-            EventModuleSettings ems = new EventModuleSettings();
-            EventModuleSettings settings = ems.GetEventModuleSettings(ModuleID, LocalResourceFile);
+            EventModuleSettings settings = EventModuleSettings.GetEventModuleSettings(this.ModuleID, this.LocalResourceFile);
 
             bodyformat = settings.HTMLEmail;
             if (bodyformat == "auto")
