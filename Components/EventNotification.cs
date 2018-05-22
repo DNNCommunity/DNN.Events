@@ -183,8 +183,7 @@ namespace DotNetNuke.Modules.Events
 					    this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" + objPortal.PortalID.ToString() + " ModuleID: Dummy";
 					    this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" + objPortal.PortalID.ToString() + " ModuleID:" + objModule.ModuleID.ToString();
 						
-						EventModuleSettings ems = new EventModuleSettings();
-						EventModuleSettings settings = ems.GetEventModuleSettings(objModule.ModuleID, null);
+						EventModuleSettings settings = EventModuleSettings.GetEventModuleSettings(objModule.ModuleID, null);
 						if (settings.Expireevents != "")
 						{
 							this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" + objPortal.PortalID.ToString() + " ModuleID:" + objModule.ModuleID.ToString() + " IN PROGRESS";

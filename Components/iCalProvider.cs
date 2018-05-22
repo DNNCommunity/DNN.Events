@@ -196,8 +196,8 @@ namespace DotNetNuke.Modules.Events
 			public string CreateiCal(int iTabID, int iModuleID, long iItemID, int socialGroupId, string iCategoryName = "", int iCategoryID = -1, string iLocationName = "", int iLocationID = -1, string calname = "")
 			{
 				// Get relevant module settings
-				EventModuleSettings ems = new EventModuleSettings();
-				_settings = ems.GetEventModuleSettings(iModuleID, null);
+				
+				_settings = EventModuleSettings.GetEventModuleSettings(iModuleID, null);
 				
 				// Set up for this module
 				PortalSettings portalSettings = (PortalSettings) (HttpContext.Current.Items["PortalSettings"]);

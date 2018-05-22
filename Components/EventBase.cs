@@ -1299,30 +1299,25 @@ namespace DotNetNuke.Modules.Events
 #region  Variables
 			
 			private EventModuleSettings _settings;
-			
-#endregion
-			
-#region  Properties
-			public new EventModuleSettings Settings
-			{
-				get
-				{
-					if (ReferenceEquals(_settings, null))
-					{
-						EventModuleSettings ems = new EventModuleSettings();
-						_settings = ems.GetEventModuleSettings(ModuleId, LocalResourceFile);
-					}
-					return _settings;
-				}
-				set
-				{
-					_settings = value;
-				}
-			}
-			
-#endregion
-			
-#endregion
-		}
+
+        #endregion
+
+        #region  Properties
+		    public new EventModuleSettings Settings
+		    {
+		        get
+		            {
+		                if (ReferenceEquals(this._settings, null))
+		                {
+                            this._settings = EventModuleSettings.GetEventModuleSettings(this.ModuleId, this.LocalResourceFile);
+		                }
+		                return this._settings;
+		            }
+		    }
+
+        #endregion
+
+        #endregion
+    }
 	}
 
