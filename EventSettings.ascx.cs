@@ -35,6 +35,7 @@ using DotNetNuke.Web.UI.WebControls.Extensions;
 
 namespace DotNetNuke.Modules.Events
 {
+    using DotNetNuke.Common.Utilities;
 
     [DNNtc.ModuleControlProperties("EventSettings", "Event Settings", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventSettings : EventBase
@@ -93,7 +94,6 @@ namespace DotNetNuke.Modules.Events
 
         private void LoadSettings()
         {
-
             ArrayList availableFields = new ArrayList();
             ArrayList selectedFields = new ArrayList();
 
@@ -1061,8 +1061,13 @@ namespace DotNetNuke.Modules.Events
         /// <remarks></remarks>
         private void UpdateSettings()
         {
+            var repository = new EventModuleSettingsRepository();
+            var emSettings = repository.GetSettings(this.ModuleConfiguration);
 
-            EventModuleSettings emSettings = new EventModuleSettings(ModuleId, LocalResourceFile);
+            emSettings.Timeinterval = ddlTimeInterval.SelectedValue.Trim().ToString();
+            emSettings.TimeZoneId = cboTimeZone.SelectedValue;
+            emSettings.EnableEventTimeZones = chkEnableEventTimeZones.Checked;
+            emSettings.PrimaryTimeZone = (EventModuleSettings.TimeZones)(int.Parse(ddlPrimaryTimeZone.SelectedValue));
 
             try
             {
@@ -1409,7 +1414,14 @@ namespace DotNetNuke.Modules.Events
 
                 emSettings.JournalIntegration = chkJournalIntegration.Checked;
 
-                emSettings.SaveSettings(ModuleId);
+                var objDesktopModule = default(DesktopModuleInfo);
+                objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", 0);
+
+                emSettings.Version = objDesktopModule.Version;
+
+                repository.SaveSettings(this.ModuleConfiguration, emSettings);
+                //emSettings.SaveSettings(ModuleId);
+
                 CreateThemeDirectory();
 
 
@@ -1781,7 +1793,7 @@ namespace DotNetNuke.Modules.Events
                 UpdateSettings();
                 Response.Redirect(GetSocialNavigateUrl(), true);
             }
-            catch (Exception) //Module failed to load
+            catch (Exception ex) //Module failed to load
             {
                 //ProcessModuleLoadException(Me, exc)
             }

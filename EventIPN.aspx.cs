@@ -168,8 +168,7 @@ namespace DotNetNuke.Modules.Events
 					
 					// Get Module Settings
 					_moduleID = _objEventSignups.ModuleID;
-					EventModuleSettings ems = new EventModuleSettings();
-					_settings = ems.GetEventModuleSettings(_moduleID, _localResourceFile);
+					_settings = EventModuleSettings.GetEventModuleSettings(_moduleID, _localResourceFile);
 					
 					//Initialize the WebRequest.
 					string webURL = "";

@@ -159,6 +159,7 @@
   <!-- <Folder Include="Properties\" /> -->
   <!-- </ItemGroup> -->
   <ItemGroup>
+    <Compile Include="Components\EventModuleSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- <SubType>Code</SubType> -->
     </Compile>
@@ -175,7 +176,7 @@
     </Compile>
     <Compile Include="Components\EventInfo.cs" />
     <Compile Include="Components\EventNotification.cs" />
-    <Compile Include="Components\EventModuleSettings.cs" />
+    <Compile Include="Components\EventModuleTemplates.cs" />
     <Compile Include="Components\SqlDataProvider.cs" />
     <Compile Include="SubControls\SelectLocation.ascx.designer.cs">
       <DependentUpon>SelectLocation.ascx</DependentUpon>

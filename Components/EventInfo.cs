@@ -1225,8 +1225,7 @@ namespace DotNetNuke.Modules.Events
 				{
 					if (string.IsNullOrEmpty(_eventTimeZoneId))
 					{
-						EventModuleSettings ems = new EventModuleSettings();
-						EventModuleSettings modSettings = ems.GetEventModuleSettings(_moduleID, null);
+						EventModuleSettings modSettings = EventModuleSettings.GetEventModuleSettings(_moduleID, null);
 						_eventTimeZoneId = modSettings.TimeZoneId;
 					}
 					return _eventTimeZoneId;
@@ -4460,8 +4459,7 @@ namespace DotNetNuke.Modules.Events
 				{
 					if (string.IsNullOrEmpty(_eventTimeZoneId))
 					{
-						EventModuleSettings ems = new EventModuleSettings();
-						EventModuleSettings modSettings = ems.GetEventModuleSettings(_moduleID, null);
+						EventModuleSettings modSettings = EventModuleSettings.GetEventModuleSettings(_moduleID, null);
 						_eventTimeZoneId = modSettings.TimeZoneId;
 					}
 					return _eventTimeZoneId;
