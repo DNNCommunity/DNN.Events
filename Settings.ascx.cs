@@ -28,7 +28,6 @@ namespace DotNetNuke.Modules.Events
     using System;
     using System.Collections;
     using System.Diagnostics;
-    using DNNtc;
     using DotNetNuke.Common.Utilities;
     using DotNetNuke.Entities.Modules;
     using DotNetNuke.Entities.Users;
@@ -37,7 +36,7 @@ namespace DotNetNuke.Modules.Events
     using DotNetNuke.Services.Exceptions;
     using global::Components;
 
-    [ModuleControlProperties("Settings", "Event Settings", ControlType.Admin,
+    [DNNtc.ModuleControlProperties("Settings", "Event Settings", DNNtc.ControlType.Admin,
         "https://dnnevents.codeplex.com/documentation", true, true)]
     public partial class Settings : ModuleSettingsBase
     {

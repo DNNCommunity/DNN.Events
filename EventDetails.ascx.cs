@@ -40,8 +40,7 @@ namespace DotNetNuke.Modules.Events
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.XPath;
-    using System.Xml.Xsl;
-    using DNNtc;
+    using System.Xml.Xsl;    
     using DotNetNuke.Common;
     using DotNetNuke.Common.Utilities;
     using DotNetNuke.Entities.Modules;
@@ -53,7 +52,7 @@ namespace DotNetNuke.Modules.Events
     using global::Components;
     using EventInfo = global::Components.EventInfo;
 
-    [ModuleControlProperties("Details", "Events Details", ControlType.View,
+    [DNNtc.ModuleControlProperties("Details", "Events Details", DNNtc.ControlType.View,
         "https://dnnevents.codeplex.com/documentation", true, false)]
     public partial class EventDetails : EventBase
     {

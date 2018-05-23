@@ -29,7 +29,6 @@ namespace DotNetNuke.Modules.Events
     using System.Collections;
     using System.Diagnostics;
     using System.Web.UI.WebControls;
-    using DNNtc;
     using DotNetNuke.Common;
     using DotNetNuke.Framework;
     using DotNetNuke.Security;
@@ -37,7 +36,7 @@ namespace DotNetNuke.Modules.Events
     using DotNetNuke.Services.Localization;
     using global::Components;
 
-    [ModuleControlProperties("Moderate", "Moderate Events and Enrollment", ControlType.View,
+    [DNNtc.ModuleControlProperties("Moderate", "Moderate Events and Enrollment", DNNtc.ControlType.View,
         "https://dnnevents.codeplex.com/documentation", true, true)]
     public partial class EventModerate : EventBase
     {

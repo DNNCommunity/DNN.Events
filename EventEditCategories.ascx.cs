@@ -31,14 +31,13 @@ namespace DotNetNuke.Modules.Events
     using System.Drawing;
     using System.Reflection;
     using System.Web.UI.WebControls;
-    using DNNtc;
     using DotNetNuke.Entities.Modules;
     using DotNetNuke.Security;
     using DotNetNuke.Services.Exceptions;
     using DotNetNuke.Services.Localization;
     using global::Components;
 
-    [ModuleControlProperties("Categories", "Edit Event Categories", ControlType.View,
+    [DNNtc.ModuleControlProperties("Categories", "Edit Event Categories", DNNtc.ControlType.View,
         "https://dnnevents.codeplex.com/documentation", false, true)]
     public partial class EventEditCategories : EventBase
     {

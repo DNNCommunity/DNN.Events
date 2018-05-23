@@ -32,7 +32,6 @@ namespace DotNetNuke.Modules.Events
     using System.Reflection;
     using System.Threading;
     using System.Web.UI.WebControls;
-    using DNNtc;
     using DotNetNuke.Common.Utilities;
     using DotNetNuke.Entities.Users;
     using DotNetNuke.Framework;
@@ -48,7 +47,7 @@ namespace DotNetNuke.Modules.Events
     using EventInfo = global::Components.EventInfo;
     using Globals = DotNetNuke.Common.Globals;
 
-    [ModuleControlProperties("Edit", "Edit Events", ControlType.View, "https://dnnevents.codeplex.com/documentation",
+    [DNNtc.ModuleControlProperties("Edit", "Edit Events", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation",
         false, true)]
     public partial class EditEvents : EventBase
     {

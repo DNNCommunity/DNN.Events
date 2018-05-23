@@ -35,7 +35,6 @@ namespace DotNetNuke.Modules.Events
     using System.Text;
     using System.Threading;
     using System.Web;
-    using DNNtc;
     using DotNetNuke.Common.Lists;
     using DotNetNuke.Common.Utilities;
     using DotNetNuke.Entities.Controllers;
@@ -890,8 +889,8 @@ namespace DotNetNuke.Modules.Events
 
     #region EventController Class
 
-    [UpgradeEventMessage("01.01.01,04.00.02,04.01.00,05.02.00")]
-    [BusinessControllerClass]
+    [DNNtc.UpgradeEventMessage("01.01.01,04.00.02,04.01.00,05.02.00")]
+    [DNNtc.BusinessControllerClass]
     public class EventController : ISearchable, IUpgradeable
     {
         public void EventsDelete(int eventID, int moduleID, int contentItemID)

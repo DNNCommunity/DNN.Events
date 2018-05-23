@@ -30,7 +30,6 @@ namespace DotNetNuke.Modules.Events
     using System.Globalization;
     using System.Threading;
     using System.Web;
-    using DNNtc;
     using DotNetNuke.Framework;
     using DotNetNuke.Security;
     using DotNetNuke.Services.Exceptions;
@@ -39,7 +38,7 @@ namespace DotNetNuke.Modules.Events
     using Microsoft.VisualBasic;
     using Globals = DotNetNuke.Common.Globals;
 
-    [ModuleControlProperties("PPEnroll", "Event PayPal Enrollment", ControlType.View,
+    [DNNtc.ModuleControlProperties("PPEnroll", "Event PayPal Enrollment", DNNtc.ControlType.View,
         "https://dnnevents.codeplex.com/documentation", false, true)]
     public partial class EventPPEnroll : EventBase
     {

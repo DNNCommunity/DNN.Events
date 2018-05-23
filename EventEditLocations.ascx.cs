@@ -31,7 +31,6 @@ namespace DotNetNuke.Modules.Events
     using System.Linq;
     using System.Reflection;
     using System.Web.UI.WebControls;
-    using DNNtc;
     using DotNetNuke.Common;
     using DotNetNuke.Common.Lists;
     using DotNetNuke.Security;
@@ -39,7 +38,7 @@ namespace DotNetNuke.Modules.Events
     using DotNetNuke.Services.Localization;
     using global::Components;
 
-    [ModuleControlProperties("Locations", "Edit Event Locations", ControlType.View,
+    [DNNtc.ModuleControlProperties("Locations", "Edit Event Locations", DNNtc.ControlType.View,
         "https://dnnevents.codeplex.com/documentation", true, true)]
     public partial class EventEditLocations : EventBase
     {
