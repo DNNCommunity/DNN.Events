@@ -1,16 +1,5 @@
-using DotNetNuke.Services.Exceptions;
-using System.Diagnostics;
-using System.Web.UI.WebControls;
-using System.Collections;
-using DotNetNuke.Services.Localization;
-using System;
-using DotNetNuke.Security;
-using DotNetNuke.Common.Lists;
-using System.Collections.Generic;
-using System.Linq;
-
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -30,156 +19,184 @@ using System.Linq;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 {
+    using System;
+    using System.Collections;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using System.Web.UI.WebControls;
+    using DNNtc;
+    using DotNetNuke.Common;
+    using DotNetNuke.Common.Lists;
+    using DotNetNuke.Security;
+    using DotNetNuke.Services.Exceptions;
+    using DotNetNuke.Services.Localization;
+    using global::Components;
 
-    [DNNtc.ModuleControlProperties("Locations", "Edit Event Locations", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", true, true)]
+    [ModuleControlProperties("Locations", "Edit Event Locations", ControlType.View,
+        "https://dnnevents.codeplex.com/documentation", true, true)]
     public partial class EventEditLocations : EventBase
     {
+        #region Event Handlers
+
+        private void Page_Load(object sender, EventArgs e)
+        {
+            this.LocalizeAll();
+
+            if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName) || this.IsLocationEditor())
+            { }
+            else
+            {
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
+            }
+
+            // Set the selected theme
+            this.SetTheme(this.pnlEventsModuleLocations);
+
+            if (!this.Page.IsPostBack)
+            {
+                this.BindData();
+                this.BindCountry();
+                this.BindRegion();
+            }
+        }
+
+        #endregion
 
         #region  Web Form Designer Generated Code
 
         //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
+        [DebuggerStepThrough]
         private void InitializeComponent()
-        {
+        { }
 
-        }
-
-        private void Page_Init(System.Object sender, EventArgs e)
+        private void Page_Init(object sender, EventArgs e)
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            InitializeComponent();
+            this.InitializeComponent();
 
             //Add the external Validation.js to the Page
             const string csname = "ExtValidationScriptFile";
-            Type cstype = System.Reflection.MethodBase.GetCurrentMethod().GetType();
-            string cstext = "<script src=\"" + ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") + "\" type=\"text/javascript\"></script>";
-            if (!Page.ClientScript.IsClientScriptBlockRegistered(csname))
+            var cstype = MethodBase.GetCurrentMethod().GetType();
+            var cstext = "<script src=\"" + this.ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
+                         "\" type=\"text/javascript\"></script>";
+            if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname))
             {
-                Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
+                this.Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
             }
-
         }
 
         #endregion
 
         #region Private Area
 
-        private EventLocationController _objCtlLocation = new EventLocationController();
+        private readonly EventLocationController _objCtlLocation = new EventLocationController();
         private EventLocationInfo _objLocation = new EventLocationInfo();
         private ArrayList _colLocations;
-        #endregion
 
-        #region Event Handlers
-        private void Page_Load(System.Object sender, EventArgs e)
-        {
-            LocalizeAll();
-
-            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()) ||
-                IsLocationEditor())
-            {
-            }
-            else
-            {
-                Response.Redirect(GetSocialNavigateUrl(), true);
-            }
-
-            // Set the selected theme
-            SetTheme(pnlEventsModuleLocations);
-
-            if (!Page.IsPostBack)
-            {
-                BindData();
-                BindCountry();
-                BindRegion();
-            }
-        }
         #endregion
 
         #region Helper Routines
+
         private void LocalizeAll()
         {
-            GrdLocations.Columns[3].HeaderText = Localization.GetString("plLocationName", LocalResourceFile);
-            GrdLocations.Columns[4].HeaderText = Localization.GetString("plMapURL", LocalResourceFile);
+            this.GrdLocations.Columns[3].HeaderText = Localization.GetString("plLocationName", this.LocalResourceFile);
+            this.GrdLocations.Columns[4].HeaderText = Localization.GetString("plMapURL", this.LocalResourceFile);
         }
 
         private void BindData()
         {
             //Grid
-            int i = 0;
-            _colLocations = _objCtlLocation.EventsLocationList(PortalId);
-            GrdLocations.DataSource = _colLocations;
-            GrdLocations.DataBind();
-            if (GrdLocations.Items.Count > 0)
+            var i = 0;
+            this._colLocations = this._objCtlLocation.EventsLocationList(this.PortalId);
+            this.GrdLocations.DataSource = this._colLocations;
+            this.GrdLocations.DataBind();
+            if (this.GrdLocations.Items.Count > 0)
             {
-                GrdLocations.Visible = true;
-                for (i = 0; i <= GrdLocations.Items.Count - 1; i++)
+                this.GrdLocations.Visible = true;
+                for (i = 0; i <= this.GrdLocations.Items.Count - 1; i++)
                 {
-                    ((ImageButton)(GrdLocations.Items[i].FindControl("DeleteButton"))).Attributes.Add("onclick", "javascript:return confirm('" + Localization.GetString("AreYouSureYouWishToDelete.Text", LocalResourceFile) + "');");
+                    ((ImageButton) this.GrdLocations.Items[i].FindControl("DeleteButton")).Attributes.Add(
+                        "onclick",
+                        "javascript:return confirm('" +
+                        Localization.GetString(
+                            "AreYouSureYouWishToDelete.Text",
+                            this
+                                .LocalResourceFile) +
+                        "');");
                 }
             }
         }
 
         private void BindCountry()
         {
-            ListController ctlEntry = new ListController();
-            IEnumerable<ListEntryInfo> entryCollection = ctlEntry.GetListEntryInfoItems("Country");
+            var ctlEntry = new ListController();
+            var entryCollection = ctlEntry.GetListEntryInfoItems("Country");
 
-            cboCountry.DataSource = entryCollection;
-            cboCountry.DataBind();
-            cboCountry.Items.Insert(0, new ListItem("<" + Localization.GetString("Not_Specified", Localization.SharedResourceFile) + ">", ""));
-            if (!Page.IsPostBack)
+            this.cboCountry.DataSource = entryCollection;
+            this.cboCountry.DataBind();
+            this.cboCountry.Items.Insert(
+                0,
+                new ListItem("<" + Localization.GetString("Not_Specified", Localization.SharedResourceFile) + ">",
+                             ""));
+            if (!this.Page.IsPostBack)
             {
-                cboCountry.SelectedIndex = 0;
+                this.cboCountry.SelectedIndex = 0;
             }
         }
 
         private void BindRegion()
         {
-            ListController ctlEntry = new ListController();
-            string countryCode = System.Convert.ToString(cboCountry.SelectedItem.Value);
-            string listKey = "Country." + countryCode; // listKey in format "Country.US:Region"
-            System.Collections.Generic.IEnumerable<ListEntryInfo> entryCollection = ctlEntry.GetListEntryInfoItems("Region", listKey);
+            var ctlEntry = new ListController();
+            var countryCode = Convert.ToString(this.cboCountry.SelectedItem.Value);
+            var listKey = "Country." + countryCode; // listKey in format "Country.US:Region"
+            var entryCollection = ctlEntry.GetListEntryInfoItems("Region", listKey);
 
             if (entryCollection.Any())
             {
-                txtRegion.Visible = false;
-                cboRegion.Visible = true;
+                this.txtRegion.Visible = false;
+                this.cboRegion.Visible = true;
 
-                cboRegion.Items.Clear();
-                cboRegion.DataSource = entryCollection;
-                cboRegion.DataBind();
-                cboRegion.Items.Insert(0, new ListItem("<" + Localization.GetString("Not_Specified", Localization.SharedResourceFile) + ">", ""));
+                this.cboRegion.Items.Clear();
+                this.cboRegion.DataSource = entryCollection;
+                this.cboRegion.DataBind();
+                this.cboRegion.Items.Insert(
+                    0,
+                    new ListItem(
+                        "<" + Localization.GetString("Not_Specified", Localization.SharedResourceFile) + ">", ""));
 
                 if (countryCode.ToLower() == "us")
                 {
-                    lblRegionCap.Text = Localization.GetString("plState.Text", LocalResourceFile);
-                    lblRegionCap.HelpText = Localization.GetString("plState.Help", LocalResourceFile);
-                    lblPostalCodeCap.Text = Localization.GetString("plZipCode.Text", LocalResourceFile);
-                    lblPostalCodeCap.HelpText = Localization.GetString("plZipCode.Help", LocalResourceFile);
+                    this.lblRegionCap.Text = Localization.GetString("plState.Text", this.LocalResourceFile);
+                    this.lblRegionCap.HelpText = Localization.GetString("plState.Help", this.LocalResourceFile);
+                    this.lblPostalCodeCap.Text = Localization.GetString("plZipCode.Text", this.LocalResourceFile);
+                    this.lblPostalCodeCap.HelpText = Localization.GetString("plZipCode.Help", this.LocalResourceFile);
                 }
                 else
                 {
-                    lblRegionCap.Text = Localization.GetString("plRegion.Text", LocalResourceFile);
-                    lblRegionCap.HelpText = Localization.GetString("plRegion.Help", LocalResourceFile);
-                    lblPostalCodeCap.Text = Localization.GetString("plPostalCode.Text", LocalResourceFile);
-                    lblPostalCodeCap.HelpText = Localization.GetString("plPostalCode.Help", LocalResourceFile);
+                    this.lblRegionCap.Text = Localization.GetString("plRegion.Text", this.LocalResourceFile);
+                    this.lblRegionCap.HelpText = Localization.GetString("plRegion.Help", this.LocalResourceFile);
+                    this.lblPostalCodeCap.Text = Localization.GetString("plPostalCode.Text", this.LocalResourceFile);
+                    this.lblPostalCodeCap.HelpText =
+                        Localization.GetString("plPostalCode.Help", this.LocalResourceFile);
                 }
             }
             else
             {
-                txtRegion.Visible = true;
-                cboRegion.Visible = false;
+                this.txtRegion.Visible = true;
+                this.cboRegion.Visible = false;
 
-                lblRegionCap.Text = Localization.GetString("plRegion.Text", LocalResourceFile);
-                lblRegionCap.HelpText = Localization.GetString("plRegion.Help", LocalResourceFile);
-                lblPostalCodeCap.Text = Localization.GetString("plPostalCode.Text", LocalResourceFile);
-                lblPostalCodeCap.HelpText = Localization.GetString("plPostalCode.Help", LocalResourceFile);
+                this.lblRegionCap.Text = Localization.GetString("plRegion.Text", this.LocalResourceFile);
+                this.lblRegionCap.HelpText = Localization.GetString("plRegion.Help", this.LocalResourceFile);
+                this.lblPostalCodeCap.Text = Localization.GetString("plPostalCode.Text", this.LocalResourceFile);
+                this.lblPostalCodeCap.HelpText = Localization.GetString("plPostalCode.Help", this.LocalResourceFile);
             }
         }
 
@@ -189,103 +206,104 @@ namespace DotNetNuke.Modules.Events
             {
                 return myURL;
             }
-            else if (myURL.Trim() == "")
+            if (myURL.Trim() == "")
             {
                 return "";
             }
-            else
-            {
-                return DotNetNuke.Common.Globals.AddHTTP(myURL);
-            }
+            return Globals.AddHTTP(myURL);
         }
 
         protected void cmdUpdate_Click(object sender, EventArgs e)
         {
             try
             {
-                SaveLocation(System.Convert.ToInt32(ViewState["Location"]));
+                this.SaveLocation(Convert.ToInt32(this.ViewState["Location"]));
             }
             catch (Exception exc) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-            BindData();
+            this.BindData();
         }
 
         public void cmdAdd_Click(object sender, EventArgs e)
         {
             try
             {
-                SaveLocation(0);
+                this.SaveLocation(0);
             }
             catch (Exception exc) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-            BindData();
+            this.BindData();
         }
 
         private void SaveLocation(int locationID)
         {
             // Only Update if the Entered Data is Valid
-            if (Page.IsValid && !string.IsNullOrEmpty(txtLocationName.Text))
+            if (this.Page.IsValid && !string.IsNullOrEmpty(this.txtLocationName.Text))
             {
-
-                EventLocationInfo objLocation = new EventLocationInfo();
-                PortalSecurity objSecurity = new PortalSecurity();
-                string locationName = "";
-                string mapURL = "";
-                string street = "";
-                string postalCode = "";
-                string city = "";
+                var objLocation = new EventLocationInfo();
+                var objSecurity = new PortalSecurity();
+                var locationName = "";
+                var mapURL = "";
+                var street = "";
+                var postalCode = "";
+                var city = "";
                 string region = null;
                 string country = null;
 
                 // Filter text for non-admins
-                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()) == true)
+                if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
                 {
-                    locationName = txtLocationName.Text;
-                    mapURL = PutHTTPInFront(txtMapURL.Text);
-                    street = txtStreet.Text;
-                    postalCode = txtPostalCode.Text;
-                    city = txtCity.Text;
-                    if (cboRegion.SelectedIndex > 0)
+                    locationName = this.txtLocationName.Text;
+                    mapURL = this.PutHTTPInFront(this.txtMapURL.Text);
+                    street = this.txtStreet.Text;
+                    postalCode = this.txtPostalCode.Text;
+                    city = this.txtCity.Text;
+                    if (this.cboRegion.SelectedIndex > 0)
                     {
-                        region = cboRegion.SelectedItem.Text;
+                        region = this.cboRegion.SelectedItem.Text;
                     }
                     else
                     {
-                        region = txtRegion.Text;
+                        region = this.txtRegion.Text;
                     }
-                    if (cboCountry.SelectedIndex > 0)
+                    if (this.cboCountry.SelectedIndex > 0)
                     {
-                        country = System.Convert.ToString(cboCountry.SelectedItem.Text);
+                        country = Convert.ToString(this.cboCountry.SelectedItem.Text);
                     }
                 }
                 else
                 {
-                    locationName = objSecurity.InputFilter(txtLocationName.Text, PortalSecurity.FilterFlag.NoScripting);
-                    mapURL = objSecurity.InputFilter(PutHTTPInFront(txtMapURL.Text), PortalSecurity.FilterFlag.NoScripting);
-                    street = objSecurity.InputFilter(txtStreet.Text, PortalSecurity.FilterFlag.NoScripting);
-                    postalCode = objSecurity.InputFilter(txtPostalCode.Text, PortalSecurity.FilterFlag.NoScripting);
-                    city = objSecurity.InputFilter(txtCity.Text, PortalSecurity.FilterFlag.NoScripting);
-                    if (cboRegion.SelectedIndex > 0)
+                    locationName =
+                        objSecurity.InputFilter(this.txtLocationName.Text, PortalSecurity.FilterFlag.NoScripting);
+                    mapURL = objSecurity.InputFilter(this.PutHTTPInFront(this.txtMapURL.Text),
+                                                     PortalSecurity.FilterFlag.NoScripting);
+                    street = objSecurity.InputFilter(this.txtStreet.Text, PortalSecurity.FilterFlag.NoScripting);
+                    postalCode =
+                        objSecurity.InputFilter(this.txtPostalCode.Text, PortalSecurity.FilterFlag.NoScripting);
+                    city = objSecurity.InputFilter(this.txtCity.Text, PortalSecurity.FilterFlag.NoScripting);
+                    if (this.cboRegion.SelectedIndex > 0)
                     {
-                        region = objSecurity.InputFilter(cboRegion.SelectedItem.Text, PortalSecurity.FilterFlag.NoScripting);
+                        region = objSecurity.InputFilter(this.cboRegion.SelectedItem.Text,
+                                                         PortalSecurity.FilterFlag.NoScripting);
                     }
                     else
                     {
-                        region = objSecurity.InputFilter(txtRegion.Text, PortalSecurity.FilterFlag.NoScripting);
+                        region = objSecurity.InputFilter(this.txtRegion.Text, PortalSecurity.FilterFlag.NoScripting);
                     }
-                    if (cboCountry.SelectedIndex > 0)
+                    if (this.cboCountry.SelectedIndex > 0)
                     {
-                        country = objSecurity.InputFilter(System.Convert.ToString(cboCountry.SelectedItem.Text), PortalSecurity.FilterFlag.NoScripting);
+                        country = objSecurity.InputFilter(Convert.ToString(this.cboCountry.SelectedItem.Text),
+                                                          PortalSecurity.FilterFlag.NoScripting);
                     }
                 }
 
                 //bind text values to object
                 objLocation.Location = locationID;
-                objLocation.PortalID = PortalId;
+                objLocation.PortalID = this.PortalId;
                 objLocation.LocationName = locationName;
                 objLocation.MapURL = mapURL;
                 objLocation.Street = street;
@@ -293,20 +311,20 @@ namespace DotNetNuke.Modules.Events
                 objLocation.City = city;
                 objLocation.Region = region;
                 objLocation.Country = country;
-                _objCtlLocation.EventsLocationSave(objLocation);
+                this._objCtlLocation.EventsLocationSave(objLocation);
 
                 //Back to normal (add) mode
-                txtLocationName.Text = "";
-                txtMapURL.Text = "";
-                txtStreet.Text = "";
-                txtPostalCode.Text = "";
-                txtCity.Text = "";
-                txtRegion.Text = "";
-                cboRegion.ClearSelection();
-                cboCountry.ClearSelection();
+                this.txtLocationName.Text = "";
+                this.txtMapURL.Text = "";
+                this.txtStreet.Text = "";
+                this.txtPostalCode.Text = "";
+                this.txtCity.Text = "";
+                this.txtRegion.Text = "";
+                this.cboRegion.ClearSelection();
+                this.cboCountry.ClearSelection();
 
-                ViewState.Remove("Location");
-                cmdUpdate.Visible = false;
+                this.ViewState.Remove("Location");
+                this.cmdUpdate.Visible = false;
             }
         }
 
@@ -314,86 +332,87 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                BindRegion();
+                this.BindRegion();
             }
             catch (Exception exc) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
         }
+
         #endregion
 
         #region Control Events
-        public void GrdLocations_DeleteCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+
+        public void GrdLocations_DeleteCommand(object source, DataGridCommandEventArgs e)
         {
-            int location = 0;
-            location = System.Convert.ToInt32(GrdLocations.DataKeys[e.Item.ItemIndex]);
-            _objCtlLocation.EventsLocationDelete(location, PortalId);
-            BindData();
+            var location = 0;
+            location = Convert.ToInt32(this.GrdLocations.DataKeys[e.Item.ItemIndex]);
+            this._objCtlLocation.EventsLocationDelete(location, this.PortalId);
+            this.BindData();
 
             //Back to normal (add) mode
-            txtLocationName.Text = "";
-            txtMapURL.Text = "";
-            txtStreet.Text = "";
-            txtPostalCode.Text = "";
-            txtCity.Text = "";
-            txtRegion.Text = "";
-            cboRegion.ClearSelection();
-            cboCountry.ClearSelection();
+            this.txtLocationName.Text = "";
+            this.txtMapURL.Text = "";
+            this.txtStreet.Text = "";
+            this.txtPostalCode.Text = "";
+            this.txtCity.Text = "";
+            this.txtRegion.Text = "";
+            this.cboRegion.ClearSelection();
+            this.cboCountry.ClearSelection();
 
-            ViewState.Remove("Location");
-            cmdUpdate.Visible = false;
+            this.ViewState.Remove("Location");
+            this.cmdUpdate.Visible = false;
         }
 
-        public void GrdLocations_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+        public void GrdLocations_ItemCommand(object source, DataGridCommandEventArgs e)
         {
             switch (e.CommandName)
             {
                 case "Select":
-                    int location = System.Convert.ToInt16(GrdLocations.DataKeys[e.Item.ItemIndex]);
-                    _objLocation = _objCtlLocation.EventsLocationGet(location, PortalId);
+                    int location = Convert.ToInt16(this.GrdLocations.DataKeys[e.Item.ItemIndex]);
+                    this._objLocation = this._objCtlLocation.EventsLocationGet(location, this.PortalId);
 
                     // Clear selections.
-                    cboCountry.ClearSelection();
-                    cboRegion.ClearSelection();
-                    txtRegion.Text = string.Empty;
+                    this.cboCountry.ClearSelection();
+                    this.cboRegion.ClearSelection();
+                    this.txtRegion.Text = string.Empty;
 
                     // Fill fields.
-                    txtLocationName.Text = _objLocation.LocationName;
-                    txtMapURL.Text = _objLocation.MapURL;
-                    txtStreet.Text = _objLocation.Street;
-                    txtPostalCode.Text = _objLocation.PostalCode;
-                    txtCity.Text = _objLocation.City;
+                    this.txtLocationName.Text = this._objLocation.LocationName;
+                    this.txtMapURL.Text = this._objLocation.MapURL;
+                    this.txtStreet.Text = this._objLocation.Street;
+                    this.txtPostalCode.Text = this._objLocation.PostalCode;
+                    this.txtCity.Text = this._objLocation.City;
 
-                    if (cboCountry.Items.FindByText(_objLocation.Country) != null)
+                    if (this.cboCountry.Items.FindByText(this._objLocation.Country) != null)
                     {
-                        cboCountry.Items.FindByText(_objLocation.Country).Selected = true;
+                        this.cboCountry.Items.FindByText(this._objLocation.Country).Selected = true;
                     }
-                    BindRegion();
-                    if (cboRegion.Items.FindByText(_objLocation.Region) != null)
+                    this.BindRegion();
+                    if (this.cboRegion.Items.FindByText(this._objLocation.Region) != null)
                     {
-                        cboRegion.Items.FindByText(_objLocation.Region).Selected = true;
+                        this.cboRegion.Items.FindByText(this._objLocation.Region).Selected = true;
                     }
                     else
                     {
-                        txtRegion.Text = _objLocation.Region;
+                        this.txtRegion.Text = this._objLocation.Region;
                     }
 
-                    ViewState.Add("Location", _objLocation.Location.ToString());
-                    BindData();
+                    this.ViewState.Add("Location", this._objLocation.Location.ToString());
+                    this.BindData();
 
                     //We can update
-                    cmdUpdate.Visible = true;
+                    this.cmdUpdate.Visible = true;
                     break;
             }
         }
 
-        protected void returnButton_Click(System.Object sender, EventArgs e)
+        protected void returnButton_Click(object sender, EventArgs e)
         {
             try
             {
-                Response.Redirect(GetSocialNavigateUrl(), true);
-
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
             }
             catch (Exception exc) //Module failed to load
             {
@@ -402,9 +421,5 @@ namespace DotNetNuke.Modules.Events
         }
 
         #endregion
-
     }
-
 }
-
-

@@ -1,12 +1,5 @@
-using DotNetNuke.Entities.Users;
-using System.Web.UI.WebControls;
-using System.Collections;
-using DotNetNuke.Services.Localization;
-using System;
-using DotNetNuke.Entities.Modules;
-using DotNetNuke.Security.Roles;
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -26,320 +19,308 @@ using DotNetNuke.Security.Roles;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
-	{
-		[System.ComponentModel.DefaultEvent("Refreshed")]public partial class EventUserGrid : EventBase
-		{
-			//  Inherits Framework.UserControlBase
-			
-			private ArrayList _users = new ArrayList();
-			private static readonly string _myFileName = typeof(EventIcons).BaseType.Name +".ascx";
-			// ReSharper disable EventNeverInvoked
-			public delegate void RefreshedEventHandler(object sender, EventArgs e);
-			private RefreshedEventHandler RefreshedEvent;
-			
-			public event RefreshedEventHandler Refreshed
-			{
-				add
-				{
-					RefreshedEvent = (RefreshedEventHandler) System.Delegate.Combine(RefreshedEvent, value);
-				}
-				remove
-				{
-					RefreshedEvent = (RefreshedEventHandler) System.Delegate.Remove(RefreshedEvent, value);
-				}
-			}
-			
-			// ReSharper restore EventNeverInvoked
-			public delegate void AddSelectedUsersEventHandler(object sender, EventArgs e, ArrayList arrUsers);
-			private AddSelectedUsersEventHandler AddSelectedUsersEvent;
-			
-			public event AddSelectedUsersEventHandler AddSelectedUsers
-			{
-				add
-				{
-					AddSelectedUsersEvent = (AddSelectedUsersEventHandler) System.Delegate.Combine(AddSelectedUsersEvent, value);
-				}
-				remove
-				{
-					AddSelectedUsersEvent = (AddSelectedUsersEventHandler) System.Delegate.Remove(AddSelectedUsersEvent, value);
-				}
-			}
-			
-			
-			protected ArrayList Users
-			{
-				get
-				{
-					return _users;
-				}
-				set
-				{
-					_users = value;
-				}
-			}
-			
-			new protected string LocalResourceFile
-			{
-				get
-				{
-					return Localization.GetResourceFile(this, _myFileName);
-				}
-			}
-			
-			/// -----------------------------------------------------------------------------
-			/// <summary>
-			/// Gets the Page Size for the Grid
-			/// </summary>
-			/// <history>
-			/// 	[cnurse]	03/02/2006  Created
-			/// </history>
-			/// -----------------------------------------------------------------------------
-			protected int PageSize
-			{
-				get
-				{
-					object setting = UserModuleBase.GetSetting(PortalId, "Records_PerPage");
-					return System.Convert.ToInt32(setting);
-				}
-			}
-			
-			
-			protected int ItemID
-			{
-				get
-				{
-					return System.Convert.ToInt32(Request.QueryString["ItemID"]);
-				}
-			}
-			
-			protected void Page_Load(object sender, EventArgs e)
-			{
-				if (!Page.IsPostBack)
-				{
-					
-				}
-			}
-			
-			private void Localize_Text()
-			{
-				string localText = "";
-				localText = Localization.GetString("lblStartswith.Text", LocalResourceFile);
-				if (!string.IsNullOrEmpty(localText))
-				{
-					lblStartswith.Text = localText;
-				}
-				localText = Localization.GetString("cmdSelectedAddUser.Text", LocalResourceFile);
-				if (!string.IsNullOrEmpty(localText))
-				{
-					cmdSelectedAddUser.Text = localText;
-				}
-				localText = Localization.GetString("cmdRefreshList.Text", LocalResourceFile);
-				if (!string.IsNullOrEmpty(localText))
-				{
-					cmdRefreshList.Text = localText;
-				}
-				localText = Localization.GetString("Select.Header", LocalResourceFile);
-				if (!string.IsNullOrEmpty(localText))
-				{
-					gvUsersToEnroll.Columns[0].HeaderText = localText;
-				}
-				localText = Localization.GetString("Username.Header", LocalResourceFile);
-				if (!string.IsNullOrEmpty(localText))
-				{
-					gvUsersToEnroll.Columns[1].HeaderText = localText;
-				}
-				localText = Localization.GetString("Displayname.Header", LocalResourceFile);
-				if (!string.IsNullOrEmpty(localText))
-				{
-					gvUsersToEnroll.Columns[2].HeaderText = localText;
-				}
-				localText = Localization.GetString("Emailaddress.Header", LocalResourceFile);
-				if (!string.IsNullOrEmpty(localText))
-				{
-					gvUsersToEnroll.Columns[3].HeaderText = localText;
-				}
-				
-			}
-			
-			public void RefreshGrid()
-			{
-				const string csname = "ChangeScrip";
-				Type cstype = System.Reflection.MethodBase.GetCurrentMethod().GetType();
-				string cstext = System.Convert.ToString("function ChangedropdownFilterItem(event) {" + "\r\n" + 
-					"var DropDownFilterItem = document.getElementById('" + dropdownFilterItem.ClientID + "');" + 
-					"var lblStartswith = document.getElementById('" + lblStartswith.ClientID + "');" + 
-					"if (DropDownFilterItem.value =='1') lblStartswith.style.display = 'none';" + "\r\n" + 
-					"else lblStartswith.style.display = '';" + "\r\n" + "}");
-				
-				if (!Page.ClientScript.IsClientScriptBlockRegistered(csname))
-				{
-					Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, true);
-				}
-				
-				Localize_Text();
-				BindData(txtFilterUsers.Text, dropdownFilterItem.Value);
-			}
-			
-			
-			/// -----------------------------------------------------------------------------
-			/// <summary>
-			/// BindData gets the users from the Database and binds them to the DataGrid
-			/// </summary>
-			/// <remarks>
-			/// </remarks>
-			/// <param name="searchText">Text to Search</param>
-			/// <param name="searchField">Field to Search</param>
-			/// <history>
-			/// </history>
-			/// -----------------------------------------------------------------------------
-			private void BindData(string searchText, string searchField)
-			{
-				
-				gvUsersToEnroll.PageSize = PageSize;
-				
-				RoleController objCtlRole = new RoleController();
-				RoleInfo objRole = objCtlRole.GetRoleByName(PortalId, PortalSettings.RegisteredRoleName);
-				string roleName = "";
-				string regRoleName = "";
-				if (!ReferenceEquals(objRole, null))
-				{
-					roleName = objRole.RoleName;
-					regRoleName = roleName;
-				}
-				DropDownList ddEnrollRoles = (DropDownList) (Parent.FindControl("ddEnrollRoles"));
-				if (ddEnrollRoles.SelectedValue != "-1")
-				{
-					roleName = ddEnrollRoles.SelectedItem.Text;
-				}
-				
-				dropdownFilterItem.Items.Clear();
-				dropdownFilterItem.Items.Add(new ListItem(Localization.GetString("dropdownFilterItem00.Text", LocalResourceFile), "0"));
-				dropdownFilterItem.Items.Add(new ListItem(Localization.GetString("dropdownFilterItem02.Text", LocalResourceFile), "2"));
-				if (roleName == regRoleName)
-				{
-					dropdownFilterItem.Items.Add(new ListItem(Localization.GetString("dropdownFilterItem01.Text", LocalResourceFile), "1"));
-				}
-				
-				ArrayList tmpUsers = default(ArrayList);
-				if (roleName != regRoleName || searchField != "1")
-				{
-					tmpUsers = objCtlRole.GetUsersByRoleName(PortalId, roleName);
-				}
-				else
-				{
-					tmpUsers = objCtlRole.GetUsersByRoleName(PortalId, searchText);
-				}
-				
-				EventSignupsController objCtlEventSignups = new EventSignupsController();
-				ArrayList lstSignups = objCtlEventSignups.EventsSignupsGetEvent(ItemID, ModuleId);
-				
-				Users = new ArrayList();
-				if (searchText != "None")
-				{
-					foreach (UserInfo objUser in tmpUsers)
-					{
-						switch (searchField)
-						{
-							case "0": //username
-								if (objUser.Username.Substring(0, searchText.Length).ToLower() == searchText.ToLower())
-								{
-									UserAdd(objUser, lstSignups);
-								}
-								break;
-							case "1": //Groupname
-								UserAdd(objUser, lstSignups);
-								break;
-							case "2": //Lastname
-								if (objUser.LastName.Substring(0, searchText.Length).ToLower() == searchText.ToLower())
-								{
-									UserAdd(objUser, lstSignups);
-								}
-								break;
-							default:
-								UserAdd(objUser, lstSignups);
-								break;
-						}
-					}
-				}
-				if (Users.Count > 0)
-				{
-					gvUsersToEnroll.Visible = true;
-					cmdSelectedAddUser.Visible = true;
-				}
-				else
-				{
-					gvUsersToEnroll.Visible = false;
-					cmdSelectedAddUser.Visible = false;
-				}
-				gvUsersToEnroll.DataSource = Users;
-				gvUsersToEnroll.DataBind();
-			}
-			
-			private void UserAdd(UserInfo inUser, ArrayList lstSignups)
-			{
-				bool blAdd = true;
-				foreach (EventSignupsInfo objEventSignup in lstSignups)
-				{
-					if (inUser.UserID == objEventSignup.UserID)
-					{
-						blAdd = false;
-					}
-				}
-				if (blAdd)
-				{
-					Users.Add(inUser);
-				}
-				
-			}
-			
-			protected void gvUsersToEnroll_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
-			{
-				gvUsersToEnroll.PageIndex = e.NewPageIndex;
-				BindData(txtFilterUsers.Text, dropdownFilterItem.Value);
-			}
-			
-			protected void cmdSelectedAddUser_Click(object sender, EventArgs e)
-			{
-				GridViewRow row = default(GridViewRow);
-				ArrayList arrUsers = new ArrayList();
-				try
-				{
-					foreach (GridViewRow tempLoopVar_row in gvUsersToEnroll.Rows)
-					{
-						row = tempLoopVar_row;
-						if (((CheckBox) (row.FindControl("chkSelectUser"))).Checked)
-						{
-							arrUsers.Add(System.Convert.ToInt32(gvUsersToEnroll.DataKeys[row.RowIndex].Value));
-						}
-					}
-					if (AddSelectedUsersEvent != null)
-						AddSelectedUsersEvent(this, new EventArgs(), arrUsers);
-				}
-				catch (Exception)
-				{
-					
-				}
-				
-			}
-			
-			protected void cmdRefreshList_Click(object sender, EventArgs e)
-			{
-				gvUsersToEnroll.PageIndex = 0;
-				BindData(txtFilterUsers.Text, dropdownFilterItem.Value);
-				if (dropdownFilterItem.Value == "1")
-				{
-					lblStartswith.Attributes.Add("style", "display: none");
-				}
-				else
-				{
-					lblStartswith.Attributes.Remove("style");
-				}
-				
-			}
-		}
-	}
+{
+    using System;
+    using System.Collections;
+    using System.ComponentModel;
+    using System.Reflection;
+    using System.Web.UI.WebControls;
+    using DotNetNuke.Entities.Modules;
+    using DotNetNuke.Entities.Users;
+    using DotNetNuke.Security.Roles;
+    using DotNetNuke.Services.Localization;
+    using global::Components;
 
+    [DefaultEvent("Refreshed")]
+    public partial class EventUserGrid : EventBase
+    {
+        public delegate void AddSelectedUsersEventHandler(object sender, EventArgs e, ArrayList arrUsers);
+
+        private static readonly string _myFileName = typeof(EventIcons).BaseType.Name + ".ascx";
+        //  Inherits Framework.UserControlBase
+
+        private AddSelectedUsersEventHandler AddSelectedUsersEvent;
+
+
+        protected ArrayList Users { get; set; } = new ArrayList();
+
+        protected new string LocalResourceFile => Localization.GetResourceFile(this, _myFileName);
+
+        /// -----------------------------------------------------------------------------
+        /// <summary>
+        ///     Gets the Page Size for the Grid
+        /// </summary>
+        /// <history>
+        ///     [cnurse]	03/02/2006  Created
+        /// </history>
+        /// -----------------------------------------------------------------------------
+        protected int PageSize
+        {
+            get
+                {
+                    var setting = UserModuleBase.GetSetting(this.PortalId, "Records_PerPage");
+                    return Convert.ToInt32(setting);
+                }
+        }
+
+
+        protected int ItemID => Convert.ToInt32(this.Request.QueryString["ItemID"]);
+
+        public event AddSelectedUsersEventHandler AddSelectedUsers
+        {
+            add
+                {
+                    this.AddSelectedUsersEvent =
+                        (AddSelectedUsersEventHandler) Delegate.Combine(this.AddSelectedUsersEvent, value);
+                }
+            remove
+                {
+                    this.AddSelectedUsersEvent =
+                        (AddSelectedUsersEventHandler) Delegate.Remove(this.AddSelectedUsersEvent, value);
+                }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!this.Page.IsPostBack)
+            { }
+        }
+
+        private void Localize_Text()
+        {
+            var localText = "";
+            localText = Localization.GetString("lblStartswith.Text", this.LocalResourceFile);
+            if (!string.IsNullOrEmpty(localText))
+            {
+                this.lblStartswith.Text = localText;
+            }
+            localText = Localization.GetString("cmdSelectedAddUser.Text", this.LocalResourceFile);
+            if (!string.IsNullOrEmpty(localText))
+            {
+                this.cmdSelectedAddUser.Text = localText;
+            }
+            localText = Localization.GetString("cmdRefreshList.Text", this.LocalResourceFile);
+            if (!string.IsNullOrEmpty(localText))
+            {
+                this.cmdRefreshList.Text = localText;
+            }
+            localText = Localization.GetString("Select.Header", this.LocalResourceFile);
+            if (!string.IsNullOrEmpty(localText))
+            {
+                this.gvUsersToEnroll.Columns[0].HeaderText = localText;
+            }
+            localText = Localization.GetString("Username.Header", this.LocalResourceFile);
+            if (!string.IsNullOrEmpty(localText))
+            {
+                this.gvUsersToEnroll.Columns[1].HeaderText = localText;
+            }
+            localText = Localization.GetString("Displayname.Header", this.LocalResourceFile);
+            if (!string.IsNullOrEmpty(localText))
+            {
+                this.gvUsersToEnroll.Columns[2].HeaderText = localText;
+            }
+            localText = Localization.GetString("Emailaddress.Header", this.LocalResourceFile);
+            if (!string.IsNullOrEmpty(localText))
+            {
+                this.gvUsersToEnroll.Columns[3].HeaderText = localText;
+            }
+        }
+
+        public void RefreshGrid()
+        {
+            const string csname = "ChangeScrip";
+            var cstype = MethodBase.GetCurrentMethod().GetType();
+            var cstext = Convert.ToString("function ChangedropdownFilterItem(event) {" + "\r\n" +
+                                          "var DropDownFilterItem = document.getElementById('" +
+                                          this.dropdownFilterItem.ClientID + "');" +
+                                          "var lblStartswith = document.getElementById('" +
+                                          this.lblStartswith.ClientID + "');" +
+                                          "if (DropDownFilterItem.value =='1') lblStartswith.style.display = 'none';" +
+                                          "\r\n" +
+                                          "else lblStartswith.style.display = '';" + "\r\n" + "}");
+
+            if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname))
+            {
+                this.Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, true);
+            }
+
+            this.Localize_Text();
+            this.BindData(this.txtFilterUsers.Text, this.dropdownFilterItem.Value);
+        }
+
+
+        /// -----------------------------------------------------------------------------
+        /// <summary>
+        ///     BindData gets the users from the Database and binds them to the DataGrid
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="searchText">Text to Search</param>
+        /// <param name="searchField">Field to Search</param>
+        /// <history>
+        /// </history>
+        /// -----------------------------------------------------------------------------
+        private void BindData(string searchText, string searchField)
+        {
+            this.gvUsersToEnroll.PageSize = this.PageSize;
+
+            var objCtlRole = new RoleController();
+            var objRole = objCtlRole.GetRoleByName(this.PortalId, this.PortalSettings.RegisteredRoleName);
+            var roleName = "";
+            var regRoleName = "";
+            if (!ReferenceEquals(objRole, null))
+            {
+                roleName = objRole.RoleName;
+                regRoleName = roleName;
+            }
+            var ddEnrollRoles = (DropDownList) this.Parent.FindControl("ddEnrollRoles");
+            if (ddEnrollRoles.SelectedValue != "-1")
+            {
+                roleName = ddEnrollRoles.SelectedItem.Text;
+            }
+
+            this.dropdownFilterItem.Items.Clear();
+            this.dropdownFilterItem.Items.Add(
+                new ListItem(Localization.GetString("dropdownFilterItem00.Text", this.LocalResourceFile), "0"));
+            this.dropdownFilterItem.Items.Add(
+                new ListItem(Localization.GetString("dropdownFilterItem02.Text", this.LocalResourceFile), "2"));
+            if (roleName == regRoleName)
+            {
+                this.dropdownFilterItem.Items.Add(
+                    new ListItem(Localization.GetString("dropdownFilterItem01.Text", this.LocalResourceFile),
+                                 "1"));
+            }
+
+            var tmpUsers = default(ArrayList);
+            if (roleName != regRoleName || searchField != "1")
+            {
+                tmpUsers = objCtlRole.GetUsersByRoleName(this.PortalId, roleName);
+            }
+            else
+            {
+                tmpUsers = objCtlRole.GetUsersByRoleName(this.PortalId, searchText);
+            }
+
+            var objCtlEventSignups = new EventSignupsController();
+            var lstSignups = objCtlEventSignups.EventsSignupsGetEvent(this.ItemID, this.ModuleId);
+
+            this.Users = new ArrayList();
+            if (searchText != "None")
+            {
+                foreach (UserInfo objUser in tmpUsers)
+                {
+                    switch (searchField)
+                    {
+                        case "0": //username
+                            if (objUser.Username.Substring(0, searchText.Length).ToLower() == searchText.ToLower())
+                            {
+                                this.UserAdd(objUser, lstSignups);
+                            }
+                            break;
+                        case "1": //Groupname
+                            this.UserAdd(objUser, lstSignups);
+                            break;
+                        case "2": //Lastname
+                            if (objUser.LastName.Substring(0, searchText.Length).ToLower() == searchText.ToLower())
+                            {
+                                this.UserAdd(objUser, lstSignups);
+                            }
+                            break;
+                        default:
+                            this.UserAdd(objUser, lstSignups);
+                            break;
+                    }
+                }
+            }
+            if (this.Users.Count > 0)
+            {
+                this.gvUsersToEnroll.Visible = true;
+                this.cmdSelectedAddUser.Visible = true;
+            }
+            else
+            {
+                this.gvUsersToEnroll.Visible = false;
+                this.cmdSelectedAddUser.Visible = false;
+            }
+            this.gvUsersToEnroll.DataSource = this.Users;
+            this.gvUsersToEnroll.DataBind();
+        }
+
+        private void UserAdd(UserInfo inUser, ArrayList lstSignups)
+        {
+            var blAdd = true;
+            foreach (EventSignupsInfo objEventSignup in lstSignups)
+            {
+                if (inUser.UserID == objEventSignup.UserID)
+                {
+                    blAdd = false;
+                }
+            }
+            if (blAdd)
+            {
+                this.Users.Add(inUser);
+            }
+        }
+
+        protected void gvUsersToEnroll_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            this.gvUsersToEnroll.PageIndex = e.NewPageIndex;
+            this.BindData(this.txtFilterUsers.Text, this.dropdownFilterItem.Value);
+        }
+
+        protected void cmdSelectedAddUser_Click(object sender, EventArgs e)
+        {
+            var row = default(GridViewRow);
+            var arrUsers = new ArrayList();
+            try
+            {
+                foreach (GridViewRow tempLoopVar_row in this.gvUsersToEnroll.Rows)
+                {
+                    row = tempLoopVar_row;
+                    if (((CheckBox) row.FindControl("chkSelectUser")).Checked)
+                    {
+                        arrUsers.Add(Convert.ToInt32(this.gvUsersToEnroll.DataKeys[row.RowIndex].Value));
+                    }
+                }
+                if (this.AddSelectedUsersEvent != null)
+                {
+                    this.AddSelectedUsersEvent(this, new EventArgs(), arrUsers);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        protected void cmdRefreshList_Click(object sender, EventArgs e)
+        {
+            this.gvUsersToEnroll.PageIndex = 0;
+            this.BindData(this.txtFilterUsers.Text, this.dropdownFilterItem.Value);
+            if (this.dropdownFilterItem.Value == "1")
+            {
+                this.lblStartswith.Attributes.Add("style", "display: none");
+            }
+            else
+            {
+                this.lblStartswith.Attributes.Remove("style");
+            }
+        }
+
+        // ReSharper disable EventNeverInvoked
+        public delegate void RefreshedEventHandler(object sender, EventArgs e);
+
+        private RefreshedEventHandler RefreshedEvent;
+
+        public event RefreshedEventHandler Refreshed
+        {
+            add { this.RefreshedEvent = (RefreshedEventHandler) Delegate.Combine(this.RefreshedEvent, value); }
+            remove { this.RefreshedEvent = (RefreshedEventHandler) Delegate.Remove(this.RefreshedEvent, value); }
+        }
+
+        // ReSharper restore EventNeverInvoked
+    }
+}

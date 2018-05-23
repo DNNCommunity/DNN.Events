@@ -1,9 +1,5 @@
-using System;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.ComponentModel;
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -23,44 +19,42 @@ using System.ComponentModel;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events.ScheduleControl
 {
-	
-	/// -----------------------------------------------------------------------------
-	/// Project	 : schedule
-	/// Class	 : ScheduleItem
-	///
-	/// -----------------------------------------------------------------------------
-	/// <summary>
-	/// The ScheduleItem class represents an item in the Schedule control.
-	/// It can either be an item in the schedule itself, or a header item.
-	/// </summary>
-	/// -----------------------------------------------------------------------------
-	[CLSCompliant(true), ToolboxItem(false)]public class ScheduleItem : WebControl, INamingContainer
-	{
-		
-		private int _dataSetIndex = -1;
-		private ScheduleItemType _itemType;
-		private object _dataItem;
+    using System;
+    using System.ComponentModel;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
+
+    /// -----------------------------------------------------------------------------
+    /// Project	 : schedule
+    /// Class	 : ScheduleItem
+    /// 
+    /// -----------------------------------------------------------------------------
+    /// <summary>
+    ///     The ScheduleItem class represents an item in the Schedule control.
+    ///     It can either be an item in the schedule itself, or a header item.
+    /// </summary>
+    /// -----------------------------------------------------------------------------
+    [CLSCompliant(true)]
+    [ToolboxItem(false)]
+    public class ScheduleItem : WebControl, INamingContainer
+    {
+        private object _dataItem;
 #if NET_2_0
 		private DataKey _dataKey;
 #endif
-		
-		public dynamic DataItem
-		{
-			get
-			{
-				return _dataItem;
-			}
-			set
-			{
-				_dataItem = value;
-			}
-		}
-		
+
+        public dynamic DataItem
+        {
+            get { return this._dataItem; }
+            set { this._dataItem = value; }
+        }
+
 #if NET_2_0
 		public DataKey DataKey
 		{
@@ -74,42 +68,27 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 			}
 		}
 #endif
-		
-		public virtual int DataSetIndex
-		{
-			get
-			{
-				return _dataSetIndex;
-			}
-		}
-		
-		public virtual ScheduleItemType ItemType
-		{
-			get
-			{
-				return _itemType;
-			}
-		}
-		
-		public ScheduleItem(int dataSetIndex1, ScheduleItemType itemType1)
-		{
-			this._dataSetIndex = dataSetIndex1;
-			this._itemType = itemType1;
-		}
-		
-		protected override bool OnBubbleEvent(object source, EventArgs e)
-		{
-			// pass any command events to the Schedule control itself
-			if (e is CommandEventArgs)
-			{
-				ScheduleCommandEventArgs args = new ScheduleCommandEventArgs(this, source, (CommandEventArgs) e);
-				RaiseBubbleEvent(this, args);
-				return true;
-			}
-			return false;
-		} //OnBubbleEvent
-		
-	}
-	
-	
+
+        public virtual int DataSetIndex { get; } = -1;
+
+        public virtual ScheduleItemType ItemType { get; }
+
+        public ScheduleItem(int dataSetIndex1, ScheduleItemType itemType1)
+        {
+            this.DataSetIndex = dataSetIndex1;
+            this.ItemType = itemType1;
+        }
+
+        protected override bool OnBubbleEvent(object source, EventArgs e)
+        {
+            // pass any command events to the Schedule control itself
+            if (e is CommandEventArgs)
+            {
+                var args = new ScheduleCommandEventArgs(this, source, (CommandEventArgs) e);
+                this.RaiseBubbleEvent(this, args);
+                return true;
+            }
+            return false;
+        } //OnBubbleEvent
+    }
 }

@@ -3,537 +3,478 @@
    ================================
 */
 .ThemeEvents .EvtHdrLftCol {
-width:33%;
-float:left;
-min-height:1px;
+    float: left;
+    min-height: 1px;
+    width: 33%;
 }
 
 .ThemeEvents .EvtHdrMdlCol {
-width:34%;
-float:left;
-min-height:1px;
-text-align:center;
+    float: left;
+    min-height: 1px;
+    text-align: center;
+    width: 34%;
 }
 
 .ThemeEvents .EvtHdrRgtCol {
-width:33%;
-float:left;
+    float: left;
+    width: 33%;
 }
 
 .ThemeEvents .Eventtooltipheader, .ThemeEvents .Eventtooltipbody {
-width:300px;
-z-index:99;
-font-size:10px;
-font-family:Arial;
-padding:5px;
+    font-family: Arial;
+    font-size: 10px;
+    padding: 5px;
+    width: 300px;
+    z-index: 99;
 }
 
 .ThemeEvents .Eventtooltipheader {
-border:#c3d9ff 1px solid;
-background-color:#c3d9ff;
-color:#00008B;
-font-weight:700;
-font-size:11px;
+    background-color: #c3d9ff;
+    border: #c3d9ff 1px solid;
+    color: #00008B;
+    font-size: 11px;
+    font-weight: 700;
 }
 
 .ThemeEvents .Eventtooltipbody {
-border-left:#c3d9ff 1px solid;
-border-right:#c3d9ff 1px solid;
-border-bottom:#c3d9ff 1px solid;
-background-color:#fff;
+    background-color: #fff;
+    border-bottom: #c3d9ff 1px solid;
+    border-left: #c3d9ff 1px solid;
+    border-right: #c3d9ff 1px solid;
 }
 
 .ThemeEvents .Eventtooltipbody hr {
-width:100%;
-color:#c3d9ff;
-background-color:#c3d9ff;
-height:1px;
-border:0;
+    background-color: #c3d9ff;
+    border: 0;
+    color: #c3d9ff;
+    height: 1px;
+    width: 100%;
 }
 
 .ThemeEvents .Event {
-table-layout:fixed;
-width:100%;
-font-size:9px;
-color:#000;
-font-family:Verdana;
-text-align:center;
-border-right:#c3d9ff 2px solid;
-border-top:#c3d9ff 1px solid;
-border-left:#c3d9ff 2px solid;
-border-bottom:#c3d9ff 2px solid;
-white-space:normal;
+    border-bottom: #c3d9ff 2px solid;
+    border-left: #c3d9ff 2px solid;
+    border-right: #c3d9ff 2px solid;
+    border-top: #c3d9ff 1px solid;
+    color: #000;
+    font-family: Verdana;
+    font-size: 9px;
+    table-layout: fixed;
+    text-align: center;
+    white-space: normal;
+    width: 100%;
 }
 
-.ThemeEvents .EventTitle,.ThemeEvents .EventTitle td {
-font-weight:700;
-font-size:14px;
-width:100%;
-color:#00008B;
-height:20px;
-text-align:center;
-background-color:#c3d9ff;
-font-family:Verdana;
-border-bottom:#7994cb 0 solid;
+.ThemeEvents .EventTitle, .ThemeEvents .EventTitle td {
+    background-color: #c3d9ff;
+    border-bottom: #7994cb 0 solid;
+    color: #00008B;
+    font-family: Verdana;
+    font-size: 14px;
+    font-weight: 700;
+    height: 20px;
+    text-align: center;
+    width: 100%;
 }
 
 .ThemeEvents .EventDayHeader {
-font-weight:700;
-font-size:12px;
-height:16px;
-background-color:silver;
-vertical-align:middle;
-font-family:Verdana;
-border:#a2bbdd 1px solid;
+    background-color: silver;
+    border: #a2bbdd 1px solid;
+    font-family: Verdana;
+    font-size: 12px;
+    font-weight: 700;
+    height: 16px;
+    vertical-align: middle;
 }
 
-.ThemeEvents .EventDay,.ThemeEvents .EventDayEvents,.ThemeEvents .EventWeekendDayEvents  {
-font-size:10px;
-text-align:left;
-height:100px;
-vertical-align:top;
-color:#00f;
-font-family:Verdana;
-background-color:#e8eef7;
-border:#a2bbdd 1px solid;
+.ThemeEvents .EventDay, .ThemeEvents .EventDayEvents, .ThemeEvents .EventWeekendDayEvents {
+    background-color: #e8eef7;
+    border: #a2bbdd 1px solid;
+    color: #00f;
+    font-family: Verdana;
+    font-size: 10px;
+    height: 100px;
+    text-align: left;
+    vertical-align: top;
 }
 
-.ThemeEvents .EventDayEvents a,.ThemeEvents .EventDayEvents a:visited,.ThemeEvents .EventDayEvents a:hover, .ThemeEvents .EventWeekendDayEvents a,.ThemeEvents .EventWeekendDayEvents a:visited,.ThemeEvents .EventWeekendDayEvents a:hover  {
-font-size:10px;
-color:red;
-font-family:Verdana
+.ThemeEvents .EventDayEvents a, .ThemeEvents .EventDayEvents a:visited, .ThemeEvents .EventDayEvents a:hover, .ThemeEvents .EventWeekendDayEvents a, .ThemeEvents .EventWeekendDayEvents a:visited, .ThemeEvents .EventWeekendDayEvents a:hover {
+    color: red;
+    font-family: Verdana;
+    font-size: 10px;
 }
 
 .ThemeEvents .EventDayScroll {
-width:100%;
-height:88%;
-overflow:auto;
-position:static;
-font-weight:bolder;
-background-color:#fff;
+    background-color: #fff;
+    font-weight: bolder;
+    height: 88%;
+    overflow: auto;
+    position: static;
+    width: 100%;
 }
 
 .ThemeEvents .EventOtherMonthDay {
-color:gray;
-background-color:#DCDCDC;
+    background-color: #DCDCDC;
+    color: gray;
 }
 
 .ThemeEvents .EventTodayDay {
-font-weight:700;
-color:#00f;
-background-color:#A9A9A9;
-border:#000 2px solid;
+    background-color: #A9A9A9;
+    border: #000 2px solid;
+    color: #00f;
+    font-weight: 700;
 }
 
 .ThemeEvents .EventSelectedDay {
-border:red 2px solid;
-font-size:10px;
+    border: red 2px solid;
+    font-size: 10px;
 }
 
-.ThemeEvents .EventSelectedDay, .ThemeEvents .EventSelectedDay a, .ThemeEvents .EventSelectedDay a:visited, .ThemeEvents .EventSelectedDay a:hover  {
-text-align:left;
-}
+.ThemeEvents .EventSelectedDay, .ThemeEvents .EventSelectedDay a, .ThemeEvents .EventSelectedDay a:visited, .ThemeEvents .EventSelectedDay a:hover { text-align: left; }
 
-.ThemeEvents .EventSelector {
-background-color:#c0c0e0;
-}
+.ThemeEvents .EventSelector { background-color: #c0c0e0; }
 
-.ThemeEvents .EventSelector a,.ThemeEvents .EventSelector a:visited,.ThemeEvents .EventSelector a:hover {
-color:#00f;
-text-decoration:none;
+.ThemeEvents .EventSelector a, .ThemeEvents .EventSelector a:visited, .ThemeEvents .EventSelector a:hover {
+    color: #00f;
+    text-decoration: none;
 }
 
 .ThemeEvents .WeekTable table {
-table-layout:auto;
-width:100%;
-font-size:10px;
-color:#000;
-font-family:Verdana;
-text-align:center;
-border:#c3d9ff 1px solid;
+    border: #c3d9ff 1px solid;
+    color: #000;
+    font-family: Verdana;
+    font-size: 10px;
+    table-layout: auto;
+    text-align: center;
+    width: 100%;
 }
 
-.ThemeEvents .WeekTable table td,.ThemeEvents .WeekTable table th {
-border:0;
-padding:3px;
+.ThemeEvents .WeekTable table td, .ThemeEvents .WeekTable table th {
+    border: 0;
+    padding: 3px;
 }
 
 .ThemeEvents .WeekItem {
-text-align:center;
-font-family:verdana,helvetica,arial;
-font-size:9px;
-background-color:#FFF;
-font-weight:400;
-background-color:#7994cb;
-border:#a2bbdd 1px solid;
+    background-color: #FFF;
+    background-color: #7994cb;
+    border: #a2bbdd 1px solid;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 400;
+    text-align: center;
 }
 
 .ThemeEvents .WeekDay {
-font-weight:700;
-font-size:9px;
-color:#7994cb;
-font-family:verdana,helvetica,arial;
-background-color:#7994cb;
-text-align:center;
-vertical-align:middle;
-border:#a2bbdd 1px solid;
+    background-color: #7994cb;
+    border: #a2bbdd 1px solid;
+    color: #7994cb;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .ThemeEvents .WeekBackground {
-font-family:verdana,helvetica,arial;
-font-size:9px;
-background-color:#fff;
-border:#a2bbdd 1px dotted;
+    background-color: #fff;
+    border: #a2bbdd 1px dotted;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
 }
 
 .ThemeEvents .WeekTitle {
-font-family:verdana,helvetica,arial;
-font-size:9px;
-color:#000;
-height:15%;
-text-align:center;
-background-color:silver;
-width:11%;
-border:#a2bbdd 1px solid;
+    background-color: silver;
+    border: #a2bbdd 1px solid;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    height: 15%;
+    text-align: center;
+    width: 11%;
 }
 
 .ThemeEvents .WeekOfTitle {
-font-weight:700;
-font-size:10px;
-width:100%;
-color:#00008B;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:middle;
+    color: #00008B;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeEvents .WeekNextPrev {
-font-weight:700;
-font-family:verdana,helvetica,arial;
-font-size:10px;
-width:100%;
-color:#00008B;
-text-align:center;
-vertical-align:middle;
+    color: #00008B;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeEvents .WeekRangeheader {
-text-align:center;
-vertical-align:middle;
-font-family:verdana,helvetica,arial;
-font-size:9px;
-background-color:#e8eef7;
-border:none;
+    background-color: #e8eef7;
+    border: none;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: center;
+    vertical-align: middle;
 }
 
-.ThemeEvents .ListTable {
-width:100%;
-}
+.ThemeEvents .ListTable { width: 100%; }
 
 .ThemeEvents .ListDate, .ThemeEvents .ListRecurText, .ThemeEvents .ListRecurUntil {
-font-size:10px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
-width:100px;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    text-align: left;
+    vertical-align: top;
+    width: 100px;
 }
 
 .ThemeEvents .ListLink {
-font-weight:700;
-font-size:10px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: left;
+    vertical-align: top;
 }
 
 .ThemeEvents .ListHeader, .ThemeEvents .DetailEnrollGridHeader, .ThemeEvents .EditEnrollGridHeader, .ThemeEvents .EnrollGridHeader {
-font-size:12px;
-font-weight:700;
-color:#000;
-background-color:#c3d9ff;
-font-family:verdana,helvetica,arial;
-height:32px;
-text-align:left;
-vertical-align:middle;
+    background-color: #c3d9ff;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 12px;
+    font-weight: 700;
+    height: 32px;
+    text-align: left;
+    vertical-align: middle;
 }
 
-.ThemeEvents .DetailEnrollGridHeader, .ThemeEvents .EditEnrollGridHeader, .ThemeEvents .EnrollGridHeader {
-text-align:center;
-}
+.ThemeEvents .DetailEnrollGridHeader, .ThemeEvents .EditEnrollGridHeader, .ThemeEvents .EnrollGridHeader { text-align: center; }
 
-.ThemeEvents .DetailEnrollUser, .ThemeEvents .DetailEnrollDisplay,  .ThemeEvents .DetailEnrollDisplay a:link, .ThemeEvents .DetailEnrollEmail, .ThemeEvents .DetailEnrollEmail a:link, .ThemeEvents .DetailEnrollPhone, .ThemeEvents .DetailEnrollApproved, .ThemeEvents .DetailEnrollNo, .ThemeEvents .EditEnrollSelect, .ThemeEvents .EditEnrollUser, .ThemeEvents .EditEnrollDisplay,  .ThemeEvents .EditEnrollDisplay a:link, .ThemeEvents .EditEnrollEmail, .ThemeEvents .EditEnrollEmail a:link, .ThemeEvents .EditEnrollPhone, .ThemeEvents .EditEnrollApproved, .ThemeEvents .EditEnrollNo, .ThemeEvents .EditEnrollDate, .ThemeEvents .EditEnrollDate .ThemeEvents .EnrollSelect, .ThemeEvents .EnrollApproved, .ThemeEvents .EnrollNo, .ThemeEvents .EnrollFee, .ThemeEvents .EnrollDate  {
-font-size:12px;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:top;
-font-weight:normal;
+.ThemeEvents .DetailEnrollUser, .ThemeEvents .DetailEnrollDisplay, .ThemeEvents .DetailEnrollDisplay a:link, .ThemeEvents .DetailEnrollEmail, .ThemeEvents .DetailEnrollEmail a:link, .ThemeEvents .DetailEnrollPhone, .ThemeEvents .DetailEnrollApproved, .ThemeEvents .DetailEnrollNo, .ThemeEvents .EditEnrollSelect, .ThemeEvents .EditEnrollUser, .ThemeEvents .EditEnrollDisplay, .ThemeEvents .EditEnrollDisplay a:link, .ThemeEvents .EditEnrollEmail, .ThemeEvents .EditEnrollEmail a:link, .ThemeEvents .EditEnrollPhone, .ThemeEvents .EditEnrollApproved, .ThemeEvents .EditEnrollNo, .ThemeEvents .EditEnrollDate, .ThemeEvents .EditEnrollDate .ThemeEvents .EnrollSelect, .ThemeEvents .EnrollApproved, .ThemeEvents .EnrollNo, .ThemeEvents .EnrollFee, .ThemeEvents .EnrollDate {
+    font-family: verdana, helvetica, arial;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: top;
 }
 
 .ThemeEvents .ListDuration {
-font-size:10px;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:top;
-width:60px;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    text-align: center;
+    vertical-align: top;
+    width: 60px;
 }
 
 .ThemeEvents .ListDataGrid, .ThemeEvents .DetailEnrollGrid, .ThemeEvents .EditEnrollGrid, .ThemeEvents .EnrollGrid {
-border-right:#c3d9ff 2px solid;
-border-top:#c3d9ff 1px solid;
-border-left:#c3d9ff 2px solid;
-border-bottom:#c3d9ff 2px solid;
-background-color:#e8eef7;
+    background-color: #e8eef7;
+    border-bottom: #c3d9ff 2px solid;
+    border-left: #c3d9ff 2px solid;
+    border-right: #c3d9ff 2px solid;
+    border-top: #c3d9ff 1px solid;
 }
 
 .ThemeEvents .ListDataGrid td, .ThemeEvents .DetailEnrollGrid td, .ThemeEvents .EditEnrollGrid td, .ThemeEvents .EnrollGrid td {
-border-color:#a2bbdd;
-border-style:dotted;
-border-width:1px;
+    border-color: #a2bbdd;
+    border-style: dotted;
+    border-width: 1px;
 }
 
 .ThemeEvents .ListEdit {
-text-align:center;
-vertical-align:top;
-width:1px;
+    text-align: center;
+    vertical-align: top;
+    width: 1px;
 }
 
-.ThemeEvents .EventNextPrev,.ThemeEvents .EventNextPrev a:link,.ThemeEvents .EventNextPrev a,.ThemeEvents .EventNextPrev a:visited,.ThemeEvents .EventNextPrev a:hover {
-font-size:12px;
-color:#00008B;
-padding:0 0.5em;
+.ThemeEvents .EventNextPrev, .ThemeEvents .EventNextPrev a:link, .ThemeEvents .EventNextPrev a, .ThemeEvents .EventNextPrev a:visited, .ThemeEvents .EventNextPrev a:hover {
+    color: #00008B;
+    font-size: 12px;
+    padding: 0 0.5em;
 }
 
-.ThemeEvents .EventWeekendDay,.ThemeEvents .ListAlternate, .ThemeEvents .DetailEnrollGridAlternate, .ThemeEvents .EditEnrollGridAlternate, .ThemeEvents .EnrollGridAlternate {
-background-color:#F5F5F5;
+.ThemeEvents .EventWeekendDay, .ThemeEvents .ListAlternate, .ThemeEvents .DetailEnrollGridAlternate, .ThemeEvents .EditEnrollGridAlternate, .ThemeEvents .EnrollGridAlternate { background-color: #F5F5F5; }
+
+.ThemeEvents .ListTitle, .ThemeEvents .ListDescription, .ThemeEvents .ListCustomField1, .ThemeEvents .ListCustomField2, .ThemeEvents .EnrollTitle {
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    text-align: left;
+    vertical-align: top;
 }
 
-.ThemeEvents .ListTitle,.ThemeEvents .ListDescription,.ThemeEvents .ListCustomField1,.ThemeEvents .ListCustomField2, .ThemeEvents .EnrollTitle {
-font-size:10px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
-}
-
-.ThemeEvents .ListCategory,.ThemeEvents .ListLocation,.ThemeEvents .ListLocation a {
-font-size:10px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
-width:60px;
+.ThemeEvents .ListCategory, .ThemeEvents .ListLocation, .ThemeEvents .ListLocation a {
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    text-align: left;
+    vertical-align: top;
+    width: 60px;
 }
 
 .ThemeEvents .RptTable {
-border-right:#c3d9ff 2px solid;
-border-top:#c3d9ff 1px solid;
-border-left:#c3d9ff 2px solid;
-border-bottom:#c3d9ff 2px solid;
-background-color:#e8eef7;
-border-collapse:collapse;
-width:100%;
+    background-color: #e8eef7;
+    border-bottom: #c3d9ff 2px solid;
+    border-collapse: collapse;
+    border-left: #c3d9ff 2px solid;
+    border-right: #c3d9ff 2px solid;
+    border-top: #c3d9ff 1px solid;
+    width: 100%;
 }
 
-.ThemeEvents .RptRepeater  {
-width:100%;
-}
+.ThemeEvents .RptRepeater { width: 100%; }
 
-.ThemeEvents .RptRepeater td  {
-border-color:#a2bbdd;
-border-style:dotted;
-border-width:1px;
+.ThemeEvents .RptRepeater td {
+    border-color: #a2bbdd;
+    border-style: dotted;
+    border-width: 1px;
 }
 
 .ThemeEvents .RptHeader {
-font-size:12px;
-font-weight:700;
-background-color:#c3d9ff;
-font-family:verdana,helvetica,arial;
-height:32px;
-text-align:center;
-vertical-align:middle;
-width:100%;
+    background-color: #c3d9ff;
+    font-family: verdana, helvetica, arial;
+    font-size: 12px;
+    font-weight: 700;
+    height: 32px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeEvents .RptNormal {
-font-size:10px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    text-align: left;
+    vertical-align: top;
 }
 
 .ThemeEvents .RptAlternate {
-background-color:#F5F5F5;
-font-size:10px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
+    background-color: #F5F5F5;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    text-align: left;
+    vertical-align: top;
 }
 
-.ThemeEvents .RptPagerCurrentPage {
-color: Red;
-}
+.ThemeEvents .RptPagerCurrentPage { color: Red; }
 
 .ThemeEvents .RptPagerHeader td {
-border-color:#a2bbdd;
-border-style:dotted;
-border-width:1px;
+    border-color: #a2bbdd;
+    border-style: dotted;
+    border-width: 1px;
 }
 
-.ThemeEvents .DetailReminderDiv, .ThemeEvents .DetailiCalDiv , 
+.ThemeEvents .DetailReminderDiv, .ThemeEvents .DetailiCalDiv,
 .ThemeEvents .DetailEnrollDiv, .ThemeEvents .DetailEnrollTableDiv,
 .ThemeEvents .DetailCommands,
 .ThemeEvents .DetailEventDetailsDiv1,
 .ThemeEvents .DetailEventDetailsDiv2,
 .ThemeEvents .DetailEventDetailsDiv3,
-.ThemeEvents .DetailEventDetailsDiv4  {
-width:90%;
-padding-left: 5px;
+.ThemeEvents .DetailEventDetailsDiv4 {
+    padding-left: 5px;
+    width: 90%;
 }
 
-.ThemeEvents .DetailReminderLeft, .ThemeEvents .DetailReminderRight, 
+.ThemeEvents .DetailReminderLeft, .ThemeEvents .DetailReminderRight,
 .ThemeEvents .DetailiCalLeft, .ThemeEvents .DetailiCalRight,
 .ThemeEvents .DetailEnrollLeft, .ThemeEvents .DetailEnrollRight,
 .ThemeEvents .DetailContentLeft, .ThemeEvents .DetailContentRight {
-text-align:left;
-float:left;
+    float: left;
+    text-align: left;
 }
 
-.ThemeEvents .DetailReminderLeft, .ThemeEvents .DetailReminderRight, 
+.ThemeEvents .DetailReminderLeft, .ThemeEvents .DetailReminderRight,
 .ThemeEvents .DetailiCalLeft, .ThemeEvents .DetailiCalRight,
 .ThemeEvents .DetailEnrollLeft, .ThemeEvents .DetailEnrollRight,
 .ThemeEvents .DetailEnrollTableLeft, .ThemeEvents .DetailEnrollTableRight,
-.ThemeEvents .DetailContentLeft, .ThemeEvents .DetailContentRight {
-padding:5px 0 5px 0;
-}
+.ThemeEvents .DetailContentLeft, .ThemeEvents .DetailContentRight { padding: 5px 0 5px 0; }
 
-.ThemeEvents .DetailReminderLeft, .ThemeEvents .DetailiCalLeft, 
-.ThemeEvents .DetailEnrollLeft, .ThemeEvents .DetailContentLeft {
-width:35%;
-}
+.ThemeEvents .DetailReminderLeft, .ThemeEvents .DetailiCalLeft,
+.ThemeEvents .DetailEnrollLeft, .ThemeEvents .DetailContentLeft { width: 35%; }
 
-.ThemeEvents .DetailClear {
-clear:both;
-}
+.ThemeEvents .DetailClear { clear: both; }
 
-.ThemeEvents .IconBar {
-white-space:nowrap;
-}
+.ThemeEvents .IconBar { white-space: nowrap; }
 
-.ThemeEvents  .IconBar img, .ThemeEvents  .IconBar input{
-	vertical-align:baseline;
-}
+.ThemeEvents .IconBar img, .ThemeEvents .IconBar input { vertical-align: baseline; }
 
 .ThemeEvents .TopIconBar {
-width:33%;
-vertical-align:top;
+    vertical-align: top;
+    width: 33%;
 }
 
-.ThemeEvents .TopIconBar DIV {
-float:right;
-}
+.ThemeEvents .TopIconBar DIV { float: right; }
 
-.ThemeEvents .BottomIconBar {
-padding-top:3px;
-}
+.ThemeEvents .BottomIconBar { padding-top: 3px; }
 
-.ThemeEvents .IconBarPadding  {
-padding-right:2px;
-}
+.ThemeEvents .IconBarPadding { padding-right: 2px; }
 
 .ThemeEvents .EditEvents .TimePicker, .ThemeEvents .EditEvents .DatePicker {
-Display:inline !important;
-float:left;
-margin-bottom:10px;
+    Display: inline !important;
+    float: left;
+    margin-bottom: 10px;
 }
 
-.ThemeEvents .EditEvents .DatePicker {
-width:150px !important;
-}
+.ThemeEvents .EditEvents .DatePicker { width: 150px !important; }
 
-.ThemeEvents .EditEvents .cmdDatePicker {
-    margin-top: 5px;
-}
+.ThemeEvents .EditEvents .cmdDatePicker { margin-top: 5px; }
 
-.ThemeEvents .EvtHdrMdlCol .DatePicker {
-Display:inline-block;
-}
+.ThemeEvents .EvtHdrMdlCol .DatePicker { Display: inline-block; }
 
-.ThemeEvents .EvtDateControls {
-margin-bottom:5px;
-}
+.ThemeEvents .EvtDateControls { margin-bottom: 5px; }
 
 .ThemeEvents .RadPicker_Default .riTextBox {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
     height: 20px;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
 }
 
-.ThemeEvents .SelCategoryTR {
-height:35px;
-}
+.ThemeEvents .SelCategoryTR { height: 35px; }
 
-.ThemeEvents  .SelCategoryTR div{
-vertical-align:middle;
-}
+.ThemeEvents .SelCategoryTR div { vertical-align: middle; }
 
-.ThemeEvents  .SelCategory span{
-font-weight:bold;
-}
+.ThemeEvents .SelCategory span { font-weight: bold; }
 
 html body .ThemeEvents .RadInput_Default .riTextBox.DateFormat,
 .ThemeEvents .RadComboBox_Default .rcbInput.CategoryFormat {
-font-size:11px;
-font-family:verdana,helvetica,arial;
+    font-family: verdana, helvetica, arial;
+    font-size: 11px;
 }
 
-.ThemeEvents .RadComboBox_Default.SelectCategory {
-width: 150px !important;
-}
+.ThemeEvents .RadComboBox_Default.SelectCategory { width: 150px !important; }
 
-.ThemeEvents ul.dnnActions li.cmdRight {
-float:right;
-}
+.ThemeEvents ul.dnnActions li.cmdRight { float: right; }
 
-.ThemeEvents .EventSettings .dnnFormItem INPUT[type='text'] {
-min-width:1px;
-}
+.ThemeEvents .EventSettings .dnnFormItem INPUT[type='text'] { min-width: 1px; }
 
-.ThemeEvents .dnnFormItem .autoWidth LABEL {
-width:auto;
-}
+.ThemeEvents .dnnFormItem .autoWidth LABEL { width: auto; }
 
-.ThemeEvents .dnnFormItem .inputCenter INPUT {
-float:none;
-}
+.ThemeEvents .dnnFormItem .inputCenter INPUT { float: none; }
 
 .ThemeEvents .EditEvents .dnnFormItem .evtRecWeekDays label, .ThemeEvents .EditEvents .dnnFormItem .evtRecWeekDays input {
-float:none;
-width:auto;
-display:inline;
+    display: inline;
+    float: none;
+    width: auto;
 }
+
 .ThemeEvents .EditEvents .evtShortInputFloat {
-float:none;
-min-width:1%;
-width:31px;
+    float: none;
+    min-width: 1%;
+    width: 31px;
 }
 
 .ThemeEvents .EditEvents .evtShortInput {
-min-width:1%;
-width:31px;
+    min-width: 1%;
+    width: 31px;
 }
 
-.ThemeEvents .EditEvents .evtGridInput {
-float:none;
-}
+.ThemeEvents .EditEvents .evtGridInput { float: none; }
 
-.ThemeEvents .EditEvents .SubHead {
-font-size:inherit;
-}
+.ThemeEvents .EditEvents .SubHead { font-size: inherit; }
 
-.ThemeEvents .EditEvents .evtRadioTop .dnnRadiobutton {
-vertical-align:top;
-}
+.ThemeEvents .EditEvents .evtRadioTop .dnnRadiobutton { vertical-align: top; }
 
 .ThemeEvents .EditEvents .dnnForm.dnnTextEditor {
-float:left;
-width:auto;
+    float: left;
+    width: auto;
 }

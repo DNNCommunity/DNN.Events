@@ -4,17 +4,17 @@
     <div class="EvtHdrLftCol"></div>
     <div class="EvtHdrMdlCol">
         <div id="divMessage" runat="server" visible="false" class="dnnFormMessage dnnFormWarning">
-            <asp:Label ID="lblMessage"  runat="server">No Events/Enrollments Found...</asp:Label>
+            <asp:Label ID="lblMessage" runat="server">No Events/Enrollments Found...</asp:Label>
         </div>
     </div>
     <div class="TopIconBar EvtHdrRgtCol">
         <evt:Icons ID="EventIcons" runat="server"></evt:Icons>
     </div>
-    <div style="clear:both">
+    <div style="clear: both">
         <asp:DataGrid ID="grdEnrollment" runat="server" AutoGenerateColumns="False" CellPadding="2" CssClass="EnrollGrid"
-            DataKeyField="SignupID" GridLines="None" OnItemCommand="grdEnrollment_ItemCommand" Width="100%" OnItemCommand="grdEnrollment_ItemCommand">
+                      DataKeyField="SignupID" GridLines="None" OnItemCommand="grdEnrollment_ItemCommand" Width="100%" OnItemCommand="grdEnrollment_ItemCommand">
             <EditItemStyle VerticalAlign="Bottom"></EditItemStyle>
-           	<AlternatingItemStyle CssClass="EnrollGridAlternate"></AlternatingItemStyle>
+            <AlternatingItemStyle CssClass="EnrollGridAlternate"></AlternatingItemStyle>
             <ItemStyle VerticalAlign="Top"></ItemStyle>
             <HeaderStyle Font-Bold="True" BackColor="Silver"></HeaderStyle>
             <Columns>
@@ -38,7 +38,7 @@
                     <ItemStyle CssClass="EnrollTitle"></ItemStyle>
                     <ItemTemplate>
                         <asp:LinkButton ID="lnkEnrollEventName" CssClass="CommandButton" runat="server" CommandName="Select" CommandArgument="Select">
-									<%# DataBinder.Eval(Container.DataItem,"EventName") %>
+                            <%# DataBinder.Eval(Container.DataItem, "EventName") %>
                         </asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateColumn>
@@ -46,7 +46,7 @@
                     <HeaderStyle CssClass="EnrollGridHeader"></HeaderStyle>
                     <ItemStyle CssClass="EnrollApproved"></ItemStyle>
                     <ItemTemplate>
-                        <asp:CheckBox ID="chkApproved" runat="server" Enabled="false" Checked='<%# DataBinder.Eval(Container.DataItem,"Approved") %>'/>
+                        <asp:CheckBox ID="chkApproved" runat="server" Enabled="false" Checked='<%# DataBinder.Eval(Container.DataItem, "Approved") %>'/>
                     </ItemTemplate>
                 </asp:TemplateColumn>
                 <asp:BoundColumn DataField="Approved" Visible="false"></asp:BoundColumn>
@@ -73,10 +73,14 @@
         </asp:DataGrid>
     </div>
     <ul class="dnnActions dnnClear">
-        <li><asp:LinkButton OnClick="returnButton_Click" ID="returnButton" runat="server" CssClass="dnnPrimaryAction" CausesValidation="False" resourcekey="returnButton" /></li>
-        <li><asp:LinkButton OnClick="lnkSelectedDelete_Click" ID="lnkSelectedDelete" runat="server" resourcekey="lnkSelectedDelete" CssClass="dnnSecondaryAction" /></li>
+        <li>
+            <asp:LinkButton OnClick="returnButton_Click" ID="returnButton" runat="server" CssClass="dnnPrimaryAction" CausesValidation="False" resourcekey="returnButton"/>
+        </li>
+        <li>
+            <asp:LinkButton OnClick="lnkSelectedDelete_Click" ID="lnkSelectedDelete" runat="server" resourcekey="lnkSelectedDelete" CssClass="dnnSecondaryAction"/>
+        </li>
     </ul>
-    <div class="BottomIconBar" >
+    <div class="BottomIconBar">
         <evt:Icons ID="EventIcons2" runat="server"></evt:Icons>
     </div>
 </div>

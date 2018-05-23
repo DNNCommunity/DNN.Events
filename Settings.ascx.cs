@@ -1,12 +1,5 @@
-using DotNetNuke.Services.Exceptions;
-using System.Diagnostics;
-using DotNetNuke.Entities.Users;
-using DotNetNuke.Framework;
-using System.Collections;
-using System;
-using DotNetNuke.Security.Permissions;
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -26,37 +19,80 @@ using DotNetNuke.Security.Permissions;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 {
+    using System;
+    using System.Collections;
+    using System.Diagnostics;
+    using DNNtc;
+    using DotNetNuke.Common.Utilities;
+    using DotNetNuke.Entities.Modules;
+    using DotNetNuke.Entities.Users;
+    using DotNetNuke.Framework;
+    using DotNetNuke.Security.Permissions;
+    using DotNetNuke.Services.Exceptions;
+    using global::Components;
 
-    [DNNtc.ModuleControlProperties("Settings", "Event Settings", DNNtc.ControlType.Admin, "https://dnnevents.codeplex.com/documentation", true, true)]
-    public partial class Settings : Entities.Modules.ModuleSettingsBase
+    [ModuleControlProperties("Settings", "Event Settings", ControlType.Admin,
+        "https://dnnevents.codeplex.com/documentation", true, true)]
+    public partial class Settings : ModuleSettingsBase
     {
+        #region Links, Buttons and Events
 
-        #region  Web Form Designer Generated Code
-        //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
+        protected void cmdUpgrade_Click(object sender, EventArgs e)
         {
+            var emSettings = EventModuleSettings.GetEventModuleSettings(this.ModuleId, this.LocalResourceFile);
+
+            var dummyRmid = emSettings.RecurDummy;
+            this.divUpgrade.Visible = false;
+            this.divRetry.Visible = false;
+            if (!ReferenceEquals(dummyRmid, null) &&
+                dummyRmid != "99999")
+            {
+                var objEventController = new EventController();
+                var upgradeOk =
+                    objEventController.UpgradeRecurringEventModule(this.ModuleId, int.Parse(dummyRmid),
+                                                                   emSettings.Maxrecurrences, this.LocalResourceFile);
+                var objEventCtl = new EventController();
+                objEventCtl.EventsUpgrade("04.01.00");
+                if (!upgradeOk)
+                {
+                    this.divUpgrade.Visible = true;
+                    this.divRetry.Visible = true;
+                }
+            }
         }
 
-        private void Page_Init(System.Object sender, EventArgs e)
+        #endregion
+
+        #region  Web Form Designer Generated Code
+
+        //This call is required by the Web Form Designer.
+        [DebuggerStepThrough]
+        private void InitializeComponent()
+        { }
+
+        private void Page_Init(object sender, EventArgs e)
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            InitializeComponent();
+            this.InitializeComponent();
         }
+
         #endregion
 
         #region Private Data
+
         #endregion
 
         #region Help Methods
+
         /// <summary>
-        /// Load current settings into the controls from the modulesettings
+        ///     Load current settings into the controls from the modulesettings
         /// </summary>
         /// <remarks></remarks>
         public override void LoadSettings()
@@ -64,43 +100,38 @@ namespace DotNetNuke.Modules.Events
             // Force full PostBack since these pass off to aspx page
             if (AJAX.IsInstalled())
             {
-                AJAX.RegisterPostBackControl(cmdUpgrade);
+                AJAX.RegisterPostBackControl(this.cmdUpgrade);
             }
 
-            EventModuleSettings emSettings = EventModuleSettings.GetEventModuleSettings(this.ModuleId, this.LocalResourceFile);
+            var emSettings = EventModuleSettings.GetEventModuleSettings(this.ModuleId, this.LocalResourceFile);
 
-            string dummyRmid = emSettings.RecurDummy;
-            divUpgrade.Visible = false;
-            divRetry.Visible = false;
+            var dummyRmid = emSettings.RecurDummy;
+            this.divUpgrade.Visible = false;
+            this.divRetry.Visible = false;
             if (!ReferenceEquals(dummyRmid, null) &&
                 dummyRmid != "99999")
             {
-                divUpgrade.Visible = true;
+                this.divUpgrade.Visible = true;
             }
-
-
         }
 
         /// <summary>
-        /// Take all settings and write them back to the database
+        ///     Take all settings and write them back to the database
         /// </summary>
         /// <remarks></remarks>
         public override void UpdateSettings()
         {
             try
             {
-
-                MakeModerator_Editor();
-                UpdateSubscriptions();
-                string emCacheKey = "EventsModuleTitle" + ModuleId.ToString();
-                Common.Utilities.DataCache.ClearCache(emCacheKey);
-
+                this.MakeModerator_Editor();
+                this.UpdateSubscriptions();
+                var emCacheKey = "EventsModuleTitle" + this.ModuleId;
+                DataCache.ClearCache(emCacheKey);
             }
             catch (Exception exc) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-
         }
 
         private void MakeModerator_Editor()
@@ -108,25 +139,28 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 bool blEditor;
-                ArrayList arrRoles = new ArrayList();
-                ArrayList arrUsers = new ArrayList();
+                var arrRoles = new ArrayList();
+                var arrUsers = new ArrayList();
 
-                DotNetNuke.Security.Permissions.ModulePermissionInfo objPermission = default(DotNetNuke.Security.Permissions.ModulePermissionInfo);
-                DotNetNuke.Security.Permissions.PermissionController objPermissionController = new DotNetNuke.Security.Permissions.PermissionController();
+                var objPermission = default(ModulePermissionInfo);
+                var objPermissionController = new PermissionController();
 
-                Entities.Modules.ModuleController objModules = new Entities.Modules.ModuleController();
+                var objModules = new ModuleController();
                 // Get existing module permissions
-                Entities.Modules.ModuleInfo objModule = objModules.GetModule(ModuleId, TabId);
+                var objModule = objModules.GetModule(this.ModuleId, this.TabId);
 
-                DotNetNuke.Security.Permissions.ModulePermissionCollection objModulePermissions2 = new DotNetNuke.Security.Permissions.ModulePermissionCollection();
+                var objModulePermissions2 = new ModulePermissionCollection();
                 foreach (ModulePermissionInfo perm in objModule.ModulePermissions)
                 {
-                    if ((perm.PermissionKey == "EVENTSMOD" && perm.AllowAccess) || (perm.PermissionKey == "EDIT" && perm.AllowAccess))
+                    if (perm.PermissionKey == "EVENTSMOD" && perm.AllowAccess ||
+                        perm.PermissionKey == "EDIT" && perm.AllowAccess)
                     {
                         blEditor = false;
                         foreach (ModulePermissionInfo perm2 in objModule.ModulePermissions)
                         {
-                            if (perm2.PermissionKey == "EVENTSEDT" && ((perm.RoleID == perm2.RoleID & perm.RoleID >= 0) || (perm.UserID == perm2.UserID & perm.UserID >= 0)))
+                            if (perm2.PermissionKey == "EVENTSEDT" &&
+                                ((perm.RoleID == perm2.RoleID) & (perm.RoleID >= 0) ||
+                                 (perm.UserID == perm2.UserID) & (perm.UserID >= 0)))
                             {
                                 if (perm2.AllowAccess)
                                 {
@@ -158,15 +192,16 @@ namespace DotNetNuke.Modules.Events
                     objModule.ModulePermissions.Remove(perm);
                 }
 
-                ArrayList objEditPermissions = objPermissionController.GetPermissionByCodeAndKey("EVENTS_MODULE", "EVENTSEDT");
-                PermissionInfo objEditPermission = (PermissionInfo)(objEditPermissions[0]);
+                var objEditPermissions =
+                    objPermissionController.GetPermissionByCodeAndKey("EVENTS_MODULE", "EVENTSEDT");
+                var objEditPermission = (PermissionInfo) objEditPermissions[0];
 
                 foreach (int iRoleID in arrRoles)
                 {
                     // Add Edit Permission for Moderator Role
-                    objPermission = new DotNetNuke.Security.Permissions.ModulePermissionInfo();
+                    objPermission = new ModulePermissionInfo();
                     objPermission.RoleID = iRoleID;
-                    objPermission.ModuleID = ModuleId;
+                    objPermission.ModuleID = this.ModuleId;
                     objPermission.PermissionKey = objEditPermission.PermissionKey;
                     objPermission.PermissionName = objEditPermission.PermissionName;
                     objPermission.PermissionCode = objEditPermission.PermissionCode;
@@ -176,9 +211,9 @@ namespace DotNetNuke.Modules.Events
                 }
                 foreach (int iUserID in arrUsers)
                 {
-                    objPermission = new DotNetNuke.Security.Permissions.ModulePermissionInfo();
+                    objPermission = new ModulePermissionInfo();
                     objPermission.UserID = iUserID;
-                    objPermission.ModuleID = ModuleId;
+                    objPermission.ModuleID = this.ModuleId;
                     objPermission.PermissionKey = objEditPermission.PermissionKey;
                     objPermission.PermissionName = objEditPermission.PermissionName;
                     objPermission.PermissionCode = objEditPermission.PermissionCode;
@@ -187,75 +222,44 @@ namespace DotNetNuke.Modules.Events
                     objModule.ModulePermissions.Add(objPermission);
                 }
                 ModulePermissionController.SaveModulePermissions(objModule);
-
             }
             catch (Exception exc)
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-
         }
 
         private void UpdateSubscriptions()
         {
-
-            EventSubscriptionController objCtlEventSubscriptions = new EventSubscriptionController();
-            ArrayList lstEventSubscriptions = default(ArrayList);
-            lstEventSubscriptions = objCtlEventSubscriptions.EventsSubscriptionGetModule(ModuleId);
+            var objCtlEventSubscriptions = new EventSubscriptionController();
+            var lstEventSubscriptions = default(ArrayList);
+            lstEventSubscriptions = objCtlEventSubscriptions.EventsSubscriptionGetModule(this.ModuleId);
             if (lstEventSubscriptions.Count == 0)
             {
                 return;
             }
 
-            EventInfoHelper objEventInfo = new EventInfoHelper(ModuleId, TabId, PortalId, null);
-            ArrayList lstusers = objEventInfo.GetEventModuleViewers();
+            var objEventInfo = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, null);
+            var lstusers = objEventInfo.GetEventModuleViewers();
 
-            EventSubscriptionInfo objEventSubscription = default(EventSubscriptionInfo);
+            var objEventSubscription = default(EventSubscriptionInfo);
             foreach (EventSubscriptionInfo tempLoopVar_objEventSubscription in lstEventSubscriptions)
             {
                 objEventSubscription = tempLoopVar_objEventSubscription;
                 if (!lstusers.Contains(objEventSubscription.UserID))
                 {
-                    UserController objCtlUser = new UserController();
-                    UserInfo objUser = objCtlUser.GetUser(PortalId, objEventSubscription.UserID);
+                    var objCtlUser = new UserController();
+                    var objUser = objCtlUser.GetUser(this.PortalId, objEventSubscription.UserID);
 
                     if (ReferenceEquals(objUser, null) || !objUser.IsSuperUser)
                     {
-                        objCtlEventSubscriptions.EventsSubscriptionDeleteUser(objEventSubscription.UserID, ModuleId);
+                        objCtlEventSubscriptions.EventsSubscriptionDeleteUser(
+                            objEventSubscription.UserID, this.ModuleId);
                     }
                 }
             }
         }
 
         #endregion
-
-        #region Links, Buttons and Events
-        protected void cmdUpgrade_Click(object sender, EventArgs e)
-        {
-            EventModuleSettings emSettings = EventModuleSettings.GetEventModuleSettings(ModuleId, LocalResourceFile);
-
-            string dummyRmid = emSettings.RecurDummy;
-            divUpgrade.Visible = false;
-            divRetry.Visible = false;
-            if (!ReferenceEquals(dummyRmid, null) &&
-                dummyRmid != "99999")
-            {
-                EventController objEventController = new EventController();
-                bool upgradeOk = objEventController.UpgradeRecurringEventModule(ModuleId, int.Parse(dummyRmid), emSettings.Maxrecurrences, LocalResourceFile);
-                EventController objEventCtl = new EventController();
-                objEventCtl.EventsUpgrade("04.01.00");
-                if (!upgradeOk)
-                {
-                    divUpgrade.Visible = true;
-                    divRetry.Visible = true;
-                }
-            }
-        }
-
-        #endregion
-
     }
-
 }
-
-

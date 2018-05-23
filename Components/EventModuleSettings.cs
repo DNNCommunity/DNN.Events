@@ -1,4 +1,28 @@
-﻿namespace DotNetNuke.Modules.Events
+﻿#region Copyright
+
+// 
+// DotNetNuke® - http://www.dotnetnuke.com
+// Copyright (c) 2002-2018
+// by DotNetNuke Corporation
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
+// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions 
+// of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// DEALINGS IN THE SOFTWARE.
+//
+
+#endregion
+
+namespace Components
 {
     using System;
     using System.Collections;
@@ -8,11 +32,8 @@
     using DotNetNuke.Entities.Modules;
     using DotNetNuke.Entities.Modules.Settings;
     using DotNetNuke.Entities.Portals;
+    using DotNetNuke.Modules.Events;
     using DotNetNuke.Services.Localization;
-    using Microsoft.VisualBasic;
-    using FirstDayOfWeek = System.Web.UI.WebControls.FirstDayOfWeek;
-
-    #region EventModuleSettings
 
     [Serializable]
     public class EventModuleSettings
@@ -66,72 +87,6 @@
             PortalTZ
         }
 
-        #region  Private Members
-
-        private readonly Hashtable _allsettings;
-        private int _moduleID = -1; // Should be made obsolete
-        private string _localresourcefile; // Should be made obsolete
-
-        private string _timeZone;
-        private string _timeZoneId = string.Empty;
-
-        // ReSharper disable FieldCanBeMadeReadOnly.Local
-        private bool _disablecategories = false;
-        // ReSharper restore FieldCanBeMadeReadOnly.Local
-
-        private DisplayCategories _enablecategories = (DisplayCategories)0;
-
-        // ReSharper disable FieldCanBeMadeReadOnly.Local
-        private bool _disablelocations;
-        // ReSharper restore FieldCanBeMadeReadOnly.Local
-
-        private DisplayLocations _enablelocations = 0;
-        private bool _enablecontainerskin = true;
-        private string _neweventemails = "Never";
-        private int _neweventemailrole = -1;
-        private string _paypalaccount = string.Empty;
-        private string _reminderfrom = string.Empty;
-        private string _rssTitle = string.Empty;
-        private string _rssDesc = string.Empty;
-        private string _eventTheme = string.Empty;
-        private string _eventThemeDefault = "0,MinimalExtropy,";
-        private const int ModuleCategoryID = -1;
-        private ArrayList _moduleCategoryIDs;
-        private CategoriesSelected _moduleCategoriesSelected = CategoriesSelected.All;
-        private const int ModuleLocationID = -1;
-        private ArrayList _moduleLocationIDs;
-        private LocationsSelected _moduleLocationsSelected = LocationsSelected.All;
-        private FirstDayOfWeek _weekStart = FirstDayOfWeek.Default;
-        private string _standardEmail = string.Empty;
-        private bool _socialUserPrivate = true;
-        private SocialGroupPrivacy _socialGroupSecurity = SocialGroupPrivacy.EditByGroup;
-
-        #endregion
-
-        #region  Constructors
-
-        public EventModuleSettings()
-        { }
-
-        private static EventModuleSettings CreateEventModuleSettings(int moduleId, string localResourceFile)
-        {
-            var moduleController = new ModuleController();
-            var moduleInfo = moduleController.GetModule(moduleId);
-
-            var repository = new EventModuleSettingsRepository();
-            var settings = repository.GetSettings(moduleInfo);
-
-            settings._moduleID = moduleId;
-            settings._localresourcefile = localResourceFile;
-
-            settings.UpdateDefaults();
-            settings.Templates = new EventTemplates(moduleId, moduleInfo.ModuleSettings, localResourceFile);
-
-            return settings;
-        }
-
-        #endregion
-
         #region  Public Methods
 
         public static EventModuleSettings GetEventModuleSettings(int moduleID, string localResourceFile)
@@ -140,10 +95,10 @@
             {
                 var cacheKey = "EventsSettings" + moduleID;
                 var bs = default(EventModuleSettings);
-                bs = (EventModuleSettings)DataCache.GetCache(cacheKey);
+                bs = (EventModuleSettings) DataCache.GetCache(cacheKey);
                 if (ReferenceEquals(bs, null))
                 {
-                    bs = EventModuleSettings.CreateEventModuleSettings(moduleID, localResourceFile);
+                    bs = CreateEventModuleSettings(moduleID, localResourceFile);
                     if (!ReferenceEquals(localResourceFile, null))
                     {
                         DataCache.SetCache(cacheKey, bs);
@@ -161,7 +116,7 @@
         private void UpdateDefaults()
         {
             var vers = this.Version;
-            if (this.OnlyView != null && (bool)this.OnlyView)
+            if (this.OnlyView != null && (bool) this.OnlyView)
             {
                 if (this.DefaultView == "EventList.ascx")
                 {
@@ -196,7 +151,7 @@
             {
                 this.Enforcesubcalperms = false;
             }
-            if (this.AllowSubscriptions != null && (bool)this.AllowSubscriptions)
+            if (this.AllowSubscriptions != null && (bool) this.AllowSubscriptions)
             {
                 this.Neweventemails = "Subscribe";
             }
@@ -212,26 +167,91 @@
             {
                 this.Enablecontainerskin = true;
             }
-            if (this.Eventtooltip != null)  
+            if (this.Eventtooltip != null)
             {
-                this.Eventtooltipmonth = (bool)this.Eventtooltip;
-                this.Eventtooltipweek = (bool)this.Eventtooltip;
-                this.Eventtooltipday = (bool)this.Eventtooltip;
-                this.Eventtooltiplist = (bool)this.Eventtooltip;
+                this.Eventtooltipmonth = (bool) this.Eventtooltip;
+                this.Eventtooltipweek = (bool) this.Eventtooltip;
+                this.Eventtooltipday = (bool) this.Eventtooltip;
+                this.Eventtooltiplist = (bool) this.Eventtooltip;
             }
 
             if (this.SocialGroupModule != null)
             {
-                if ((SocialModule)Enum.Parse(typeof(SocialModule), this.SocialGroupModule.ToString(), true) == SocialModule.UserProfile)
+                if ((SocialModule) Enum.Parse(typeof(SocialModule), this.SocialGroupModule.ToString(), true) ==
+                    SocialModule.UserProfile)
                 {
                     this._socialUserPrivate = false;
                 }
                 //if ((SocialModule)Convert.ToInt32(this._allsettings["SocialGroupModule"]) == SocialModule.SocialGroup)
-                    if ((SocialModule)Enum.Parse(typeof(SocialModule), this.SocialGroupModule.ToString(), true) == SocialModule.SocialGroup)
-                    {
+                if ((SocialModule) Enum.Parse(typeof(SocialModule), this.SocialGroupModule.ToString(), true) ==
+                    SocialModule.SocialGroup)
+                {
                     this._socialGroupSecurity = SocialGroupPrivacy.OpenToAll;
                 }
             }
+        }
+
+        #endregion
+
+        #region  Private Members
+
+        private readonly Hashtable _allsettings;
+        private int _moduleID = -1; // Should be made obsolete
+        private string _localresourcefile; // Should be made obsolete
+
+        private string _timeZone;
+        private string _timeZoneId = string.Empty;
+
+        // ReSharper disable FieldCanBeMadeReadOnly.Local
+        private bool _disablecategories = false;
+        // ReSharper restore FieldCanBeMadeReadOnly.Local
+
+        private DisplayCategories _enablecategories = 0;
+
+        // ReSharper disable FieldCanBeMadeReadOnly.Local
+        private bool _disablelocations;
+        // ReSharper restore FieldCanBeMadeReadOnly.Local
+
+        private DisplayLocations _enablelocations = 0;
+        private bool _enablecontainerskin = true;
+        private string _neweventemails = "Never";
+        private int _neweventemailrole = -1;
+        private string _paypalaccount = string.Empty;
+        private string _reminderfrom = string.Empty;
+        private string _rssTitle = string.Empty;
+        private string _rssDesc = string.Empty;
+        private string _eventTheme = string.Empty;
+        private readonly string _eventThemeDefault = "0,MinimalExtropy,";
+        private const int ModuleCategoryID = -1;
+        private ArrayList _moduleCategoryIDs;
+        private CategoriesSelected _moduleCategoriesSelected = CategoriesSelected.All;
+        private const int ModuleLocationID = -1;
+        private ArrayList _moduleLocationIDs;
+        private LocationsSelected _moduleLocationsSelected = LocationsSelected.All;
+        private FirstDayOfWeek _weekStart = FirstDayOfWeek.Default;
+        private string _standardEmail = string.Empty;
+        private bool _socialUserPrivate = true;
+        private SocialGroupPrivacy _socialGroupSecurity = SocialGroupPrivacy.EditByGroup;
+
+        #endregion
+
+        #region  Constructors
+
+        private static EventModuleSettings CreateEventModuleSettings(int moduleId, string localResourceFile)
+        {
+            var moduleController = new ModuleController();
+            var moduleInfo = moduleController.GetModule(moduleId);
+
+            var repository = new EventModuleSettingsRepository();
+            var settings = repository.GetSettings(moduleInfo);
+
+            settings._moduleID = moduleId;
+            settings._localresourcefile = localResourceFile;
+
+            settings.UpdateDefaults();
+            settings.Templates = new EventTemplates(moduleId, moduleInfo.ModuleSettings, localResourceFile);
+
+            return settings;
         }
 
         #endregion
@@ -254,17 +274,17 @@
         public string StandardEmail
         {
             get
-            {
-                if (ReferenceEquals(this._standardEmail, null))
                 {
-                    var portalsettings = PortalController.GetCurrentPortalSettings();
-                    if (!ReferenceEquals(portalsettings, null))
+                    if (ReferenceEquals(this._standardEmail, null))
                     {
-                        this._standardEmail = portalsettings.Email;
+                        var portalsettings = PortalController.GetCurrentPortalSettings();
+                        if (!ReferenceEquals(portalsettings, null))
+                        {
+                            this._standardEmail = portalsettings.Email;
+                        }
                     }
+                    return this._standardEmail;
                 }
-                return this._standardEmail;
-            }
             set { this._standardEmail = value; }
         }
 
@@ -303,7 +323,7 @@
         public int SiteMapDaysBefore { get; set; } = 365;
 
         [ModuleSetting]
-        public float SiteMapPriority { get; set; } = (float)(0.5F);
+        public float SiteMapPriority { get; set; } = 0.5F;
 
         [ModuleSetting]
         public bool EnableSitemap { get; set; }
@@ -331,19 +351,19 @@
 
         [ModuleSetting]
         public string EventsListSortColumn { get; set; } = "EventDateBegin";
-        
+
         public ArrayList ModuleCategoryIDs
         {
             get
-            {
-                if (ReferenceEquals(this._moduleCategoryIDs, null))
                 {
-                    var arCat = new ArrayList();
-                    arCat.Add(ModuleCategoryID);
-                    this._moduleCategoryIDs = arCat;
+                    if (ReferenceEquals(this._moduleCategoryIDs, null))
+                    {
+                        var arCat = new ArrayList();
+                        arCat.Add(ModuleCategoryID);
+                        this._moduleCategoryIDs = arCat;
+                    }
+                    return this._moduleCategoryIDs;
                 }
-                return this._moduleCategoryIDs;
-            }
             set { this._moduleCategoryIDs = value; }
         }
 
@@ -354,33 +374,34 @@
 
             set
                 {
-                this.ModuleCategoryIDs = !string.IsNullOrWhiteSpace(value)
-                                     ? new ArrayList(value.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
-                                            .Select(arg => arg)
-                                            .ToArray())
-                                     : new ArrayList();
-            }
+                    this.ModuleCategoryIDs = !string.IsNullOrWhiteSpace(value)
+                                                 ? new ArrayList(
+                                                     value.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
+                                                          .Select(arg => arg)
+                                                          .ToArray())
+                                                 : new ArrayList();
+                }
         }
 
 
         public CategoriesSelected ModuleCategoriesSelected
         {
             get
-            {
-                if (this.ModuleCategoryIDs.Count == 0)
                 {
-                    this._moduleCategoriesSelected = CategoriesSelected.None;
+                    if (this.ModuleCategoryIDs.Count == 0)
+                    {
+                        this._moduleCategoriesSelected = CategoriesSelected.None;
+                    }
+                    else if (Convert.ToInt32(this.ModuleCategoryIDs[0]) == -1)
+                    {
+                        this._moduleCategoriesSelected = CategoriesSelected.All;
+                    }
+                    else
+                    {
+                        this._moduleCategoriesSelected = CategoriesSelected.Some;
+                    }
+                    return this._moduleCategoriesSelected;
                 }
-                else if (Convert.ToInt32(this.ModuleCategoryIDs[0]) == -1)
-                {
-                    this._moduleCategoriesSelected = CategoriesSelected.All;
-                }
-                else
-                {
-                    this._moduleCategoriesSelected = CategoriesSelected.Some;
-                }
-                return this._moduleCategoriesSelected;
-            }
             set { this._moduleCategoriesSelected = value; }
         }
 
@@ -388,36 +409,36 @@
         public ArrayList ModuleLocationIDs
         {
             get
-            {
-                if (ReferenceEquals(this._moduleLocationIDs, null))
                 {
-                    var arLoc = new ArrayList();
-                    arLoc.Add(ModuleLocationID);
-                    this._moduleLocationIDs = arLoc;
+                    if (ReferenceEquals(this._moduleLocationIDs, null))
+                    {
+                        var arLoc = new ArrayList();
+                        arLoc.Add(ModuleLocationID);
+                        this._moduleLocationIDs = arLoc;
+                    }
+                    return this._moduleLocationIDs;
                 }
-                return this._moduleLocationIDs;
-            }
             set { this._moduleLocationIDs = value; }
         }
 
         public LocationsSelected ModuleLocationsSelected
         {
             get
-            {
-                if (this.ModuleLocationIDs.Count == 0)
                 {
-                    this._moduleLocationsSelected = LocationsSelected.None;
+                    if (this.ModuleLocationIDs.Count == 0)
+                    {
+                        this._moduleLocationsSelected = LocationsSelected.None;
+                    }
+                    else if (Convert.ToInt32(this.ModuleLocationIDs[0]) == -1)
+                    {
+                        this._moduleLocationsSelected = LocationsSelected.All;
+                    }
+                    else
+                    {
+                        this._moduleLocationsSelected = LocationsSelected.Some;
+                    }
+                    return this._moduleLocationsSelected;
                 }
-                else if (Convert.ToInt32(this.ModuleLocationIDs[0]) == -1)
-                {
-                    this._moduleLocationsSelected = LocationsSelected.All;
-                }
-                else
-                {
-                    this._moduleLocationsSelected = LocationsSelected.Some;
-                }
-                return this._moduleLocationsSelected;
-            }
             set { this._moduleLocationsSelected = value; }
         }
 
@@ -443,13 +464,13 @@
         public string EventTheme
         {
             get
-            {
-                if (string.IsNullOrEmpty(this._eventTheme))
                 {
-                    this._eventTheme = this._eventThemeDefault;
+                    if (string.IsNullOrEmpty(this._eventTheme))
+                    {
+                        this._eventTheme = this._eventThemeDefault;
+                    }
+                    return this._eventTheme;
                 }
-                return this._eventTheme;
-            }
             set { this._eventTheme = value; }
         }
 
@@ -556,13 +577,13 @@
         public string RSSDesc
         {
             get
-            {
-                if (string.IsNullOrEmpty(this._rssDesc) && !ReferenceEquals(this._localresourcefile, null))
                 {
-                    this._rssDesc = Localization.GetString("RSSFeedDescDefault", this._localresourcefile);
+                    if (string.IsNullOrEmpty(this._rssDesc) && !ReferenceEquals(this._localresourcefile, null))
+                    {
+                        this._rssDesc = Localization.GetString("RSSFeedDescDefault", this._localresourcefile);
+                    }
+                    return this._rssDesc;
                 }
-                return this._rssDesc;
-            }
             set { this._rssDesc = value; }
         }
 
@@ -570,13 +591,13 @@
         public string RSSTitle
         {
             get
-            {
-                if (string.IsNullOrEmpty(this._rssTitle) && !ReferenceEquals(this._localresourcefile, null))
                 {
-                    this._rssTitle = Localization.GetString("RSSFeedTitleDefault", this._localresourcefile);
+                    if (string.IsNullOrEmpty(this._rssTitle) && !ReferenceEquals(this._localresourcefile, null))
+                    {
+                        this._rssTitle = Localization.GetString("RSSFeedTitleDefault", this._localresourcefile);
+                    }
+                    return this._rssTitle;
                 }
-                return this._rssTitle;
-            }
             set { this._rssTitle = value; }
         }
 
@@ -608,17 +629,17 @@
         public string Reminderfrom
         {
             get
-            {
-                if (ReferenceEquals(this._reminderfrom, null))
                 {
-                    var portalsettings = PortalController.GetCurrentPortalSettings();
-                    if (!ReferenceEquals(portalsettings, null))
+                    if (ReferenceEquals(this._reminderfrom, null))
                     {
-                        this._reminderfrom = portalsettings.Email;
+                        var portalsettings = PortalController.GetCurrentPortalSettings();
+                        if (!ReferenceEquals(portalsettings, null))
+                        {
+                            this._reminderfrom = portalsettings.Email;
+                        }
                     }
+                    return this._reminderfrom;
                 }
-                return this._reminderfrom;
-            }
             set { this._reminderfrom = value; }
         }
 
@@ -629,17 +650,17 @@
         public string Paypalaccount
         {
             get
-            {
-                if (ReferenceEquals(this._paypalaccount, null))
                 {
-                    var portalsettings = PortalController.GetCurrentPortalSettings();
-                    if (!ReferenceEquals(portalsettings, null))
+                    if (ReferenceEquals(this._paypalaccount, null))
                     {
-                        this._paypalaccount = portalsettings.Email;
+                        var portalsettings = PortalController.GetCurrentPortalSettings();
+                        if (!ReferenceEquals(portalsettings, null))
+                        {
+                            this._paypalaccount = portalsettings.Email;
+                        }
                     }
+                    return this._paypalaccount;
                 }
-                return this._paypalaccount;
-            }
             set { this._paypalaccount = value; }
         }
 
@@ -710,17 +731,17 @@
         public int Neweventemailrole
         {
             get
-            {
-                if (this._neweventemailrole < 0)
                 {
-                    var portalsettings = PortalController.GetCurrentPortalSettings();
-                    if (!ReferenceEquals(portalsettings, null))
+                    if (this._neweventemailrole < 0)
                     {
-                        this._neweventemailrole = portalsettings.RegisteredRoleId;
+                        var portalsettings = PortalController.GetCurrentPortalSettings();
+                        if (!ReferenceEquals(portalsettings, null))
+                        {
+                            this._neweventemailrole = portalsettings.RegisteredRoleId;
+                        }
                     }
+                    return this._neweventemailrole;
                 }
-                return this._neweventemailrole;
-            }
             set { this._neweventemailrole = value; }
         }
 
@@ -760,25 +781,25 @@
         public string TimeZoneId
         {
             get
-            {
-                if (ReferenceEquals(this._timeZoneId, null))
                 {
-                    if (ReferenceEquals(this._timeZone, null))
+                    if (ReferenceEquals(this._timeZoneId, null))
                     {
-                        var portalsettings = PortalController.GetCurrentPortalSettings();
-                        if (!ReferenceEquals(portalsettings, null))
+                        if (ReferenceEquals(this._timeZone, null))
                         {
-                            this._timeZoneId = portalsettings.TimeZone.Id;
+                            var portalsettings = PortalController.GetCurrentPortalSettings();
+                            if (!ReferenceEquals(portalsettings, null))
+                            {
+                                this._timeZoneId = portalsettings.TimeZone.Id;
+                            }
+                        }
+                        else
+                        {
+                            this._timeZoneId = Localization
+                                .ConvertLegacyTimeZoneOffsetToTimeZoneInfo(int.Parse(this._timeZone)).Id;
                         }
                     }
-                    else
-                    {
-                        this._timeZoneId = Localization
-                            .ConvertLegacyTimeZoneOffsetToTimeZoneInfo(int.Parse(this._timeZone)).Id;
-                    }
+                    return this._timeZoneId;
                 }
-                return this._timeZoneId;
-            }
             set { this._timeZoneId = value; }
         }
 
@@ -819,17 +840,17 @@
         public DisplayCategories Enablecategories
         {
             get
-            {
-                if ((int)this._enablecategories == 0)
                 {
-                    if (this._disablecategories)
+                    if ((int) this._enablecategories == 0)
                     {
-                        return DisplayCategories.DoNotDisplay;
+                        if (this._disablecategories)
+                        {
+                            return DisplayCategories.DoNotDisplay;
+                        }
+                        return DisplayCategories.MultiSelect;
                     }
-                    return DisplayCategories.MultiSelect;
+                    return this._enablecategories;
                 }
-                return this._enablecategories;
-            }
             set { this._enablecategories = value; }
         }
 
@@ -843,17 +864,17 @@
         public DisplayLocations Enablelocations
         {
             get
-            {
-                if ((int)this._enablelocations == 0)
                 {
-                    if (this._disablelocations)
+                    if ((int) this._enablelocations == 0)
                     {
-                        return DisplayLocations.DoNotDisplay;
+                        if (this._disablelocations)
+                        {
+                            return DisplayLocations.DoNotDisplay;
+                        }
+                        return DisplayLocations.MultiSelect;
                     }
-                    return DisplayLocations.MultiSelect;
+                    return this._enablelocations;
                 }
-                return this._enablelocations;
-            }
             set { this._enablelocations = value; }
         }
 
@@ -917,17 +938,17 @@
         public SortDirection EnrolListSortDirection { get; set; } = SortDirection.Descending;
 
         [ModuleSetting]
-        public int EnrolListDaysBefore { get; set; } = (365 * 4) + 1;
+        public int EnrolListDaysBefore { get; set; } = 365 * 4 + 1;
 
         [ModuleSetting]
-        public int EnrolListDaysAfter { get; set; } = (365 * 4) + 1;
+        public int EnrolListDaysAfter { get; set; } = 365 * 4 + 1;
 
         [ModuleSetting]
         public bool JournalIntegration { get; set; } = true;
 
-        [ModuleSetting (ParameterName = "onlyview")]
+        [ModuleSetting(ParameterName = "onlyview")]
         public bool? OnlyView { get; set; }
-        
+
         [ModuleSetting(ParameterName = "allowsubscriptions")]
         public bool? AllowSubscriptions { get; set; }
 
@@ -938,6 +959,4 @@
 
         #endregion
     }
-
-    #endregion
 }
