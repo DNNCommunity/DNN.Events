@@ -1,7 +1,3 @@
-// VBConversions Note: VB project level imports
-
-// End of VB project level imports
-
 namespace DotNetNuke.Modules.Events.ScheduleControl
 {
     using System;
