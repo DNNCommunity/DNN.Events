@@ -1,11 +1,8 @@
-using System.Collections;
-using DotNetNuke.Common.Utilities;
-using DotNetNuke.Services.Localization;
-using System;
-using DotNetNuke.Entities.Modules;
+
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -25,12 +22,19 @@ using DotNetNuke.Entities.Modules;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
-namespace DotNetNuke.Modules.Events
+namespace Components
 {
-#region EventTemplates
+    using System;
+    using System.Collections;
+    using DotNetNuke.Common.Utilities;
+    using DotNetNuke.Entities.Modules;
+    using DotNetNuke.Services.Localization;
+
+    #region EventTemplates
 		
 		[Serializable()]
 			public class EventTemplates
@@ -120,7 +124,7 @@ namespace DotNetNuke.Modules.Events
 							pv = Localization.GetString(pn, localResourceFile);
 							if (moduleID > 0)
 							{
-								SaveTemplate(moduleID, pn, pv);
+								this.SaveTemplate(moduleID, pn, pv);
 							}
 						}
 					}
@@ -178,7 +182,7 @@ namespace DotNetNuke.Modules.Events
 			public void ResetTemplate(int moduleID, string templateName, string localResourceFile)
 			{
 				string templateValue = Localization.GetString(templateName, localResourceFile);
-				SaveTemplate(moduleID, templateName, templateValue);
+				this.SaveTemplate(moduleID, templateName, templateValue);
 				
 			}
 			
@@ -194,11 +198,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _EventDetailsTemplate;
+					return this._EventDetailsTemplate;
 				}
 				set
 				{
-					_EventDetailsTemplate = value;
+					this._EventDetailsTemplate = value;
 				}
 			}
 			
@@ -206,11 +210,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _NewEventTemplate;
+					return this._NewEventTemplate;
 				}
 				set
 				{
-					_NewEventTemplate = value;
+					this._NewEventTemplate = value;
 				}
 			}
 			
@@ -218,11 +222,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtToolTipTemplateTitleNT;
+					return this._txtToolTipTemplateTitleNT;
 				}
 				set
 				{
-					_txtToolTipTemplateTitleNT = value;
+					this._txtToolTipTemplateTitleNT = value;
 				}
 			}
 			
@@ -230,11 +234,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtToolTipTemplateBodyNT;
+					return this._txtToolTipTemplateBodyNT;
 				}
 				set
 				{
-					_txtToolTipTemplateBodyNT = value;
+					this._txtToolTipTemplateBodyNT = value;
 				}
 			}
 			
@@ -242,11 +246,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtToolTipTemplateTitle;
+					return this._txtToolTipTemplateTitle;
 				}
 				set
 				{
-					_txtToolTipTemplateTitle = value;
+					this._txtToolTipTemplateTitle = value;
 				}
 			}
 			
@@ -254,11 +258,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtToolTipTemplateBody;
+					return this._txtToolTipTemplateBody;
 				}
 				set
 				{
-					_txtToolTipTemplateBody = value;
+					this._txtToolTipTemplateBody = value;
 				}
 			}
 			
@@ -266,11 +270,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moderateemailsubject;
+					return this._moderateemailsubject;
 				}
 				set
 				{
-					_moderateemailsubject = value;
+					this._moderateemailsubject = value;
 				}
 			}
 			
@@ -278,11 +282,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moderateemailmessage;
+					return this._moderateemailmessage;
 				}
 				set
 				{
-					_moderateemailmessage = value;
+					this._moderateemailmessage = value;
 				}
 			}
 			
@@ -290,11 +294,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEmailSubject;
+					return this._txtEmailSubject;
 				}
 				set
 				{
-					_txtEmailSubject = value;
+					this._txtEmailSubject = value;
 				}
 			}
 			
@@ -302,11 +306,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEmailMessage;
+					return this._txtEmailMessage;
 				}
 				set
 				{
-					_txtEmailMessage = value;
+					this._txtEmailMessage = value;
 				}
 			}
 			
@@ -314,11 +318,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessageSubject;
+					return this._txtEnrollMessageSubject;
 				}
 				set
 				{
-					_txtEnrollMessageSubject = value;
+					this._txtEnrollMessageSubject = value;
 				}
 			}
 			
@@ -326,11 +330,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessageApproved;
+					return this._txtEnrollMessageApproved;
 				}
 				set
 				{
-					_txtEnrollMessageApproved = value;
+					this._txtEnrollMessageApproved = value;
 				}
 			}
 			
@@ -338,11 +342,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessageWaiting;
+					return this._txtEnrollMessageWaiting;
 				}
 				set
 				{
-					_txtEnrollMessageWaiting = value;
+					this._txtEnrollMessageWaiting = value;
 				}
 			}
 			
@@ -350,11 +354,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessageDenied;
+					return this._txtEnrollMessageDenied;
 				}
 				set
 				{
-					_txtEnrollMessageDenied = value;
+					this._txtEnrollMessageDenied = value;
 				}
 			}
 			
@@ -362,11 +366,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessageAdded;
+					return this._txtEnrollMessageAdded;
 				}
 				set
 				{
-					_txtEnrollMessageAdded = value;
+					this._txtEnrollMessageAdded = value;
 				}
 			}
 			
@@ -374,11 +378,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessageDeleted;
+					return this._txtEnrollMessageDeleted;
 				}
 				set
 				{
-					_txtEnrollMessageDeleted = value;
+					this._txtEnrollMessageDeleted = value;
 				}
 			}
 			
@@ -386,11 +390,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessagePaying;
+					return this._txtEnrollMessagePaying;
 				}
 				set
 				{
-					_txtEnrollMessagePaying = value;
+					this._txtEnrollMessagePaying = value;
 				}
 			}
 			
@@ -398,11 +402,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessagePending;
+					return this._txtEnrollMessagePending;
 				}
 				set
 				{
-					_txtEnrollMessagePending = value;
+					this._txtEnrollMessagePending = value;
 				}
 			}
 			
@@ -410,11 +414,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessagePaid;
+					return this._txtEnrollMessagePaid;
 				}
 				set
 				{
-					_txtEnrollMessagePaid = value;
+					this._txtEnrollMessagePaid = value;
 				}
 			}
 			
@@ -422,11 +426,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessageIncorrect;
+					return this._txtEnrollMessageIncorrect;
 				}
 				set
 				{
-					_txtEnrollMessageIncorrect = value;
+					this._txtEnrollMessageIncorrect = value;
 				}
 			}
 			
@@ -434,11 +438,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEnrollMessageCancelled;
+					return this._txtEnrollMessageCancelled;
 				}
 				set
 				{
-					_txtEnrollMessageCancelled = value;
+					this._txtEnrollMessageCancelled = value;
 				}
 			}
 			
@@ -446,11 +450,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEditViewEmailSubject;
+					return this._txtEditViewEmailSubject;
 				}
 				set
 				{
-					_txtEditViewEmailSubject = value;
+					this._txtEditViewEmailSubject = value;
 				}
 			}
 			
@@ -458,11 +462,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEditViewEmailBody;
+					return this._txtEditViewEmailBody;
 				}
 				set
 				{
-					_txtEditViewEmailBody = value;
+					this._txtEditViewEmailBody = value;
 				}
 			}
 			
@@ -470,11 +474,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtSubject;
+					return this._txtSubject;
 				}
 				set
 				{
-					_txtSubject = value;
+					this._txtSubject = value;
 				}
 			}
 			
@@ -482,11 +486,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtMessage;
+					return this._txtMessage;
 				}
 				set
 				{
-					_txtMessage = value;
+					this._txtMessage = value;
 				}
 			}
 			
@@ -494,11 +498,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtNewEventEmailSubject;
+					return this._txtNewEventEmailSubject;
 				}
 				set
 				{
-					_txtNewEventEmailSubject = value;
+					this._txtNewEventEmailSubject = value;
 				}
 			}
 			
@@ -506,11 +510,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtNewEventEmailMessage;
+					return this._txtNewEventEmailMessage;
 				}
 				set
 				{
-					_txtNewEventEmailMessage = value;
+					this._txtNewEventEmailMessage = value;
 				}
 			}
 			
@@ -518,11 +522,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtListEventTimeBegin;
+					return this._txtListEventTimeBegin;
 				}
 				set
 				{
-					_txtListEventTimeBegin = value;
+					this._txtListEventTimeBegin = value;
 				}
 			}
 			
@@ -530,11 +534,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtListEventTimeEnd;
+					return this._txtListEventTimeEnd;
 				}
 				set
 				{
-					_txtListEventTimeEnd = value;
+					this._txtListEventTimeEnd = value;
 				}
 			}
 			
@@ -542,11 +546,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtListLocation;
+					return this._txtListLocation;
 				}
 				set
 				{
-					_txtListLocation = value;
+					this._txtListLocation = value;
 				}
 			}
 			
@@ -554,11 +558,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtListEventDescription;
+					return this._txtListEventDescription;
 				}
 				set
 				{
-					_txtListEventDescription = value;
+					this._txtListEventDescription = value;
 				}
 			}
 			
@@ -566,11 +570,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtListRptHeader;
+					return this._txtListRptHeader;
 				}
 				set
 				{
-					_txtListRptHeader = value;
+					this._txtListRptHeader = value;
 				}
 			}
 			
@@ -578,11 +582,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtListRptBody;
+					return this._txtListRptBody;
 				}
 				set
 				{
-					_txtListRptBody = value;
+					this._txtListRptBody = value;
 				}
 			}
 			
@@ -590,11 +594,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtListRptFooter;
+					return this._txtListRptFooter;
 				}
 				set
 				{
-					_txtListRptFooter = value;
+					this._txtListRptFooter = value;
 				}
 			}
 			
@@ -602,11 +606,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtDayEventTimeBegin;
+					return this._txtDayEventTimeBegin;
 				}
 				set
 				{
-					_txtDayEventTimeBegin = value;
+					this._txtDayEventTimeBegin = value;
 				}
 			}
 			
@@ -614,11 +618,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtDayEventTimeEnd;
+					return this._txtDayEventTimeEnd;
 				}
 				set
 				{
-					_txtDayEventTimeEnd = value;
+					this._txtDayEventTimeEnd = value;
 				}
 			}
 			
@@ -626,11 +630,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtDayLocation;
+					return this._txtDayLocation;
 				}
 				set
 				{
-					_txtDayLocation = value;
+					this._txtDayLocation = value;
 				}
 			}
 			
@@ -638,11 +642,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtDayEventDescription;
+					return this._txtDayEventDescription;
 				}
 				set
 				{
-					_txtDayEventDescription = value;
+					this._txtDayEventDescription = value;
 				}
 			}
 			
@@ -650,11 +654,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtWeekEventText;
+					return this._txtWeekEventText;
 				}
 				set
 				{
-					_txtWeekEventText = value;
+					this._txtWeekEventText = value;
 				}
 			}
 			
@@ -662,11 +666,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtWeekTitleDate;
+					return this._txtWeekTitleDate;
 				}
 				set
 				{
-					_txtWeekTitleDate = value;
+					this._txtWeekTitleDate = value;
 				}
 			}
 			
@@ -674,11 +678,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtMonthEventText;
+					return this._txtMonthEventText;
 				}
 				set
 				{
-					_txtMonthEventText = value;
+					this._txtMonthEventText = value;
 				}
 			}
 			
@@ -686,11 +690,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtMonthDayEventCount;
+					return this._txtMonthDayEventCount;
 				}
 				set
 				{
-					_txtMonthDayEventCount = value;
+					this._txtMonthDayEventCount = value;
 				}
 			}
 			
@@ -698,11 +702,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtRSSTitle;
+					return this._txtRSSTitle;
 				}
 				set
 				{
-					_txtRSSTitle = value;
+					this._txtRSSTitle = value;
 				}
 			}
 			
@@ -710,11 +714,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtRSSDescription;
+					return this._txtRSSDescription;
 				}
 				set
 				{
-					_txtRSSDescription = value;
+					this._txtRSSDescription = value;
 				}
 			}
 			
@@ -722,11 +726,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtSEOPageTitle;
+					return this._txtSEOPageTitle;
 				}
 				set
 				{
-					_txtSEOPageTitle = value;
+					this._txtSEOPageTitle = value;
 				}
 			}
 			
@@ -734,11 +738,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtSEOPageDescription;
+					return this._txtSEOPageDescription;
 				}
 				set
 				{
-					_txtSEOPageDescription = value;
+					this._txtSEOPageDescription = value;
 				}
 			}
 			
@@ -746,11 +750,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _EventiCalSubject;
+					return this._EventiCalSubject;
 				}
 				set
 				{
-					_EventiCalSubject = value;
+					this._EventiCalSubject = value;
 				}
 			}
 			
@@ -758,11 +762,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _EventiCalBody;
+					return this._EventiCalBody;
 				}
 				set
 				{
-					_EventiCalBody = value;
+					this._EventiCalBody = value;
 				}
 			}
 			// ReSharper restore InconsistentNaming

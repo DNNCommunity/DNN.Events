@@ -6,6 +6,7 @@ using System;
 using DotNetNuke.Security;
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -25,11 +26,14 @@ using DotNetNuke.Security;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 {
+    using global::Components;
+
     [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSSET", "Edit Settings")]
     [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSMOD", "Events Moderator")]
     [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSEDT", "Events Editor")]

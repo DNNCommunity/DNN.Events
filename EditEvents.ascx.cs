@@ -16,6 +16,7 @@ using DotNetNuke.Web.UI.WebControls.Extensions;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -35,11 +36,13 @@ using DotNetNuke.Web.UI.WebControls.Extensions;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 {
+    using global::Components;
 
     [DNNtc.ModuleControlProperties("Edit", "Edit Events", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", false, true)]
     public partial class EditEvents : EventBase

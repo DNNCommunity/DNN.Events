@@ -1,10 +1,7 @@
-using System.Drawing;
-using Microsoft.VisualBasic;
-using System.Web.UI.WebControls;
-using System.Collections;
-using System;
+
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -24,13 +21,20 @@ using System;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
-namespace DotNetNuke.Modules.Events
+namespace Components
 	{
-		
-#region EventInfo Class
+	    using System;
+	    using System.Collections;
+	    using System.Drawing;
+	    using System.Web.UI.WebControls;
+	    using DotNetNuke.Modules.Events;
+	    using Microsoft.VisualBasic;
+
+	    #region EventInfo Class
 		
 		public class EventInfo : IComparable
 		{
@@ -160,11 +164,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _portalID;
+					return this._portalID;
 				}
 				set
 				{
-					_portalID = value;
+					this._portalID = value;
 				}
 			}
 			
@@ -176,11 +180,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventID;
+					return this._eventID;
 				}
 				set
 				{
-					_eventID = value;
+					this._eventID = value;
 				}
 			}
 			
@@ -192,11 +196,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _recurMasterID;
+					return this._recurMasterID;
 				}
 				set
 				{
-					_recurMasterID = value;
+					this._recurMasterID = value;
 				}
 			}
 			
@@ -208,11 +212,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moduleID;
+					return this._moduleID;
 				}
 				set
 				{
-					_moduleID = value;
+					this._moduleID = value;
 				}
 			}
 			
@@ -225,11 +229,11 @@ namespace DotNetNuke.Modules.Events
 				{
 				get
 				{
-					return _eventDateEnd;
+					return this._eventDateEnd;
 				}
 				set
 				{
-					_eventDateEnd = value;
+					this._eventDateEnd = value;
 				}
 			}
 			
@@ -241,11 +245,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventTimeBegin;
+					return this._eventTimeBegin;
 				}
 				set
 				{
-					_eventTimeBegin = value;
+					this._eventTimeBegin = value;
 				}
 			}
 			
@@ -257,7 +261,7 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return EventTimeBegin.AddMinutes(Duration);
+					return this.EventTimeBegin.AddMinutes(this.Duration);
 				}
 			}
 			
@@ -269,11 +273,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _duration;
+					return this._duration;
 				}
 				set
 				{
-					_duration = value;
+					this._duration = value;
 				}
 			}
 			
@@ -285,11 +289,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventName;
+					return this._eventName;
 				}
 				set
 				{
-					_eventName = value;
+					this._eventName = value;
 				}
 			}
 			
@@ -301,11 +305,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventDesc;
+					return this._eventDesc;
 				}
 				set
 				{
-					_eventDesc = value;
+					this._eventDesc = value;
 				}
 			}
 			
@@ -317,11 +321,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return ((Priority) _importance);
+					return ((Priority) this._importance);
 				}
 				set
 				{
-					_importance = (int) value;
+					this._importance = (int) value;
 				}
 			}
 			
@@ -333,11 +337,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _createdDate;
+					return this._createdDate;
 				}
 				set
 				{
-					_createdDate = value;
+					this._createdDate = value;
 				}
 			}
 			
@@ -349,11 +353,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _createdBy;
+					return this._createdBy;
 				}
 				set
 				{
-					_createdBy = value;
+					this._createdBy = value;
 				}
 			}
 			
@@ -365,11 +369,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _createdByID;
+					return this._createdByID;
 				}
 				set
 				{
-					_createdByID = value;
+					this._createdByID = value;
 				}
 			}
 			
@@ -382,7 +386,7 @@ namespace DotNetNuke.Modules.Events
 				{
 				get
 				{
-					return _every;
+					return this._every;
 				}
 			}
 			
@@ -395,7 +399,7 @@ namespace DotNetNuke.Modules.Events
 				{
 				get
 				{
-					return _period;
+					return this._period;
 				}
 			}
 			
@@ -408,7 +412,7 @@ namespace DotNetNuke.Modules.Events
 				{
 				get
 				{
-					return _repeatType;
+					return this._repeatType;
 				}
 			}
 			
@@ -420,11 +424,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _notify;
+					return this._notify;
 				}
 				set
 				{
-					_notify = value;
+					this._notify = value;
 				}
 			}
 			
@@ -436,11 +440,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _approved;
+					return this._approved;
 				}
 				set
 				{
-					_approved = value;
+					this._approved = value;
 				}
 			}
 			
@@ -452,11 +456,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _signups;
+					return this._signups;
 				}
 				set
 				{
-					_signups = value;
+					this._signups = value;
 				}
 			}
 			
@@ -468,11 +472,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _maxEnrollment;
+					return this._maxEnrollment;
 				}
 				set
 				{
-					_maxEnrollment = value;
+					this._maxEnrollment = value;
 				}
 			}
 			
@@ -484,15 +488,15 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					if (_enrolled < 0)
+					if (this._enrolled < 0)
 					{
 						return 0;
 					}
-					return _enrolled;
+					return this._enrolled;
 				}
 				set
 				{
-					_enrolled = value;
+					this._enrolled = value;
 				}
 			}
 			
@@ -504,11 +508,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _noOfRecurrences;
+					return this._noOfRecurrences;
 				}
 				set
 				{
-					_noOfRecurrences = value;
+					this._noOfRecurrences = value;
 				}
 			}
 			
@@ -520,11 +524,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _lastRecurrence;
+					return this._lastRecurrence;
 				}
 				set
 				{
-					_lastRecurrence = value;
+					this._lastRecurrence = value;
 				}
 			}
 			
@@ -536,11 +540,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollRoleID;
+					return this._enrollRoleID;
 				}
 				set
 				{
-					_enrollRoleID = value;
+					this._enrollRoleID = value;
 				}
 			}
 			
@@ -552,11 +556,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollType;
+					return this._enrollType;
 				}
 				set
 				{
-					_enrollType = value;
+					this._enrollType = value;
 				}
 			}
 			
@@ -568,11 +572,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollFee;
+					return this._enrollFee;
 				}
 				set
 				{
-					_enrollFee = value;
+					this._enrollFee = value;
 				}
 			}
 			
@@ -584,11 +588,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalAccount;
+					return this._payPalAccount;
 				}
 				set
 				{
-					_payPalAccount = value;
+					this._payPalAccount = value;
 				}
 			}
 			
@@ -600,11 +604,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _cancelled;
+					return this._cancelled;
 				}
 				set
 				{
-					_cancelled = value;
+					this._cancelled = value;
 				}
 			}
 			
@@ -616,11 +620,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _detailPage;
+					return this._detailPage;
 				}
 				set
 				{
-					_detailPage = value;
+					this._detailPage = value;
 				}
 			}
 			
@@ -632,11 +636,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _detailNewWin;
+					return this._detailNewWin;
 				}
 				set
 				{
-					_detailNewWin = value;
+					this._detailNewWin = value;
 				}
 			}
 			
@@ -648,11 +652,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _detailURL;
+					return this._detailURL;
 				}
 				set
 				{
-					_detailURL = value;
+					this._detailURL = value;
 				}
 			}
 			/// <summary>
@@ -663,11 +667,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageURL;
+					return this._imageURL;
 				}
 				set
 				{
-					_imageURL = value;
+					this._imageURL = value;
 				}
 			}
 			
@@ -679,11 +683,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageType;
+					return this._imageType;
 				}
 				set
 				{
-					_imageType = value;
+					this._imageType = value;
 				}
 			}
 			
@@ -695,11 +699,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageWidth;
+					return this._imageWidth;
 				}
 				set
 				{
-					_imageWidth = value;
+					this._imageWidth = value;
 				}
 			}
 			
@@ -711,11 +715,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageHeight;
+					return this._imageHeight;
 				}
 				set
 				{
-					_imageHeight = value;
+					this._imageHeight = value;
 				}
 			}
 			
@@ -727,11 +731,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _location;
+					return this._location;
 				}
 				set
 				{
-					_location = value;
+					this._location = value;
 				}
 			}
 			
@@ -743,11 +747,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _locationName;
+					return this._locationName;
 				}
 				set
 				{
-					_locationName = value;
+					this._locationName = value;
 				}
 			}
 			
@@ -759,11 +763,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _mapURL;
+					return this._mapURL;
 				}
 				set
 				{
-					_mapURL = value;
+					this._mapURL = value;
 				}
 			}
 			
@@ -775,11 +779,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _category;
+					return this._category;
 				}
 				set
 				{
-					_category = value;
+					this._category = value;
 				}
 			}
 			
@@ -791,11 +795,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _categoryName;
+					return this._categoryName;
 				}
 				set
 				{
-					_categoryName = value;
+					this._categoryName = value;
 				}
 			}
 			
@@ -807,11 +811,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _color;
+					return this._color;
 				}
 				set
 				{
-					_color = value;
+					this._color = value;
 				}
 			}
 			
@@ -823,11 +827,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _fontColor;
+					return this._fontColor;
 				}
 				set
 				{
-					_fontColor = value;
+					this._fontColor = value;
 				}
 			}
 			
@@ -839,11 +843,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageDisplay;
+					return this._imageDisplay;
 				}
 				set
 				{
-					_imageDisplay = value;
+					this._imageDisplay = value;
 				}
 			}
 			
@@ -855,11 +859,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _sendReminder;
+					return this._sendReminder;
 				}
 				set
 				{
-					_sendReminder = value;
+					this._sendReminder = value;
 				}
 			}
 			
@@ -871,11 +875,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _reminderTime;
+					return this._reminderTime;
 				}
 				set
 				{
-					_reminderTime = value;
+					this._reminderTime = value;
 				}
 			}
 			
@@ -887,11 +891,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _reminderTimeMeasurement;
+					return this._reminderTimeMeasurement;
 				}
 				set
 				{
-					_reminderTimeMeasurement = value;
+					this._reminderTimeMeasurement = value;
 				}
 			}
 			
@@ -903,11 +907,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _reminder;
+					return this._reminder;
 				}
 				set
 				{
-					_reminder = value;
+					this._reminder = value;
 				}
 			}
 			
@@ -919,11 +923,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _reminderFrom;
+					return this._reminderFrom;
 				}
 				set
 				{
-					_reminderFrom = value;
+					this._reminderFrom = value;
 				}
 			}
 			
@@ -935,11 +939,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _searchSubmitted;
+					return this._searchSubmitted;
 				}
 				set
 				{
-					_searchSubmitted = value;
+					this._searchSubmitted = value;
 				}
 			}
 			
@@ -951,11 +955,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moduleTitle;
+					return this._moduleTitle;
 				}
 				set
 				{
-					_moduleTitle = value;
+					this._moduleTitle = value;
 				}
 			}
 			
@@ -967,11 +971,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _customField1;
+					return this._customField1;
 				}
 				set
 				{
-					_customField1 = value;
+					this._customField1 = value;
 				}
 			}
 			
@@ -983,11 +987,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _customField2;
+					return this._customField2;
 				}
 				set
 				{
-					_customField2 = value;
+					this._customField2 = value;
 				}
 			}
 			
@@ -999,11 +1003,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollListView;
+					return this._enrollListView;
 				}
 				set
 				{
-					_enrollListView = value;
+					this._enrollListView = value;
 				}
 			}
 			
@@ -1015,11 +1019,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _displayEndDate;
+					return this._displayEndDate;
 				}
 				set
 				{
-					_displayEndDate = value;
+					this._displayEndDate = value;
 				}
 			}
 			
@@ -1031,11 +1035,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _allDayEvent;
+					return this._allDayEvent;
 				}
 				set
 				{
-					_allDayEvent = value;
+					this._allDayEvent = value;
 				}
 			}
 			
@@ -1047,11 +1051,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _ownerID;
+					return this._ownerID;
 				}
 				set
 				{
-					_ownerID = value;
+					this._ownerID = value;
 				}
 			}
 			
@@ -1063,11 +1067,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _ownerName;
+					return this._ownerName;
 				}
 				set
 				{
-					_ownerName = value;
+					this._ownerName = value;
 				}
 			}
 			
@@ -1079,11 +1083,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _lastUpdatedAt;
+					return this._lastUpdatedAt;
 				}
 				set
 				{
-					_lastUpdatedAt = value;
+					this._lastUpdatedAt = value;
 				}
 			}
 			
@@ -1095,11 +1099,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _lastUpdatedBy;
+					return this._lastUpdatedBy;
 				}
 				set
 				{
-					_lastUpdatedBy = value;
+					this._lastUpdatedBy = value;
 				}
 			}
 			
@@ -1111,11 +1115,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _lastUpdatedID;
+					return this._lastUpdatedID;
 				}
 				set
 				{
-					_lastUpdatedID = value;
+					this._lastUpdatedID = value;
 				}
 			}
 			
@@ -1127,11 +1131,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _originalDateBegin;
+					return this._originalDateBegin;
 				}
 				set
 				{
-					_originalDateBegin = value;
+					this._originalDateBegin = value;
 				}
 			}
 			
@@ -1143,11 +1147,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _updateStatus;
+					return this._updateStatus;
 				}
 				set
 				{
-					_updateStatus = value;
+					this._updateStatus = value;
 				}
 			}
 			
@@ -1159,11 +1163,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _rrule;
+					return this._rrule;
 				}
 				set
 				{
-					_rrule = value;
+					this._rrule = value;
 				}
 			}
 			
@@ -1175,11 +1179,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _rmOwnerID;
+					return this._rmOwnerID;
 				}
 				set
 				{
-					_rmOwnerID = value;
+					this._rmOwnerID = value;
 				}
 			}
 			
@@ -1191,11 +1195,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _newEventEmailSent;
+					return this._newEventEmailSent;
 				}
 				set
 				{
-					_newEventEmailSent = value;
+					this._newEventEmailSent = value;
 				}
 			}
 			
@@ -1207,11 +1211,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _isPrivate;
+					return this._isPrivate;
 				}
 				set
 				{
-					_isPrivate = value;
+					this._isPrivate = value;
 				}
 			}
 			
@@ -1223,16 +1227,16 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					if (string.IsNullOrEmpty(_eventTimeZoneId))
+					if (string.IsNullOrEmpty(this._eventTimeZoneId))
 					{
-						EventModuleSettings modSettings = EventModuleSettings.GetEventModuleSettings(_moduleID, null);
-						_eventTimeZoneId = modSettings.TimeZoneId;
+						EventModuleSettings modSettings = EventModuleSettings.GetEventModuleSettings(this._moduleID, null);
+						this._eventTimeZoneId = modSettings.TimeZoneId;
 					}
-					return _eventTimeZoneId;
+					return this._eventTimeZoneId;
 				}
 				set
 				{
-					_eventTimeZoneId = value;
+					this._eventTimeZoneId = value;
 				}
 			}
 			
@@ -1244,15 +1248,15 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					if (ReferenceEquals(_otherTimeZoneId, null))
+					if (ReferenceEquals(this._otherTimeZoneId, null))
 					{
-						_otherTimeZoneId = "UTC";
+						this._otherTimeZoneId = "UTC";
 					}
-					return _otherTimeZoneId;
+					return this._otherTimeZoneId;
 				}
 				set
 				{
-					_otherTimeZoneId = value;
+					this._otherTimeZoneId = value;
 				}
 			}
 			
@@ -1264,11 +1268,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _allowAnonEnroll;
+					return this._allowAnonEnroll;
 				}
 				set
 				{
-					_allowAnonEnroll = value;
+					this._allowAnonEnroll = value;
 				}
 			}
 			
@@ -1280,11 +1284,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _contentItemId;
+					return this._contentItemId;
 				}
 				set
 				{
-					_contentItemId = value;
+					this._contentItemId = value;
 				}
 			}
 			
@@ -1296,11 +1300,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _journalItem;
+					return this._journalItem;
 				}
 				set
 				{
-					_journalItem = value;
+					this._journalItem = value;
 				}
 			}
 			
@@ -1312,11 +1316,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _socialGroupId;
+					return this._socialGroupId;
 				}
 				set
 				{
-					_socialGroupId = value;
+					this._socialGroupId = value;
 				}
 			}
 			
@@ -1328,11 +1332,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _socialUserId;
+					return this._socialUserId;
 				}
 				set
 				{
-					_socialUserId = value;
+					this._socialUserId = value;
 				}
 			}
 			
@@ -1344,11 +1348,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _summary;
+					return this._summary;
 				}
 				set
 				{
-					_summary = value;
+					this._summary = value;
 				}
 			}
 			
@@ -1360,11 +1364,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _sequence;
+					return this._sequence;
 				}
 				set
 				{
-					_sequence = value;
+					this._sequence = value;
 				}
 			}
 			
@@ -1376,11 +1380,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _rmSequence;
+					return this._rmSequence;
 				}
 				set
 				{
-					_rmSequence = value;
+					this._rmSequence = value;
 				}
 			}
 			
@@ -1392,11 +1396,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _socialUserUserName;
+					return this._socialUserUserName;
 				}
 				set
 				{
-					_socialUserUserName = value;
+					this._socialUserUserName = value;
 				}
 			}
 			
@@ -1408,11 +1412,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _socialUserDisplayName;
+					return this._socialUserDisplayName;
 				}
 				set
 				{
-					_socialUserDisplayName = value;
+					this._socialUserDisplayName = value;
 				}
 			}
 			
@@ -1519,46 +1523,46 @@ namespace DotNetNuke.Modules.Events
 			public int CompareTo(object obj)
 			{
 				EventInfo o = (EventInfo) obj;
-				string xCompare = EventName + Strings.Format(EventID, "00000000");
+				string xCompare = this.EventName + Strings.Format(this.EventID, "00000000");
 				string yCompare = o.EventName + Strings.Format(o.EventID, "00000000");
 				if (SortExpression == SortFilter.CategoryName)
 				{
-					xCompare = CategoryName + Strings.Format(EventID, "00000000");
+					xCompare = this.CategoryName + Strings.Format(this.EventID, "00000000");
 					yCompare = o.CategoryName + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.CustomField1)
 				{
-					xCompare = CustomField1 + Strings.Format(EventID, "00000000");
+					xCompare = this.CustomField1 + Strings.Format(this.EventID, "00000000");
 					yCompare = o.CustomField1 + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.CustomField2)
 				{
-					xCompare = CustomField2 + Strings.Format(EventID, "00000000");
+					xCompare = this.CustomField2 + Strings.Format(this.EventID, "00000000");
 					yCompare = o.CustomField2 + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.Description)
 				{
-					xCompare = EventDesc + Strings.Format(EventID, "00000000");
+					xCompare = this.EventDesc + Strings.Format(this.EventID, "00000000");
 					yCompare = o.EventDesc + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.Duration)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(Duration, "000000") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.Duration, "000000") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.Duration, "000000") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.EventDateBegin)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(EventTimeBegin, "yyyyMMddHHmm") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.EventTimeBegin, "yyyyMMddHHmm") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.EventTimeBegin, "yyyyMMddHHmm") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.EventDateEnd)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(EventTimeEnd, "yyyyMMddHHmm") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.EventTimeEnd, "yyyyMMddHHmm") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.EventTimeEnd, "yyyyMMddHHmm") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.LocationName)
 				{
-					xCompare = LocationName + Strings.Format(EventID, "00000000");
+					xCompare = this.LocationName + Strings.Format(this.EventID, "00000000");
 					yCompare = o.LocationName + Strings.Format(o.EventID, "00000000");
 				}
 				if (SortDirection == System.Web.UI.WebControls.SortDirection.Ascending)
@@ -1582,7 +1586,7 @@ namespace DotNetNuke.Modules.Events
 			/// <returns>Cloned Eventsinfo object</returns>
 			public EventInfo Clone()
 			{
-				return ((EventInfo) (MemberwiseClone()));
+				return ((EventInfo) (this.MemberwiseClone()));
 				
 			}
 #endregion
@@ -1608,11 +1612,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _portalID;
+					return this._portalID;
 				}
 				set
 				{
-					_portalID = value;
+					this._portalID = value;
 				}
 			}
 			
@@ -1624,11 +1628,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _masterID;
+					return this._masterID;
 				}
 				set
 				{
-					_masterID = value;
+					this._masterID = value;
 				}
 			}
 			
@@ -1640,11 +1644,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moduleID;
+					return this._moduleID;
 				}
 				set
 				{
-					_moduleID = value;
+					this._moduleID = value;
 				}
 			}
 			
@@ -1656,11 +1660,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _subEventID;
+					return this._subEventID;
 				}
 				set
 				{
-					_subEventID = value;
+					this._subEventID = value;
 				}
 			}
 			
@@ -1672,11 +1676,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _subEventTitle;
+					return this._subEventTitle;
 				}
 				set
 				{
-					_subEventTitle = value;
+					this._subEventTitle = value;
 				}
 			}
 		}
@@ -1780,11 +1784,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventID;
+					return this._eventID;
 				}
 				set
 				{
-					_eventID = value;
+					this._eventID = value;
 				}
 			}
 			
@@ -1796,11 +1800,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moduleID;
+					return this._moduleID;
 				}
 				set
 				{
-					_moduleID = value;
+					this._moduleID = value;
 				}
 			}
 			
@@ -1812,11 +1816,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _signupID;
+					return this._signupID;
 				}
 				set
 				{
-					_signupID = value;
+					this._signupID = value;
 				}
 			}
 			
@@ -1828,11 +1832,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userID;
+					return this._userID;
 				}
 				set
 				{
-					_userID = value;
+					this._userID = value;
 				}
 			}
 			
@@ -1844,11 +1848,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _approved;
+					return this._approved;
 				}
 				set
 				{
-					_approved = value;
+					this._approved = value;
 				}
 			}
 			
@@ -1860,11 +1864,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userName;
+					return this._userName;
 				}
 				set
 				{
-					_userName = value;
+					this._userName = value;
 				}
 			}
 			
@@ -1876,11 +1880,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _email;
+					return this._email;
 				}
 				set
 				{
-					_email = value;
+					this._email = value;
 				}
 			}
 			
@@ -1892,11 +1896,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _emailVisible;
+					return this._emailVisible;
 				}
 				set
 				{
-					_emailVisible = value;
+					this._emailVisible = value;
 				}
 			}
 			
@@ -1908,11 +1912,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _telephone;
+					return this._telephone;
 				}
 				set
 				{
-					_telephone = value;
+					this._telephone = value;
 				}
 			}
 			
@@ -1924,7 +1928,7 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventTimeBegin.Date;
+					return this._eventTimeBegin.Date;
 				}
 			}
 			
@@ -1936,11 +1940,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventTimeBegin;
+					return this._eventTimeBegin;
 				}
 				set
 				{
-					_eventTimeBegin = value;
+					this._eventTimeBegin = value;
 				}
 			}
 			
@@ -1952,11 +1956,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventTimeEnd;
+					return this._eventTimeEnd;
 				}
 				set
 				{
-					_eventTimeEnd = value;
+					this._eventTimeEnd = value;
 				}
 			}
 			
@@ -1968,11 +1972,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _duration;
+					return this._duration;
 				}
 				set
 				{
-					_duration = value;
+					this._duration = value;
 				}
 			}
 			
@@ -1984,11 +1988,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventName;
+					return this._eventName;
 				}
 				set
 				{
-					_eventName = value;
+					this._eventName = value;
 				}
 			}
 			
@@ -2000,11 +2004,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return ((Priority) _importance);
+					return ((Priority) this._importance);
 				}
 				set
 				{
-					_importance = (int) value;
+					this._importance = (int) value;
 				}
 			}
 			
@@ -2016,11 +2020,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventApproved;
+					return this._eventApproved;
 				}
 				set
 				{
-					_eventApproved = value;
+					this._eventApproved = value;
 				}
 			}
 			
@@ -2032,11 +2036,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _maxEnrollment;
+					return this._maxEnrollment;
 				}
 				set
 				{
-					_maxEnrollment = value;
+					this._maxEnrollment = value;
 				}
 			}
 			
@@ -2048,11 +2052,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrolled;
+					return this._enrolled;
 				}
 				set
 				{
-					_enrolled = value;
+					this._enrolled = value;
 				}
 			}
 			
@@ -2064,11 +2068,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalStatus;
+					return this._payPalStatus;
 				}
 				set
 				{
-					_payPalStatus = value;
+					this._payPalStatus = value;
 				}
 			}
 			
@@ -2080,11 +2084,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalReason;
+					return this._payPalReason;
 				}
 				set
 				{
-					_payPalReason = value;
+					this._payPalReason = value;
 				}
 			}
 			
@@ -2096,11 +2100,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalTransID;
+					return this._payPalTransID;
 				}
 				set
 				{
-					_payPalTransID = value;
+					this._payPalTransID = value;
 				}
 			}
 			
@@ -2112,11 +2116,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalPayerID;
+					return this._payPalPayerID;
 				}
 				set
 				{
-					_payPalPayerID = value;
+					this._payPalPayerID = value;
 				}
 			}
 			
@@ -2128,11 +2132,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalPayerStatus;
+					return this._payPalPayerStatus;
 				}
 				set
 				{
-					_payPalPayerStatus = value;
+					this._payPalPayerStatus = value;
 				}
 			}
 			
@@ -2144,11 +2148,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalRecieverEmail;
+					return this._payPalRecieverEmail;
 				}
 				set
 				{
-					_payPalRecieverEmail = value;
+					this._payPalRecieverEmail = value;
 				}
 			}
 			
@@ -2160,11 +2164,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalUserEmail;
+					return this._payPalUserEmail;
 				}
 				set
 				{
-					_payPalUserEmail = value;
+					this._payPalUserEmail = value;
 				}
 			}
 			
@@ -2176,11 +2180,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalPayerEmail;
+					return this._payPalPayerEmail;
 				}
 				set
 				{
-					_payPalPayerEmail = value;
+					this._payPalPayerEmail = value;
 				}
 			}
 			
@@ -2192,11 +2196,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalFirstName;
+					return this._payPalFirstName;
 				}
 				set
 				{
-					_payPalFirstName = value;
+					this._payPalFirstName = value;
 				}
 			}
 			
@@ -2208,11 +2212,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalLastName;
+					return this._payPalLastName;
 				}
 				set
 				{
-					_payPalLastName = value;
+					this._payPalLastName = value;
 				}
 			}
 			
@@ -2224,11 +2228,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalAddress;
+					return this._payPalAddress;
 				}
 				set
 				{
-					_payPalAddress = value;
+					this._payPalAddress = value;
 				}
 			}
 			
@@ -2240,11 +2244,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalCity;
+					return this._payPalCity;
 				}
 				set
 				{
-					_payPalCity = value;
+					this._payPalCity = value;
 				}
 			}
 			
@@ -2256,11 +2260,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalState;
+					return this._payPalState;
 				}
 				set
 				{
-					_payPalState = value;
+					this._payPalState = value;
 				}
 			}
 			
@@ -2272,11 +2276,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalZip;
+					return this._payPalZip;
 				}
 				set
 				{
-					_payPalZip = value;
+					this._payPalZip = value;
 				}
 			}
 			
@@ -2288,11 +2292,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalCountry;
+					return this._payPalCountry;
 				}
 				set
 				{
-					_payPalCountry = value;
+					this._payPalCountry = value;
 				}
 			}
 			
@@ -2304,11 +2308,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalCurrency;
+					return this._payPalCurrency;
 				}
 				set
 				{
-					_payPalCurrency = value;
+					this._payPalCurrency = value;
 				}
 			}
 			
@@ -2320,11 +2324,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalPaymentDate;
+					return this._payPalPaymentDate;
 				}
 				set
 				{
-					_payPalPaymentDate = value;
+					this._payPalPaymentDate = value;
 				}
 			}
 			
@@ -2336,11 +2340,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalAmount;
+					return this._payPalAmount;
 				}
 				set
 				{
-					_payPalAmount = value;
+					this._payPalAmount = value;
 				}
 			}
 			
@@ -2352,11 +2356,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalFee;
+					return this._payPalFee;
 				}
 				set
 				{
-					_payPalFee = value;
+					this._payPalFee = value;
 				}
 			}
 			
@@ -2368,11 +2372,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _noEnrolees;
+					return this._noEnrolees;
 				}
 				set
 				{
-					_noEnrolees = value;
+					this._noEnrolees = value;
 				}
 			}
 			
@@ -2384,11 +2388,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventTimeZoneId;
+					return this._eventTimeZoneId;
 				}
 				set
 				{
-					_eventTimeZoneId = value;
+					this._eventTimeZoneId = value;
 				}
 			}
 			
@@ -2400,11 +2404,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _anonEmail;
+					return this._anonEmail;
 				}
 				set
 				{
-					_anonEmail = value;
+					this._anonEmail = value;
 				}
 			}
 			
@@ -2416,11 +2420,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _anonName;
+					return this._anonName;
 				}
 				set
 				{
-					_anonName = value;
+					this._anonName = value;
 				}
 			}
 			
@@ -2432,11 +2436,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _anonTelephone;
+					return this._anonTelephone;
 				}
 				set
 				{
-					_anonTelephone = value;
+					this._anonTelephone = value;
 				}
 			}
 			
@@ -2448,11 +2452,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _anonCulture;
+					return this._anonCulture;
 				}
 				set
 				{
-					_anonCulture = value;
+					this._anonCulture = value;
 				}
 			}
 			
@@ -2464,11 +2468,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _anonTimeZoneId;
+					return this._anonTimeZoneId;
 				}
 				set
 				{
-					_anonTimeZoneId = value;
+					this._anonTimeZoneId = value;
 				}
 			}
 			
@@ -2480,11 +2484,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _firstName;
+					return this._firstName;
 				}
 				set
 				{
-					_firstName = value;
+					this._firstName = value;
 				}
 			}
 			
@@ -2496,11 +2500,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _lastName;
+					return this._lastName;
 				}
 				set
 				{
-					_lastName = value;
+					this._lastName = value;
 				}
 			}
 			
@@ -2512,11 +2516,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _company;
+					return this._company;
 				}
 				set
 				{
-					_company = value;
+					this._company = value;
 				}
 			}
 			
@@ -2528,11 +2532,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _jobTitle;
+					return this._jobTitle;
 				}
 				set
 				{
-					_jobTitle = value;
+					this._jobTitle = value;
 				}
 			}
 			
@@ -2544,11 +2548,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _referenceNumber;
+					return this._referenceNumber;
 				}
 				set
 				{
-					_referenceNumber = value;
+					this._referenceNumber = value;
 				}
 			}
 			
@@ -2560,11 +2564,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _remarks;
+					return this._remarks;
 				}
 				set
 				{
-					_remarks = value;
+					this._remarks = value;
 				}
 			}
 			
@@ -2576,11 +2580,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _street;
+					return this._street;
 				}
 				set
 				{
-					_street = value;
+					this._street = value;
 				}
 			}
 			
@@ -2592,11 +2596,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _postalCode;
+					return this._postalCode;
 				}
 				set
 				{
-					_postalCode = value;
+					this._postalCode = value;
 				}
 			}
 			
@@ -2608,11 +2612,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _city;
+					return this._city;
 				}
 				set
 				{
-					_city = value;
+					this._city = value;
 				}
 			}
 			
@@ -2624,11 +2628,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _region;
+					return this._region;
 				}
 				set
 				{
-					_region = value;
+					this._region = value;
 				}
 			}
 			
@@ -2640,11 +2644,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _country;
+					return this._country;
 				}
 				set
 				{
-					_country = value;
+					this._country = value;
 				}
 			}
 #region Sorting
@@ -2735,26 +2739,26 @@ namespace DotNetNuke.Modules.Events
 			public int CompareTo(object obj)
 			{
 				EventSignupsInfo o = (EventSignupsInfo) obj;
-				string xCompare = EventName + Strings.Format(EventID, "00000000");
+				string xCompare = this.EventName + Strings.Format(this.EventID, "00000000");
 				string yCompare = o.EventName + Strings.Format(o.EventID, "00000000");
 				if (SortExpression == SortFilter.Duration)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(Duration, "000000") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.Duration, "000000") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.Duration, "000000") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.EventTimeBegin)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(EventTimeBegin, "yyyyMMddHHmm") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.EventTimeBegin, "yyyyMMddHHmm") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.EventTimeBegin, "yyyyMMddHHmm") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.EventTimeEnd)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(EventTimeEnd, "yyyyMMddHHmm") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.EventTimeEnd, "yyyyMMddHHmm") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.EventTimeEnd, "yyyyMMddHHmm") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.Approved)
 				{
-					xCompare = Approved.ToString() + Strings.Format(EventID, "00000000");
+					xCompare = this.Approved.ToString() + Strings.Format(this.EventID, "00000000");
 					yCompare = o.Approved.ToString() + Strings.Format(o.EventID, "00000000");
 				}
 				if (SortDirection == System.Web.UI.WebControls.SortDirection.Ascending)
@@ -2778,7 +2782,7 @@ namespace DotNetNuke.Modules.Events
 			public EventSignupsInfo Clone()
 			{
 				// create the object
-				return ((EventSignupsInfo) (MemberwiseClone()));
+				return ((EventSignupsInfo) (this.MemberwiseClone()));
 			}
 #endregion
 			
@@ -2825,7 +2829,7 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalID;
+					return this._payPalID;
 				}
 			}
 			
@@ -2837,11 +2841,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _signupID;
+					return this._signupID;
 				}
 				set
 				{
-					_signupID = value;
+					this._signupID = value;
 				}
 			}
 			
@@ -2853,7 +2857,7 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _createDate;
+					return this._createDate;
 				}
 			}
 			
@@ -2865,11 +2869,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalStatus;
+					return this._payPalStatus;
 				}
 				set
 				{
-					_payPalStatus = value;
+					this._payPalStatus = value;
 				}
 			}
 			
@@ -2881,11 +2885,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalReason;
+					return this._payPalReason;
 				}
 				set
 				{
-					_payPalReason = value;
+					this._payPalReason = value;
 				}
 			}
 			
@@ -2897,11 +2901,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalTransID;
+					return this._payPalTransID;
 				}
 				set
 				{
-					_payPalTransID = value;
+					this._payPalTransID = value;
 				}
 			}
 			
@@ -2913,11 +2917,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalPayerID;
+					return this._payPalPayerID;
 				}
 				set
 				{
-					_payPalPayerID = value;
+					this._payPalPayerID = value;
 				}
 			}
 			
@@ -2929,11 +2933,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalPayerStatus;
+					return this._payPalPayerStatus;
 				}
 				set
 				{
-					_payPalPayerStatus = value;
+					this._payPalPayerStatus = value;
 				}
 			}
 			
@@ -2945,11 +2949,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalRecieverEmail;
+					return this._payPalRecieverEmail;
 				}
 				set
 				{
-					_payPalRecieverEmail = value;
+					this._payPalRecieverEmail = value;
 				}
 			}
 			
@@ -2961,11 +2965,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalUserEmail;
+					return this._payPalUserEmail;
 				}
 				set
 				{
-					_payPalUserEmail = value;
+					this._payPalUserEmail = value;
 				}
 			}
 			
@@ -2977,11 +2981,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalPayerEmail;
+					return this._payPalPayerEmail;
 				}
 				set
 				{
-					_payPalPayerEmail = value;
+					this._payPalPayerEmail = value;
 				}
 			}
 			
@@ -2993,11 +2997,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalFirstName;
+					return this._payPalFirstName;
 				}
 				set
 				{
-					_payPalFirstName = value;
+					this._payPalFirstName = value;
 				}
 			}
 			
@@ -3009,11 +3013,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalLastName;
+					return this._payPalLastName;
 				}
 				set
 				{
-					_payPalLastName = value;
+					this._payPalLastName = value;
 				}
 			}
 			
@@ -3025,11 +3029,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalAddress;
+					return this._payPalAddress;
 				}
 				set
 				{
-					_payPalAddress = value;
+					this._payPalAddress = value;
 				}
 			}
 			
@@ -3041,11 +3045,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalCity;
+					return this._payPalCity;
 				}
 				set
 				{
-					_payPalCity = value;
+					this._payPalCity = value;
 				}
 			}
 			
@@ -3057,11 +3061,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalState;
+					return this._payPalState;
 				}
 				set
 				{
-					_payPalState = value;
+					this._payPalState = value;
 				}
 			}
 			
@@ -3073,11 +3077,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalZip;
+					return this._payPalZip;
 				}
 				set
 				{
-					_payPalZip = value;
+					this._payPalZip = value;
 				}
 			}
 			
@@ -3089,11 +3093,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalCountry;
+					return this._payPalCountry;
 				}
 				set
 				{
-					_payPalCountry = value;
+					this._payPalCountry = value;
 				}
 			}
 			
@@ -3105,11 +3109,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalCurrency;
+					return this._payPalCurrency;
 				}
 				set
 				{
-					_payPalCurrency = value;
+					this._payPalCurrency = value;
 				}
 			}
 			
@@ -3121,11 +3125,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalPaymentDate;
+					return this._payPalPaymentDate;
 				}
 				set
 				{
-					_payPalPaymentDate = value;
+					this._payPalPaymentDate = value;
 				}
 			}
 			
@@ -3137,11 +3141,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalAmount;
+					return this._payPalAmount;
 				}
 				set
 				{
-					_payPalAmount = value;
+					this._payPalAmount = value;
 				}
 			}
 			
@@ -3153,11 +3157,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalFee;
+					return this._payPalFee;
 				}
 				set
 				{
-					_payPalFee = value;
+					this._payPalFee = value;
 				}
 			}
 			
@@ -3194,11 +3198,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _portalID;
+					return this._portalID;
 				}
 				set
 				{
-					_portalID = value;
+					this._portalID = value;
 				}
 			}
 			
@@ -3210,11 +3214,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _category;
+					return this._category;
 				}
 				set
 				{
-					_category = value;
+					this._category = value;
 				}
 			}
 			
@@ -3226,11 +3230,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _categoryName;
+					return this._categoryName;
 				}
 				set
 				{
-					_categoryName = value;
+					this._categoryName = value;
 				}
 			}
 			
@@ -3242,11 +3246,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _color;
+					return this._color;
 				}
 				set
 				{
-					_color = value;
+					this._color = value;
 				}
 			}
 			/// <summary>
@@ -3257,11 +3261,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _fontColor;
+					return this._fontColor;
 				}
 				set
 				{
-					_fontColor = value;
+					this._fontColor = value;
 				}
 			}
 		}
@@ -3301,11 +3305,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _portalID;
+					return this._portalID;
 				}
 				set
 				{
-					_portalID = value;
+					this._portalID = value;
 				}
 			}
 			
@@ -3317,11 +3321,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _location;
+					return this._location;
 				}
 				set
 				{
-					_location = value;
+					this._location = value;
 				}
 			}
 			
@@ -3333,11 +3337,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _locationName;
+					return this._locationName;
 				}
 				set
 				{
-					_locationName = value;
+					this._locationName = value;
 				}
 			}
 			
@@ -3349,11 +3353,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _mapURL;
+					return this._mapURL;
 				}
 				set
 				{
-					_mapURL = value;
+					this._mapURL = value;
 				}
 			}
 			
@@ -3365,11 +3369,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _street;
+					return this._street;
 				}
 				set
 				{
-					_street = value;
+					this._street = value;
 				}
 			}
 			
@@ -3381,11 +3385,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _postalCode;
+					return this._postalCode;
 				}
 				set
 				{
-					_postalCode = value;
+					this._postalCode = value;
 				}
 			}
 			
@@ -3397,11 +3401,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _city;
+					return this._city;
 				}
 				set
 				{
-					_city = value;
+					this._city = value;
 				}
 			}
 			
@@ -3413,11 +3417,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _region;
+					return this._region;
 				}
 				set
 				{
-					_region = value;
+					this._region = value;
 				}
 			}
 			
@@ -3429,11 +3433,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _country;
+					return this._country;
 				}
 				set
 				{
-					_country = value;
+					this._country = value;
 				}
 			}
 		}
@@ -3474,11 +3478,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventID;
+					return this._eventID;
 				}
 				set
 				{
-					_eventID = value;
+					this._eventID = value;
 				}
 			}
 			
@@ -3490,11 +3494,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _portalAliasID;
+					return this._portalAliasID;
 				}
 				set
 				{
-					_portalAliasID = value;
+					this._portalAliasID = value;
 				}
 			}
 			
@@ -3506,11 +3510,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _notificationID;
+					return this._notificationID;
 				}
 				set
 				{
-					_notificationID = value;
+					this._notificationID = value;
 				}
 			}
 			
@@ -3522,11 +3526,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userEmail;
+					return this._userEmail;
 				}
 				set
 				{
-					_userEmail = value;
+					this._userEmail = value;
 				}
 			}
 			
@@ -3538,11 +3542,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _notificationSent;
+					return this._notificationSent;
 				}
 				set
 				{
-					_notificationSent = value;
+					this._notificationSent = value;
 				}
 			}
 			
@@ -3554,11 +3558,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _notifyByDateTime;
+					return this._notifyByDateTime;
 				}
 				set
 				{
-					_notifyByDateTime = value;
+					this._notifyByDateTime = value;
 				}
 			}
 			
@@ -3570,11 +3574,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventTimeBegin;
+					return this._eventTimeBegin;
 				}
 				set
 				{
-					_eventTimeBegin = value;
+					this._eventTimeBegin = value;
 				}
 			}
 			
@@ -3586,11 +3590,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _notifyLanguage;
+					return this._notifyLanguage;
 				}
 				set
 				{
-					_notifyLanguage = value;
+					this._notifyLanguage = value;
 				}
 			}
 			
@@ -3602,11 +3606,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moduleID;
+					return this._moduleID;
 				}
 				set
 				{
-					_moduleID = value;
+					this._moduleID = value;
 				}
 			}
 			
@@ -3618,11 +3622,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _tabID;
+					return this._tabID;
 				}
 				set
 				{
-					_tabID = value;
+					this._tabID = value;
 				}
 			}
 			
@@ -3718,11 +3722,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _recurMasterID;
+					return this._recurMasterID;
 				}
 				set
 				{
-					_recurMasterID = value;
+					this._recurMasterID = value;
 				}
 			}
 			
@@ -3734,11 +3738,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moduleID;
+					return this._moduleID;
 				}
 				set
 				{
-					_moduleID = value;
+					this._moduleID = value;
 				}
 			}
 			
@@ -3750,11 +3754,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _portalID;
+					return this._portalID;
 				}
 				set
 				{
-					_portalID = value;
+					this._portalID = value;
 				}
 			}
 			
@@ -3766,11 +3770,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _rrule;
+					return this._rrule;
 				}
 				set
 				{
-					_rrule = value;
+					this._rrule = value;
 				}
 			}
 			
@@ -3782,11 +3786,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _dtstart;
+					return this._dtstart;
 				}
 				set
 				{
-					_dtstart = value;
+					this._dtstart = value;
 				}
 			}
 			
@@ -3798,11 +3802,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _duration;
+					return this._duration;
 				}
 				set
 				{
-					_duration = value;
+					this._duration = value;
 				}
 			}
 			
@@ -3814,11 +3818,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _until;
+					return this._until;
 				}
 				set
 				{
-					_until = value;
+					this._until = value;
 				}
 			}
 			
@@ -3830,11 +3834,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventName;
+					return this._eventName;
 				}
 				set
 				{
-					_eventName = value;
+					this._eventName = value;
 				}
 			}
 			
@@ -3846,11 +3850,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventDesc;
+					return this._eventDesc;
 				}
 				set
 				{
-					_eventDesc = value;
+					this._eventDesc = value;
 				}
 			}
 			
@@ -3862,11 +3866,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return ((Priority) _importance);
+					return ((Priority) this._importance);
 				}
 				set
 				{
-					_importance = (int) value;
+					this._importance = (int) value;
 				}
 			}
 			
@@ -3878,11 +3882,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _notify;
+					return this._notify;
 				}
 				set
 				{
-					_notify = value;
+					this._notify = value;
 				}
 			}
 			
@@ -3894,11 +3898,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _approved;
+					return this._approved;
 				}
 				set
 				{
-					_approved = value;
+					this._approved = value;
 				}
 			}
 			
@@ -3910,11 +3914,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _signups;
+					return this._signups;
 				}
 				set
 				{
-					_signups = value;
+					this._signups = value;
 				}
 			}
 			
@@ -3926,11 +3930,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _maxEnrollment;
+					return this._maxEnrollment;
 				}
 				set
 				{
-					_maxEnrollment = value;
+					this._maxEnrollment = value;
 				}
 			}
 			
@@ -3942,15 +3946,15 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					if (_enrolled < 0)
+					if (this._enrolled < 0)
 					{
 						return 0;
 					}
-					return _enrolled;
+					return this._enrolled;
 				}
 				set
 				{
-					_enrolled = value;
+					this._enrolled = value;
 				}
 			}
 			
@@ -3962,11 +3966,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollRoleID;
+					return this._enrollRoleID;
 				}
 				set
 				{
-					_enrollRoleID = value;
+					this._enrollRoleID = value;
 				}
 			}
 			
@@ -3978,11 +3982,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollType;
+					return this._enrollType;
 				}
 				set
 				{
-					_enrollType = value;
+					this._enrollType = value;
 				}
 			}
 			
@@ -3994,11 +3998,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollFee;
+					return this._enrollFee;
 				}
 				set
 				{
-					_enrollFee = value;
+					this._enrollFee = value;
 				}
 			}
 			
@@ -4010,11 +4014,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _payPalAccount;
+					return this._payPalAccount;
 				}
 				set
 				{
-					_payPalAccount = value;
+					this._payPalAccount = value;
 				}
 			}
 			
@@ -4026,11 +4030,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _detailPage;
+					return this._detailPage;
 				}
 				set
 				{
-					_detailPage = value;
+					this._detailPage = value;
 				}
 			}
 			/// <summary>
@@ -4041,11 +4045,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _detailNewWin;
+					return this._detailNewWin;
 				}
 				set
 				{
-					_detailNewWin = value;
+					this._detailNewWin = value;
 				}
 			}
 			
@@ -4057,11 +4061,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _detailURL;
+					return this._detailURL;
 				}
 				set
 				{
-					_detailURL = value;
+					this._detailURL = value;
 				}
 			}
 			
@@ -4073,11 +4077,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageURL;
+					return this._imageURL;
 				}
 				set
 				{
-					_imageURL = value;
+					this._imageURL = value;
 				}
 			}
 			
@@ -4089,11 +4093,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageType;
+					return this._imageType;
 				}
 				set
 				{
-					_imageType = value;
+					this._imageType = value;
 				}
 			}
 			
@@ -4105,11 +4109,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageWidth;
+					return this._imageWidth;
 				}
 				set
 				{
-					_imageWidth = value;
+					this._imageWidth = value;
 				}
 			}
 			
@@ -4121,11 +4125,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageHeight;
+					return this._imageHeight;
 				}
 				set
 				{
-					_imageHeight = value;
+					this._imageHeight = value;
 				}
 			}
 			
@@ -4137,11 +4141,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _location;
+					return this._location;
 				}
 				set
 				{
-					_location = value;
+					this._location = value;
 				}
 			}
 			
@@ -4153,11 +4157,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _category;
+					return this._category;
 				}
 				set
 				{
-					_category = value;
+					this._category = value;
 				}
 			}
 			
@@ -4169,11 +4173,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageDisplay;
+					return this._imageDisplay;
 				}
 				set
 				{
-					_imageDisplay = value;
+					this._imageDisplay = value;
 				}
 			}
 			
@@ -4185,11 +4189,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _sendReminder;
+					return this._sendReminder;
 				}
 				set
 				{
-					_sendReminder = value;
+					this._sendReminder = value;
 				}
 			}
 			
@@ -4201,11 +4205,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _reminderTime;
+					return this._reminderTime;
 				}
 				set
 				{
-					_reminderTime = value;
+					this._reminderTime = value;
 				}
 			}
 			
@@ -4217,11 +4221,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _reminderTimeMeasurement;
+					return this._reminderTimeMeasurement;
 				}
 				set
 				{
-					_reminderTimeMeasurement = value;
+					this._reminderTimeMeasurement = value;
 				}
 			}
 			
@@ -4233,11 +4237,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _reminder;
+					return this._reminder;
 				}
 				set
 				{
-					_reminder = value;
+					this._reminder = value;
 				}
 			}
 			
@@ -4249,11 +4253,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _reminderFrom;
+					return this._reminderFrom;
 				}
 				set
 				{
-					_reminderFrom = value;
+					this._reminderFrom = value;
 				}
 			}
 			
@@ -4265,11 +4269,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _customField1;
+					return this._customField1;
 				}
 				set
 				{
-					_customField1 = value;
+					this._customField1 = value;
 				}
 			}
 			
@@ -4281,11 +4285,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _customField2;
+					return this._customField2;
 				}
 				set
 				{
-					_customField2 = value;
+					this._customField2 = value;
 				}
 			}
 			
@@ -4297,11 +4301,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollListView;
+					return this._enrollListView;
 				}
 				set
 				{
-					_enrollListView = value;
+					this._enrollListView = value;
 				}
 			}
 			
@@ -4313,11 +4317,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _displayEndDate;
+					return this._displayEndDate;
 				}
 				set
 				{
-					_displayEndDate = value;
+					this._displayEndDate = value;
 				}
 			}
 			
@@ -4329,11 +4333,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _allDayEvent;
+					return this._allDayEvent;
 				}
 				set
 				{
-					_allDayEvent = value;
+					this._allDayEvent = value;
 				}
 			}
 			
@@ -4345,11 +4349,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _cultureName;
+					return this._cultureName;
 				}
 				set
 				{
-					_cultureName = value;
+					this._cultureName = value;
 				}
 			}
 			
@@ -4361,11 +4365,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _ownerID;
+					return this._ownerID;
 				}
 				set
 				{
-					_ownerID = value;
+					this._ownerID = value;
 				}
 			}
 			
@@ -4377,11 +4381,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _createdByID;
+					return this._createdByID;
 				}
 				set
 				{
-					_createdByID = value;
+					this._createdByID = value;
 				}
 			}
 			
@@ -4393,11 +4397,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _createdDate;
+					return this._createdDate;
 				}
 				set
 				{
-					_createdDate = value;
+					this._createdDate = value;
 				}
 			}
 			
@@ -4409,11 +4413,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _updatedByID;
+					return this._updatedByID;
 				}
 				set
 				{
-					_updatedByID = value;
+					this._updatedByID = value;
 				}
 			}
 			
@@ -4425,11 +4429,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _updatedDate;
+					return this._updatedDate;
 				}
 				set
 				{
-					_updatedDate = value;
+					this._updatedDate = value;
 				}
 			}
 			
@@ -4441,11 +4445,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _firstEventID;
+					return this._firstEventID;
 				}
 				set
 				{
-					_firstEventID = value;
+					this._firstEventID = value;
 				}
 			}
 			
@@ -4457,16 +4461,16 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					if (string.IsNullOrEmpty(_eventTimeZoneId))
+					if (string.IsNullOrEmpty(this._eventTimeZoneId))
 					{
-						EventModuleSettings modSettings = EventModuleSettings.GetEventModuleSettings(_moduleID, null);
-						_eventTimeZoneId = modSettings.TimeZoneId;
+						EventModuleSettings modSettings = EventModuleSettings.GetEventModuleSettings(this._moduleID, null);
+						this._eventTimeZoneId = modSettings.TimeZoneId;
 					}
-					return _eventTimeZoneId;
+					return this._eventTimeZoneId;
 				}
 				set
 				{
-					_eventTimeZoneId = value;
+					this._eventTimeZoneId = value;
 				}
 			}
 			
@@ -4478,11 +4482,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _allowAnonEnroll;
+					return this._allowAnonEnroll;
 				}
 				set
 				{
-					_allowAnonEnroll = value;
+					this._allowAnonEnroll = value;
 				}
 			}
 			
@@ -4494,11 +4498,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _contentItemId;
+					return this._contentItemId;
 				}
 				set
 				{
-					_contentItemId = value;
+					this._contentItemId = value;
 				}
 			}
 			
@@ -4510,11 +4514,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _journalItem;
+					return this._journalItem;
 				}
 				set
 				{
-					_journalItem = value;
+					this._journalItem = value;
 				}
 			}
 			
@@ -4526,11 +4530,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _socialGroupId;
+					return this._socialGroupId;
 				}
 				set
 				{
-					_socialGroupId = value;
+					this._socialGroupId = value;
 				}
 			}
 			
@@ -4542,11 +4546,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _socialUserId;
+					return this._socialUserId;
 				}
 				set
 				{
-					_socialUserId = value;
+					this._socialUserId = value;
 				}
 			}
 			
@@ -4558,11 +4562,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _summary;
+					return this._summary;
 				}
 				set
 				{
-					_summary = value;
+					this._summary = value;
 				}
 			}
 			
@@ -4574,11 +4578,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _sequence;
+					return this._sequence;
 				}
 				set
 				{
-					_sequence = value;
+					this._sequence = value;
 				}
 			}
 			
@@ -4622,11 +4626,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _freq;
+					return this._freq;
 				}
 				set
 				{
-					_freq = value;
+					this._freq = value;
 				}
 			}
 			
@@ -4638,11 +4642,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _interval;
+					return this._interval;
 				}
 				set
 				{
-					_interval = value;
+					this._interval = value;
 				}
 			}
 			
@@ -4654,11 +4658,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _byDay;
+					return this._byDay;
 				}
 				set
 				{
-					_byDay = value;
+					this._byDay = value;
 				}
 			}
 			
@@ -4670,11 +4674,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _byMonthDay;
+					return this._byMonthDay;
 				}
 				set
 				{
-					_byMonthDay = value;
+					this._byMonthDay = value;
 				}
 			}
 			
@@ -4686,11 +4690,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _byMonth;
+					return this._byMonth;
 				}
 				set
 				{
-					_byMonth = value;
+					this._byMonth = value;
 				}
 			}
 			
@@ -4702,11 +4706,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _su;
+					return this._su;
 				}
 				set
 				{
-					_su = value;
+					this._su = value;
 				}
 			}
 			
@@ -4718,11 +4722,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _suNo;
+					return this._suNo;
 				}
 				set
 				{
-					_suNo = value;
+					this._suNo = value;
 				}
 			}
 			
@@ -4734,11 +4738,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _mo;
+					return this._mo;
 				}
 				set
 				{
-					_mo = value;
+					this._mo = value;
 				}
 			}
 			
@@ -4750,11 +4754,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moNo;
+					return this._moNo;
 				}
 				set
 				{
-					_moNo = value;
+					this._moNo = value;
 				}
 			}
 			
@@ -4766,11 +4770,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _tu;
+					return this._tu;
 				}
 				set
 				{
-					_tu = value;
+					this._tu = value;
 				}
 			}
 			
@@ -4782,11 +4786,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _tuNo;
+					return this._tuNo;
 				}
 				set
 				{
-					_tuNo = value;
+					this._tuNo = value;
 				}
 			}
 			
@@ -4798,11 +4802,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _we;
+					return this._we;
 				}
 				set
 				{
-					_we = value;
+					this._we = value;
 				}
 			}
 			
@@ -4814,11 +4818,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _weNo;
+					return this._weNo;
 				}
 				set
 				{
-					_weNo = value;
+					this._weNo = value;
 				}
 			}
 			
@@ -4830,11 +4834,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _th;
+					return this._th;
 				}
 				set
 				{
-					_th = value;
+					this._th = value;
 				}
 			}
 			
@@ -4846,11 +4850,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _thNo;
+					return this._thNo;
 				}
 				set
 				{
-					_thNo = value;
+					this._thNo = value;
 				}
 			}
 			
@@ -4862,11 +4866,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _fr;
+					return this._fr;
 				}
 				set
 				{
-					_fr = value;
+					this._fr = value;
 				}
 			}
 			
@@ -4878,11 +4882,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _frNo;
+					return this._frNo;
 				}
 				set
 				{
-					_frNo = value;
+					this._frNo = value;
 				}
 			}
 			
@@ -4894,11 +4898,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _sa;
+					return this._sa;
 				}
 				set
 				{
-					_sa = value;
+					this._sa = value;
 				}
 			}
 			
@@ -4910,11 +4914,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _saNo;
+					return this._saNo;
 				}
 				set
 				{
-					_saNo = value;
+					this._saNo = value;
 				}
 			}
 			
@@ -4922,11 +4926,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _freqBasic;
+					return this._freqBasic;
 				}
 				set
 				{
-					_freqBasic = value;
+					this._freqBasic = value;
 				}
 			}
 			
@@ -4934,11 +4938,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _wkst;
+					return this._wkst;
 				}
 				set
 				{
-					_wkst = value;
+					this._wkst = value;
 				}
 			}
 			
@@ -4967,11 +4971,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEmailSubject;
+					return this._txtEmailSubject;
 				}
 				set
 				{
-					_txtEmailSubject = value;
+					this._txtEmailSubject = value;
 				}
 			}
 			
@@ -4983,11 +4987,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEmailBody;
+					return this._txtEmailBody;
 				}
 				set
 				{
-					_txtEmailBody = value;
+					this._txtEmailBody = value;
 				}
 			}
 			
@@ -4999,11 +5003,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEmailFrom;
+					return this._txtEmailFrom;
 				}
 				set
 				{
-					_txtEmailFrom = value;
+					this._txtEmailFrom = value;
 				}
 			}
 			
@@ -5015,11 +5019,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userIDs;
+					return this._userIDs;
 				}
 				set
 				{
-					_userIDs = value;
+					this._userIDs = value;
 				}
 			}
 			
@@ -5031,11 +5035,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userEmails;
+					return this._userEmails;
 				}
 				set
 				{
-					_userEmails = value;
+					this._userEmails = value;
 				}
 			}
 			
@@ -5047,11 +5051,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userLocales;
+					return this._userLocales;
 				}
 				set
 				{
-					_userLocales = value;
+					this._userLocales = value;
 				}
 			}
 			
@@ -5063,11 +5067,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userTimeZoneIds;
+					return this._userTimeZoneIds;
 				}
 				set
 				{
-					_userTimeZoneIds = value;
+					this._userTimeZoneIds = value;
 				}
 			}
 			
@@ -5077,16 +5081,16 @@ namespace DotNetNuke.Modules.Events
 			public EventEmailInfo()
 			{
 				ArrayList newUserEmails = new ArrayList();
-				UserEmails = newUserEmails;
+				this.UserEmails = newUserEmails;
 				
 				ArrayList newUserIDs = new ArrayList();
-				UserIDs = newUserIDs;
+				this.UserIDs = newUserIDs;
 				
 				ArrayList newUserLocales = new ArrayList();
-				UserLocales = newUserLocales;
+				this.UserLocales = newUserLocales;
 				
 				ArrayList newUserTimeZoneIds = new ArrayList();
-				UserTimeZoneIds = newUserTimeZoneIds;
+				this.UserTimeZoneIds = newUserTimeZoneIds;
 				
 			}
 		}
@@ -5121,11 +5125,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _portalID;
+					return this._portalID;
 				}
 				set
 				{
-					_portalID = value;
+					this._portalID = value;
 				}
 			}
 			
@@ -5137,11 +5141,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _subscriptionID;
+					return this._subscriptionID;
 				}
 				set
 				{
-					_subscriptionID = value;
+					this._subscriptionID = value;
 				}
 			}
 			
@@ -5153,11 +5157,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moduleID;
+					return this._moduleID;
 				}
 				set
 				{
-					_moduleID = value;
+					this._moduleID = value;
 				}
 			}
 			
@@ -5169,11 +5173,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userID;
+					return this._userID;
 				}
 				set
 				{
-					_userID = value;
+					this._userID = value;
 				}
 			}
 			
@@ -5197,11 +5201,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _indexId;
+					return this._indexId;
 				}
 				set
 				{
-					_indexId = value;
+					this._indexId = value;
 				}
 			}
 			private int _eventID;
@@ -5213,11 +5217,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventID;
+					return this._eventID;
 				}
 				set
 				{
-					_eventID = value;
+					this._eventID = value;
 				}
 			}
 			
@@ -5230,11 +5234,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _createdByID;
+					return this._createdByID;
 				}
 				set
 				{
-					_createdByID = value;
+					this._createdByID = value;
 				}
 			}
 			
@@ -5247,11 +5251,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _ownerID;
+					return this._ownerID;
 				}
 				set
 				{
-					_ownerID = value;
+					this._ownerID = value;
 				}
 			}
 			
@@ -5264,11 +5268,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _moduleID;
+					return this._moduleID;
 				}
 				set
 				{
-					_moduleID = value;
+					this._moduleID = value;
 				}
 			}
 			
@@ -5281,11 +5285,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventDateBegin;
+					return this._eventDateBegin;
 				}
 				set
 				{
-					_eventDateBegin = value;
+					this._eventDateBegin = value;
 				}
 			}
 			
@@ -5298,11 +5302,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventDateEnd;
+					return this._eventDateEnd;
 				}
 				set
 				{
-					_eventDateEnd = value;
+					this._eventDateEnd = value;
 				}
 			}
 			
@@ -5315,11 +5319,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEventDateEnd;
+					return this._txtEventDateEnd;
 				}
 				set
 				{
-					_txtEventDateEnd = value;
+					this._txtEventDateEnd = value;
 				}
 			}
 			
@@ -5332,11 +5336,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventTimeBegin;
+					return this._eventTimeBegin;
 				}
 				set
 				{
-					_eventTimeBegin = value;
+					this._eventTimeBegin = value;
 				}
 			}
 			
@@ -5349,11 +5353,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _txtEventTimeBegin;
+					return this._txtEventTimeBegin;
 				}
 				set
 				{
-					_txtEventTimeBegin = value;
+					this._txtEventTimeBegin = value;
 				}
 			}
 			
@@ -5366,11 +5370,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _recurUntil;
+					return this._recurUntil;
 				}
 				set
 				{
-					_recurUntil = value;
+					this._recurUntil = value;
 				}
 			}
 			
@@ -5383,11 +5387,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _duration;
+					return this._duration;
 				}
 				set
 				{
-					_duration = value;
+					this._duration = value;
 				}
 			}
 			
@@ -5400,11 +5404,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventName;
+					return this._eventName;
 				}
 				set
 				{
-					_eventName = value;
+					this._eventName = value;
 				}
 			}
 			
@@ -5417,11 +5421,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _eventDesc;
+					return this._eventDesc;
 				}
 				set
 				{
-					_eventDesc = value;
+					this._eventDesc = value;
 				}
 			}
 			
@@ -5434,11 +5438,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _decodedDesc;
+					return this._decodedDesc;
 				}
 				set
 				{
-					_decodedDesc = value;
+					this._decodedDesc = value;
 				}
 			}
 			
@@ -5451,11 +5455,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _recurText;
+					return this._recurText;
 				}
 				set
 				{
-					_recurText = value;
+					this._recurText = value;
 				}
 			}
 			
@@ -5468,11 +5472,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _url;
+					return this._url;
 				}
 				set
 				{
-					_url = value;
+					this._url = value;
 				}
 			}
 			
@@ -5485,11 +5489,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _target;
+					return this._target;
 				}
 				set
 				{
-					_target = value;
+					this._target = value;
 				}
 			}
 			
@@ -5502,11 +5506,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _imageURL;
+					return this._imageURL;
 				}
 				set
 				{
-					_imageURL = value;
+					this._imageURL = value;
 				}
 			}
 			
@@ -5520,11 +5524,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _categoryName;
+					return this._categoryName;
 				}
 				set
 				{
-					_categoryName = value;
+					this._categoryName = value;
 				}
 			}
 			
@@ -5537,11 +5541,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _locationName;
+					return this._locationName;
 				}
 				set
 				{
-					_locationName = value;
+					this._locationName = value;
 				}
 			}
 			
@@ -5554,11 +5558,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _customField1;
+					return this._customField1;
 				}
 				set
 				{
-					_customField1 = value;
+					this._customField1 = value;
 				}
 			}
 			
@@ -5571,11 +5575,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _customField2;
+					return this._customField2;
 				}
 				set
 				{
-					_customField2 = value;
+					this._customField2 = value;
 				}
 			}
 			
@@ -5588,11 +5592,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _editVisibility;
+					return this._editVisibility;
 				}
 				set
 				{
-					_editVisibility = value;
+					this._editVisibility = value;
 				}
 			}
 			
@@ -5605,11 +5609,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _categoryColor;
+					return this._categoryColor;
 				}
 				set
 				{
-					_categoryColor = value;
+					this._categoryColor = value;
 				}
 			}
 			
@@ -5622,11 +5626,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _categoryFontColor;
+					return this._categoryFontColor;
 				}
 				set
 				{
-					_categoryFontColor = value;
+					this._categoryFontColor = value;
 				}
 			}
 			
@@ -5639,11 +5643,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _displayDuration;
+					return this._displayDuration;
 				}
 				set
 				{
-					_displayDuration = value;
+					this._displayDuration = value;
 				}
 			}
 			
@@ -5656,11 +5660,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _recurMasterID;
+					return this._recurMasterID;
 				}
 				set
 				{
-					_recurMasterID = value;
+					this._recurMasterID = value;
 				}
 			}
 			
@@ -5673,11 +5677,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _icons;
+					return this._icons;
 				}
 				set
 				{
-					_icons = value;
+					this._icons = value;
 				}
 			}
 			
@@ -5690,11 +5694,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _tooltip;
+					return this._tooltip;
 				}
 				set
 				{
-					_tooltip = value;
+					this._tooltip = value;
 				}
 			}
 			
@@ -5801,51 +5805,51 @@ namespace DotNetNuke.Modules.Events
 			public int CompareTo(object obj)
 			{
 				EventListObject o = (EventListObject) obj;
-				string xCompare = EventName + Strings.Format(EventID, "00000000");
+				string xCompare = this.EventName + Strings.Format(this.EventID, "00000000");
 				string yCompare = o.EventName + Strings.Format(o.EventID, "00000000");
 				if (SortExpression == SortFilter.CategoryName)
 				{
-					xCompare = CategoryName + Strings.Format(EventID, "00000000");
+					xCompare = this.CategoryName + Strings.Format(this.EventID, "00000000");
 					yCompare = o.CategoryName + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.CustomField1)
 				{
-					xCompare = CustomField1 + Strings.Format(EventID, "00000000");
+					xCompare = this.CustomField1 + Strings.Format(this.EventID, "00000000");
 					yCompare = o.CustomField1 + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.CustomField2)
 				{
-					xCompare = CustomField2 + Strings.Format(EventID, "00000000");
+					xCompare = this.CustomField2 + Strings.Format(this.EventID, "00000000");
 					yCompare = o.CustomField2 + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.Description)
 				{
-					xCompare = EventDesc + Strings.Format(EventID, "00000000");
+					xCompare = this.EventDesc + Strings.Format(this.EventID, "00000000");
 					yCompare = o.EventDesc + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.Duration)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(Duration, "000000") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.Duration, "000000") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.Duration, "000000") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.EventDateBegin)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(EventDateBegin, "yyyyMMddHHmm") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.EventDateBegin, "yyyyMMddHHmm") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.EventDateBegin, "yyyyMMddHHmm") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.EventDateEnd)
 				{
-					xCompare = System.Convert.ToString(Strings.Format(EventDateEnd, "yyyyMMddHHmm") + Strings.Format(EventID, "00000000"));
+					xCompare = System.Convert.ToString(Strings.Format(this.EventDateEnd, "yyyyMMddHHmm") + Strings.Format(this.EventID, "00000000"));
 					yCompare = System.Convert.ToString(Strings.Format(o.EventDateEnd, "yyyyMMddHHmm") + Strings.Format(o.EventID, "00000000"));
 				}
 				else if (SortExpression == SortFilter.LocationName)
 				{
-					xCompare = LocationName + Strings.Format(EventID, "00000000");
+					xCompare = this.LocationName + Strings.Format(this.EventID, "00000000");
 					yCompare = o.LocationName + Strings.Format(o.EventID, "00000000");
 				}
 				else if (SortExpression == SortFilter.EventID)
 				{
-					xCompare = Strings.Format(EventID, "00000000");
+					xCompare = Strings.Format(this.EventID, "00000000");
 					yCompare = Strings.Format(o.EventID, "00000000");
 				}
 				if (SortDirection == System.Web.UI.WebControls.SortDirection.Ascending)
@@ -5878,11 +5882,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _userID;
+					return this._userID;
 				}
 				set
 				{
-					_userID = value;
+					this._userID = value;
 				}
 			}
 			
@@ -5894,11 +5898,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _displayName;
+					return this._displayName;
 				}
 				set
 				{
-					_displayName = value;
+					this._displayName = value;
 				}
 			}
 			
@@ -5910,11 +5914,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _profileURL;
+					return this._profileURL;
 				}
 				set
 				{
-					_profileURL = value;
+					this._profileURL = value;
 				}
 			}
 			
@@ -5926,11 +5930,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _displayNameURL;
+					return this._displayNameURL;
 				}
 				set
 				{
-					_displayNameURL = value;
+					this._displayNameURL = value;
 				}
 			}
 			
@@ -5960,11 +5964,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _signupID;
+					return this._signupID;
 				}
 				set
 				{
-					_signupID = value;
+					this._signupID = value;
 				}
 			}
 			
@@ -5976,11 +5980,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollUserName;
+					return this._enrollUserName;
 				}
 				set
 				{
-					_enrollUserName = value;
+					this._enrollUserName = value;
 				}
 			}
 			
@@ -5992,11 +5996,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollDisplayName;
+					return this._enrollDisplayName;
 				}
 				set
 				{
-					_enrollDisplayName = value;
+					this._enrollDisplayName = value;
 				}
 			}
 			
@@ -6008,11 +6012,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollEmail;
+					return this._enrollEmail;
 				}
 				set
 				{
-					_enrollEmail = value;
+					this._enrollEmail = value;
 				}
 			}
 			
@@ -6024,11 +6028,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollPhone;
+					return this._enrollPhone;
 				}
 				set
 				{
-					_enrollPhone = value;
+					this._enrollPhone = value;
 				}
 			}
 			
@@ -6040,11 +6044,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollApproved;
+					return this._enrollApproved;
 				}
 				set
 				{
-					_enrollApproved = value;
+					this._enrollApproved = value;
 				}
 			}
 			
@@ -6056,11 +6060,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollNo;
+					return this._enrollNo;
 				}
 				set
 				{
-					_enrollNo = value;
+					this._enrollNo = value;
 				}
 			}
 			
@@ -6072,11 +6076,11 @@ namespace DotNetNuke.Modules.Events
 			{
 				get
 				{
-					return _enrollTimeBegin;
+					return this._enrollTimeBegin;
 				}
 				set
 				{
-					_enrollTimeBegin = value;
+					this._enrollTimeBegin = value;
 				}
 			}
 		}

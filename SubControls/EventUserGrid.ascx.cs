@@ -7,6 +7,7 @@ using DotNetNuke.Entities.Modules;
 using DotNetNuke.Security.Roles;
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -26,12 +27,15 @@ using DotNetNuke.Security.Roles;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 	{
-		[System.ComponentModel.DefaultEvent("Refreshed")]public partial class EventUserGrid : EventBase
+	    using global::Components;
+
+	    [System.ComponentModel.DefaultEvent("Refreshed")]public partial class EventUserGrid : EventBase
 		{
 			//  Inherits Framework.UserControlBase
 			

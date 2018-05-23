@@ -15,6 +15,7 @@ using System.Linq;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -34,11 +35,14 @@ using System.Linq;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 	{
+	    using global::Components;
+
 	    #region vEvent Class
 		
 		public class VEvent : IHttpHandler

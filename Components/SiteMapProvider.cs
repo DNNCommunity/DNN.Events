@@ -6,6 +6,7 @@ using DotNetNuke.Services.Sitemap;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -25,13 +26,15 @@ using DotNetNuke.Services.Sitemap;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events.Providers
 	{
-		
-		public class Sitemap : SitemapProvider
+	    using global::Components;
+
+	    public class Sitemap : SitemapProvider
 		{
 #region Public Methods
 			public override System.Collections.Generic.List<SitemapUrl> GetUrls(int portalID, PortalSettings ps, string version)

@@ -5,6 +5,7 @@ using DotNetNuke.Entities.Content;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -24,12 +25,14 @@ using DotNetNuke.Entities.Content;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events.Components.Integration
 	{
 	    using System.Linq;
+	    using global::Components;
 
 	    public class Content
 		{

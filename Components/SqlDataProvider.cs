@@ -4,6 +4,7 @@ using Microsoft.ApplicationBlocks.Data;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -23,13 +24,15 @@ using Microsoft.ApplicationBlocks.Data;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 	{
-		
-		public class SqlDataProvider : DataProvider
+	    using global::Components;
+
+	    public class SqlDataProvider : DataProvider
 		{
 			
 			

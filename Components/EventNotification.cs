@@ -9,6 +9,7 @@ using DotNetNuke.Entities.Modules;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -28,12 +29,15 @@ using DotNetNuke.Entities.Modules;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 	{
-		public class EventNotification : Services.Scheduling.SchedulerClient
+	    using global::Components;
+
+	    public class EventNotification : Services.Scheduling.SchedulerClient
 		{
 			
 #region Constructors

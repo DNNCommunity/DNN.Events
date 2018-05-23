@@ -13,6 +13,7 @@ using DotNetNuke.Security.Roles;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -32,13 +33,15 @@ using DotNetNuke.Security.Roles;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 	{
-		
-#region TokenReplaceController Class
+	    using global::Components;
+
+	    #region TokenReplaceController Class
 		/// <summary>
 		/// Replaces the tokens that are defined for the Event e-mails and views
 		/// </summary>

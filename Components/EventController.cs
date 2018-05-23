@@ -17,6 +17,7 @@ using System.Globalization;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -36,6 +37,7 @@ using System.Globalization;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
@@ -44,6 +46,7 @@ namespace DotNetNuke.Modules.Events
 {
     using System.Linq;
     using DotNetNuke.Modules.Events.Components.Integration;
+    using global::Components;
 
     #region EventInfoHelper Class
     public class EventInfoHelper : PortalModuleBase

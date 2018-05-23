@@ -13,6 +13,7 @@ using DotNetNuke.Framework.JavaScriptLibraries;
 
 
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -32,12 +33,15 @@ using DotNetNuke.Framework.JavaScriptLibraries;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 	{
-		public partial class EventMonth : EventBase
+	    using global::Components;
+
+	    public partial class EventMonth : EventBase
 		{
 			
 #region Private Variables
