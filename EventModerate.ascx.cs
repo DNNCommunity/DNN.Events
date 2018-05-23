@@ -1,11 +1,3 @@
-using DotNetNuke.Services.Exceptions;
-using System.Diagnostics;
-using DotNetNuke.Framework;
-using System.Web.UI.WebControls;
-using System.Collections;
-using DotNetNuke.Services.Localization;
-using System;
-
 #region Copyright
 
 // 
@@ -33,63 +25,49 @@ using System;
 
 namespace DotNetNuke.Modules.Events
 {
+    using System;
+    using System.Collections;
+    using System.Diagnostics;
+    using System.Web.UI.WebControls;
+    using DNNtc;
+    using DotNetNuke.Common;
+    using DotNetNuke.Framework;
+    using DotNetNuke.Security;
+    using DotNetNuke.Services.Exceptions;
+    using DotNetNuke.Services.Localization;
     using global::Components;
 
-    [DNNtc.ModuleControlProperties("Moderate", "Moderate Events and Enrollment", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", true, true)]
+    [ModuleControlProperties("Moderate", "Moderate Events and Enrollment", ControlType.View,
+        "https://dnnevents.codeplex.com/documentation", true, true)]
     public partial class EventModerate : EventBase
     {
-
-        #region  Web Form Designer Generated Code
-
-        //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-
-        }
-
-        private void Page_Init(System.Object sender, EventArgs e)
-        {
-            //CODEGEN: This method call is required by the Web Form Designer
-            //Do not modify it using the code editor.
-            InitializeComponent();
-        }
-
-        #endregion
-
-        #region Private Area
-        private EventController _objCtlEvent = new EventController();
-        private EventRecurMasterController _objCtlEventRecurMaster = new EventRecurMasterController();
-        private EventSignupsController _objCtlEventSignups = new EventSignupsController();
-        private ArrayList _eventModeration = new ArrayList();
-        private ArrayList _eventRecurModeration = new ArrayList();
-        #endregion
-
         #region Event Handlers
-        private void Page_Load(System.Object sender, EventArgs e)
+
+        private void Page_Load(object sender, EventArgs e)
         {
             try
             {
                 // Verify that the current user has moderator access to this module
-                if (Security.PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()) ||
-                    IsModerator())
-                {
-                }
+                if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName) || this.IsModerator())
+                { }
                 else
                 {
-                    Response.Redirect(GetSocialNavigateUrl(), true);
+                    this.Response.Redirect(this.GetSocialNavigateUrl(), true);
                 }
 
                 // Set the selected theme
-                SetTheme(pnlEventsModuleModerate);
+                this.SetTheme(this.pnlEventsModuleModerate);
 
-                if (Page.IsPostBack == false)
+                if (this.Page.IsPostBack == false)
                 {
-                    txtEmailFrom.Text = UserInfo.Email.ToString();
-                    LocalizeAll();
+                    this.txtEmailFrom.Text = this.UserInfo.Email;
+                    this.LocalizeAll();
                     //Are You Sure You Wish To Update/Delete Item(s) (and send Email) ?'
-                    cmdUpdateSelected.Attributes.Add("onclick", "javascript:return confirm('" + Localization.GetString("ConfirmUpdateDeleteModerate", LocalResourceFile) + "');");
-                    BindData();
+                    this.cmdUpdateSelected.Attributes.Add(
+                        "onclick",
+                        "javascript:return confirm('" +
+                        Localization.GetString("ConfirmUpdateDeleteModerate", this.LocalResourceFile) + "');");
+                    this.BindData();
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -97,50 +75,87 @@ namespace DotNetNuke.Modules.Events
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
         }
+
+        #endregion
+
+        #region  Web Form Designer Generated Code
+
+        //This call is required by the Web Form Designer.
+        [DebuggerStepThrough]
+        private void InitializeComponent()
+        { }
+
+        private void Page_Init(object sender, EventArgs e)
+        {
+            //CODEGEN: This method call is required by the Web Form Designer
+            //Do not modify it using the code editor.
+            this.InitializeComponent();
+        }
+
+        #endregion
+
+        #region Private Area
+
+        private readonly EventController _objCtlEvent = new EventController();
+        private readonly EventRecurMasterController _objCtlEventRecurMaster = new EventRecurMasterController();
+        private readonly EventSignupsController _objCtlEventSignups = new EventSignupsController();
+        private ArrayList _eventModeration = new ArrayList();
+        private ArrayList _eventRecurModeration = new ArrayList();
+
         #endregion
 
         #region Helper Methods
+
         private void BindData()
         {
-            EventInfoHelper objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
-            EventTimeZoneUtilities objEventTimeZoneUtilities = new EventTimeZoneUtilities();
-            _eventModeration = new ArrayList();
-            switch (rbModerate.SelectedValue)
+            var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+            var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
+            this._eventModeration = new ArrayList();
+            switch (this.rbModerate.SelectedValue)
             {
                 case "Events":
-                    _eventModeration = objEventInfoHelper.ConvertEventListToDisplayTimeZone(_objCtlEvent.EventsModerateEvents(ModuleId, GetUrlGroupId()), GetDisplayTimeZoneId());
+                    this._eventModeration =
+                        objEventInfoHelper.ConvertEventListToDisplayTimeZone(
+                            this._objCtlEvent.EventsModerateEvents(this.ModuleId, this.GetUrlGroupId()),
+                            this.GetDisplayTimeZoneId());
 
-                    _eventRecurModeration = new ArrayList();
-                    _eventRecurModeration = _objCtlEventRecurMaster.EventsRecurMasterModerate(ModuleId, GetUrlGroupId());
-                    foreach (EventRecurMasterInfo objRecurMaster in _eventRecurModeration)
+                    this._eventRecurModeration = new ArrayList();
+                    this._eventRecurModeration =
+                        this._objCtlEventRecurMaster.EventsRecurMasterModerate(this.ModuleId, this.GetUrlGroupId());
+                    foreach (EventRecurMasterInfo objRecurMaster in this._eventRecurModeration)
                     {
-                        objRecurMaster.Dtstart = objEventTimeZoneUtilities.ConvertToDisplayTimeZone(objRecurMaster.Dtstart, objRecurMaster.EventTimeZoneId, PortalId, GetDisplayTimeZoneId()).EventDate;
+                        objRecurMaster.Dtstart = objEventTimeZoneUtilities
+                            .ConvertToDisplayTimeZone(objRecurMaster.Dtstart, objRecurMaster.EventTimeZoneId,
+                                                      this.PortalId, this.GetDisplayTimeZoneId()).EventDate;
                     }
 
                     //Get data for selected date and fill grid
-                    grdEvents.DataSource = _eventModeration;
-                    grdEvents.DataBind();
+                    this.grdEvents.DataSource = this._eventModeration;
+                    this.grdEvents.DataBind();
 
-                    if (_eventRecurModeration.Count > 0)
+                    if (this._eventRecurModeration.Count > 0)
                     {
-                        grdRecurEvents.DataSource = _eventRecurModeration;
-                        grdRecurEvents.DataBind();
-                        grdRecurEvents.Visible = true;
+                        this.grdRecurEvents.DataSource = this._eventRecurModeration;
+                        this.grdRecurEvents.DataBind();
+                        this.grdRecurEvents.Visible = true;
                     }
 
-                    grdEvents.Visible = true;
-                    grdEnrollment.Visible = false;
+                    this.grdEvents.Visible = true;
+                    this.grdEnrollment.Visible = false;
                     break;
                 case "Enrollment":
-                    _eventModeration = _objCtlEventSignups.EventsModerateSignups(ModuleId, GetUrlGroupId());
+                    this._eventModeration =
+                        this._objCtlEventSignups.EventsModerateSignups(this.ModuleId, this.GetUrlGroupId());
 
-                    EventSignupsInfo objSignup = default(EventSignupsInfo);
-                    foreach (EventSignupsInfo tempLoopVar_objSignup in _eventModeration)
+                    var objSignup = default(EventSignupsInfo);
+                    foreach (EventSignupsInfo tempLoopVar_objSignup in this._eventModeration)
                     {
                         objSignup = tempLoopVar_objSignup;
                         if (objSignup.UserID != -1)
                         {
-                            objSignup.UserName = objEventInfoHelper.UserDisplayNameProfile(objSignup.UserID, objSignup.UserName, LocalResourceFile).DisplayNameURL;
+                            objSignup.UserName = objEventInfoHelper
+                                .UserDisplayNameProfile(objSignup.UserID, objSignup.UserName, this.LocalResourceFile)
+                                .DisplayNameURL;
                         }
                         else
                         {
@@ -155,116 +170,132 @@ namespace DotNetNuke.Modules.Events
                         {
                             objSignup.EmailVisible = true;
                         }
-                        objSignup.EventTimeBegin = objEventTimeZoneUtilities.ConvertToDisplayTimeZone(objSignup.EventTimeBegin, objSignup.EventTimeZoneId, PortalId, GetDisplayTimeZoneId()).EventDate;
+                        objSignup.EventTimeBegin = objEventTimeZoneUtilities
+                            .ConvertToDisplayTimeZone(objSignup.EventTimeBegin, objSignup.EventTimeZoneId,
+                                                      this.PortalId, this.GetDisplayTimeZoneId()).EventDate;
                     }
 
                     //Get data for selected date and fill grid
-                    grdEnrollment.DataSource = _eventModeration;
-                    grdEnrollment.DataBind();
+                    this.grdEnrollment.DataSource = this._eventModeration;
+                    this.grdEnrollment.DataBind();
                     //Add Remove Popup to grid
-                    int i = 0;
-                    if (grdEnrollment.Items.Count > 0)
+                    var i = 0;
+                    if (this.grdEnrollment.Items.Count > 0)
                     {
-                        for (i = 0; i <= grdEnrollment.Items.Count - 1; i++)
+                        for (i = 0; i <= this.grdEnrollment.Items.Count - 1; i++)
                         {
                             //Are You Sure You Wish To Email the User?'
-                            ((ImageButton)(grdEnrollment.Items[i].FindControl("btnUserEmail"))).Attributes.Add("onclick", "javascript:return confirm('" + Localization.GetString("ConfirmModerateSendMailToUser", LocalResourceFile) + "');");
-                            ((ImageButton)(grdEnrollment.Items[i].FindControl("btnUserEmail"))).AlternateText = Localization.GetString("EmailUser", LocalResourceFile);
-                            ((ImageButton)(grdEnrollment.Items[i].FindControl("btnUserEmail"))).ToolTip = Localization.GetString("EmailUser", LocalResourceFile);
+                            ((ImageButton) this.grdEnrollment.Items[i].FindControl("btnUserEmail")).Attributes.Add(
+                                "onclick",
+                                "javascript:return confirm('" +
+                                Localization
+                                    .GetString(
+                                        "ConfirmModerateSendMailToUser",
+                                        this
+                                            .LocalResourceFile) +
+                                "');");
+                            ((ImageButton) this.grdEnrollment.Items[i].FindControl("btnUserEmail")).AlternateText =
+                                Localization.GetString("EmailUser", this.LocalResourceFile);
+                            ((ImageButton) this.grdEnrollment.Items[i].FindControl("btnUserEmail")).ToolTip =
+                                Localization.GetString("EmailUser", this.LocalResourceFile);
                         }
-                        grdEvents.Visible = false;
-                        grdRecurEvents.Visible = false;
-                        grdEnrollment.Visible = true;
+                        this.grdEvents.Visible = false;
+                        this.grdRecurEvents.Visible = false;
+                        this.grdEnrollment.Visible = true;
                     }
                     break;
             }
-            if (_eventModeration.Count < 1)
+            if (this._eventModeration.Count < 1)
             {
                 //"No New Events/Enrollments to Moderate..."
-                lblMessage.Text = Localization.GetString("MsgModerateNothingToModerate", LocalResourceFile);
-                ShowButtonsGrid(false);
+                this.lblMessage.Text = Localization.GetString("MsgModerateNothingToModerate", this.LocalResourceFile);
+                this.ShowButtonsGrid(false);
             }
             else
             {
                 //Deny option will delete Event/Enrollment Entries from the Database!"
-                lblMessage.Text = Localization.GetString("MsgModerateNoteDenyOption", LocalResourceFile);
-                ShowButtonsGrid(true);
+                this.lblMessage.Text = Localization.GetString("MsgModerateNoteDenyOption", this.LocalResourceFile);
+                this.ShowButtonsGrid(true);
             }
         }
 
         private void LocalizeAll()
         {
-            txtEmailSubject.Text = Settings.Templates.txtEmailSubject;
-            txtEmailMessage.Text = Settings.Templates.txtEmailMessage;
+            this.txtEmailSubject.Text = this.Settings.Templates.txtEmailSubject;
+            this.txtEmailMessage.Text = this.Settings.Templates.txtEmailMessage;
 
-            grdEvents.Columns[0].HeaderText = Localization.GetString("SingleAction", LocalResourceFile);
-            grdEvents.Columns[1].HeaderText = Localization.GetString("Date", LocalResourceFile);
-            grdEvents.Columns[2].HeaderText = Localization.GetString("Time", LocalResourceFile);
-            grdEvents.Columns[3].HeaderText = Localization.GetString("Event", LocalResourceFile);
+            this.grdEvents.Columns[0].HeaderText = Localization.GetString("SingleAction", this.LocalResourceFile);
+            this.grdEvents.Columns[1].HeaderText = Localization.GetString("Date", this.LocalResourceFile);
+            this.grdEvents.Columns[2].HeaderText = Localization.GetString("Time", this.LocalResourceFile);
+            this.grdEvents.Columns[3].HeaderText = Localization.GetString("Event", this.LocalResourceFile);
 
-            grdRecurEvents.Columns[0].HeaderText = Localization.GetString("RecurAction", LocalResourceFile);
-            grdRecurEvents.Columns[1].HeaderText = Localization.GetString("Date", LocalResourceFile);
-            grdRecurEvents.Columns[2].HeaderText = Localization.GetString("Time", LocalResourceFile);
-            grdRecurEvents.Columns[3].HeaderText = Localization.GetString("Event", LocalResourceFile);
+            this.grdRecurEvents.Columns[0].HeaderText = Localization.GetString("RecurAction", this.LocalResourceFile);
+            this.grdRecurEvents.Columns[1].HeaderText = Localization.GetString("Date", this.LocalResourceFile);
+            this.grdRecurEvents.Columns[2].HeaderText = Localization.GetString("Time", this.LocalResourceFile);
+            this.grdRecurEvents.Columns[3].HeaderText = Localization.GetString("Event", this.LocalResourceFile);
 
-            grdEnrollment.Columns[0].HeaderText = Localization.GetString("Action", LocalResourceFile);
-            grdEnrollment.Columns[1].HeaderText = Localization.GetString("Date", LocalResourceFile);
-            grdEnrollment.Columns[2].HeaderText = Localization.GetString("Time", LocalResourceFile);
-            grdEnrollment.Columns[3].HeaderText = Localization.GetString("Event", LocalResourceFile);
-            grdEnrollment.Columns[4].HeaderText = "";
-            grdEnrollment.Columns[5].HeaderText = Localization.GetString("User", LocalResourceFile);
-            grdEnrollment.Columns[6].HeaderText = Localization.GetString("NoEnrolees", LocalResourceFile);
-
+            this.grdEnrollment.Columns[0].HeaderText = Localization.GetString("Action", this.LocalResourceFile);
+            this.grdEnrollment.Columns[1].HeaderText = Localization.GetString("Date", this.LocalResourceFile);
+            this.grdEnrollment.Columns[2].HeaderText = Localization.GetString("Time", this.LocalResourceFile);
+            this.grdEnrollment.Columns[3].HeaderText = Localization.GetString("Event", this.LocalResourceFile);
+            this.grdEnrollment.Columns[4].HeaderText = "";
+            this.grdEnrollment.Columns[5].HeaderText = Localization.GetString("User", this.LocalResourceFile);
+            this.grdEnrollment.Columns[6].HeaderText = Localization.GetString("NoEnrolees", this.LocalResourceFile);
         }
 
         private void ShowButtonsGrid(bool blShow)
         {
-            pnlEmail.Visible = blShow;
-            pnlGrid.Visible = blShow;
-            cmdUpdateSelected.Visible = blShow;
-            cmdSelectApproveAll.Visible = blShow;
-            cmdSelectDenyAll.Visible = blShow;
-            cmdUnmarkAll.Visible = blShow;
+            this.pnlEmail.Visible = blShow;
+            this.pnlGrid.Visible = blShow;
+            this.cmdUpdateSelected.Visible = blShow;
+            this.cmdSelectApproveAll.Visible = blShow;
+            this.cmdSelectDenyAll.Visible = blShow;
+            this.cmdUnmarkAll.Visible = blShow;
         }
+
         #endregion
 
         #region Links and Buttons
-        protected void cmdUpdateSelected_Click(System.Object sender, EventArgs e)
+
+        protected void cmdUpdateSelected_Click(object sender, EventArgs e)
         {
-            DataGridItem item = default(DataGridItem);
-            EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
+            var item = default(DataGridItem);
+            var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                ((PageBase) this.Page).PageCulture.Name);
 
             try
             {
-                switch (rbModerate.SelectedValue)
+                switch (this.rbModerate.SelectedValue)
                 {
                     case "Events":
-                        EventEmailInfo objEventEmailInfo_1 = new EventEmailInfo();
-                        objEventEmailInfo_1.TxtEmailSubject = txtEmailSubject.Text;
-                        objEventEmailInfo_1.TxtEmailBody = txtEmailMessage.Text;
-                        objEventEmailInfo_1.TxtEmailFrom = txtEmailFrom.Text;
-                        EventInfo objCal = new EventInfo();
-                        EventRecurMasterInfo objEventRecurMaster = default(EventRecurMasterInfo);
-                        foreach (DataGridItem tempLoopVar_item in grdEvents.Items)
+                        var objEventEmailInfo_1 = new EventEmailInfo();
+                        objEventEmailInfo_1.TxtEmailSubject = this.txtEmailSubject.Text;
+                        objEventEmailInfo_1.TxtEmailBody = this.txtEmailMessage.Text;
+                        objEventEmailInfo_1.TxtEmailFrom = this.txtEmailFrom.Text;
+                        var objCal = new EventInfo();
+                        var objEventRecurMaster = default(EventRecurMasterInfo);
+                        foreach (DataGridItem tempLoopVar_item in this.grdEvents.Items)
                         {
                             item = tempLoopVar_item;
-                            switch (((RadioButtonList)(item.FindControl("rbEventAction"))).SelectedValue)
+                            switch (((RadioButtonList) item.FindControl("rbEventAction")).SelectedValue)
                             {
                                 case "Approve":
-                                    objCal = _objCtlEvent.EventsGet(System.Convert.ToInt32(grdEvents.DataKeys[item.ItemIndex]), ModuleId);
+                                    objCal = this._objCtlEvent.EventsGet(
+                                        Convert.ToInt32(this.grdEvents.DataKeys[item.ItemIndex]),
+                                        this.ModuleId);
                                     objCal.Approved = true;
-                                    bool newEventEmailSent = objCal.NewEventEmailSent;
+                                    var newEventEmailSent = objCal.NewEventEmailSent;
                                     objCal.NewEventEmailSent = true;
-                                    _objCtlEvent.EventsSave(objCal, true, TabId, false);
+                                    this._objCtlEvent.EventsSave(objCal, true, this.TabId, false);
                                     // Only send event emails when event approved for first time
                                     if (!newEventEmailSent)
                                     {
                                         objCal.RRULE = "";
-                                        SendNewEventEmails(objCal);
-                                        CreateNewEventJournal(objCal);
+                                        this.SendNewEventEmails(objCal);
+                                        this.CreateNewEventJournal(objCal);
                                     }
                                     // Email Requesting/Moderated User
-                                    if (chkEmail.Checked)
+                                    if (this.chkEmail.Checked)
                                     {
                                         objCal.RRULE = "";
                                         objEventEmailInfo_1.UserIDs.Clear();
@@ -273,21 +304,26 @@ namespace DotNetNuke.Modules.Events
                                     }
                                     break;
                                 case "Deny":
-                                    objCal = _objCtlEvent.EventsGet(System.Convert.ToInt32(grdEvents.DataKeys[item.ItemIndex]), ModuleId);
+                                    objCal = this._objCtlEvent.EventsGet(
+                                        Convert.ToInt32(this.grdEvents.DataKeys[item.ItemIndex]),
+                                        this.ModuleId);
                                     //Don't Allow Delete on Enrolled Event - Only Cancel
-                                    objEventRecurMaster = _objCtlEventRecurMaster.EventsRecurMasterGet(objCal.RecurMasterID, objCal.ModuleID);
+                                    objEventRecurMaster =
+                                        this._objCtlEventRecurMaster.EventsRecurMasterGet(
+                                            objCal.RecurMasterID, objCal.ModuleID);
                                     if (objEventRecurMaster.RRULE != "")
                                     {
                                         objCal.Cancelled = true;
-                                        objCal.LastUpdatedID = UserId;
-                                        objCal = _objCtlEvent.EventsSave(objCal, false, TabId, true);
+                                        objCal.LastUpdatedID = this.UserId;
+                                        objCal = this._objCtlEvent.EventsSave(objCal, false, this.TabId, true);
                                     }
                                     else
                                     {
-                                        _objCtlEventRecurMaster.EventsRecurMasterDelete(objCal.RecurMasterID, objCal.ModuleID);
+                                        this._objCtlEventRecurMaster.EventsRecurMasterDelete(
+                                            objCal.RecurMasterID, objCal.ModuleID);
                                     }
                                     // Email Requesting/Moderated User
-                                    if (chkEmail.Checked)
+                                    if (this.chkEmail.Checked)
                                     {
                                         objCal.RRULE = "";
                                         objEventEmailInfo_1.UserIDs.Clear();
@@ -297,39 +333,45 @@ namespace DotNetNuke.Modules.Events
                                     break;
                             }
                         }
-                        foreach (DataGridItem tempLoopVar_item in grdRecurEvents.Items)
+                        foreach (DataGridItem tempLoopVar_item in this.grdRecurEvents.Items)
                         {
                             item = tempLoopVar_item;
-                            switch (((RadioButtonList)(item.FindControl("rbEventRecurAction"))).SelectedValue)
+                            switch (((RadioButtonList) item.FindControl("rbEventRecurAction")).SelectedValue)
                             {
                                 case "Approve":
-                                    objEventRecurMaster = _objCtlEventRecurMaster.EventsRecurMasterGet(System.Convert.ToInt32(grdRecurEvents.DataKeys[item.ItemIndex]), ModuleId);
+                                    objEventRecurMaster =
+                                        this._objCtlEventRecurMaster.EventsRecurMasterGet(
+                                            Convert.ToInt32(this.grdRecurEvents.DataKeys[item.ItemIndex]),
+                                            this.ModuleId);
                                     objEventRecurMaster.Approved = true;
-                                    _objCtlEventRecurMaster.EventsRecurMasterSave(objEventRecurMaster, TabId, false);
-                                    ArrayList lstEvents = default(ArrayList);
-                                    lstEvents = _objCtlEvent.EventsGetRecurrences(objEventRecurMaster.RecurMasterID, objEventRecurMaster.ModuleID);
-                                    bool blEmailSent = false;
+                                    this._objCtlEventRecurMaster.EventsRecurMasterSave(
+                                        objEventRecurMaster, this.TabId, false);
+                                    var lstEvents = default(ArrayList);
+                                    lstEvents = this._objCtlEvent.EventsGetRecurrences(
+                                        objEventRecurMaster.RecurMasterID,
+                                        objEventRecurMaster.ModuleID);
+                                    var blEmailSent = false;
                                     foreach (EventInfo tempLoopVar_objCal in lstEvents)
                                     {
                                         objCal = tempLoopVar_objCal;
                                         if (!objCal.Cancelled)
                                         {
                                             objCal.Approved = true;
-                                            bool newEventEmailSent = objCal.NewEventEmailSent;
+                                            var newEventEmailSent = objCal.NewEventEmailSent;
                                             objCal.NewEventEmailSent = true;
-                                            _objCtlEvent.EventsSave(objCal, true, TabId, false);
+                                            this._objCtlEvent.EventsSave(objCal, true, this.TabId, false);
                                             // Only send event emails when event approved for first time
                                             if (!newEventEmailSent && !blEmailSent)
                                             {
                                                 objCal.RRULE = objEventRecurMaster.RRULE;
-                                                SendNewEventEmails(objCal);
-                                                CreateNewEventJournal(objCal);
+                                                this.SendNewEventEmails(objCal);
+                                                this.CreateNewEventJournal(objCal);
                                                 blEmailSent = true;
                                             }
                                         }
                                     }
                                     // Email Requesting/Moderated User
-                                    if (chkEmail.Checked)
+                                    if (this.chkEmail.Checked)
                                     {
                                         objCal.RRULE = objEventRecurMaster.RRULE;
                                         objEventEmailInfo_1.UserIDs.Clear();
@@ -338,11 +380,16 @@ namespace DotNetNuke.Modules.Events
                                     }
                                     break;
                                 case "Deny":
-                                    objEventRecurMaster = _objCtlEventRecurMaster.EventsRecurMasterGet(System.Convert.ToInt32(grdRecurEvents.DataKeys[item.ItemIndex]), ModuleId);
+                                    objEventRecurMaster =
+                                        this._objCtlEventRecurMaster.EventsRecurMasterGet(
+                                            Convert.ToInt32(this.grdRecurEvents.DataKeys[item.ItemIndex]),
+                                            this.ModuleId);
                                     //Don't Allow Delete on Enrolled Event - Only Cancel
-                                    _objCtlEventRecurMaster.EventsRecurMasterDelete(System.Convert.ToInt32(grdRecurEvents.DataKeys[item.ItemIndex]), ModuleId);
+                                    this._objCtlEventRecurMaster.EventsRecurMasterDelete(
+                                        Convert.ToInt32(this.grdRecurEvents.DataKeys[item.ItemIndex]),
+                                        this.ModuleId);
                                     // Email Requesting/Moderated User
-                                    if (chkEmail.Checked)
+                                    if (this.chkEmail.Checked)
                                     {
                                         objCal.RRULE = objEventRecurMaster.RRULE;
                                         objEventEmailInfo_1.UserIDs.Clear();
@@ -355,19 +402,21 @@ namespace DotNetNuke.Modules.Events
                         break;
                     case "Enrollment":
                         // Not moderated
-                        EventSignupsInfo objEnroll = default(EventSignupsInfo);
-                        foreach (DataGridItem tempLoopVar_item in grdEnrollment.Items)
+                        var objEnroll = default(EventSignupsInfo);
+                        foreach (DataGridItem tempLoopVar_item in this.grdEnrollment.Items)
                         {
                             item = tempLoopVar_item;
-                            if (((RadioButtonList)(item.FindControl("rbEnrollAction"))).SelectedValue != "")
+                            if (((RadioButtonList) item.FindControl("rbEnrollAction")).SelectedValue != "")
                             {
-                                objEnroll = _objCtlEventSignups.EventsSignupsGet(System.Convert.ToInt32(grdEnrollment.DataKeys[item.ItemIndex]), ModuleId, false);
-                                EventController objCtlEvent = new EventController();
-                                EventInfo objEvent = objCtlEvent.EventsGet(objEnroll.EventID, objEnroll.ModuleID);
-                                EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-                                objEventEmailInfo.TxtEmailSubject = txtEmailSubject.Text;
-                                objEventEmailInfo.TxtEmailFrom = txtEmailFrom.Text;
-                                if (chkEmail.Checked)
+                                objEnroll = this._objCtlEventSignups.EventsSignupsGet(
+                                    Convert.ToInt32(this.grdEnrollment.DataKeys[item.ItemIndex]),
+                                    this.ModuleId, false);
+                                var objCtlEvent = new EventController();
+                                var objEvent = objCtlEvent.EventsGet(objEnroll.EventID, objEnroll.ModuleID);
+                                var objEventEmailInfo = new EventEmailInfo();
+                                objEventEmailInfo.TxtEmailSubject = this.txtEmailSubject.Text;
+                                objEventEmailInfo.TxtEmailFrom = this.txtEmailFrom.Text;
+                                if (this.chkEmail.Checked)
                                 {
                                     if (objEnroll.UserID > -1)
                                     {
@@ -380,29 +429,34 @@ namespace DotNetNuke.Modules.Events
                                         objEventEmailInfo.UserTimeZoneIds.Add(objEnroll.AnonTimeZoneId);
                                     }
                                 }
-                                switch (((RadioButtonList)(item.FindControl("rbEnrollAction"))).SelectedValue)
+                                switch (((RadioButtonList) item.FindControl("rbEnrollAction")).SelectedValue)
                                 {
                                     case "Approve":
                                         objEnroll.Approved = true;
-                                        CreateEnrollment(objEnroll, objEvent);
+                                        this.CreateEnrollment(objEnroll, objEvent);
 
                                         // Email Requesting/Moderated User
-                                        if (Settings.SendEnrollMessageApproved)
+                                        if (this.Settings.SendEnrollMessageApproved)
                                         {
                                             objEventEmailInfo.UserIDs.Add(objEvent.OwnerID);
                                         }
-                                        objEventEmailInfo.TxtEmailBody = txtEmailMessage.Text + Settings.Templates.txtEnrollMessageApproved;
+                                        objEventEmailInfo.TxtEmailBody =
+                                            this.txtEmailMessage.Text +
+                                            this.Settings.Templates.txtEnrollMessageApproved;
                                         objEventEmail.SendEmails(objEventEmailInfo, objEvent, objEnroll);
                                         break;
                                     case "Deny":
-                                        DeleteEnrollment(System.Convert.ToInt32(grdEnrollment.DataKeys[item.ItemIndex]), objEvent.ModuleID, objEvent.EventID);
+                                        this.DeleteEnrollment(
+                                            Convert.ToInt32(this.grdEnrollment.DataKeys[item.ItemIndex]),
+                                            objEvent.ModuleID, objEvent.EventID);
 
                                         // Email Requesting/Moderated User
-                                        if (Settings.SendEnrollMessageDenied)
+                                        if (this.Settings.SendEnrollMessageDenied)
                                         {
                                             objEventEmailInfo.UserIDs.Add(objEvent.OwnerID);
                                         }
-                                        objEventEmailInfo.TxtEmailBody = txtEmailMessage.Text + Settings.Templates.txtEnrollMessageDenied;
+                                        objEventEmailInfo.TxtEmailBody =
+                                            this.txtEmailMessage.Text + this.Settings.Templates.txtEnrollMessageDenied;
                                         objEventEmail.SendEmails(objEventEmailInfo, objEvent, objEnroll);
                                         break;
                                 }
@@ -410,94 +464,93 @@ namespace DotNetNuke.Modules.Events
                         }
                         break;
                 }
-
             }
             catch (Exception exc) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-            BindData();
+            this.BindData();
         }
 
-        protected void cmdSelectApproveAll_Click(System.Object sender, EventArgs e)
+        protected void cmdSelectApproveAll_Click(object sender, EventArgs e)
         {
-            BindData();
-            DataGridItem item = default(DataGridItem);
-            if (rbModerate.SelectedValue == "Events")
+            this.BindData();
+            var item = default(DataGridItem);
+            if (this.rbModerate.SelectedValue == "Events")
             {
-                foreach (DataGridItem tempLoopVar_item in grdEvents.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdEvents.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEventAction"))).SelectedValue = "Approve";
+                    ((RadioButtonList) item.FindControl("rbEventAction")).SelectedValue = "Approve";
                 }
-                foreach (DataGridItem tempLoopVar_item in grdRecurEvents.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdRecurEvents.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEventRecurAction"))).SelectedValue = "Approve";
+                    ((RadioButtonList) item.FindControl("rbEventRecurAction")).SelectedValue = "Approve";
                 }
             }
             else
             {
-                foreach (DataGridItem tempLoopVar_item in grdEnrollment.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdEnrollment.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEnrollAction"))).SelectedValue = "Approve";
+                    ((RadioButtonList) item.FindControl("rbEnrollAction")).SelectedValue = "Approve";
                 }
             }
-            cmdUpdateSelected_Click(sender, e);
+            this.cmdUpdateSelected_Click(sender, e);
         }
 
-        protected void cmdSelectDenyAll_Click(System.Object sender, EventArgs e)
+        protected void cmdSelectDenyAll_Click(object sender, EventArgs e)
         {
-            BindData();
-            DataGridItem item = default(DataGridItem);
-            if (rbModerate.SelectedValue == "Events")
+            this.BindData();
+            var item = default(DataGridItem);
+            if (this.rbModerate.SelectedValue == "Events")
             {
-                foreach (DataGridItem tempLoopVar_item in grdEvents.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdEvents.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEventAction"))).SelectedValue = "Deny";
+                    ((RadioButtonList) item.FindControl("rbEventAction")).SelectedValue = "Deny";
                 }
-                foreach (DataGridItem tempLoopVar_item in grdRecurEvents.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdRecurEvents.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEventRecurAction"))).SelectedValue = "Deny";
+                    ((RadioButtonList) item.FindControl("rbEventRecurAction")).SelectedValue = "Deny";
                 }
             }
             else
             {
-                foreach (DataGridItem tempLoopVar_item in grdEnrollment.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdEnrollment.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEnrollAction"))).SelectedValue = "Deny";
+                    ((RadioButtonList) item.FindControl("rbEnrollAction")).SelectedValue = "Deny";
                 }
             }
-            cmdUpdateSelected_Click(sender, e);
+            this.cmdUpdateSelected_Click(sender, e);
         }
 
-        protected void cmdUnmarkAll_Click(System.Object sender, EventArgs e)
+        protected void cmdUnmarkAll_Click(object sender, EventArgs e)
         {
-            BindData();
-            DataGridItem item = default(DataGridItem);
-            if (rbModerate.SelectedValue == "Events")
+            this.BindData();
+            var item = default(DataGridItem);
+            if (this.rbModerate.SelectedValue == "Events")
             {
-                foreach (DataGridItem tempLoopVar_item in grdEvents.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdEvents.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEventAction"))).SelectedValue = null;
+                    ((RadioButtonList) item.FindControl("rbEventAction")).SelectedValue = null;
                 }
-                foreach (DataGridItem tempLoopVar_item in grdRecurEvents.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdRecurEvents.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEventRecurAction"))).SelectedValue = null;
+                    ((RadioButtonList) item.FindControl("rbEventRecurAction")).SelectedValue = null;
                 }
             }
             else
             {
-                foreach (DataGridItem tempLoopVar_item in grdEnrollment.Items)
+                foreach (DataGridItem tempLoopVar_item in this.grdEnrollment.Items)
                 {
                     item = tempLoopVar_item;
-                    ((RadioButtonList)(item.FindControl("rbEnrollAction"))).SelectedValue = null;
+                    ((RadioButtonList) item.FindControl("rbEnrollAction")).SelectedValue = null;
                 }
             }
         }
@@ -505,51 +558,61 @@ namespace DotNetNuke.Modules.Events
         #endregion
 
         #region Grid and Other Events
-        private void rbModerate_SelectedIndexChanged(System.Object sender, EventArgs e)
+
+        private void rbModerate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (rbModerate.SelectedValue == "Events")
+            if (this.rbModerate.SelectedValue == "Events")
             {
-                grdEnrollment.Visible = false;
-                grdEvents.Visible = true;
-                grdRecurEvents.Visible = true;
+                this.grdEnrollment.Visible = false;
+                this.grdEvents.Visible = true;
+                this.grdRecurEvents.Visible = true;
             }
             else
             {
-                grdEnrollment.Visible = true;
-                grdEvents.Visible = false;
+                this.grdEnrollment.Visible = true;
+                this.grdEvents.Visible = false;
             }
-            BindData();
+            this.BindData();
         }
 
-        public void grdEvents_ItemCommand(System.Object sender, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+        public void grdEvents_ItemCommand(object sender, DataGridCommandEventArgs e)
         {
             switch (e.CommandName)
             {
                 case "Select":
-                    int itemID = System.Convert.ToInt32(grdEvents.DataKeys[e.Item.ItemIndex]);
-                    EventInfoHelper objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
-                    Response.Redirect(objEventInfoHelper.AddSkinContainerControls(DotNetNuke.Common.Globals.NavigateURL(TabId, "Edit", "Mid=" + ModuleId.ToString(), "ItemID=" + itemID.ToString(), "EditRecur=Single"), "?"));
+                    var itemID = Convert.ToInt32(this.grdEvents.DataKeys[e.Item.ItemIndex]);
+                    var objEventInfoHelper =
+                        new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                    this.Response.Redirect(
+                        objEventInfoHelper.AddSkinContainerControls(
+                            Globals.NavigateURL(this.TabId, "Edit", "Mid=" + this.ModuleId, "ItemID=" + itemID,
+                                                "EditRecur=Single"), "?"));
                     break;
             }
         }
 
-        public void grdRecurEvents_ItemCommand(System.Object sender, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+        public void grdRecurEvents_ItemCommand(object sender, DataGridCommandEventArgs e)
         {
             switch (e.CommandName)
             {
                 case "Select":
-                    int itemID = System.Convert.ToInt32(e.Item.Cells[4].Text);
-                    EventInfoHelper objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
-                    Response.Redirect(objEventInfoHelper.AddSkinContainerControls(DotNetNuke.Common.Globals.NavigateURL(TabId, "Edit", "Mid=" + ModuleId.ToString(), "ItemID=" + itemID.ToString(), "EditRecur=All"), "?"));
+                    var itemID = Convert.ToInt32(e.Item.Cells[4].Text);
+                    var objEventInfoHelper =
+                        new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                    this.Response.Redirect(
+                        objEventInfoHelper.AddSkinContainerControls(
+                            Globals.NavigateURL(this.TabId, "Edit", "Mid=" + this.ModuleId, "ItemID=" + itemID,
+                                                "EditRecur=All"), "?"));
                     break;
             }
         }
 
 
-        public void grdEnrollment_ItemCommand(System.Object sender, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+        public void grdEnrollment_ItemCommand(object sender, DataGridCommandEventArgs e)
         {
-            EventSignupsInfo objEnroll = default(EventSignupsInfo);
-            objEnroll = _objCtlEventSignups.EventsSignupsGet(System.Convert.ToInt32(grdEnrollment.DataKeys[e.Item.ItemIndex]), ModuleId, false);
+            var objEnroll = default(EventSignupsInfo);
+            objEnroll = this._objCtlEventSignups.EventsSignupsGet(
+                Convert.ToInt32(this.grdEnrollment.DataKeys[e.Item.ItemIndex]), this.ModuleId, false);
 
             try
             {
@@ -558,23 +621,26 @@ namespace DotNetNuke.Modules.Events
                     case "Select":
                         try
                         {
-                            int itemID = objEnroll.EventID;
-                            EventInfoHelper objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
-                            Response.Redirect(objEventInfoHelper.AddSkinContainerControls(EditUrl("ItemID", itemID.ToString(), "Edit"), "?"));
+                            var itemID = objEnroll.EventID;
+                            var objEventInfoHelper =
+                                new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                            this.Response.Redirect(
+                                objEventInfoHelper.AddSkinContainerControls(
+                                    this.EditUrl("ItemID", itemID.ToString(), "Edit"), "?"));
                         }
                         catch (Exception)
-                        {
-                        }
+                        { }
                         break;
                     case "User":
-                        EventController objCtlEvent = new EventController();
-                        EventInfo objEvent = objCtlEvent.EventsGet(objEnroll.EventID, objEnroll.ModuleID);
+                        var objCtlEvent = new EventController();
+                        var objEvent = objCtlEvent.EventsGet(objEnroll.EventID, objEnroll.ModuleID);
 
-                        EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-                        EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
-                        objEventEmailInfo.TxtEmailSubject = txtEmailSubject.Text;
-                        objEventEmailInfo.TxtEmailBody = txtEmailMessage.Text;
-                        objEventEmailInfo.TxtEmailFrom = txtEmailFrom.Text;
+                        var objEventEmailInfo = new EventEmailInfo();
+                        var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                            ((PageBase) this.Page).PageCulture.Name);
+                        objEventEmailInfo.TxtEmailSubject = this.txtEmailSubject.Text;
+                        objEventEmailInfo.TxtEmailBody = this.txtEmailMessage.Text;
+                        objEventEmailInfo.TxtEmailFrom = this.txtEmailFrom.Text;
                         if (objEnroll.UserID > -1)
                         {
                             objEventEmailInfo.UserIDs.Add(objEnroll.UserID);
@@ -587,21 +653,20 @@ namespace DotNetNuke.Modules.Events
                         }
                         objEventEmail.SendEmails(objEventEmailInfo, objEvent, objEnroll);
                         break;
-
                 }
             }
             catch (Exception exc) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-            BindData();
+            this.BindData();
         }
 
-        protected void returnButton_Click(System.Object sender, EventArgs e)
+        protected void returnButton_Click(object sender, EventArgs e)
         {
             try
             {
-                Response.Redirect(GetSocialNavigateUrl(), true);
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
             }
             catch (Exception exc) //Module failed to load
             {
@@ -610,8 +675,5 @@ namespace DotNetNuke.Modules.Events
         }
 
         #endregion
-
     }
-
 }
-

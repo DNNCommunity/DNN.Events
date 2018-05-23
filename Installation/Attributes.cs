@@ -22,19 +22,19 @@
 
 #endregion
 
-using System;
-
 namespace DNNtc
 {
+    using System;
 
     #region Attributes
+
     /// <summary>
-    /// This class is used to indicate which UserControls should be in the install package
+    ///     This class is used to indicate which UserControls should be in the install package
     /// </summary>
     public class ModuleControlProperties : Attribute
     {
         /// <summary>
-        /// Creates a attribute with the right properties to create a control.
+        ///     Creates a attribute with the right properties to create a control.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="title">The title.</param>
@@ -42,20 +42,21 @@ namespace DNNtc
         /// <param name="helpUrl">The help URL.</param>
         /// <param name="supportsPartialRendering">if set to <c>true</c> [supports partial rendering].</param>
         /// <param name="supportsPopUps">if set to <c>true</c> [supports pop ups].</param>
-        public ModuleControlProperties(string key, string title, ControlType userControlType, string helpUrl, bool supportsPartialRendering = false, bool supportsPopUps = false)
+        public ModuleControlProperties(string key, string title, ControlType userControlType, string helpUrl,
+                                       bool supportsPartialRendering = false, bool supportsPopUps = false)
         {
             //Intentially left empty
         }
     }
 
     /// <summary>
-    /// Module permission attribute
+    ///     Module permission attribute
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ModulePermission : Attribute
     {
         /// <summary>
-        /// Empty Constructor for Intellisense
+        ///     Empty Constructor for Intellisense
         /// </summary>
         /// <param name="Code"></param>
         /// <param name="Key"></param>
@@ -93,7 +94,7 @@ namespace DNNtc
     #region Helper Enumerations
 
     /// <summary>
-    /// Enum for type of component used.
+    ///     Enum for type of component used.
     /// </summary>
     public enum ComponentType
     {
@@ -103,7 +104,7 @@ namespace DNNtc
     }
 
     /// <summary>
-    /// Enum for the type of controls DotNetNuke is using. 
+    ///     Enum for the type of controls DotNetNuke is using.
     /// </summary>
     public enum ControlType
     {
@@ -116,7 +117,7 @@ namespace DNNtc
     }
 
     /// <summary>
-    /// The type of dependency for the DotNetNuke Module
+    ///     The type of dependency for the DotNetNuke Module
     /// </summary>
     public enum ModuleDependency
     {

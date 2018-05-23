@@ -1,5 +1,3 @@
-using System;
-
 #region Copyright
 
 // 
@@ -27,55 +25,37 @@ using System;
 
 namespace DotNetNuke.Modules.Events.ScheduleControl
 {
-	
-	/// -----------------------------------------------------------------------------
-	/// Project	 : schedule
-	/// Class	 : ClickableTableCellEventArgs
-	///
-	/// -----------------------------------------------------------------------------
-	/// <summary>
-	/// The ClickableTableCellEventArgs class is used when the user clicks on an empty slot
-	/// </summary>
-	public sealed class ClickableTableCellEventArgs : EventArgs
-	{
-		
-		private object _title;
-		private object _rangeStartValue;
-		private object _rangeEndValue;
-		
-		public ClickableTableCellEventArgs(object newTitle, object newRangeStartValue, 
-			object newRangeEndValue)
-		{
-			this._title = newTitle;
-			this._rangeStartValue = newRangeStartValue;
-			this._rangeEndValue = newRangeEndValue;
-		}
-		
-		public dynamic Title
-		{
-			get
-			{
-				return _title;
-			}
-		}
-		
-		public dynamic RangeStartValue
-		{
-			get
-			{
-				return _rangeStartValue;
-			}
-		}
-		
-		public dynamic RangeEndValue
-		{
-			get
-			{
-				return _rangeEndValue;
-			}
-		}
-	}
-	
-	public delegate void ClickableTableCellEventHandler(object sender, ClickableTableCellEventArgs e);
-	
+    using System;
+
+    /// -----------------------------------------------------------------------------
+    /// Project	 : schedule
+    /// Class	 : ClickableTableCellEventArgs
+    /// 
+    /// -----------------------------------------------------------------------------
+    /// <summary>
+    ///     The ClickableTableCellEventArgs class is used when the user clicks on an empty slot
+    /// </summary>
+    public sealed class ClickableTableCellEventArgs : EventArgs
+    {
+        private readonly object _rangeEndValue;
+        private readonly object _rangeStartValue;
+
+        private readonly object _title;
+
+        public ClickableTableCellEventArgs(object newTitle, object newRangeStartValue,
+                                           object newRangeEndValue)
+        {
+            this._title = newTitle;
+            this._rangeStartValue = newRangeStartValue;
+            this._rangeEndValue = newRangeEndValue;
+        }
+
+        public dynamic Title => this._title;
+
+        public dynamic RangeStartValue => this._rangeStartValue;
+
+        public dynamic RangeEndValue => this._rangeEndValue;
+    }
+
+    public delegate void ClickableTableCellEventHandler(object sender, ClickableTableCellEventArgs e);
 }

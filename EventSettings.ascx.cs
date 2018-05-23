@@ -1,15 +1,3 @@
-using DotNetNuke.Services.Exceptions;
-using System.Diagnostics;
-using Microsoft.VisualBasic;
-using System.Web.UI.WebControls;
-using System.Collections;
-using System.Web;
-using DotNetNuke.Services.Localization;
-using System;
-using DotNetNuke.Entities.Tabs;
-using DotNetNuke.Entities.Modules;
-using DotNetNuke.Web.UI.WebControls.Extensions;
-
 #region Copyright
 
 // 
@@ -37,335 +25,374 @@ using DotNetNuke.Web.UI.WebControls.Extensions;
 
 namespace DotNetNuke.Modules.Events
 {
-    using DotNetNuke.Common.Utilities;
+    using System;
+    using System.Collections;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Reflection;
+    using System.Web;
+    using System.Web.UI.WebControls;
+    using DNNtc;
+    using DotNetNuke.Common.Lists;
+    using DotNetNuke.Entities.Modules;
+    using DotNetNuke.Entities.Portals;
+    using DotNetNuke.Entities.Tabs;
+    using DotNetNuke.Security;
+    using DotNetNuke.Security.Roles;
+    using DotNetNuke.Services.Exceptions;
+    using DotNetNuke.Services.FileSystem;
+    using DotNetNuke.Services.Localization;
+    using DotNetNuke.Web.UI.WebControls.Extensions;
     using global::Components;
+    using Microsoft.VisualBasic;
+    using Telerik.Web.UI;
+    using FirstDayOfWeek = System.Web.UI.WebControls.FirstDayOfWeek;
+    using Globals = DotNetNuke.Common.Globals;
 
-    [DNNtc.ModuleControlProperties("EventSettings", "Event Settings", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
+    [ModuleControlProperties("EventSettings", "Event Settings", ControlType.View,
+        "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventSettings : EventBase
     {
+        #region Private Data
+
+        private readonly EventMasterController _objCtlMasterEvent = new EventMasterController();
+
+        #endregion
 
         #region  Web Form Designer Generated Code
-        //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-        }
 
-        private void Page_Init(System.Object sender, EventArgs e)
+        //This call is required by the Web Form Designer.
+        [DebuggerStepThrough]
+        private void InitializeComponent()
+        { }
+
+        private void Page_Init(object sender, EventArgs e)
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            InitializeComponent();
+            this.InitializeComponent();
         }
-        #endregion
 
-        #region Private Data
-        private EventMasterController _objCtlMasterEvent = new EventMasterController();
         #endregion
 
         #region Help Methods
+
         // If adding new Setting also see 'SetDefaultModuleSettings' method in EventInfoHelper Class
 
         /// <summary>
-        /// Load current settings into the controls from the modulesettings
+        ///     Load current settings into the controls from the modulesettings
         /// </summary>
         /// <remarks></remarks>
-        private void Page_Load(System.Object sender, EventArgs e)
+        private void Page_Load(object sender, EventArgs e)
         {
-            if (Security.PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()) ||
-                    IsSettingsEditor())
-            {
-            }
+            if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName) || this.IsSettingsEditor())
+            { }
             else
             {
-                Response.Redirect(GetSocialNavigateUrl(), true);
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
             }
 
             // Set the selected theme
-            SetTheme(pnlEventsModuleSettings);
+            this.SetTheme(this.pnlEventsModuleSettings);
 
             // Do we have to load the settings
-            if (!Page.IsPostBack)
+            if (!this.Page.IsPostBack)
             {
-                LoadSettings();
+                this.LoadSettings();
             }
 
             // Add the javascript to the page
-            AddJavaScript();
-
+            this.AddJavaScript();
         }
 
         private void LoadSettings()
         {
-            ArrayList availableFields = new ArrayList();
-            ArrayList selectedFields = new ArrayList();
+            var availableFields = new ArrayList();
+            var selectedFields = new ArrayList();
 
             // Create Lists and Schedule - they should always exist
-            EventController objEventController = new EventController();
+            var objEventController = new EventController();
             objEventController.CreateListsAndSchedule();
 
             //Set text and tooltip from resourcefile
-            chkMonthAllowed.Text = Localization.GetString("Month", LocalResourceFile);
-            chkWeekAllowed.Text = Localization.GetString("Week", LocalResourceFile);
-            chkListAllowed.Text = Localization.GetString("List", LocalResourceFile);
-            cmdAdd.ToolTip = Localization.GetString("Add", LocalResourceFile);
-            cmdAddAll.ToolTip = Localization.GetString("AddAll", LocalResourceFile);
-            cmdRemove.ToolTip = Localization.GetString("Remove", LocalResourceFile);
-            cmdRemoveAll.ToolTip = Localization.GetString("RemoveAll", LocalResourceFile);
-            cmdAddCals.ToolTip = Localization.GetString("AddCals", LocalResourceFile);
-            cmdAddAllCals.ToolTip = Localization.GetString("AddAllCals", LocalResourceFile);
-            cmdRemoveCals.ToolTip = Localization.GetString("RemoveCals", LocalResourceFile);
-            cmdRemoveAllCals.ToolTip = Localization.GetString("RemoveAllCals", LocalResourceFile);
-            chkIconMonthPrio.Text = Localization.GetString("Priority", LocalResourceFile);
-            imgIconMonthPrioHigh.AlternateText = Localization.GetString("HighPrio", LocalResourceFile);
-            imgIconMonthPrioLow.AlternateText = Localization.GetString("LowPrio", LocalResourceFile);
-            chkIconMonthRec.Text = Localization.GetString("Recurring", LocalResourceFile);
-            imgIconMonthRec.AlternateText = Localization.GetString("RecurringEvent", LocalResourceFile);
-            chkIconMonthReminder.Text = Localization.GetString("Reminder", LocalResourceFile);
-            imgIconMonthReminder.AlternateText = Localization.GetString("ReminderEnabled", LocalResourceFile);
-            chkIconMonthEnroll.Text = Localization.GetString("Enroll", LocalResourceFile);
-            imgIconMonthEnroll.AlternateText = Localization.GetString("EnrollEnabled", LocalResourceFile);
-            chkIconWeekPrio.Text = Localization.GetString("Priority", LocalResourceFile);
-            imgIconWEEKPrioHigh.AlternateText = Localization.GetString("HighPrio", LocalResourceFile);
-            imgIconWeekPrioLow.AlternateText = Localization.GetString("LowPrio", LocalResourceFile);
-            chkIconWeekRec.Text = Localization.GetString("Recurring", LocalResourceFile);
-            imgIconWeekRec.AlternateText = Localization.GetString("RecurringEvent", LocalResourceFile);
-            chkIconWeekReminder.Text = Localization.GetString("Reminder", LocalResourceFile);
-            imgIconWeekReminder.AlternateText = Localization.GetString("ReminderEnabled", LocalResourceFile);
-            chkIconWeekEnroll.Text = Localization.GetString("Enroll", LocalResourceFile);
-            imgIconWeekEnroll.AlternateText = Localization.GetString("EnrollEnabled", LocalResourceFile);
-            chkIconListPrio.Text = Localization.GetString("Priority", LocalResourceFile);
-            imgIconListPrioHigh.AlternateText = Localization.GetString("HighPrio", LocalResourceFile);
-            imgIconListPrioLow.AlternateText = Localization.GetString("LowPrio", LocalResourceFile);
-            chkIconListRec.Text = Localization.GetString("Recurring", LocalResourceFile);
-            imgIconListRec.AlternateText = Localization.GetString("RecurringEvent", LocalResourceFile);
-            chkIconListReminder.Text = Localization.GetString("Reminder", LocalResourceFile);
-            imgIconListReminder.AlternateText = Localization.GetString("ReminderEnabled", LocalResourceFile);
-            chkIconListEnroll.Text = Localization.GetString("Enroll", LocalResourceFile);
-            imgIconListEnroll.AlternateText = Localization.GetString("EnrollEnabled", LocalResourceFile);
-            cmdUpdateTemplate.Text = Localization.GetString("cmdUpdateTemplate", LocalResourceFile);
-            rbThemeStandard.Text = Localization.GetString("rbThemeStandard", LocalResourceFile);
-            rbThemeCustom.Text = Localization.GetString("rbThemeCustom", LocalResourceFile);
-            ddlModuleCategories.EmptyMessage = Localization.GetString("NoCategories", LocalResourceFile);
-            ddlModuleCategories.Localization.AllItemsCheckedString = Localization.GetString("AllCategories", LocalResourceFile);
-            ddlModuleCategories.Localization.CheckAllString = Localization.GetString("SelectAllCategories", LocalResourceFile);
-            ddlModuleLocations.EmptyMessage = Localization.GetString("NoLocations", LocalResourceFile);
-            ddlModuleLocations.Localization.AllItemsCheckedString = Localization.GetString("AllLocations", LocalResourceFile);
-            ddlModuleLocations.Localization.CheckAllString = Localization.GetString("SelectAllLocations", LocalResourceFile);
+            this.chkMonthAllowed.Text = Localization.GetString("Month", this.LocalResourceFile);
+            this.chkWeekAllowed.Text = Localization.GetString("Week", this.LocalResourceFile);
+            this.chkListAllowed.Text = Localization.GetString("List", this.LocalResourceFile);
+            this.cmdAdd.ToolTip = Localization.GetString("Add", this.LocalResourceFile);
+            this.cmdAddAll.ToolTip = Localization.GetString("AddAll", this.LocalResourceFile);
+            this.cmdRemove.ToolTip = Localization.GetString("Remove", this.LocalResourceFile);
+            this.cmdRemoveAll.ToolTip = Localization.GetString("RemoveAll", this.LocalResourceFile);
+            this.cmdAddCals.ToolTip = Localization.GetString("AddCals", this.LocalResourceFile);
+            this.cmdAddAllCals.ToolTip = Localization.GetString("AddAllCals", this.LocalResourceFile);
+            this.cmdRemoveCals.ToolTip = Localization.GetString("RemoveCals", this.LocalResourceFile);
+            this.cmdRemoveAllCals.ToolTip = Localization.GetString("RemoveAllCals", this.LocalResourceFile);
+            this.chkIconMonthPrio.Text = Localization.GetString("Priority", this.LocalResourceFile);
+            this.imgIconMonthPrioHigh.AlternateText = Localization.GetString("HighPrio", this.LocalResourceFile);
+            this.imgIconMonthPrioLow.AlternateText = Localization.GetString("LowPrio", this.LocalResourceFile);
+            this.chkIconMonthRec.Text = Localization.GetString("Recurring", this.LocalResourceFile);
+            this.imgIconMonthRec.AlternateText = Localization.GetString("RecurringEvent", this.LocalResourceFile);
+            this.chkIconMonthReminder.Text = Localization.GetString("Reminder", this.LocalResourceFile);
+            this.imgIconMonthReminder.AlternateText = Localization.GetString("ReminderEnabled", this.LocalResourceFile);
+            this.chkIconMonthEnroll.Text = Localization.GetString("Enroll", this.LocalResourceFile);
+            this.imgIconMonthEnroll.AlternateText = Localization.GetString("EnrollEnabled", this.LocalResourceFile);
+            this.chkIconWeekPrio.Text = Localization.GetString("Priority", this.LocalResourceFile);
+            this.imgIconWEEKPrioHigh.AlternateText = Localization.GetString("HighPrio", this.LocalResourceFile);
+            this.imgIconWeekPrioLow.AlternateText = Localization.GetString("LowPrio", this.LocalResourceFile);
+            this.chkIconWeekRec.Text = Localization.GetString("Recurring", this.LocalResourceFile);
+            this.imgIconWeekRec.AlternateText = Localization.GetString("RecurringEvent", this.LocalResourceFile);
+            this.chkIconWeekReminder.Text = Localization.GetString("Reminder", this.LocalResourceFile);
+            this.imgIconWeekReminder.AlternateText = Localization.GetString("ReminderEnabled", this.LocalResourceFile);
+            this.chkIconWeekEnroll.Text = Localization.GetString("Enroll", this.LocalResourceFile);
+            this.imgIconWeekEnroll.AlternateText = Localization.GetString("EnrollEnabled", this.LocalResourceFile);
+            this.chkIconListPrio.Text = Localization.GetString("Priority", this.LocalResourceFile);
+            this.imgIconListPrioHigh.AlternateText = Localization.GetString("HighPrio", this.LocalResourceFile);
+            this.imgIconListPrioLow.AlternateText = Localization.GetString("LowPrio", this.LocalResourceFile);
+            this.chkIconListRec.Text = Localization.GetString("Recurring", this.LocalResourceFile);
+            this.imgIconListRec.AlternateText = Localization.GetString("RecurringEvent", this.LocalResourceFile);
+            this.chkIconListReminder.Text = Localization.GetString("Reminder", this.LocalResourceFile);
+            this.imgIconListReminder.AlternateText = Localization.GetString("ReminderEnabled", this.LocalResourceFile);
+            this.chkIconListEnroll.Text = Localization.GetString("Enroll", this.LocalResourceFile);
+            this.imgIconListEnroll.AlternateText = Localization.GetString("EnrollEnabled", this.LocalResourceFile);
+            this.cmdUpdateTemplate.Text = Localization.GetString("cmdUpdateTemplate", this.LocalResourceFile);
+            this.rbThemeStandard.Text = Localization.GetString("rbThemeStandard", this.LocalResourceFile);
+            this.rbThemeCustom.Text = Localization.GetString("rbThemeCustom", this.LocalResourceFile);
+            this.ddlModuleCategories.EmptyMessage = Localization.GetString("NoCategories", this.LocalResourceFile);
+            this.ddlModuleCategories.Localization.AllItemsCheckedString =
+                Localization.GetString("AllCategories", this.LocalResourceFile);
+            this.ddlModuleCategories.Localization.CheckAllString =
+                Localization.GetString("SelectAllCategories", this.LocalResourceFile);
+            this.ddlModuleLocations.EmptyMessage = Localization.GetString("NoLocations", this.LocalResourceFile);
+            this.ddlModuleLocations.Localization.AllItemsCheckedString =
+                Localization.GetString("AllLocations", this.LocalResourceFile);
+            this.ddlModuleLocations.Localization.CheckAllString =
+                Localization.GetString("SelectAllLocations", this.LocalResourceFile);
 
 
             //Add templates link
             // lnkTemplatesHelp.HRef = AddSkinContainerControls(EditUrl("", "", "TemplateHelp", "dnnprintmode=true"), "?")
-            lnkTemplatesHelp.HRef = AddSkinContainerControls(DotNetNuke.Common.Globals.NavigateURL(TabId, PortalSettings, "", "mid=" + System.Convert.ToString(ModuleId), "ctl=TemplateHelp", "ShowNav=False", "dnnprintmode=true"), "?");
-            lnkTemplatesHelp.InnerText = Localization.GetString("TemplatesHelp", LocalResourceFile);
+            this.lnkTemplatesHelp.HRef =
+                this.AddSkinContainerControls(
+                    Globals.NavigateURL(this.TabId, this.PortalSettings, "", "mid=" + Convert.ToString(this.ModuleId),
+                                        "ctl=TemplateHelp", "ShowNav=False", "dnnprintmode=true"), "?");
+            this.lnkTemplatesHelp.InnerText = Localization.GetString("TemplatesHelp", this.LocalResourceFile);
 
             //Support for Time Interval Dropdown
-            DotNetNuke.Common.Lists.ListController ctlLists = new DotNetNuke.Common.Lists.ListController();
-            System.Collections.Generic.IEnumerable<DotNetNuke.Common.Lists.ListEntryInfo> colThreadStatus = ctlLists.GetListEntryInfoItems("Timeinterval");
-            ddlTimeInterval.Items.Clear();
+            var ctlLists = new ListController();
+            var colThreadStatus = ctlLists.GetListEntryInfoItems("Timeinterval");
+            this.ddlTimeInterval.Items.Clear();
 
-            foreach (DotNetNuke.Common.Lists.ListEntryInfo entry in colThreadStatus)
+            foreach (var entry in colThreadStatus)
             {
-                ddlTimeInterval.Items.Add(entry.Value);
+                this.ddlTimeInterval.Items.Add(entry.Value);
             }
-            ddlTimeInterval.Items.FindByValue(Settings.Timeinterval).Selected = true;
+            this.ddlTimeInterval.Items.FindByValue(this.Settings.Timeinterval).Selected = true;
 
             // Set Dropdown TimeZone
-            cboTimeZone.DataBind(Settings.TimeZoneId);
+            this.cboTimeZone.DataBind(this.Settings.TimeZoneId);
 
-            chkEnableEventTimeZones.Checked = Settings.EnableEventTimeZones;
+            this.chkEnableEventTimeZones.Checked = this.Settings.EnableEventTimeZones;
 
-            BindToEnum(typeof(EventModuleSettings.TimeZones), ddlPrimaryTimeZone);
-            ddlPrimaryTimeZone.Items.FindByValue(System.Convert.ToString((int)Settings.PrimaryTimeZone)).Selected = true;
-            BindToEnum(typeof(EventModuleSettings.TimeZones), ddlSecondaryTimeZone);
-            ddlSecondaryTimeZone.Items.FindByValue(System.Convert.ToString((int)Settings.SecondaryTimeZone)).Selected = true;
+            this.BindToEnum(typeof(EventModuleSettings.TimeZones), this.ddlPrimaryTimeZone);
+            this.ddlPrimaryTimeZone.Items.FindByValue(Convert.ToString((int) this.Settings.PrimaryTimeZone)).Selected =
+                true;
+            this.BindToEnum(typeof(EventModuleSettings.TimeZones), this.ddlSecondaryTimeZone);
+            this.ddlSecondaryTimeZone.Items.FindByValue(Convert.ToString((int) this.Settings.SecondaryTimeZone))
+                .Selected = true;
 
-            chkToolTipMonth.Checked = Settings.Eventtooltipmonth;
-            chkToolTipWeek.Checked = Settings.Eventtooltipweek;
-            chkToolTipDay.Checked = Settings.Eventtooltipday;
-            chkToolTipList.Checked = Settings.Eventtooltiplist;
-            txtTooltipLength.Text = Settings.Eventtooltiplength.ToString();
-            chkImageEnabled.Checked = Settings.Eventimage;
-            txtMaxThumbHeight.Text = Settings.MaxThumbHeight.ToString();
-            txtMaxThumbWidth.Text = Settings.MaxThumbWidth.ToString();
+            this.chkToolTipMonth.Checked = this.Settings.Eventtooltipmonth;
+            this.chkToolTipWeek.Checked = this.Settings.Eventtooltipweek;
+            this.chkToolTipDay.Checked = this.Settings.Eventtooltipday;
+            this.chkToolTipList.Checked = this.Settings.Eventtooltiplist;
+            this.txtTooltipLength.Text = this.Settings.Eventtooltiplength.ToString();
+            this.chkImageEnabled.Checked = this.Settings.Eventimage;
+            this.txtMaxThumbHeight.Text = this.Settings.MaxThumbHeight.ToString();
+            this.txtMaxThumbWidth.Text = this.Settings.MaxThumbWidth.ToString();
 
-            chkMonthCellEvents.Checked = true;
-            if (Settings.Monthcellnoevents)
+            this.chkMonthCellEvents.Checked = true;
+            if (this.Settings.Monthcellnoevents)
             {
-                chkMonthCellEvents.Checked = false;
+                this.chkMonthCellEvents.Checked = false;
             }
 
-            chkAddSubModuleName.Checked = Settings.Addsubmodulename;
-            chkEnforceSubCalPerms.Checked = Settings.Enforcesubcalperms;
+            this.chkAddSubModuleName.Checked = this.Settings.Addsubmodulename;
+            this.chkEnforceSubCalPerms.Checked = this.Settings.Enforcesubcalperms;
 
-            BindToEnum(typeof(EventModuleSettings.DisplayCategories), ddlEnableCategories);
-            ddlEnableCategories.Items.FindByValue(System.Convert.ToString((int)Settings.Enablecategories)).Selected = true;
-            chkRestrictCategories.Checked = Settings.Restrictcategories;
-            BindToEnum(typeof(EventModuleSettings.DisplayLocations), ddlEnableLocations);
-            ddlEnableLocations.Items.FindByValue(System.Convert.ToString((int)Settings.Enablelocations)).Selected = true;
-            chkRestrictLocations.Checked = Settings.Restrictlocations;
+            this.BindToEnum(typeof(EventModuleSettings.DisplayCategories), this.ddlEnableCategories);
+            this.ddlEnableCategories.Items.FindByValue(Convert.ToString((int) this.Settings.Enablecategories))
+                .Selected = true;
+            this.chkRestrictCategories.Checked = this.Settings.Restrictcategories;
+            this.BindToEnum(typeof(EventModuleSettings.DisplayLocations), this.ddlEnableLocations);
+            this.ddlEnableLocations.Items.FindByValue(Convert.ToString((int) this.Settings.Enablelocations)).Selected =
+                true;
+            this.chkRestrictLocations.Checked = this.Settings.Restrictlocations;
 
-            chkEnableContainerSkin.Checked = Settings.Enablecontainerskin;
-            chkEventDetailNewPage.Checked = Settings.Eventdetailnewpage;
-            chkEnableEnrollPopup.Checked = Settings.Enableenrollpopup;
-            chkEventImageMonth.Checked = Settings.EventImageMonth;
-            chkEventImageWeek.Checked = Settings.EventImageWeek;
-            chkEventDayNewPage.Checked = Settings.Eventdaynewpage;
-            chkFullTimeScale.Checked = Settings.Fulltimescale;
-            chkCollapseRecurring.Checked = Settings.Collapserecurring;
-            chkIncludeEndValue.Checked = Settings.Includeendvalue;
-            chkShowValueMarks.Checked = Settings.Showvaluemarks;
+            this.chkEnableContainerSkin.Checked = this.Settings.Enablecontainerskin;
+            this.chkEventDetailNewPage.Checked = this.Settings.Eventdetailnewpage;
+            this.chkEnableEnrollPopup.Checked = this.Settings.Enableenrollpopup;
+            this.chkEventImageMonth.Checked = this.Settings.EventImageMonth;
+            this.chkEventImageWeek.Checked = this.Settings.EventImageWeek;
+            this.chkEventDayNewPage.Checked = this.Settings.Eventdaynewpage;
+            this.chkFullTimeScale.Checked = this.Settings.Fulltimescale;
+            this.chkCollapseRecurring.Checked = this.Settings.Collapserecurring;
+            this.chkIncludeEndValue.Checked = this.Settings.Includeendvalue;
+            this.chkShowValueMarks.Checked = this.Settings.Showvaluemarks;
 
-            chkEnableSEO.Checked = Settings.EnableSEO;
-            txtSEODescriptionLength.Text = Settings.SEODescriptionLength.ToString();
+            this.chkEnableSEO.Checked = this.Settings.EnableSEO;
+            this.txtSEODescriptionLength.Text = this.Settings.SEODescriptionLength.ToString();
 
-            chkEnableSitemap.Checked = Settings.EnableSitemap;
-            txtSitemapPriority.Text = Settings.SiteMapPriority.ToString();
-            txtSitemapDaysBefore.Text = Settings.SiteMapDaysBefore.ToString();
-            txtSitemapDaysAfter.Text = Settings.SiteMapDaysAfter.ToString();
+            this.chkEnableSitemap.Checked = this.Settings.EnableSitemap;
+            this.txtSitemapPriority.Text = this.Settings.SiteMapPriority.ToString();
+            this.txtSitemapDaysBefore.Text = this.Settings.SiteMapDaysBefore.ToString();
+            this.txtSitemapDaysAfter.Text = this.Settings.SiteMapDaysAfter.ToString();
 
-            chkiCalOnIconBar.Checked = Settings.IcalOnIconBar;
-            chkiCalEmailEnable.Checked = Settings.IcalEmailEnable;
-            chkiCalURLinLocation.Checked = Settings.IcalURLInLocation;
-            chkiCalIncludeCalname.Checked = Settings.IcalIncludeCalname;
-            txtiCalDaysBefore.Text = Settings.IcalDaysBefore.ToString();
-            txtiCalDaysAfter.Text = Settings.IcalDaysAfter.ToString();
-            txtiCalURLAppend.Text = Settings.IcalURLAppend;
-            ctliCalDefaultImage.FileFilter = DotNetNuke.Common.Globals.glbImageFileTypes;
-            ctliCalDefaultImage.Url = "";
-            chkiCalDisplayImage.Checked = false;
-            if (Settings.IcalDefaultImage != "")
+            this.chkiCalOnIconBar.Checked = this.Settings.IcalOnIconBar;
+            this.chkiCalEmailEnable.Checked = this.Settings.IcalEmailEnable;
+            this.chkiCalURLinLocation.Checked = this.Settings.IcalURLInLocation;
+            this.chkiCalIncludeCalname.Checked = this.Settings.IcalIncludeCalname;
+            this.txtiCalDaysBefore.Text = this.Settings.IcalDaysBefore.ToString();
+            this.txtiCalDaysAfter.Text = this.Settings.IcalDaysAfter.ToString();
+            this.txtiCalURLAppend.Text = this.Settings.IcalURLAppend;
+            this.ctliCalDefaultImage.FileFilter = Globals.glbImageFileTypes;
+            this.ctliCalDefaultImage.Url = "";
+            this.chkiCalDisplayImage.Checked = false;
+            if (this.Settings.IcalDefaultImage != "")
             {
-                ctliCalDefaultImage.Url = Settings.IcalDefaultImage.Substring(6);
-                chkiCalDisplayImage.Checked = true;
+                this.ctliCalDefaultImage.Url = this.Settings.IcalDefaultImage.Substring(6);
+                this.chkiCalDisplayImage.Checked = true;
             }
-            if (ctliCalDefaultImage.Url.StartsWith("FileID="))
+            if (this.ctliCalDefaultImage.Url.StartsWith("FileID="))
             {
-                int fileId = int.Parse(System.Convert.ToString(ctliCalDefaultImage.Url.Substring(7)));
-                Services.FileSystem.IFileInfo objFileInfo = Services.FileSystem.FileManager.Instance.GetFile(fileId);
+                var fileId = int.Parse(Convert.ToString(this.ctliCalDefaultImage.Url.Substring(7)));
+                var objFileInfo = FileManager.Instance.GetFile(fileId);
                 if (!ReferenceEquals(objFileInfo, null))
                 {
-                    ctliCalDefaultImage.Url = objFileInfo.Folder + objFileInfo.FileName;
+                    this.ctliCalDefaultImage.Url = objFileInfo.Folder + objFileInfo.FileName;
                 }
                 else
                 {
-                    ctliCalDefaultImage.Url = "";
+                    this.ctliCalDefaultImage.Url = "";
                 }
             }
-            int socialGroupId = GetUrlGroupId();
-            string socialGroupStr = "";
+            var socialGroupId = this.GetUrlGroupId();
+            var socialGroupStr = "";
             if (socialGroupId > 0)
             {
-                socialGroupStr = "&groupid=" + socialGroupId.ToString();
+                socialGroupStr = "&groupid=" + socialGroupId;
             }
-            lbliCalURL.Text = DotNetNuke.Common.Globals.AddHTTP(PortalSettings.PortalAlias.HTTPAlias + "/DesktopModules/Events/EventVCal.aspx?ItemID=0&Mid=" + System.Convert.ToString(ModuleId) + "&tabid=" + System.Convert.ToString(TabId) + socialGroupStr);
+            this.lbliCalURL.Text = Globals.AddHTTP(this.PortalSettings.PortalAlias.HTTPAlias +
+                                                   "/DesktopModules/Events/EventVCal.aspx?ItemID=0&Mid=" +
+                                                   Convert.ToString(this.ModuleId) + "&tabid=" +
+                                                   Convert.ToString(this.TabId) + socialGroupStr);
 
             // Set Up Themes
-            LoadThemes();
+            this.LoadThemes();
 
-            txtPayPalURL.Text = Settings.Paypalurl;
+            this.txtPayPalURL.Text = this.Settings.Paypalurl;
 
-            chkEnableEventNav.Checked = true;
-            if (Settings.DisableEventnav)
+            this.chkEnableEventNav.Checked = true;
+            if (this.Settings.DisableEventnav)
             {
-                chkEnableEventNav.Checked = false;
+                this.chkEnableEventNav.Checked = false;
             }
 
-            chkAllowRecurring.Checked = Settings.Allowreoccurring;
-            txtMaxRecurrences.Text = Settings.Maxrecurrences.ToString();
-            chkEventNotify.Checked = Settings.Eventnotify;
-            chkDetailPageAllowed.Checked = Settings.DetailPageAllowed;
-            chkEnrollmentPageAllowed.Checked = Settings.EnrollmentPageAllowed;
-            txtEnrollmentPageDefaultURL.Text = Settings.EnrollmentPageDefaultUrl;
-            chkNotifyAnon.Checked = Settings.Notifyanon;
-            chkSendReminderDefault.Checked = Settings.Sendreminderdefault;
+            this.chkAllowRecurring.Checked = this.Settings.Allowreoccurring;
+            this.txtMaxRecurrences.Text = this.Settings.Maxrecurrences;
+            this.chkEventNotify.Checked = this.Settings.Eventnotify;
+            this.chkDetailPageAllowed.Checked = this.Settings.DetailPageAllowed;
+            this.chkEnrollmentPageAllowed.Checked = this.Settings.EnrollmentPageAllowed;
+            this.txtEnrollmentPageDefaultURL.Text = this.Settings.EnrollmentPageDefaultUrl;
+            this.chkNotifyAnon.Checked = this.Settings.Notifyanon;
+            this.chkSendReminderDefault.Checked = this.Settings.Sendreminderdefault;
 
-            rblNewEventEmail.Items[0].Selected = true;
-            switch (Settings.Neweventemails)
+            this.rblNewEventEmail.Items[0].Selected = true;
+            switch (this.Settings.Neweventemails)
             {
                 case "Subscribe":
-                    rblNewEventEmail.Items[1].Selected = true;
+                    this.rblNewEventEmail.Items[1].Selected = true;
                     break;
                 case "Role":
-                    rblNewEventEmail.Items[2].Selected = true;
+                    this.rblNewEventEmail.Items[2].Selected = true;
                     break;
             }
 
-            LoadNewEventEmailRoles(Settings.Neweventemailrole);
-            chkNewPerEventEmail.Checked = Settings.Newpereventemail;
+            this.LoadNewEventEmailRoles(this.Settings.Neweventemailrole);
+            this.chkNewPerEventEmail.Checked = this.Settings.Newpereventemail;
 
-            ddlDefaultView.Items.Clear();
-            ddlDefaultView.Items.Add(new ListItem(Localization.GetString("Month", LocalResourceFile), "EventMonth.ascx"));
-            ddlDefaultView.Items.Add(new ListItem(Localization.GetString("Week", LocalResourceFile), "EventWeek.ascx"));
-            ddlDefaultView.Items.Add(new ListItem(Localization.GetString("List", LocalResourceFile), "EventList.ascx"));
+            this.ddlDefaultView.Items.Clear();
+            this.ddlDefaultView.Items.Add(new ListItem(Localization.GetString("Month", this.LocalResourceFile),
+                                                       "EventMonth.ascx"));
+            this.ddlDefaultView.Items.Add(new ListItem(Localization.GetString("Week", this.LocalResourceFile),
+                                                       "EventWeek.ascx"));
+            this.ddlDefaultView.Items.Add(new ListItem(Localization.GetString("List", this.LocalResourceFile),
+                                                       "EventList.ascx"));
 
-            ddlDefaultView.Items.FindByValue(Settings.DefaultView).Selected = true;
+            this.ddlDefaultView.Items.FindByValue(this.Settings.DefaultView).Selected = true;
 
-            chkMonthAllowed.Checked = Settings.MonthAllowed;
-            chkWeekAllowed.Checked = Settings.WeekAllowed;
-            chkListAllowed.Checked = Settings.ListAllowed;
-            chkEnableSearch.Checked = Settings.Eventsearch;
-            chkPreventConflicts.Checked = Settings.Preventconflicts;
-            chkLocationConflict.Checked = Settings.Locationconflict;
-            chkShowEventsAlways.Checked = Settings.ShowEventsAlways;
-            chkTimeInTitle.Checked = Settings.Timeintitle;
-            chkMonthDaySelect.Checked = Settings.Monthdayselect;
-            chkEventSignup.Checked = Settings.Eventsignup;
-            chkEventSignupAllowPaid.Checked = Settings.Eventsignupallowpaid;
-            chkDefaultEnrollView.Checked = Settings.Eventdefaultenrollview;
-            chkHideFullEnroll.Checked = Settings.Eventhidefullenroll;
-            txtMaxNoEnrolees.Text = Settings.Maxnoenrolees.ToString();
-            txtCancelDays.Text = Settings.Enrolcanceldays.ToString();
-            chkFridayWeekend.Checked = Settings.Fridayweekend;
-            chkModerateAll.Checked = Settings.Moderateall;
-            chkTZDisplay.Checked = Settings.Tzdisplay;
-            chkListViewUseTime.Checked = Settings.ListViewUseTime;
+            this.chkMonthAllowed.Checked = this.Settings.MonthAllowed;
+            this.chkWeekAllowed.Checked = this.Settings.WeekAllowed;
+            this.chkListAllowed.Checked = this.Settings.ListAllowed;
+            this.chkEnableSearch.Checked = this.Settings.Eventsearch;
+            this.chkPreventConflicts.Checked = this.Settings.Preventconflicts;
+            this.chkLocationConflict.Checked = this.Settings.Locationconflict;
+            this.chkShowEventsAlways.Checked = this.Settings.ShowEventsAlways;
+            this.chkTimeInTitle.Checked = this.Settings.Timeintitle;
+            this.chkMonthDaySelect.Checked = this.Settings.Monthdayselect;
+            this.chkEventSignup.Checked = this.Settings.Eventsignup;
+            this.chkEventSignupAllowPaid.Checked = this.Settings.Eventsignupallowpaid;
+            this.chkDefaultEnrollView.Checked = this.Settings.Eventdefaultenrollview;
+            this.chkHideFullEnroll.Checked = this.Settings.Eventhidefullenroll;
+            this.txtMaxNoEnrolees.Text = this.Settings.Maxnoenrolees.ToString();
+            this.txtCancelDays.Text = this.Settings.Enrolcanceldays.ToString();
+            this.chkFridayWeekend.Checked = this.Settings.Fridayweekend;
+            this.chkModerateAll.Checked = this.Settings.Moderateall;
+            this.chkTZDisplay.Checked = this.Settings.Tzdisplay;
+            this.chkListViewUseTime.Checked = this.Settings.ListViewUseTime;
 
-            txtPayPalAccount.Text = Settings.Paypalaccount;
-            if (txtPayPalAccount.Text.Length == 0)
+            this.txtPayPalAccount.Text = this.Settings.Paypalaccount;
+            if (this.txtPayPalAccount.Text.Length == 0)
             {
-                txtPayPalAccount.Text = PortalSettings.Email;
+                this.txtPayPalAccount.Text = this.PortalSettings.Email;
             }
 
-            txtReminderFrom.Text = Settings.Reminderfrom;
-            if (txtReminderFrom.Text.Length == 0)
+            this.txtReminderFrom.Text = this.Settings.Reminderfrom;
+            if (this.txtReminderFrom.Text.Length == 0)
             {
-                txtReminderFrom.Text = PortalSettings.Email;
+                this.txtReminderFrom.Text = this.PortalSettings.Email;
             }
 
-            txtStandardEmail.Text = Settings.StandardEmail;
-            if (txtStandardEmail.Text.Length == 0)
+            this.txtStandardEmail.Text = this.Settings.StandardEmail;
+            if (this.txtStandardEmail.Text.Length == 0)
             {
-                txtStandardEmail.Text = PortalSettings.Email;
+                this.txtStandardEmail.Text = this.PortalSettings.Email;
             }
 
-            BindSubEvents();
-            BindAvailableEvents();
+            this.BindSubEvents();
+            this.BindAvailableEvents();
 
-            chkMasterEvent.Checked = Settings.MasterEvent;
+            this.chkMasterEvent.Checked = this.Settings.MasterEvent;
 
-            Enable_Disable_Cals();
+            this.Enable_Disable_Cals();
 
-            chkIconMonthPrio.Checked = Settings.IconMonthPrio;
-            chkIconWeekPrio.Checked = Settings.IconWeekPrio;
-            chkIconListPrio.Checked = Settings.IconListPrio;
-            chkIconMonthRec.Checked = Settings.IconMonthRec;
-            chkIconWeekRec.Checked = Settings.IconMonthRec;
-            chkIconListRec.Checked = Settings.IconListRec;
-            chkIconMonthReminder.Checked = Settings.IconMonthReminder;
-            chkIconWeekReminder.Checked = Settings.IconWeekReminder;
-            chkIconListReminder.Checked = Settings.IconListReminder;
-            chkIconMonthEnroll.Checked = Settings.IconMonthEnroll;
-            chkIconWeekEnroll.Checked = Settings.IconWeekEnroll;
-            chkIconListEnroll.Checked = Settings.IconListEnroll;
-            txtPrivateMessage.Text = Settings.PrivateMessage;
+            this.chkIconMonthPrio.Checked = this.Settings.IconMonthPrio;
+            this.chkIconWeekPrio.Checked = this.Settings.IconWeekPrio;
+            this.chkIconListPrio.Checked = this.Settings.IconListPrio;
+            this.chkIconMonthRec.Checked = this.Settings.IconMonthRec;
+            this.chkIconWeekRec.Checked = this.Settings.IconMonthRec;
+            this.chkIconListRec.Checked = this.Settings.IconListRec;
+            this.chkIconMonthReminder.Checked = this.Settings.IconMonthReminder;
+            this.chkIconWeekReminder.Checked = this.Settings.IconWeekReminder;
+            this.chkIconListReminder.Checked = this.Settings.IconListReminder;
+            this.chkIconMonthEnroll.Checked = this.Settings.IconMonthEnroll;
+            this.chkIconWeekEnroll.Checked = this.Settings.IconWeekEnroll;
+            this.chkIconListEnroll.Checked = this.Settings.IconListEnroll;
+            this.txtPrivateMessage.Text = this.Settings.PrivateMessage;
 
-            int columnNo = 0;
+            var columnNo = 0;
             for (columnNo = 1; columnNo <= 13; columnNo++)
             {
-                string columnAcronym = GetListColumnAcronym(columnNo);
-                string columnName = GetListColumnName(columnAcronym);
-                if (Settings.EventsListFields.LastIndexOf(columnAcronym, StringComparison.Ordinal) > -1)
+                var columnAcronym = this.GetListColumnAcronym(columnNo);
+                var columnName = this.GetListColumnName(columnAcronym);
+                if (this.Settings.EventsListFields.LastIndexOf(columnAcronym, StringComparison.Ordinal) > -1)
                 {
                     selectedFields.Add(columnName);
                 }
@@ -375,384 +402,447 @@ namespace DotNetNuke.Modules.Events
                 }
             }
 
-            lstAvailable.DataSource = availableFields;
-            lstAvailable.DataBind();
-            Sort(lstAvailable);
+            this.lstAvailable.DataSource = availableFields;
+            this.lstAvailable.DataBind();
+            this.Sort(this.lstAvailable);
 
-            lstAssigned.DataSource = selectedFields;
-            lstAssigned.DataBind();
-            Sort(lstAssigned);
+            this.lstAssigned.DataSource = selectedFields;
+            this.lstAssigned.DataBind();
+            this.Sort(this.lstAssigned);
 
-            if (Settings.EventsListSelectType == rblSelectionTypeDays.Value)
+            if (this.Settings.EventsListSelectType == this.rblSelectionTypeDays.Value)
             {
-                rblSelectionTypeDays.Checked = true;
-                rblSelectionTypeEvents.Checked = false;
+                this.rblSelectionTypeDays.Checked = true;
+                this.rblSelectionTypeEvents.Checked = false;
             }
             else
             {
-                rblSelectionTypeDays.Checked = false;
-                rblSelectionTypeEvents.Checked = true;
+                this.rblSelectionTypeDays.Checked = false;
+                this.rblSelectionTypeEvents.Checked = true;
             }
 
-            if (Settings.ListViewGrid)
+            if (this.Settings.ListViewGrid)
             {
-                rblListViewGrid.Items[0].Selected = true;
+                this.rblListViewGrid.Items[0].Selected = true;
             }
             else
             {
-                rblListViewGrid.Items[1].Selected = true;
+                this.rblListViewGrid.Items[1].Selected = true;
             }
-            chkListViewTable.Checked = Settings.ListViewTable;
-            txtRptColumns.Text = Settings.RptColumns.ToString();
-            txtRptRows.Text = Settings.RptRows.ToString();
+            this.chkListViewTable.Checked = this.Settings.ListViewTable;
+            this.txtRptColumns.Text = this.Settings.RptColumns.ToString();
+            this.txtRptRows.Text = this.Settings.RptRows.ToString();
 
             // Do we have to display the EventsList header
-            if (Settings.EventsListShowHeader != "No")
+            if (this.Settings.EventsListShowHeader != "No")
             {
-                rblShowHeader.Items[0].Selected = true;
+                this.rblShowHeader.Items[0].Selected = true;
             }
             else
             {
-                rblShowHeader.Items[1].Selected = true;
+                this.rblShowHeader.Items[1].Selected = true;
             }
 
-            txtDaysBefore.Text = Settings.EventsListBeforeDays.ToString();
-            txtDaysAfter.Text = Settings.EventsListAfterDays.ToString();
-            txtNumEvents.Text = Settings.EventsListNumEvents.ToString();
-            txtEventDays.Text = Settings.EventsListEventDays.ToString();
-            chkRestrictCategoriesToTimeFrame.Checked = Settings.RestrictCategoriesToTimeFrame;
-            chkRestrictLocationsToTimeFrame.Checked = Settings.RestrictLocationsToTimeFrame;
+            this.txtDaysBefore.Text = this.Settings.EventsListBeforeDays.ToString();
+            this.txtDaysAfter.Text = this.Settings.EventsListAfterDays.ToString();
+            this.txtNumEvents.Text = this.Settings.EventsListNumEvents.ToString();
+            this.txtEventDays.Text = this.Settings.EventsListEventDays.ToString();
+            this.chkRestrictCategoriesToTimeFrame.Checked = this.Settings.RestrictCategoriesToTimeFrame;
+            this.chkRestrictLocationsToTimeFrame.Checked = this.Settings.RestrictLocationsToTimeFrame;
 
-            chkCustomField1.Checked = Settings.EventsCustomField1;
-            chkCustomField2.Checked = Settings.EventsCustomField2;
+            this.chkCustomField1.Checked = this.Settings.EventsCustomField1;
+            this.chkCustomField2.Checked = this.Settings.EventsCustomField2;
 
-            ddlPageSize.Items.FindByValue(Convert.ToString(Settings.EventsListPageSize)).Selected = true;
-            ddlListSortedFieldDirection.Items.Clear();
-            ddlListSortedFieldDirection.Items.Add(new ListItem(Localization.GetString("Asc", LocalResourceFile), "ASC"));
-            ddlListSortedFieldDirection.Items.Add(new ListItem(Localization.GetString("Desc", LocalResourceFile), "DESC"));
-            ddlListSortedFieldDirection.Items.FindByValue(Settings.EventsListSortDirection).Selected = true;
+            this.ddlPageSize.Items.FindByValue(Convert.ToString(this.Settings.EventsListPageSize)).Selected = true;
+            this.ddlListSortedFieldDirection.Items.Clear();
+            this.ddlListSortedFieldDirection.Items.Add(
+                new ListItem(Localization.GetString("Asc", this.LocalResourceFile), "ASC"));
+            this.ddlListSortedFieldDirection.Items.Add(
+                new ListItem(Localization.GetString("Desc", this.LocalResourceFile), "DESC"));
+            this.ddlListSortedFieldDirection.Items.FindByValue(this.Settings.EventsListSortDirection).Selected = true;
 
-            ddlListDefaultColumn.Items.Clear();
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortEventID", LocalResourceFile), "EventID"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortEventDateBegin", LocalResourceFile), "EventDateBegin"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortEventDateEnd", LocalResourceFile), "EventDateEnd"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortEventName", LocalResourceFile), "EventName"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortDuration", LocalResourceFile), "Duration"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortCategoryName", LocalResourceFile), "CategoryName"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortCustomField1", LocalResourceFile), "CustomField1"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortCustomField2", LocalResourceFile), "CustomField2"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortDescription", LocalResourceFile), "Description"));
-            ddlListDefaultColumn.Items.Add(new ListItem(Localization.GetString("SortLocationName", LocalResourceFile), "LocationName"));
-            ddlListDefaultColumn.Items.FindByValue(Settings.EventsListSortColumn).Selected = true;
+            this.ddlListDefaultColumn.Items.Clear();
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortEventID", this.LocalResourceFile), "EventID"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortEventDateBegin", this.LocalResourceFile),
+                             "EventDateBegin"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortEventDateEnd", this.LocalResourceFile), "EventDateEnd"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortEventName", this.LocalResourceFile), "EventName"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortDuration", this.LocalResourceFile), "Duration"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortCategoryName", this.LocalResourceFile), "CategoryName"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortCustomField1", this.LocalResourceFile), "CustomField1"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortCustomField2", this.LocalResourceFile), "CustomField2"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortDescription", this.LocalResourceFile), "Description"));
+            this.ddlListDefaultColumn.Items.Add(
+                new ListItem(Localization.GetString("SortLocationName", this.LocalResourceFile), "LocationName"));
+            this.ddlListDefaultColumn.Items.FindByValue(this.Settings.EventsListSortColumn).Selected = true;
 
-            ddlWeekStart.Items.Clear();
-            ddlWeekStart.Items.Add(new ListItem(System.Web.UI.WebControls.FirstDayOfWeek.Default.ToString(), (System.Convert.ToInt32(System.Web.UI.WebControls.FirstDayOfWeek.Default)).ToString()));
-            ddlWeekStart.Items.Add(new ListItem(System.Web.UI.WebControls.FirstDayOfWeek.Monday.ToString(), (System.Convert.ToInt32(System.Web.UI.WebControls.FirstDayOfWeek.Monday)).ToString()));
-            ddlWeekStart.Items.Add(new ListItem(System.Web.UI.WebControls.FirstDayOfWeek.Tuesday.ToString(), (System.Convert.ToInt32(System.Web.UI.WebControls.FirstDayOfWeek.Tuesday)).ToString()));
-            ddlWeekStart.Items.Add(new ListItem(System.Web.UI.WebControls.FirstDayOfWeek.Wednesday.ToString(), (System.Convert.ToInt32(System.Web.UI.WebControls.FirstDayOfWeek.Wednesday)).ToString()));
-            ddlWeekStart.Items.Add(new ListItem(System.Web.UI.WebControls.FirstDayOfWeek.Thursday.ToString(), (System.Convert.ToInt32(System.Web.UI.WebControls.FirstDayOfWeek.Thursday)).ToString()));
-            ddlWeekStart.Items.Add(new ListItem(System.Web.UI.WebControls.FirstDayOfWeek.Friday.ToString(), (System.Convert.ToInt32(System.Web.UI.WebControls.FirstDayOfWeek.Friday)).ToString()));
-            ddlWeekStart.Items.Add(new ListItem(System.Web.UI.WebControls.FirstDayOfWeek.Saturday.ToString(), (System.Convert.ToInt32(System.Web.UI.WebControls.FirstDayOfWeek.Saturday)).ToString()));
-            ddlWeekStart.Items.Add(new ListItem(System.Web.UI.WebControls.FirstDayOfWeek.Sunday.ToString(), (System.Convert.ToInt32(System.Web.UI.WebControls.FirstDayOfWeek.Sunday)).ToString()));
-            ddlWeekStart.Items.FindByValue((System.Convert.ToInt32(Settings.WeekStart)).ToString()).Selected = true;
+            this.ddlWeekStart.Items.Clear();
+            this.ddlWeekStart.Items.Add(new ListItem(FirstDayOfWeek.Default.ToString(),
+                                                     Convert.ToInt32(FirstDayOfWeek.Default).ToString()));
+            this.ddlWeekStart.Items.Add(new ListItem(FirstDayOfWeek.Monday.ToString(),
+                                                     Convert.ToInt32(FirstDayOfWeek.Monday).ToString()));
+            this.ddlWeekStart.Items.Add(new ListItem(FirstDayOfWeek.Tuesday.ToString(),
+                                                     Convert.ToInt32(FirstDayOfWeek.Tuesday).ToString()));
+            this.ddlWeekStart.Items.Add(new ListItem(FirstDayOfWeek.Wednesday.ToString(),
+                                                     Convert.ToInt32(FirstDayOfWeek.Wednesday).ToString()));
+            this.ddlWeekStart.Items.Add(new ListItem(FirstDayOfWeek.Thursday.ToString(),
+                                                     Convert.ToInt32(FirstDayOfWeek.Thursday).ToString()));
+            this.ddlWeekStart.Items.Add(new ListItem(FirstDayOfWeek.Friday.ToString(),
+                                                     Convert.ToInt32(FirstDayOfWeek.Friday).ToString()));
+            this.ddlWeekStart.Items.Add(new ListItem(FirstDayOfWeek.Saturday.ToString(),
+                                                     Convert.ToInt32(FirstDayOfWeek.Saturday).ToString()));
+            this.ddlWeekStart.Items.Add(new ListItem(FirstDayOfWeek.Sunday.ToString(),
+                                                     Convert.ToInt32(FirstDayOfWeek.Sunday).ToString()));
+            this.ddlWeekStart.Items.FindByValue(Convert.ToInt32(this.Settings.WeekStart).ToString()).Selected = true;
 
-            if (Settings.EnrollEditFields.LastIndexOf("01", StringComparison.Ordinal) > -1)
+            if (this.Settings.EnrollEditFields.LastIndexOf("01", StringComparison.Ordinal) > -1)
             {
-                rblEnUserEdit.Checked = true;
+                this.rblEnUserEdit.Checked = true;
             }
-            else if (Settings.EnrollViewFields.LastIndexOf("01", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollViewFields.LastIndexOf("01", StringComparison.Ordinal) > -1)
             {
-                rblEnUserView.Checked = true;
+                this.rblEnUserView.Checked = true;
             }
-            else if (Settings.EnrollAnonFields.LastIndexOf("01", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollAnonFields.LastIndexOf("01", StringComparison.Ordinal) > -1)
             {
-                rblEnUserAnon.Checked = true;
+                this.rblEnUserAnon.Checked = true;
             }
             else
             {
-                rblEnUserNone.Checked = true;
+                this.rblEnUserNone.Checked = true;
             }
 
-            if (Settings.EnrollEditFields.LastIndexOf("02", StringComparison.Ordinal) > -1)
+            if (this.Settings.EnrollEditFields.LastIndexOf("02", StringComparison.Ordinal) > -1)
             {
-                rblEnDispEdit.Checked = true;
+                this.rblEnDispEdit.Checked = true;
             }
-            else if (Settings.EnrollViewFields.LastIndexOf("02", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollViewFields.LastIndexOf("02", StringComparison.Ordinal) > -1)
             {
-                rblEnDispView.Checked = true;
+                this.rblEnDispView.Checked = true;
             }
-            else if (Settings.EnrollAnonFields.LastIndexOf("02", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollAnonFields.LastIndexOf("02", StringComparison.Ordinal) > -1)
             {
-                rblEnDispAnon.Checked = true;
+                this.rblEnDispAnon.Checked = true;
             }
             else
             {
-                rblEnDispNone.Checked = true;
+                this.rblEnDispNone.Checked = true;
             }
 
-            if (Settings.EnrollEditFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
+            if (this.Settings.EnrollEditFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
-                rblEnEmailEdit.Checked = true;
+                this.rblEnEmailEdit.Checked = true;
             }
-            else if (Settings.EnrollViewFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollViewFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
-                rblEnEmailView.Checked = true;
+                this.rblEnEmailView.Checked = true;
             }
-            else if (Settings.EnrollAnonFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollAnonFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
-                rblEnEmailAnon.Checked = true;
+                this.rblEnEmailAnon.Checked = true;
             }
             else
             {
-                rblEnEmailNone.Checked = true;
+                this.rblEnEmailNone.Checked = true;
             }
 
-            if (Settings.EnrollEditFields.LastIndexOf("04", StringComparison.Ordinal) > -1)
+            if (this.Settings.EnrollEditFields.LastIndexOf("04", StringComparison.Ordinal) > -1)
             {
-                rblEnPhoneEdit.Checked = true;
+                this.rblEnPhoneEdit.Checked = true;
             }
-            else if (Settings.EnrollViewFields.LastIndexOf("04", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollViewFields.LastIndexOf("04", StringComparison.Ordinal) > -1)
             {
-                rblEnPhoneView.Checked = true;
+                this.rblEnPhoneView.Checked = true;
             }
-            else if (Settings.EnrollAnonFields.LastIndexOf("04", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollAnonFields.LastIndexOf("04", StringComparison.Ordinal) > -1)
             {
-                rblEnPhoneAnon.Checked = true;
+                this.rblEnPhoneAnon.Checked = true;
             }
             else
             {
-                rblEnPhoneNone.Checked = true;
+                this.rblEnPhoneNone.Checked = true;
             }
 
-            if (Settings.EnrollEditFields.LastIndexOf("05", StringComparison.Ordinal) > -1)
+            if (this.Settings.EnrollEditFields.LastIndexOf("05", StringComparison.Ordinal) > -1)
             {
-                rblEnApproveEdit.Checked = true;
+                this.rblEnApproveEdit.Checked = true;
             }
-            else if (Settings.EnrollViewFields.LastIndexOf("05", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollViewFields.LastIndexOf("05", StringComparison.Ordinal) > -1)
             {
-                rblEnApproveView.Checked = true;
+                this.rblEnApproveView.Checked = true;
             }
-            else if (Settings.EnrollAnonFields.LastIndexOf("05", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollAnonFields.LastIndexOf("05", StringComparison.Ordinal) > -1)
             {
-                rblEnApproveAnon.Checked = true;
+                this.rblEnApproveAnon.Checked = true;
             }
             else
             {
-                rblEnApproveNone.Checked = true;
+                this.rblEnApproveNone.Checked = true;
             }
 
-            if (Settings.EnrollEditFields.LastIndexOf("06", StringComparison.Ordinal) > -1)
+            if (this.Settings.EnrollEditFields.LastIndexOf("06", StringComparison.Ordinal) > -1)
             {
-                rblEnNoEdit.Checked = true;
+                this.rblEnNoEdit.Checked = true;
             }
-            else if (Settings.EnrollViewFields.LastIndexOf("06", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollViewFields.LastIndexOf("06", StringComparison.Ordinal) > -1)
             {
-                rblEnNoView.Checked = true;
+                this.rblEnNoView.Checked = true;
             }
-            else if (Settings.EnrollAnonFields.LastIndexOf("06", StringComparison.Ordinal) > -1)
+            else if (this.Settings.EnrollAnonFields.LastIndexOf("06", StringComparison.Ordinal) > -1)
             {
-                rblEnNoAnon.Checked = true;
+                this.rblEnNoAnon.Checked = true;
             }
             else
             {
-                rblEnNoNone.Checked = true;
+                this.rblEnNoNone.Checked = true;
             }
 
 
-            chkRSSEnable.Checked = Settings.RSSEnable;
-            ddlRSSDateField.Items.Clear();
-            ddlRSSDateField.Items.Add(new ListItem(Localization.GetString("UpdatedDate", LocalResourceFile), "UPDATEDDATE"));
-            ddlRSSDateField.Items.Add(new ListItem(Localization.GetString("CreationDate", LocalResourceFile), "CREATIONDATE"));
-            ddlRSSDateField.Items.Add(new ListItem(Localization.GetString("EventDate", LocalResourceFile), "EVENTDATE"));
-            ddlRSSDateField.Items.FindByValue(Settings.RSSDateField).Selected = true;
-            txtRSSDays.Text = Settings.RSSDays.ToString();
-            txtRSSTitle.Text = Settings.RSSTitle;
-            txtRSSDesc.Text = Settings.RSSDesc;
-            txtExpireEvents.Text = Settings.Expireevents;
-            chkExportOwnerEmail.Checked = Settings.Exportowneremail;
-            chkExportAnonOwnerEmail.Checked = Settings.Exportanonowneremail;
-            chkOwnerChangeAllowed.Checked = Settings.Ownerchangeallowed;
+            this.chkRSSEnable.Checked = this.Settings.RSSEnable;
+            this.ddlRSSDateField.Items.Clear();
+            this.ddlRSSDateField.Items.Add(new ListItem(Localization.GetString("UpdatedDate", this.LocalResourceFile),
+                                                        "UPDATEDDATE"));
+            this.ddlRSSDateField.Items.Add(new ListItem(Localization.GetString("CreationDate", this.LocalResourceFile),
+                                                        "CREATIONDATE"));
+            this.ddlRSSDateField.Items.Add(new ListItem(Localization.GetString("EventDate", this.LocalResourceFile),
+                                                        "EVENTDATE"));
+            this.ddlRSSDateField.Items.FindByValue(this.Settings.RSSDateField).Selected = true;
+            this.txtRSSDays.Text = this.Settings.RSSDays.ToString();
+            this.txtRSSTitle.Text = this.Settings.RSSTitle;
+            this.txtRSSDesc.Text = this.Settings.RSSDesc;
+            this.txtExpireEvents.Text = this.Settings.Expireevents;
+            this.chkExportOwnerEmail.Checked = this.Settings.Exportowneremail;
+            this.chkExportAnonOwnerEmail.Checked = this.Settings.Exportanonowneremail;
+            this.chkOwnerChangeAllowed.Checked = this.Settings.Ownerchangeallowed;
 
-            txtFBAdmins.Text = Settings.FBAdmins;
-            txtFBAppID.Text = Settings.FBAppID;
+            this.txtFBAdmins.Text = this.Settings.FBAdmins;
+            this.txtFBAppID.Text = this.Settings.FBAppID;
 
-            switch (Settings.IconBar)
+            switch (this.Settings.IconBar)
             {
                 case "BOTTOM":
-                    rblIconBar.Items[1].Selected = true;
+                    this.rblIconBar.Items[1].Selected = true;
                     break;
                 case "NONE":
-                    rblIconBar.Items[2].Selected = true;
+                    this.rblIconBar.Items[2].Selected = true;
                     break;
                 default:
-                    rblIconBar.Items[0].Selected = true;
+                    this.rblIconBar.Items[0].Selected = true;
                     break;
             }
 
-            switch (Settings.HTMLEmail)
+            switch (this.Settings.HTMLEmail)
             {
                 case "auto":
-                    rblHTMLEmail.Items[1].Selected = true;
+                    this.rblHTMLEmail.Items[1].Selected = true;
                     break;
                 case "text":
-                    rblHTMLEmail.Items[2].Selected = true;
+                    this.rblHTMLEmail.Items[2].Selected = true;
                     break;
                 default:
-                    rblHTMLEmail.Items[0].Selected = true;
+                    this.rblHTMLEmail.Items[0].Selected = true;
                     break;
             }
 
 
-            chkEnrollMessageApproved.Checked = Settings.SendEnrollMessageApproved;
-            chkEnrollMessageWaiting.Checked = Settings.SendEnrollMessageWaiting;
-            chkEnrollMessageDenied.Checked = Settings.SendEnrollMessageDenied;
-            chkEnrollMessageAdded.Checked = Settings.SendEnrollMessageAdded;
-            chkEnrollMessageDeleted.Checked = Settings.SendEnrollMessageDeleted;
-            chkEnrollMessagePaying.Checked = Settings.SendEnrollMessagePaying;
-            chkEnrollMessagePending.Checked = Settings.SendEnrollMessagePending;
-            chkEnrollMessagePaid.Checked = Settings.SendEnrollMessagePaid;
-            chkEnrollMessageIncorrect.Checked = Settings.SendEnrollMessageIncorrect;
-            chkEnrollMessageCancelled.Checked = Settings.SendEnrollMessageCancelled;
+            this.chkEnrollMessageApproved.Checked = this.Settings.SendEnrollMessageApproved;
+            this.chkEnrollMessageWaiting.Checked = this.Settings.SendEnrollMessageWaiting;
+            this.chkEnrollMessageDenied.Checked = this.Settings.SendEnrollMessageDenied;
+            this.chkEnrollMessageAdded.Checked = this.Settings.SendEnrollMessageAdded;
+            this.chkEnrollMessageDeleted.Checked = this.Settings.SendEnrollMessageDeleted;
+            this.chkEnrollMessagePaying.Checked = this.Settings.SendEnrollMessagePaying;
+            this.chkEnrollMessagePending.Checked = this.Settings.SendEnrollMessagePending;
+            this.chkEnrollMessagePaid.Checked = this.Settings.SendEnrollMessagePaid;
+            this.chkEnrollMessageIncorrect.Checked = this.Settings.SendEnrollMessageIncorrect;
+            this.chkEnrollMessageCancelled.Checked = this.Settings.SendEnrollMessageCancelled;
 
-            chkAllowAnonEnroll.Checked = Settings.AllowAnonEnroll;
-            BindToEnum(typeof(EventModuleSettings.SocialModule), ddlSocialGroupModule);
-            ddlSocialGroupModule.Items.FindByValue(System.Convert.ToString((int)Settings.SocialGroupModule)).Selected = true;
-            chkSocialUserPrivate.Checked = Settings.SocialUserPrivate;
-            BindToEnum(typeof(EventModuleSettings.SocialGroupPrivacy), ddlSocialGroupSecurity);
-            ddlSocialGroupSecurity.Items.FindByValue(System.Convert.ToString((int)Settings.SocialGroupSecurity)).Selected = true;
+            this.chkAllowAnonEnroll.Checked = this.Settings.AllowAnonEnroll;
+            this.BindToEnum(typeof(EventModuleSettings.SocialModule), this.ddlSocialGroupModule);
+            this.ddlSocialGroupModule.Items.FindByValue(Convert.ToString((int) this.Settings.SocialGroupModule))
+                .Selected = true;
+            this.chkSocialUserPrivate.Checked = this.Settings.SocialUserPrivate;
+            this.BindToEnum(typeof(EventModuleSettings.SocialGroupPrivacy), this.ddlSocialGroupSecurity);
+            this.ddlSocialGroupSecurity.Items.FindByValue(Convert.ToString((int) this.Settings.SocialGroupSecurity))
+                .Selected = true;
 
-            ddlEnrolListSortDirection.Items.Clear();
-            ddlEnrolListSortDirection.Items.Add(new ListItem(Localization.GetString("Asc", LocalResourceFile), "0"));
-            ddlEnrolListSortDirection.Items.Add(new ListItem(Localization.GetString("Desc", LocalResourceFile), "1"));
-            ddlEnrolListSortDirection.Items.FindByValue((System.Convert.ToInt32(Settings.EnrolListSortDirection)).ToString()).Selected = true;
+            this.ddlEnrolListSortDirection.Items.Clear();
+            this.ddlEnrolListSortDirection.Items.Add(
+                new ListItem(Localization.GetString("Asc", this.LocalResourceFile), "0"));
+            this.ddlEnrolListSortDirection.Items.Add(
+                new ListItem(Localization.GetString("Desc", this.LocalResourceFile), "1"));
+            this.ddlEnrolListSortDirection.Items
+                .FindByValue(Convert.ToInt32(this.Settings.EnrolListSortDirection).ToString()).Selected = true;
 
-            txtEnrolListDaysBefore.Text = Settings.EnrolListDaysBefore.ToString();
-            txtEnrolListDaysAfter.Text = Settings.EnrolListDaysAfter.ToString();
+            this.txtEnrolListDaysBefore.Text = this.Settings.EnrolListDaysBefore.ToString();
+            this.txtEnrolListDaysAfter.Text = this.Settings.EnrolListDaysAfter.ToString();
 
-            chkJournalIntegration.Checked = Settings.JournalIntegration;
+            this.chkJournalIntegration.Checked = this.Settings.JournalIntegration;
 
-            LoadCategories();
-            LoadLocations();
+            this.LoadCategories();
+            this.LoadLocations();
 
-            LoadTemplates();
-
+            this.LoadTemplates();
         }
 
         private void AddJavaScript()
         {
             //Add the external Validation.js to the Page
             const string csname = "ExtValidationScriptFile";
-            Type cstype = System.Reflection.MethodBase.GetCurrentMethod().GetType();
-            string cstext = "<script src=\"" + ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") + "\" type=\"text/javascript\"></script>";
-            if (!Page.ClientScript.IsClientScriptBlockRegistered(csname))
+            var cstype = MethodBase.GetCurrentMethod().GetType();
+            var cstext = "<script src=\"" + this.ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
+                         "\" type=\"text/javascript\"></script>";
+            if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname))
             {
-                Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
+                this.Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
             }
 
 
             // Add javascript actions where required and build startup script
-            string script = "";
-            string cstext2 = "";
+            var script = "";
+            var cstext2 = "";
             cstext2 += "<script type=\"text/javascript\">";
             cstext2 += "EventSettingsStartupScript = function() {";
 
-            script = "disableactivate('" + ddlDefaultView.ClientID + "','" + chkMonthAllowed.ClientID + "','" + chkWeekAllowed.ClientID + "','" + chkListAllowed.ClientID + "');";
+            script = "disableactivate('" + this.ddlDefaultView.ClientID + "','" + this.chkMonthAllowed.ClientID +
+                     "','" + this.chkWeekAllowed.ClientID + "','" + this.chkListAllowed.ClientID + "');";
             cstext2 += script;
-            ddlDefaultView.Attributes.Add("onchange", script);
+            this.ddlDefaultView.Attributes.Add("onchange", script);
 
-            script = "disableControl('" + chkPreventConflicts.ClientID + ("',false, '" + chkLocationConflict.ClientID + "');");
+            script = "disableControl('" + this.chkPreventConflicts.ClientID + "',false, '" +
+                     this.chkLocationConflict.ClientID + "');";
             cstext2 += script;
-            chkPreventConflicts.InputAttributes.Add("onclick", script);
+            this.chkPreventConflicts.InputAttributes.Add("onclick", script);
 
-            script = "disableControl('" + chkMonthCellEvents.ClientID + ("',true, '" + chkEventDayNewPage.ClientID + "');");
-            script += "disableControl('" + chkMonthCellEvents.ClientID + ("',false, '" + chkMonthDaySelect.ClientID + "');");
-            script += "disableControl('" + chkMonthCellEvents.ClientID + ("',false, '" + chkTimeInTitle.ClientID + "');");
-            script += "disableControl('" + chkMonthCellEvents.ClientID + ("',false, '" + chkEventImageMonth.ClientID + "');");
-            script += "disableControl('" + chkMonthCellEvents.ClientID + ("',false, '" + chkIconMonthPrio.ClientID + "');");
-            script += "disableControl('" + chkMonthCellEvents.ClientID + ("',false, '" + chkIconMonthRec.ClientID + "');");
-            script += "disableControl('" + chkMonthCellEvents.ClientID + ("',false, '" + chkIconMonthReminder.ClientID + "');");
-            script += "disableControl('" + chkMonthCellEvents.ClientID + ("',false, '" + chkIconMonthEnroll.ClientID + "');");
+            script = "disableControl('" + this.chkMonthCellEvents.ClientID + "',true, '" +
+                     this.chkEventDayNewPage.ClientID + "');";
+            script += "disableControl('" + this.chkMonthCellEvents.ClientID + "',false, '" +
+                      this.chkMonthDaySelect.ClientID + "');";
+            script += "disableControl('" + this.chkMonthCellEvents.ClientID + "',false, '" +
+                      this.chkTimeInTitle.ClientID + "');";
+            script += "disableControl('" + this.chkMonthCellEvents.ClientID + "',false, '" +
+                      this.chkEventImageMonth.ClientID + "');";
+            script += "disableControl('" + this.chkMonthCellEvents.ClientID + "',false, '" +
+                      this.chkIconMonthPrio.ClientID + "');";
+            script += "disableControl('" + this.chkMonthCellEvents.ClientID + "',false, '" +
+                      this.chkIconMonthRec.ClientID + "');";
+            script += "disableControl('" + this.chkMonthCellEvents.ClientID + "',false, '" +
+                      this.chkIconMonthReminder.ClientID + "');";
+            script += "disableControl('" + this.chkMonthCellEvents.ClientID + "',false, '" +
+                      this.chkIconMonthEnroll.ClientID + "');";
             cstext2 += script;
-            chkMonthCellEvents.InputAttributes.Add("onclick", script);
+            this.chkMonthCellEvents.InputAttributes.Add("onclick", script);
 
-            script = "disableRbl('" + rblListViewGrid.ClientID + ("', 'Repeater', '" + chkListViewTable.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Repeater', '" + txtRptColumns.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Repeater', '" + txtRptRows.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + rblShowHeader.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + lstAvailable.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + cmdAdd.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + cmdRemove.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + cmdAddAll.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + cmdRemoveAll.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + lstAssigned.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + ddlPageSize.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + chkIconListEnroll.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + chkIconListPrio.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + chkIconListRec.ClientID + "');");
-            script += "disableRbl('" + rblListViewGrid.ClientID + ("', 'Grid', '" + chkIconListReminder.ClientID + "');");
+            script = "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Repeater', '" +
+                     this.chkListViewTable.ClientID + "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Repeater', '" +
+                      this.txtRptColumns.ClientID + "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Repeater', '" + this.txtRptRows.ClientID +
+                      "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.rblShowHeader.ClientID +
+                      "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.lstAvailable.ClientID +
+                      "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.cmdAdd.ClientID + "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.cmdRemove.ClientID + "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.cmdAddAll.ClientID + "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.cmdRemoveAll.ClientID +
+                      "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.lstAssigned.ClientID +
+                      "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.ddlPageSize.ClientID +
+                      "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" +
+                      this.chkIconListEnroll.ClientID + "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.chkIconListPrio.ClientID +
+                      "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" + this.chkIconListRec.ClientID +
+                      "');";
+            script += "disableRbl('" + this.rblListViewGrid.ClientID + "', 'Grid', '" +
+                      this.chkIconListReminder.ClientID + "');";
             cstext2 += script;
-            rblListViewGrid.Attributes.Add("onclick", script);
+            this.rblListViewGrid.Attributes.Add("onclick", script);
 
-            script = "CheckBoxFalse('" + chkIncludeEndValue.ClientID + ("', true, '" + chkShowValueMarks.ClientID + "');");
+            script = "CheckBoxFalse('" + this.chkIncludeEndValue.ClientID + "', true, '" +
+                     this.chkShowValueMarks.ClientID + "');";
             cstext2 += script;
-            chkIncludeEndValue.InputAttributes.Add("onclick", script);
+            this.chkIncludeEndValue.InputAttributes.Add("onclick", script);
 
-            script = "disablelistsettings('" + rblSelectionTypeDays.ClientID + ("',true,'" + txtDaysBefore.ClientID + "','" + txtDaysAfter.ClientID + "','" + txtNumEvents.ClientID + "','" + txtEventDays.ClientID + "');");
+            script = "disablelistsettings('" + this.rblSelectionTypeDays.ClientID + "',true,'" +
+                     this.txtDaysBefore.ClientID + "','" + this.txtDaysAfter.ClientID + "','" +
+                     this.txtNumEvents.ClientID + "','" + this.txtEventDays.ClientID + "');";
             cstext2 += script;
-            rblSelectionTypeDays.Attributes.Add("onclick", script);
+            this.rblSelectionTypeDays.Attributes.Add("onclick", script);
 
-            script = "disablelistsettings('" + rblSelectionTypeEvents.ClientID + ("',false,'" + txtDaysBefore.ClientID + "','" + txtDaysAfter.ClientID + "','" + txtNumEvents.ClientID + "','" + txtEventDays.ClientID + "');");
+            script = "disablelistsettings('" + this.rblSelectionTypeEvents.ClientID + "',false,'" +
+                     this.txtDaysBefore.ClientID + "','" + this.txtDaysAfter.ClientID + "','" +
+                     this.txtNumEvents.ClientID + "','" + this.txtEventDays.ClientID + "');";
             cstext2 += script;
-            rblSelectionTypeEvents.Attributes.Add("onclick", script);
+            this.rblSelectionTypeEvents.Attributes.Add("onclick", script);
 
-            script = "showTbl('" + chkEventNotify.ClientID + "','" + divEventNotify.ClientID + "');";
+            script = "showTbl('" + this.chkEventNotify.ClientID + "','" + this.divEventNotify.ClientID + "');";
             cstext2 += script;
-            chkEventNotify.InputAttributes.Add("onclick", script);
+            this.chkEventNotify.InputAttributes.Add("onclick", script);
 
-            script = "showTbl('" + chkRSSEnable.ClientID + "','" + divRSSEnable.ClientID + "');";
+            script = "showTbl('" + this.chkRSSEnable.ClientID + "','" + this.divRSSEnable.ClientID + "');";
             cstext2 += script;
-            chkRSSEnable.InputAttributes.Add("onclick", script);
+            this.chkRSSEnable.InputAttributes.Add("onclick", script);
 
-            script = "showTbl('" + chkImageEnabled.ClientID + "','" + diviCalEventImage.ClientID + "'); showTbl('" + chkImageEnabled.ClientID + "','" + divImageEnabled.ClientID + "');";
+            script = "showTbl('" + this.chkImageEnabled.ClientID + "','" + this.diviCalEventImage.ClientID +
+                     "'); showTbl('" + this.chkImageEnabled.ClientID + "','" + this.divImageEnabled.ClientID + "');";
             cstext2 += script;
-            chkImageEnabled.InputAttributes.Add("onclick", script);
+            this.chkImageEnabled.InputAttributes.Add("onclick", script);
 
-            script = "showTbl('" + chkiCalDisplayImage.ClientID + "','" + diviCalDisplayImage.ClientID + "');";
+            script = "showTbl('" + this.chkiCalDisplayImage.ClientID + "','" + this.diviCalDisplayImage.ClientID +
+                     "');";
             cstext2 += script;
-            chkiCalDisplayImage.InputAttributes.Add("onclick", script);
+            this.chkiCalDisplayImage.InputAttributes.Add("onclick", script);
 
-            script = "disableControl('" + chkExportOwnerEmail.ClientID + ("',false, '" + chkExportAnonOwnerEmail.ClientID + "');");
+            script = "disableControl('" + this.chkExportOwnerEmail.ClientID + "',false, '" +
+                     this.chkExportAnonOwnerEmail.ClientID + "');";
             cstext2 += script;
-            chkExportOwnerEmail.InputAttributes.Add("onclick", script);
+            this.chkExportOwnerEmail.InputAttributes.Add("onclick", script);
 
-            script = "disableDDL('" + ddlSocialGroupModule.ClientID + "','" + (System.Convert.ToInt32(EventModuleSettings.SocialModule.UserProfile)).ToString() + ("','" + chkSocialUserPrivate.ClientID + "');");
+            script = "disableDDL('" + this.ddlSocialGroupModule.ClientID + "','" +
+                     Convert.ToInt32(EventModuleSettings.SocialModule.UserProfile) + "','" +
+                     this.chkSocialUserPrivate.ClientID + "');";
             cstext2 += script;
-            ddlSocialGroupModule.Attributes.Add("onclick", script);
+            this.ddlSocialGroupModule.Attributes.Add("onclick", script);
 
-            if (Settings.SocialGroupModule == EventModuleSettings.SocialModule.No)
+            if (this.Settings.SocialGroupModule == EventModuleSettings.SocialModule.No)
             {
-                script = "disableRbl('" + rblNewEventEmail.ClientID + ("', 'Role', '" + ddNewEventEmailRoles.ClientID + "');");
+                script = "disableRbl('" + this.rblNewEventEmail.ClientID + "', 'Role', '" +
+                         this.ddNewEventEmailRoles.ClientID + "');";
                 cstext2 += script;
-                rblNewEventEmail.Attributes.Add("onclick", script);
+                this.rblNewEventEmail.Attributes.Add("onclick", script);
             }
 
-            if (Settings.SocialGroupModule != EventModuleSettings.SocialModule.UserProfile)
+            if (this.Settings.SocialGroupModule != EventModuleSettings.SocialModule.UserProfile)
             {
-                script = "showTbl('" + chkEventSignup.ClientID + "','" + divEventSignup.ClientID + "');";
+                script = "showTbl('" + this.chkEventSignup.ClientID + "','" + this.divEventSignup.ClientID + "');";
                 cstext2 += script;
-                chkEventSignup.InputAttributes.Add("onclick", script);
+                this.chkEventSignup.InputAttributes.Add("onclick", script);
 
-                script = "showTbl('" + chkEventSignupAllowPaid.ClientID + "','" + divEventSignupAllowPaid.ClientID + "');";
+                script = "showTbl('" + this.chkEventSignupAllowPaid.ClientID + "','" +
+                         this.divEventSignupAllowPaid.ClientID + "');";
                 cstext2 += script;
-                chkEventSignupAllowPaid.InputAttributes.Add("onclick", script);
+                this.chkEventSignupAllowPaid.InputAttributes.Add("onclick", script);
 
-                script = "showTbl('" + chkEnableSEO.ClientID + "','" + divSEOEnable.ClientID + "');";
+                script = "showTbl('" + this.chkEnableSEO.ClientID + "','" + this.divSEOEnable.ClientID + "');";
                 cstext2 += script;
-                chkEnableSEO.InputAttributes.Add("onclick", script);
+                this.chkEnableSEO.InputAttributes.Add("onclick", script);
 
-                script = "showTbl('" + chkEnableSitemap.ClientID + "','" + divSitemapEnable.ClientID + "');";
+                script = "showTbl('" + this.chkEnableSitemap.ClientID + "','" + this.divSitemapEnable.ClientID + "');";
                 cstext2 += script;
-                chkEnableSitemap.InputAttributes.Add("onclick", script);
+                this.chkEnableSitemap.InputAttributes.Add("onclick", script);
             }
 
             cstext2 += "};";
@@ -763,27 +853,27 @@ namespace DotNetNuke.Modules.Events
 
             // Register the startup script
             const string csname2 = "EventSettingsStartupScript";
-            Type cstype2 = System.Reflection.MethodBase.GetCurrentMethod().GetType();
-            if (!Page.ClientScript.IsStartupScriptRegistered(csname2))
+            var cstype2 = MethodBase.GetCurrentMethod().GetType();
+            if (!this.Page.ClientScript.IsStartupScriptRegistered(csname2))
             {
-                Page.ClientScript.RegisterStartupScript(cstype2, csname2, cstext2, false);
+                this.Page.ClientScript.RegisterStartupScript(cstype2, csname2, cstext2, false);
             }
-
         }
 
-        private void BindToEnum(Type enumType, System.Web.UI.WebControls.DropDownList ddl)
+        private void BindToEnum(Type enumType, DropDownList ddl)
         {
             // get the names from the enumeration
-            string[] names = Enum.GetNames(enumType);
+            var names = Enum.GetNames(enumType);
             // get the values from the enumeration
-            Array values = Enum.GetValues(enumType);
+            var values = Enum.GetValues(enumType);
             // turn it into a hash table
             ddl.Items.Clear();
-            for (int i = 0; i <= names.Length - 1; i++)
+            for (var i = 0; i <= names.Length - 1; i++)
             {
                 // note the cast to integer here is important
                 // otherwise we'll just get the enum string back again
-                ddl.Items.Add(new ListItem(Localization.GetString(names[i], LocalResourceFile), Convert.ToString(System.Convert.ToInt32(values.GetValue(i)))));
+                ddl.Items.Add(new ListItem(Localization.GetString(names[i], this.LocalResourceFile),
+                                           Convert.ToString(Convert.ToInt32(values.GetValue(i)))));
             }
             // return the dictionary to be bound to
         }
@@ -794,31 +884,31 @@ namespace DotNetNuke.Modules.Events
             switch (columnAcronym)
             {
                 case "EB":
-                    return "01 - " + Localization.GetString("EditButton", LocalResourceFile);
+                    return "01 - " + Localization.GetString("EditButton", this.LocalResourceFile);
                 case "BD":
-                    return "02 - " + Localization.GetString("BeginDateTime", LocalResourceFile);
+                    return "02 - " + Localization.GetString("BeginDateTime", this.LocalResourceFile);
                 case "ED":
-                    return "03 - " + Localization.GetString("EndDateTime", LocalResourceFile);
+                    return "03 - " + Localization.GetString("EndDateTime", this.LocalResourceFile);
                 case "EN":
-                    return "04 - " + Localization.GetString("EventName", LocalResourceFile);
+                    return "04 - " + Localization.GetString("EventName", this.LocalResourceFile);
                 case "IM":
-                    return "05 - " + Localization.GetString("Image", LocalResourceFile);
+                    return "05 - " + Localization.GetString("Image", this.LocalResourceFile);
                 case "DU":
-                    return "06 - " + Localization.GetString("Duration", LocalResourceFile);
+                    return "06 - " + Localization.GetString("Duration", this.LocalResourceFile);
                 case "CA":
-                    return "07 - " + Localization.GetString("Category", LocalResourceFile);
+                    return "07 - " + Localization.GetString("Category", this.LocalResourceFile);
                 case "LO":
-                    return "08 - " + Localization.GetString("Location", LocalResourceFile);
+                    return "08 - " + Localization.GetString("Location", this.LocalResourceFile);
                 case "C1":
-                    return "09 - " + Localization.GetString("CustomField1", LocalResourceFile);
+                    return "09 - " + Localization.GetString("CustomField1", this.LocalResourceFile);
                 case "C2":
-                    return "10 - " + Localization.GetString("CustomField2", LocalResourceFile);
+                    return "10 - " + Localization.GetString("CustomField2", this.LocalResourceFile);
                 case "DE":
-                    return "11 - " + Localization.GetString("Description", LocalResourceFile);
+                    return "11 - " + Localization.GetString("Description", this.LocalResourceFile);
                 case "RT":
-                    return "12 - " + Localization.GetString("RecurText", LocalResourceFile);
+                    return "12 - " + Localization.GetString("RecurText", this.LocalResourceFile);
                 case "RU":
-                    return "13 - " + Localization.GetString("RecurUntil", LocalResourceFile);
+                    return "13 - " + Localization.GetString("RecurUntil", this.LocalResourceFile);
                 default:
                     return "";
             }
@@ -860,7 +950,7 @@ namespace DotNetNuke.Modules.Events
         }
 
         /// <summary>
-        /// Fill the themelist based on selection for default or custom skins
+        ///     Fill the themelist based on selection for default or custom skins
         /// </summary>
         /// <remarks></remarks>
         private void LoadThemes()
@@ -870,86 +960,92 @@ namespace DotNetNuke.Modules.Events
                 const string moduleThemesDirectoryPath = "/DesktopModules/Events/Themes";
 
                 //Clear list
-                ddlThemeStandard.Items.Clear();
-                ddlThemeCustom.Items.Clear();
+                this.ddlThemeStandard.Items.Clear();
+                this.ddlThemeCustom.Items.Clear();
 
                 //Add javascript to enable/disable ddl's
-                rbThemeCustom.Attributes.Add("onclick", string.Format("{0}.disabled='disabled';{1}.disabled=''", ddlThemeStandard.ClientID, ddlThemeCustom.ClientID));
-                rbThemeStandard.Attributes.Add("onclick", string.Format("{0}.disabled='disabled';{1}.disabled=''", ddlThemeCustom.ClientID, ddlThemeStandard.ClientID));
+                this.rbThemeCustom.Attributes.Add(
+                    "onclick",
+                    string.Format("{0}.disabled='disabled';{1}.disabled=''", this.ddlThemeStandard.ClientID,
+                                  this.ddlThemeCustom.ClientID));
+                this.rbThemeStandard.Attributes.Add(
+                    "onclick",
+                    string.Format("{0}.disabled='disabled';{1}.disabled=''", this.ddlThemeCustom.ClientID,
+                                  this.ddlThemeStandard.ClientID));
 
                 //Get the settings
-                ThemeSetting themeSettings = new ThemeSetting();
-                if (themeSettings.ValidateSetting(Settings.EventTheme) == false)
+                var themeSettings = new ThemeSetting();
+                if (themeSettings.ValidateSetting(this.Settings.EventTheme) == false)
                 {
-                    themeSettings.ReadSetting(Settings.EventThemeDefault, PortalId);
+                    themeSettings.ReadSetting(this.Settings.EventThemeDefault, this.PortalId);
                 }
-                else if (Settings.EventTheme != "")
+                else if (this.Settings.EventTheme != "")
                 {
-                    themeSettings.ReadSetting(Settings.EventTheme, PortalId);
+                    themeSettings.ReadSetting(this.Settings.EventTheme, this.PortalId);
                 }
                 switch (themeSettings.SettingType)
                 {
                     case ThemeSetting.ThemeSettingTypeEnum.CustomTheme:
-                        rbThemeCustom.Checked = true;
+                        this.rbThemeCustom.Checked = true;
                         break;
                     case ThemeSetting.ThemeSettingTypeEnum.DefaultTheme:
-                        rbThemeStandard.Checked = true;
+                        this.rbThemeStandard.Checked = true;
                         break;
                 }
 
                 //Is default or custom selected
-                string moduleThemesDirectory = DotNetNuke.Common.Globals.ApplicationPath + moduleThemesDirectoryPath;
-                string serverThemesDirectory = Server.MapPath(moduleThemesDirectory);
-                string[] themeDirectories = System.IO.Directory.GetDirectories(serverThemesDirectory);
-                string themeDirectory = "";
-                foreach (string tempLoopVar_themeDirectory in themeDirectories)
+                var moduleThemesDirectory = Globals.ApplicationPath + moduleThemesDirectoryPath;
+                var serverThemesDirectory = this.Server.MapPath(moduleThemesDirectory);
+                var themeDirectories = Directory.GetDirectories(serverThemesDirectory);
+                var themeDirectory = "";
+                foreach (var tempLoopVar_themeDirectory in themeDirectories)
                 {
                     themeDirectory = tempLoopVar_themeDirectory;
-                    string[] dirparts = themeDirectory.Split('\\');
-                    ddlThemeStandard.Items.Add(new ListItem(dirparts[dirparts.Length - 1], dirparts[dirparts.Length - 1]));
+                    var dirparts = themeDirectory.Split('\\');
+                    this.ddlThemeStandard.Items.Add(
+                        new ListItem(dirparts[dirparts.Length - 1], dirparts[dirparts.Length - 1]));
                 }
                 if (themeSettings.SettingType == ThemeSetting.ThemeSettingTypeEnum.DefaultTheme)
                 {
-                    if (!ReferenceEquals(ddlThemeStandard.Items.FindByText(themeSettings.ThemeName), null))
+                    if (!ReferenceEquals(this.ddlThemeStandard.Items.FindByText(themeSettings.ThemeName), null))
                     {
-                        ddlThemeStandard.Items.FindByText(themeSettings.ThemeName).Selected = true;
+                        this.ddlThemeStandard.Items.FindByText(themeSettings.ThemeName).Selected = true;
                     }
                 }
                 else
                 {
-                    ddlThemeStandard.Attributes.Add("disabled", "disabled");
+                    this.ddlThemeStandard.Attributes.Add("disabled", "disabled");
                 }
 
                 //Add custom event theme's
-                Entities.Portals.PortalController pc = new Entities.Portals.PortalController();
-                var with_1 = pc.GetPortal(PortalId);
-                string eventSkinPath = string.Format("{0}\\DNNEvents\\Themes", with_1.HomeDirectoryMapPath);
-                if (!System.IO.Directory.Exists(eventSkinPath))
+                var pc = new PortalController();
+                var with_1 = pc.GetPortal(this.PortalId);
+                var eventSkinPath = string.Format("{0}\\DNNEvents\\Themes", with_1.HomeDirectoryMapPath);
+                if (!Directory.Exists(eventSkinPath))
                 {
-                    System.IO.Directory.CreateDirectory(eventSkinPath);
+                    Directory.CreateDirectory(eventSkinPath);
                 }
 
-                foreach (string d in System.IO.Directory.GetDirectories(eventSkinPath))
+                foreach (var d in Directory.GetDirectories(eventSkinPath))
                 {
-                    ddlThemeCustom.Items.Add(new ListItem(new System.IO.DirectoryInfo(d).Name, new System.IO.DirectoryInfo(d).Name));
+                    this.ddlThemeCustom.Items.Add(new ListItem(new DirectoryInfo(d).Name, new DirectoryInfo(d).Name));
                 }
-                if (ddlThemeCustom.Items.Count == 0)
+                if (this.ddlThemeCustom.Items.Count == 0)
                 {
-                    rbThemeCustom.Enabled = false;
+                    this.rbThemeCustom.Enabled = false;
                 }
 
                 if (themeSettings.SettingType == ThemeSetting.ThemeSettingTypeEnum.CustomTheme)
                 {
-                    if (!ReferenceEquals(ddlThemeCustom.Items.FindByText(themeSettings.ThemeName), null))
+                    if (!ReferenceEquals(this.ddlThemeCustom.Items.FindByText(themeSettings.ThemeName), null))
                     {
-                        ddlThemeCustom.Items.FindByText(themeSettings.ThemeName).Selected = true;
+                        this.ddlThemeCustom.Items.FindByText(themeSettings.ThemeName).Selected = true;
                     }
                 }
                 else
                 {
-                    ddlThemeCustom.Attributes.Add("disabled", "disabled");
+                    this.ddlThemeCustom.Attributes.Add("disabled", "disabled");
                 }
-
             }
             catch (Exception ex)
             {
@@ -959,58 +1055,59 @@ namespace DotNetNuke.Modules.Events
 
         private void LoadTemplates()
         {
-            ddlTemplates.Items.Clear();
+            this.ddlTemplates.Items.Clear();
 
-            Type t = Settings.Templates.GetType();
-            System.Reflection.PropertyInfo p = default(System.Reflection.PropertyInfo);
-            foreach (System.Reflection.PropertyInfo tempLoopVar_p in t.GetProperties())
+            var t = this.Settings.Templates.GetType();
+            var p = default(PropertyInfo);
+            foreach (var tempLoopVar_p in t.GetProperties())
             {
                 p = tempLoopVar_p;
-                ddlTemplates.Items.Add(new ListItem(Localization.GetString(p.Name + "Name", LocalResourceFile), p.Name));
+                this.ddlTemplates.Items.Add(
+                    new ListItem(Localization.GetString(p.Name + "Name", this.LocalResourceFile), p.Name));
             }
 
-            ddlTemplates.Items.FindByValue("EventDetailsTemplate").Selected = true;
-            txtEventTemplate.Text = Settings.Templates.GetTemplate(ddlTemplates.SelectedValue);
-            lblTemplateUpdated.Visible = false;
-
+            this.ddlTemplates.Items.FindByValue("EventDetailsTemplate").Selected = true;
+            this.txtEventTemplate.Text = this.Settings.Templates.GetTemplate(this.ddlTemplates.SelectedValue);
+            this.lblTemplateUpdated.Visible = false;
         }
 
         private void LoadNewEventEmailRoles(int roleID)
         {
-            Security.Roles.RoleController objRoles = new Security.Roles.RoleController();
-            ddNewEventEmailRoles.DataSource = objRoles.GetPortalRoles(PortalId);
-            ddNewEventEmailRoles.DataTextField = "RoleName";
-            ddNewEventEmailRoles.DataValueField = "RoleID";
-            ddNewEventEmailRoles.DataBind();
-            if (roleID < 0 || ReferenceEquals(ddNewEventEmailRoles.Items.FindByValue(System.Convert.ToString(roleID)), null))
+            var objRoles = new RoleController();
+            this.ddNewEventEmailRoles.DataSource = objRoles.GetPortalRoles(this.PortalId);
+            this.ddNewEventEmailRoles.DataTextField = "RoleName";
+            this.ddNewEventEmailRoles.DataValueField = "RoleID";
+            this.ddNewEventEmailRoles.DataBind();
+            if (roleID < 0 || ReferenceEquals(this.ddNewEventEmailRoles.Items.FindByValue(Convert.ToString(roleID)),
+                                              null))
             {
                 try
                 {
-                    ddNewEventEmailRoles.Items.FindByValue(PortalSettings.RegisteredRoleId.ToString()).Selected = true;
+                    this.ddNewEventEmailRoles.Items.FindByValue(this.PortalSettings.RegisteredRoleId.ToString())
+                        .Selected = true;
                 }
                 catch
-                {
-                }
+                { }
             }
             else
             {
-                ddNewEventEmailRoles.Items.FindByValue(System.Convert.ToString(roleID)).Selected = true;
+                this.ddNewEventEmailRoles.Items.FindByValue(Convert.ToString(roleID)).Selected = true;
             }
         }
 
         private void LoadCategories()
         {
-            ddlModuleCategories.Items.Clear();
-            EventCategoryController ctrlEventCategories = new EventCategoryController();
-            ArrayList lstCategories = ctrlEventCategories.EventsCategoryList(PortalId);
-            ddlModuleCategories.DataSource = lstCategories;
-            ddlModuleCategories.DataBind();
+            this.ddlModuleCategories.Items.Clear();
+            var ctrlEventCategories = new EventCategoryController();
+            var lstCategories = ctrlEventCategories.EventsCategoryList(this.PortalId);
+            this.ddlModuleCategories.DataSource = lstCategories;
+            this.ddlModuleCategories.DataBind();
 
-            if (Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.Some)
+            if (this.Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.Some)
             {
-                foreach (string moduleCategory in Settings.ModuleCategoryIDs)
+                foreach (string moduleCategory in this.Settings.ModuleCategoryIDs)
                 {
-                    foreach (Telerik.Web.UI.RadComboBoxItem item in ddlModuleCategories.Items)
+                    foreach (RadComboBoxItem item in this.ddlModuleCategories.Items)
                     {
                         if (item.Value == moduleCategory)
                         {
@@ -1019,9 +1116,9 @@ namespace DotNetNuke.Modules.Events
                     }
                 }
             }
-            else if (Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.All)
+            else if (this.Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.All)
             {
-                foreach (Telerik.Web.UI.RadComboBoxItem item in ddlModuleCategories.Items)
+                foreach (RadComboBoxItem item in this.ddlModuleCategories.Items)
                 {
                     item.Checked = true;
                 }
@@ -1030,17 +1127,17 @@ namespace DotNetNuke.Modules.Events
 
         private void LoadLocations()
         {
-            ddlModuleLocations.Items.Clear();
-            EventLocationController ctrlEventLocations = new EventLocationController();
-            ArrayList lstLocations = ctrlEventLocations.EventsLocationList(PortalId);
-            ddlModuleLocations.DataSource = lstLocations;
-            ddlModuleLocations.DataBind();
+            this.ddlModuleLocations.Items.Clear();
+            var ctrlEventLocations = new EventLocationController();
+            var lstLocations = ctrlEventLocations.EventsLocationList(this.PortalId);
+            this.ddlModuleLocations.DataSource = lstLocations;
+            this.ddlModuleLocations.DataBind();
 
-            if (Settings.ModuleLocationsSelected == EventModuleSettings.LocationsSelected.Some)
+            if (this.Settings.ModuleLocationsSelected == EventModuleSettings.LocationsSelected.Some)
             {
-                foreach (string moduleLocation in Settings.ModuleLocationIDs)
+                foreach (string moduleLocation in this.Settings.ModuleLocationIDs)
                 {
-                    foreach (Telerik.Web.UI.RadComboBoxItem item in ddlModuleLocations.Items)
+                    foreach (RadComboBoxItem item in this.ddlModuleLocations.Items)
                     {
                         if (item.Value == moduleLocation)
                         {
@@ -1049,9 +1146,9 @@ namespace DotNetNuke.Modules.Events
                     }
                 }
             }
-            else if (Settings.ModuleLocationsSelected == EventModuleSettings.LocationsSelected.All)
+            else if (this.Settings.ModuleLocationsSelected == EventModuleSettings.LocationsSelected.All)
             {
-                foreach (Telerik.Web.UI.RadComboBoxItem item in ddlModuleLocations.Items)
+                foreach (RadComboBoxItem item in this.ddlModuleLocations.Items)
                 {
                     item.Checked = true;
                 }
@@ -1059,7 +1156,7 @@ namespace DotNetNuke.Modules.Events
         }
 
         /// <summary>
-        /// Take all settings and write them back to the database
+        ///     Take all settings and write them back to the database
         /// </summary>
         /// <remarks></remarks>
         private void UpdateSettings()
@@ -1067,24 +1164,27 @@ namespace DotNetNuke.Modules.Events
             var repository = new EventModuleSettingsRepository();
             var emSettings = repository.GetSettings(this.ModuleConfiguration);
 
-            emSettings.Timeinterval = ddlTimeInterval.SelectedValue.Trim().ToString();
-            emSettings.TimeZoneId = cboTimeZone.SelectedValue;
-            emSettings.EnableEventTimeZones = chkEnableEventTimeZones.Checked;
-            emSettings.PrimaryTimeZone = (EventModuleSettings.TimeZones)(int.Parse(ddlPrimaryTimeZone.SelectedValue));
+            emSettings.Timeinterval = this.ddlTimeInterval.SelectedValue.Trim();
+            emSettings.TimeZoneId = this.cboTimeZone.SelectedValue;
+            emSettings.EnableEventTimeZones = this.chkEnableEventTimeZones.Checked;
+            emSettings.PrimaryTimeZone =
+                (EventModuleSettings.TimeZones) int.Parse(this.ddlPrimaryTimeZone.SelectedValue);
 
             try
             {
-                emSettings.Timeinterval = ddlTimeInterval.SelectedValue.Trim().ToString();
-                emSettings.TimeZoneId = cboTimeZone.SelectedValue;
-                emSettings.EnableEventTimeZones = chkEnableEventTimeZones.Checked;
-                emSettings.PrimaryTimeZone = (EventModuleSettings.TimeZones)(int.Parse(ddlPrimaryTimeZone.SelectedValue));
-                emSettings.SecondaryTimeZone = (EventModuleSettings.TimeZones)(int.Parse(ddlSecondaryTimeZone.SelectedValue));
-                emSettings.Eventtooltipmonth = chkToolTipMonth.Checked;
-                emSettings.Eventtooltipweek = chkToolTipWeek.Checked;
-                emSettings.Eventtooltipday = chkToolTipDay.Checked;
-                emSettings.Eventtooltiplist = chkToolTipList.Checked;
-                emSettings.Eventtooltiplength = int.Parse(txtTooltipLength.Text);
-                if (chkMonthCellEvents.Checked)
+                emSettings.Timeinterval = this.ddlTimeInterval.SelectedValue.Trim();
+                emSettings.TimeZoneId = this.cboTimeZone.SelectedValue;
+                emSettings.EnableEventTimeZones = this.chkEnableEventTimeZones.Checked;
+                emSettings.PrimaryTimeZone =
+                    (EventModuleSettings.TimeZones) int.Parse(this.ddlPrimaryTimeZone.SelectedValue);
+                emSettings.SecondaryTimeZone =
+                    (EventModuleSettings.TimeZones) int.Parse(this.ddlSecondaryTimeZone.SelectedValue);
+                emSettings.Eventtooltipmonth = this.chkToolTipMonth.Checked;
+                emSettings.Eventtooltipweek = this.chkToolTipWeek.Checked;
+                emSettings.Eventtooltipday = this.chkToolTipDay.Checked;
+                emSettings.Eventtooltiplist = this.chkToolTipList.Checked;
+                emSettings.Eventtooltiplength = int.Parse(this.txtTooltipLength.Text);
+                if (this.chkMonthCellEvents.Checked)
                 {
                     emSettings.Monthcellnoevents = false;
                 }
@@ -1092,28 +1192,30 @@ namespace DotNetNuke.Modules.Events
                 {
                     emSettings.Monthcellnoevents = true;
                 }
-                emSettings.Enablecategories = (EventModuleSettings.DisplayCategories)(int.Parse(ddlEnableCategories.SelectedValue));
-                emSettings.Restrictcategories = chkRestrictCategories.Checked;
-                emSettings.Enablelocations = (EventModuleSettings.DisplayLocations)(int.Parse(ddlEnableLocations.SelectedValue));
-                emSettings.Restrictlocations = chkRestrictLocations.Checked;
-                emSettings.Enablecontainerskin = chkEnableContainerSkin.Checked;
-                emSettings.Eventdetailnewpage = chkEventDetailNewPage.Checked;
-                emSettings.Enableenrollpopup = chkEnableEnrollPopup.Checked;
-                emSettings.Eventdaynewpage = chkEventDayNewPage.Checked;
-                emSettings.EventImageMonth = chkEventImageMonth.Checked;
-                emSettings.EventImageWeek = chkEventImageWeek.Checked;
-                emSettings.Eventnotify = chkEventNotify.Checked;
-                emSettings.DetailPageAllowed = chkDetailPageAllowed.Checked;
-                emSettings.EnrollmentPageAllowed = chkEnrollmentPageAllowed.Checked;
-                emSettings.EnrollmentPageDefaultUrl = txtEnrollmentPageDefaultURL.Text;
-                emSettings.Notifyanon = chkNotifyAnon.Checked;
-                emSettings.Sendreminderdefault = chkSendReminderDefault.Checked;
-                emSettings.Neweventemails = rblNewEventEmail.SelectedValue;
-                emSettings.Neweventemailrole = int.Parse(ddNewEventEmailRoles.SelectedValue);
-                emSettings.Newpereventemail = chkNewPerEventEmail.Checked;
-                emSettings.Tzdisplay = chkTZDisplay.Checked;
-                emSettings.Paypalurl = txtPayPalURL.Text;
-                if (chkEnableEventNav.Checked)
+                emSettings.Enablecategories =
+                    (EventModuleSettings.DisplayCategories) int.Parse(this.ddlEnableCategories.SelectedValue);
+                emSettings.Restrictcategories = this.chkRestrictCategories.Checked;
+                emSettings.Enablelocations =
+                    (EventModuleSettings.DisplayLocations) int.Parse(this.ddlEnableLocations.SelectedValue);
+                emSettings.Restrictlocations = this.chkRestrictLocations.Checked;
+                emSettings.Enablecontainerskin = this.chkEnableContainerSkin.Checked;
+                emSettings.Eventdetailnewpage = this.chkEventDetailNewPage.Checked;
+                emSettings.Enableenrollpopup = this.chkEnableEnrollPopup.Checked;
+                emSettings.Eventdaynewpage = this.chkEventDayNewPage.Checked;
+                emSettings.EventImageMonth = this.chkEventImageMonth.Checked;
+                emSettings.EventImageWeek = this.chkEventImageWeek.Checked;
+                emSettings.Eventnotify = this.chkEventNotify.Checked;
+                emSettings.DetailPageAllowed = this.chkDetailPageAllowed.Checked;
+                emSettings.EnrollmentPageAllowed = this.chkEnrollmentPageAllowed.Checked;
+                emSettings.EnrollmentPageDefaultUrl = this.txtEnrollmentPageDefaultURL.Text;
+                emSettings.Notifyanon = this.chkNotifyAnon.Checked;
+                emSettings.Sendreminderdefault = this.chkSendReminderDefault.Checked;
+                emSettings.Neweventemails = this.rblNewEventEmail.SelectedValue;
+                emSettings.Neweventemailrole = int.Parse(this.ddNewEventEmailRoles.SelectedValue);
+                emSettings.Newpereventemail = this.chkNewPerEventEmail.Checked;
+                emSettings.Tzdisplay = this.chkTZDisplay.Checked;
+                emSettings.Paypalurl = this.txtPayPalURL.Text;
+                if (this.chkEnableEventNav.Checked)
                 {
                     emSettings.DisableEventnav = false;
                 }
@@ -1121,82 +1223,82 @@ namespace DotNetNuke.Modules.Events
                 {
                     emSettings.DisableEventnav = true;
                 }
-                emSettings.Fulltimescale = chkFullTimeScale.Checked;
-                emSettings.Collapserecurring = chkCollapseRecurring.Checked;
-                emSettings.Includeendvalue = chkIncludeEndValue.Checked;
-                emSettings.Showvaluemarks = chkShowValueMarks.Checked;
-                emSettings.Eventimage = chkImageEnabled.Checked;
-                emSettings.MaxThumbHeight = int.Parse(txtMaxThumbHeight.Text);
-                emSettings.MaxThumbWidth = int.Parse(txtMaxThumbWidth.Text);
-                emSettings.Allowreoccurring = chkAllowRecurring.Checked;
-                emSettings.Maxrecurrences = txtMaxRecurrences.Text;
-                emSettings.Eventsearch = chkEnableSearch.Checked;
-                emSettings.Addsubmodulename = chkAddSubModuleName.Checked;
-                emSettings.Enforcesubcalperms = chkEnforceSubCalPerms.Checked;
-                emSettings.Preventconflicts = chkPreventConflicts.Checked;
-                emSettings.Locationconflict = chkLocationConflict.Checked;
-                emSettings.ShowEventsAlways = chkShowEventsAlways.Checked;
-                emSettings.Timeintitle = chkTimeInTitle.Checked;
-                emSettings.Monthdayselect = chkMonthDaySelect.Checked;
-                emSettings.MasterEvent = chkMasterEvent.Checked;
-                emSettings.Eventsignup = chkEventSignup.Checked;
-                emSettings.Eventsignupallowpaid = chkEventSignupAllowPaid.Checked;
-                emSettings.Eventdefaultenrollview = chkDefaultEnrollView.Checked;
-                emSettings.Eventhidefullenroll = chkHideFullEnroll.Checked;
-                emSettings.Maxnoenrolees = int.Parse(txtMaxNoEnrolees.Text);
-                emSettings.Enrolcanceldays = int.Parse(txtCancelDays.Text);
-                emSettings.Fridayweekend = chkFridayWeekend.Checked;
-                emSettings.Moderateall = chkModerateAll.Checked;
-                emSettings.Paypalaccount = txtPayPalAccount.Text;
-                emSettings.Reminderfrom = txtReminderFrom.Text;
-                emSettings.StandardEmail = txtStandardEmail.Text;
-                emSettings.EventsCustomField1 = chkCustomField1.Checked;
-                emSettings.EventsCustomField2 = chkCustomField2.Checked;
-                emSettings.DefaultView = ddlDefaultView.SelectedItem.Value;
-                emSettings.EventsListPageSize = int.Parse(ddlPageSize.SelectedItem.Value);
-                emSettings.EventsListSortDirection = ddlListSortedFieldDirection.SelectedItem.Value;
-                emSettings.EventsListSortColumn = ddlListDefaultColumn.SelectedItem.Value;
-                emSettings.RSSEnable = chkRSSEnable.Checked;
-                emSettings.RSSDateField = ddlRSSDateField.SelectedItem.Value;
-                emSettings.RSSDays = int.Parse(txtRSSDays.Text);
-                emSettings.RSSTitle = txtRSSTitle.Text;
-                emSettings.RSSDesc = txtRSSDesc.Text;
-                emSettings.Expireevents = txtExpireEvents.Text;
-                emSettings.Exportowneremail = chkExportOwnerEmail.Checked;
-                emSettings.Exportanonowneremail = chkExportAnonOwnerEmail.Checked;
-                emSettings.Ownerchangeallowed = chkOwnerChangeAllowed.Checked;
-                emSettings.IconMonthPrio = chkIconMonthPrio.Checked;
-                emSettings.IconMonthRec = chkIconMonthRec.Checked;
-                emSettings.IconMonthReminder = chkIconMonthReminder.Checked;
-                emSettings.IconMonthEnroll = chkIconMonthEnroll.Checked;
-                emSettings.IconWeekPrio = chkIconWeekPrio.Checked;
-                emSettings.IconWeekRec = chkIconWeekRec.Checked;
-                emSettings.IconWeekReminder = chkIconWeekReminder.Checked;
-                emSettings.IconWeekEnroll = chkIconWeekEnroll.Checked;
-                emSettings.IconListPrio = chkIconListPrio.Checked;
-                emSettings.IconListRec = chkIconListRec.Checked;
-                emSettings.IconListReminder = chkIconListReminder.Checked;
-                emSettings.IconListEnroll = chkIconListEnroll.Checked;
-                emSettings.PrivateMessage = txtPrivateMessage.Text.Trim();
-                emSettings.EnableSEO = chkEnableSEO.Checked;
-                emSettings.SEODescriptionLength = int.Parse(txtSEODescriptionLength.Text);
-                emSettings.EnableSitemap = chkEnableSitemap.Checked;
-                emSettings.SiteMapPriority = System.Convert.ToSingle(System.Convert.ToSingle(txtSitemapPriority.Text));
-                emSettings.SiteMapDaysBefore = int.Parse(txtSitemapDaysBefore.Text);
-                emSettings.SiteMapDaysAfter = int.Parse(txtSitemapDaysAfter.Text);
-                emSettings.WeekStart = (System.Web.UI.WebControls.FirstDayOfWeek)(int.Parse(ddlWeekStart.SelectedValue));
-                emSettings.ListViewUseTime = chkListViewUseTime.Checked;
+                emSettings.Fulltimescale = this.chkFullTimeScale.Checked;
+                emSettings.Collapserecurring = this.chkCollapseRecurring.Checked;
+                emSettings.Includeendvalue = this.chkIncludeEndValue.Checked;
+                emSettings.Showvaluemarks = this.chkShowValueMarks.Checked;
+                emSettings.Eventimage = this.chkImageEnabled.Checked;
+                emSettings.MaxThumbHeight = int.Parse(this.txtMaxThumbHeight.Text);
+                emSettings.MaxThumbWidth = int.Parse(this.txtMaxThumbWidth.Text);
+                emSettings.Allowreoccurring = this.chkAllowRecurring.Checked;
+                emSettings.Maxrecurrences = this.txtMaxRecurrences.Text;
+                emSettings.Eventsearch = this.chkEnableSearch.Checked;
+                emSettings.Addsubmodulename = this.chkAddSubModuleName.Checked;
+                emSettings.Enforcesubcalperms = this.chkEnforceSubCalPerms.Checked;
+                emSettings.Preventconflicts = this.chkPreventConflicts.Checked;
+                emSettings.Locationconflict = this.chkLocationConflict.Checked;
+                emSettings.ShowEventsAlways = this.chkShowEventsAlways.Checked;
+                emSettings.Timeintitle = this.chkTimeInTitle.Checked;
+                emSettings.Monthdayselect = this.chkMonthDaySelect.Checked;
+                emSettings.MasterEvent = this.chkMasterEvent.Checked;
+                emSettings.Eventsignup = this.chkEventSignup.Checked;
+                emSettings.Eventsignupallowpaid = this.chkEventSignupAllowPaid.Checked;
+                emSettings.Eventdefaultenrollview = this.chkDefaultEnrollView.Checked;
+                emSettings.Eventhidefullenroll = this.chkHideFullEnroll.Checked;
+                emSettings.Maxnoenrolees = int.Parse(this.txtMaxNoEnrolees.Text);
+                emSettings.Enrolcanceldays = int.Parse(this.txtCancelDays.Text);
+                emSettings.Fridayweekend = this.chkFridayWeekend.Checked;
+                emSettings.Moderateall = this.chkModerateAll.Checked;
+                emSettings.Paypalaccount = this.txtPayPalAccount.Text;
+                emSettings.Reminderfrom = this.txtReminderFrom.Text;
+                emSettings.StandardEmail = this.txtStandardEmail.Text;
+                emSettings.EventsCustomField1 = this.chkCustomField1.Checked;
+                emSettings.EventsCustomField2 = this.chkCustomField2.Checked;
+                emSettings.DefaultView = this.ddlDefaultView.SelectedItem.Value;
+                emSettings.EventsListPageSize = int.Parse(this.ddlPageSize.SelectedItem.Value);
+                emSettings.EventsListSortDirection = this.ddlListSortedFieldDirection.SelectedItem.Value;
+                emSettings.EventsListSortColumn = this.ddlListDefaultColumn.SelectedItem.Value;
+                emSettings.RSSEnable = this.chkRSSEnable.Checked;
+                emSettings.RSSDateField = this.ddlRSSDateField.SelectedItem.Value;
+                emSettings.RSSDays = int.Parse(this.txtRSSDays.Text);
+                emSettings.RSSTitle = this.txtRSSTitle.Text;
+                emSettings.RSSDesc = this.txtRSSDesc.Text;
+                emSettings.Expireevents = this.txtExpireEvents.Text;
+                emSettings.Exportowneremail = this.chkExportOwnerEmail.Checked;
+                emSettings.Exportanonowneremail = this.chkExportAnonOwnerEmail.Checked;
+                emSettings.Ownerchangeallowed = this.chkOwnerChangeAllowed.Checked;
+                emSettings.IconMonthPrio = this.chkIconMonthPrio.Checked;
+                emSettings.IconMonthRec = this.chkIconMonthRec.Checked;
+                emSettings.IconMonthReminder = this.chkIconMonthReminder.Checked;
+                emSettings.IconMonthEnroll = this.chkIconMonthEnroll.Checked;
+                emSettings.IconWeekPrio = this.chkIconWeekPrio.Checked;
+                emSettings.IconWeekRec = this.chkIconWeekRec.Checked;
+                emSettings.IconWeekReminder = this.chkIconWeekReminder.Checked;
+                emSettings.IconWeekEnroll = this.chkIconWeekEnroll.Checked;
+                emSettings.IconListPrio = this.chkIconListPrio.Checked;
+                emSettings.IconListRec = this.chkIconListRec.Checked;
+                emSettings.IconListReminder = this.chkIconListReminder.Checked;
+                emSettings.IconListEnroll = this.chkIconListEnroll.Checked;
+                emSettings.PrivateMessage = this.txtPrivateMessage.Text.Trim();
+                emSettings.EnableSEO = this.chkEnableSEO.Checked;
+                emSettings.SEODescriptionLength = int.Parse(this.txtSEODescriptionLength.Text);
+                emSettings.EnableSitemap = this.chkEnableSitemap.Checked;
+                emSettings.SiteMapPriority = Convert.ToSingle(Convert.ToSingle(this.txtSitemapPriority.Text));
+                emSettings.SiteMapDaysBefore = int.Parse(this.txtSitemapDaysBefore.Text);
+                emSettings.SiteMapDaysAfter = int.Parse(this.txtSitemapDaysAfter.Text);
+                emSettings.WeekStart = (FirstDayOfWeek) int.Parse(this.ddlWeekStart.SelectedValue);
+                emSettings.ListViewUseTime = this.chkListViewUseTime.Checked;
 
-                emSettings.IcalOnIconBar = chkiCalOnIconBar.Checked;
-                emSettings.IcalEmailEnable = chkiCalEmailEnable.Checked;
-                emSettings.IcalURLInLocation = chkiCalURLinLocation.Checked;
-                emSettings.IcalIncludeCalname = chkiCalIncludeCalname.Checked;
-                emSettings.IcalDaysBefore = int.Parse(txtiCalDaysBefore.Text);
-                emSettings.IcalDaysAfter = int.Parse(txtiCalDaysAfter.Text);
-                emSettings.IcalURLAppend = txtiCalURLAppend.Text;
-                if (chkiCalDisplayImage.Checked)
+                emSettings.IcalOnIconBar = this.chkiCalOnIconBar.Checked;
+                emSettings.IcalEmailEnable = this.chkiCalEmailEnable.Checked;
+                emSettings.IcalURLInLocation = this.chkiCalURLinLocation.Checked;
+                emSettings.IcalIncludeCalname = this.chkiCalIncludeCalname.Checked;
+                emSettings.IcalDaysBefore = int.Parse(this.txtiCalDaysBefore.Text);
+                emSettings.IcalDaysAfter = int.Parse(this.txtiCalDaysAfter.Text);
+                emSettings.IcalURLAppend = this.txtiCalURLAppend.Text;
+                if (this.chkiCalDisplayImage.Checked)
                 {
-                    emSettings.IcalDefaultImage = "Image=" + ctliCalDefaultImage.Url;
+                    emSettings.IcalDefaultImage = "Image=" + this.ctliCalDefaultImage.Url;
                 }
                 else
                 {
@@ -1204,10 +1306,10 @@ namespace DotNetNuke.Modules.Events
                 }
                 //objModules.UpdateModuleSetting(ModuleId, "EventDetailsTemplate", txtEventDetailsTemplate.Text.Trim)
 
-                ArrayList moduleCategories = new ArrayList();
-                if (ddlModuleCategories.CheckedItems.Count != ddlModuleCategories.Items.Count)
+                var moduleCategories = new ArrayList();
+                if (this.ddlModuleCategories.CheckedItems.Count != this.ddlModuleCategories.Items.Count)
                 {
-                    foreach (Telerik.Web.UI.RadComboBoxItem item in ddlModuleCategories.CheckedItems)
+                    foreach (var item in this.ddlModuleCategories.CheckedItems)
                     {
                         moduleCategories.Add(item.Value);
                     }
@@ -1218,10 +1320,10 @@ namespace DotNetNuke.Modules.Events
                 }
                 emSettings.ModuleCategoryIDs = moduleCategories;
 
-                ArrayList moduleLocations = new ArrayList();
-                if (ddlModuleLocations.CheckedItems.Count != ddlModuleLocations.Items.Count)
+                var moduleLocations = new ArrayList();
+                if (this.ddlModuleLocations.CheckedItems.Count != this.ddlModuleLocations.Items.Count)
                 {
-                    foreach (Telerik.Web.UI.RadComboBoxItem item in ddlModuleLocations.CheckedItems)
+                    foreach (var item in this.ddlModuleLocations.CheckedItems)
                     {
                         moduleLocations.Add(item.Value);
                     }
@@ -1233,7 +1335,7 @@ namespace DotNetNuke.Modules.Events
                 emSettings.ModuleLocationIDs = moduleLocations;
 
                 // ReSharper disable LocalizableElement
-                if (chkMonthAllowed.Checked || ddlDefaultView.SelectedItem.Value == "EventMonth.ascx")
+                if (this.chkMonthAllowed.Checked || this.ddlDefaultView.SelectedItem.Value == "EventMonth.ascx")
                 {
                     emSettings.MonthAllowed = true;
                 }
@@ -1241,7 +1343,7 @@ namespace DotNetNuke.Modules.Events
                 {
                     emSettings.MonthAllowed = false;
                 }
-                if (chkWeekAllowed.Checked || ddlDefaultView.SelectedItem.Value == "EventWeek.ascx")
+                if (this.chkWeekAllowed.Checked || this.ddlDefaultView.SelectedItem.Value == "EventWeek.ascx")
                 {
                     emSettings.WeekAllowed = true;
                 }
@@ -1249,7 +1351,7 @@ namespace DotNetNuke.Modules.Events
                 {
                     emSettings.WeekAllowed = false;
                 }
-                if (chkListAllowed.Checked || ddlDefaultView.SelectedItem.Value == "EventList.ascx")
+                if (this.chkListAllowed.Checked || this.ddlDefaultView.SelectedItem.Value == "EventList.ascx")
                 {
                     emSettings.ListAllowed = true;
                 }
@@ -1259,7 +1361,7 @@ namespace DotNetNuke.Modules.Events
                 }
                 // ReSharper restore LocalizableElement
 
-                switch (rblIconBar.SelectedIndex)
+                switch (this.rblIconBar.SelectedIndex)
                 {
                     case 0:
                         emSettings.IconBar = "TOP";
@@ -1272,7 +1374,7 @@ namespace DotNetNuke.Modules.Events
                         break;
                 }
 
-                switch (rblHTMLEmail.SelectedIndex)
+                switch (this.rblHTMLEmail.SelectedIndex)
                 {
                     case 0:
                         emSettings.HTMLEmail = "html";
@@ -1288,42 +1390,42 @@ namespace DotNetNuke.Modules.Events
                 //EPT: Be sure we start next display time in the correct view
                 // Update the cookie so the appropriate view is shown when settings page is exited
 
-                HttpCookie objCookie = new HttpCookie("DNNEvents" + System.Convert.ToString(ModuleId));
-                objCookie.Value = ddlDefaultView.SelectedItem.Value;
-                if (ReferenceEquals(Request.Cookies.Get("DNNEvents" + System.Convert.ToString(ModuleId)), null))
+                var objCookie = new HttpCookie("DNNEvents" + Convert.ToString(this.ModuleId));
+                objCookie.Value = this.ddlDefaultView.SelectedItem.Value;
+                if (ReferenceEquals(this.Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)), null))
                 {
-                    Response.Cookies.Add(objCookie);
+                    this.Response.Cookies.Add(objCookie);
                 }
                 else
                 {
-                    Response.Cookies.Set(objCookie);
+                    this.Response.Cookies.Set(objCookie);
                 }
 
                 //Set eventtheme data
-                ThemeSetting themeSettings = new ThemeSetting();
-                if (rbThemeStandard.Checked)
+                var themeSettings = new ThemeSetting();
+                if (this.rbThemeStandard.Checked)
                 {
                     themeSettings.SettingType = ThemeSetting.ThemeSettingTypeEnum.DefaultTheme;
-                    themeSettings.ThemeName = ddlThemeStandard.SelectedItem.Text;
+                    themeSettings.ThemeName = this.ddlThemeStandard.SelectedItem.Text;
                     themeSettings.ThemeFile = "";
                 }
-                else if (rbThemeCustom.Checked)
+                else if (this.rbThemeCustom.Checked)
                 {
                     themeSettings.SettingType = ThemeSetting.ThemeSettingTypeEnum.CustomTheme;
-                    themeSettings.ThemeName = ddlThemeCustom.SelectedItem.Text;
+                    themeSettings.ThemeName = this.ddlThemeCustom.SelectedItem.Text;
                     themeSettings.ThemeFile = "";
                 }
                 emSettings.EventTheme = themeSettings.ToString();
 
                 //List Events Mode Stuff
                 //Update Fields to Display
-                ListItem objListItem = default(ListItem);
-                string listFields = "";
-                foreach (ListItem tempLoopVar_objListItem in lstAssigned.Items)
+                var objListItem = default(ListItem);
+                var listFields = "";
+                foreach (ListItem tempLoopVar_objListItem in this.lstAssigned.Items)
                 {
                     objListItem = tempLoopVar_objListItem;
-                    int columnNo = int.Parse(objListItem.Text.Substring(0, 2));
-                    string columnAcronym = GetListColumnAcronym(columnNo);
+                    var columnNo = int.Parse(objListItem.Text.Substring(0, 2));
+                    var columnAcronym = this.GetListColumnAcronym(columnNo);
                     if (listFields.Length > 0)
                     {
                         listFields = listFields + ";" + columnAcronym;
@@ -1335,24 +1437,30 @@ namespace DotNetNuke.Modules.Events
                 }
                 emSettings.EventsListFields = listFields;
 
-                listFields = EnrollListFields(rblEnUserAnon.Checked, rblEnDispAnon.Checked, rblEnEmailAnon.Checked, rblEnPhoneAnon.Checked, rblEnApproveAnon.Checked, rblEnNoAnon.Checked);
+                listFields = this.EnrollListFields(this.rblEnUserAnon.Checked, this.rblEnDispAnon.Checked,
+                                                   this.rblEnEmailAnon.Checked, this.rblEnPhoneAnon.Checked,
+                                                   this.rblEnApproveAnon.Checked, this.rblEnNoAnon.Checked);
                 emSettings.EnrollAnonFields = listFields;
 
-                listFields = EnrollListFields(rblEnUserView.Checked, rblEnDispView.Checked, rblEnEmailView.Checked, rblEnPhoneView.Checked, rblEnApproveView.Checked, rblEnNoView.Checked);
+                listFields = this.EnrollListFields(this.rblEnUserView.Checked, this.rblEnDispView.Checked,
+                                                   this.rblEnEmailView.Checked, this.rblEnPhoneView.Checked,
+                                                   this.rblEnApproveView.Checked, this.rblEnNoView.Checked);
                 emSettings.EnrollViewFields = listFields;
 
-                listFields = EnrollListFields(rblEnUserEdit.Checked, rblEnDispEdit.Checked, rblEnEmailEdit.Checked, rblEnPhoneEdit.Checked, rblEnApproveEdit.Checked, rblEnNoEdit.Checked);
+                listFields = this.EnrollListFields(this.rblEnUserEdit.Checked, this.rblEnDispEdit.Checked,
+                                                   this.rblEnEmailEdit.Checked, this.rblEnPhoneEdit.Checked,
+                                                   this.rblEnApproveEdit.Checked, this.rblEnNoEdit.Checked);
                 emSettings.EnrollEditFields = listFields;
 
-                if (rblSelectionTypeDays.Checked)
+                if (this.rblSelectionTypeDays.Checked)
                 {
-                    emSettings.EventsListSelectType = rblSelectionTypeDays.Value;
+                    emSettings.EventsListSelectType = this.rblSelectionTypeDays.Value;
                 }
                 else
                 {
-                    emSettings.EventsListSelectType = rblSelectionTypeEvents.Value;
+                    emSettings.EventsListSelectType = this.rblSelectionTypeEvents.Value;
                 }
-                if (rblListViewGrid.Items[0].Selected == true)
+                if (this.rblListViewGrid.Items[0].Selected)
                 {
                     emSettings.ListViewGrid = true;
                 }
@@ -1360,41 +1468,42 @@ namespace DotNetNuke.Modules.Events
                 {
                     emSettings.ListViewGrid = false;
                 }
-                emSettings.ListViewTable = chkListViewTable.Checked;
-                emSettings.RptColumns = int.Parse(txtRptColumns.Text.Trim().ToString());
-                emSettings.RptRows = int.Parse(txtRptRows.Text.Trim().ToString());
+                emSettings.ListViewTable = this.chkListViewTable.Checked;
+                emSettings.RptColumns = int.Parse(this.txtRptColumns.Text.Trim());
+                emSettings.RptRows = int.Parse(this.txtRptRows.Text.Trim());
 
-                if (rblShowHeader.Items[0].Selected == true)
+                if (this.rblShowHeader.Items[0].Selected)
                 {
-                    emSettings.EventsListShowHeader = rblShowHeader.Items[0].Value;
+                    emSettings.EventsListShowHeader = this.rblShowHeader.Items[0].Value;
                 }
                 else
                 {
-                    emSettings.EventsListShowHeader = rblShowHeader.Items[1].Value;
+                    emSettings.EventsListShowHeader = this.rblShowHeader.Items[1].Value;
                 }
-                emSettings.EventsListBeforeDays = int.Parse(txtDaysBefore.Text.Trim().ToString());
-                emSettings.EventsListAfterDays = int.Parse(txtDaysAfter.Text.Trim().ToString());
-                emSettings.EventsListNumEvents = int.Parse(txtNumEvents.Text.Trim().ToString());
-                emSettings.EventsListEventDays = int.Parse(txtEventDays.Text.Trim().ToString());
-                emSettings.RestrictCategoriesToTimeFrame = chkRestrictCategoriesToTimeFrame.Checked;
-                emSettings.RestrictLocationsToTimeFrame = chkRestrictLocationsToTimeFrame.Checked;
+                emSettings.EventsListBeforeDays = int.Parse(this.txtDaysBefore.Text.Trim());
+                emSettings.EventsListAfterDays = int.Parse(this.txtDaysAfter.Text.Trim());
+                emSettings.EventsListNumEvents = int.Parse(this.txtNumEvents.Text.Trim());
+                emSettings.EventsListEventDays = int.Parse(this.txtEventDays.Text.Trim());
+                emSettings.RestrictCategoriesToTimeFrame = this.chkRestrictCategoriesToTimeFrame.Checked;
+                emSettings.RestrictLocationsToTimeFrame = this.chkRestrictLocationsToTimeFrame.Checked;
 
-                emSettings.FBAdmins = txtFBAdmins.Text;
-                emSettings.FBAppID = txtFBAppID.Text;
+                emSettings.FBAdmins = this.txtFBAdmins.Text;
+                emSettings.FBAppID = this.txtFBAppID.Text;
 
-                emSettings.SendEnrollMessageApproved = chkEnrollMessageApproved.Checked;
-                emSettings.SendEnrollMessageWaiting = chkEnrollMessageWaiting.Checked;
-                emSettings.SendEnrollMessageDenied = chkEnrollMessageDenied.Checked;
-                emSettings.SendEnrollMessageAdded = chkEnrollMessageAdded.Checked;
-                emSettings.SendEnrollMessageDeleted = chkEnrollMessageDeleted.Checked;
-                emSettings.SendEnrollMessagePaying = chkEnrollMessagePaying.Checked;
-                emSettings.SendEnrollMessagePending = chkEnrollMessagePending.Checked;
-                emSettings.SendEnrollMessagePaid = chkEnrollMessagePaid.Checked;
-                emSettings.SendEnrollMessageIncorrect = chkEnrollMessageIncorrect.Checked;
-                emSettings.SendEnrollMessageCancelled = chkEnrollMessageCancelled.Checked;
+                emSettings.SendEnrollMessageApproved = this.chkEnrollMessageApproved.Checked;
+                emSettings.SendEnrollMessageWaiting = this.chkEnrollMessageWaiting.Checked;
+                emSettings.SendEnrollMessageDenied = this.chkEnrollMessageDenied.Checked;
+                emSettings.SendEnrollMessageAdded = this.chkEnrollMessageAdded.Checked;
+                emSettings.SendEnrollMessageDeleted = this.chkEnrollMessageDeleted.Checked;
+                emSettings.SendEnrollMessagePaying = this.chkEnrollMessagePaying.Checked;
+                emSettings.SendEnrollMessagePending = this.chkEnrollMessagePending.Checked;
+                emSettings.SendEnrollMessagePaid = this.chkEnrollMessagePaid.Checked;
+                emSettings.SendEnrollMessageIncorrect = this.chkEnrollMessageIncorrect.Checked;
+                emSettings.SendEnrollMessageCancelled = this.chkEnrollMessageCancelled.Checked;
 
-                emSettings.AllowAnonEnroll = chkAllowAnonEnroll.Checked;
-                emSettings.SocialGroupModule = (EventModuleSettings.SocialModule)int.Parse(ddlSocialGroupModule.SelectedValue);
+                emSettings.AllowAnonEnroll = this.chkAllowAnonEnroll.Checked;
+                emSettings.SocialGroupModule =
+                    (EventModuleSettings.SocialModule) int.Parse(this.ddlSocialGroupModule.SelectedValue);
                 if (emSettings.SocialGroupModule != EventModuleSettings.SocialModule.No)
                 {
                     emSettings.Ownerchangeallowed = false;
@@ -1408,68 +1517,68 @@ namespace DotNetNuke.Modules.Events
                     emSettings.Eventsignup = false;
                     emSettings.Moderateall = false;
                 }
-                emSettings.SocialUserPrivate = chkSocialUserPrivate.Checked;
-                emSettings.SocialGroupSecurity = (EventModuleSettings.SocialGroupPrivacy)int.Parse(ddlSocialGroupSecurity.SelectedValue);
+                emSettings.SocialUserPrivate = this.chkSocialUserPrivate.Checked;
+                emSettings.SocialGroupSecurity =
+                    (EventModuleSettings.SocialGroupPrivacy) int.Parse(this.ddlSocialGroupSecurity.SelectedValue);
 
-                emSettings.EnrolListSortDirection = (SortDirection)int.Parse(ddlEnrolListSortDirection.SelectedValue);
-                emSettings.EnrolListDaysBefore = int.Parse(txtEnrolListDaysBefore.Text);
-                emSettings.EnrolListDaysAfter = int.Parse(txtEnrolListDaysAfter.Text);
+                emSettings.EnrolListSortDirection =
+                    (SortDirection) int.Parse(this.ddlEnrolListSortDirection.SelectedValue);
+                emSettings.EnrolListDaysBefore = int.Parse(this.txtEnrolListDaysBefore.Text);
+                emSettings.EnrolListDaysAfter = int.Parse(this.txtEnrolListDaysAfter.Text);
 
-                emSettings.JournalIntegration = chkJournalIntegration.Checked;
-              
+                emSettings.JournalIntegration = this.chkJournalIntegration.Checked;
+
                 var objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", 0);
 
                 emSettings.Version = objDesktopModule.Version;
 
                 repository.SaveSettings(this.ModuleConfiguration, emSettings);
 
-                CreateThemeDirectory();
-
-
+                this.CreateThemeDirectory();
             }
             catch (Exception exc) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-
         }
 
         /// <summary>
-        /// Get Assigned Sub Events and Bind to Grid
+        ///     Get Assigned Sub Events and Bind to Grid
         /// </summary>
         /// <remarks></remarks>
         private void BindSubEvents()
         {
-            lstAssignedCals.DataTextField = "SubEventTitle";
-            lstAssignedCals.DataValueField = "MasterID";
-            lstAssignedCals.DataSource = null;
-            lstAssignedCals.DataBind();
-            lstAssignedCals.DataSource = _objCtlMasterEvent.EventsMasterAssignedModules(ModuleId);
-            lstAssignedCals.DataBind();
+            this.lstAssignedCals.DataTextField = "SubEventTitle";
+            this.lstAssignedCals.DataValueField = "MasterID";
+            this.lstAssignedCals.DataSource = null;
+            this.lstAssignedCals.DataBind();
+            this.lstAssignedCals.DataSource = this._objCtlMasterEvent.EventsMasterAssignedModules(this.ModuleId);
+            this.lstAssignedCals.DataBind();
         }
 
         /// <summary>
-        /// Get Avaiable Sub Events for Portal and Bind to DropDown
+        ///     Get Avaiable Sub Events for Portal and Bind to DropDown
         /// </summary>
         /// <remarks></remarks>
         private void BindAvailableEvents()
         {
-            lstAvailableCals.DataTextField = "SubEventTitle";
-            lstAvailableCals.DataValueField = "SubEventID";
-            lstAvailableCals.DataSource = null;
-            lstAvailableCals.DataBind();
-            lstAvailableCals.DataSource = _objCtlMasterEvent.EventsMasterAvailableModules(PortalId, ModuleId);
-            lstAvailableCals.DataBind();
+            this.lstAvailableCals.DataTextField = "SubEventTitle";
+            this.lstAvailableCals.DataValueField = "SubEventID";
+            this.lstAvailableCals.DataSource = null;
+            this.lstAvailableCals.DataBind();
+            this.lstAvailableCals.DataSource =
+                this._objCtlMasterEvent.EventsMasterAvailableModules(this.PortalId, this.ModuleId);
+            this.lstAvailableCals.DataBind();
         }
 
         private void Enable_Disable_Cals()
         {
-            divMasterEvent.Visible = chkMasterEvent.Checked;
+            this.divMasterEvent.Visible = this.chkMasterEvent.Checked;
         }
 
         private string EnrollListFields(bool blUser, bool blDisp, bool blEmail, bool blPhone, bool blApprove, bool blNo)
         {
-            string listFields = "";
+            var listFields = "";
             if (blUser)
             {
                 listFields = listFields + "01;";
@@ -1499,8 +1608,8 @@ namespace DotNetNuke.Modules.Events
 
         public string AddSkinContainerControls(string url, string addchar)
         {
-            TabController objCtlTab = new TabController();
-            Entities.Tabs.TabInfo objTabInfo = objCtlTab.GetTab(TabId, PortalId, false);
+            var objCtlTab = new TabController();
+            var objTabInfo = objCtlTab.GetTab(this.TabId, this.PortalId, false);
             string skinSrc = null;
             if (!(objTabInfo.SkinSrc == ""))
             {
@@ -1510,8 +1619,8 @@ namespace DotNetNuke.Modules.Events
                     skinSrc = skinSrc.Substring(0, skinSrc.Length - 5);
                 }
             }
-            ModuleController objCtlModule = new ModuleController();
-            ModuleInfo objModuleInfo = objCtlModule.GetModule(ModuleId, TabId, false);
+            var objCtlModule = new ModuleController();
+            var objModuleInfo = objCtlModule.GetModule(this.ModuleId, this.TabId, false);
             string containerSrc = null;
             if (objModuleInfo.DisplayTitle)
             {
@@ -1550,20 +1659,20 @@ namespace DotNetNuke.Modules.Events
         #endregion
 
         #region Links, Buttons and Events
-        protected void chkMasterEvent_CheckedChanged(System.Object sender, EventArgs e)
+
+        protected void chkMasterEvent_CheckedChanged(object sender, EventArgs e)
         {
-            cmdRemoveAllCals_Click(sender, e);
-            Enable_Disable_Cals();
+            this.cmdRemoveAllCals_Click(sender, e);
+            this.Enable_Disable_Cals();
         }
 
         protected void cmdAdd_Click(object sender, EventArgs e)
         {
+            var objListItem = default(ListItem);
 
-            ListItem objListItem = default(ListItem);
+            var objList = new ArrayList();
 
-            ArrayList objList = new ArrayList();
-
-            foreach (ListItem tempLoopVar_objListItem in lstAvailable.Items)
+            foreach (ListItem tempLoopVar_objListItem in this.lstAvailable.Items)
             {
                 objListItem = tempLoopVar_objListItem;
                 objList.Add(objListItem);
@@ -1574,26 +1683,24 @@ namespace DotNetNuke.Modules.Events
                 objListItem = tempLoopVar_objListItem;
                 if (objListItem.Selected)
                 {
-                    lstAvailable.Items.Remove(objListItem);
-                    lstAssigned.Items.Add(objListItem);
+                    this.lstAvailable.Items.Remove(objListItem);
+                    this.lstAssigned.Items.Add(objListItem);
                 }
             }
 
-            lstAvailable.ClearSelection();
-            lstAssigned.ClearSelection();
+            this.lstAvailable.ClearSelection();
+            this.lstAssigned.ClearSelection();
 
-            Sort(lstAssigned);
-
+            this.Sort(this.lstAssigned);
         }
 
         protected void cmdRemove_Click(object sender, EventArgs e)
         {
+            var objListItem = default(ListItem);
 
-            ListItem objListItem = default(ListItem);
+            var objList = new ArrayList();
 
-            ArrayList objList = new ArrayList();
-
-            foreach (ListItem tempLoopVar_objListItem in lstAssigned.Items)
+            foreach (ListItem tempLoopVar_objListItem in this.lstAssigned.Items)
             {
                 objListItem = tempLoopVar_objListItem;
                 objList.Add(objListItem);
@@ -1604,62 +1711,57 @@ namespace DotNetNuke.Modules.Events
                 objListItem = tempLoopVar_objListItem;
                 if (objListItem.Selected)
                 {
-                    lstAssigned.Items.Remove(objListItem);
-                    lstAvailable.Items.Add(objListItem);
+                    this.lstAssigned.Items.Remove(objListItem);
+                    this.lstAvailable.Items.Add(objListItem);
                 }
             }
 
-            lstAvailable.ClearSelection();
-            lstAssigned.ClearSelection();
+            this.lstAvailable.ClearSelection();
+            this.lstAssigned.ClearSelection();
 
-            Sort(lstAvailable);
-
+            this.Sort(this.lstAvailable);
         }
 
         protected void cmdAddAll_Click(object sender, EventArgs e)
         {
+            var objListItem = default(ListItem);
 
-            ListItem objListItem = default(ListItem);
-
-            foreach (ListItem tempLoopVar_objListItem in lstAvailable.Items)
+            foreach (ListItem tempLoopVar_objListItem in this.lstAvailable.Items)
             {
                 objListItem = tempLoopVar_objListItem;
-                lstAssigned.Items.Add(objListItem);
+                this.lstAssigned.Items.Add(objListItem);
             }
 
-            lstAvailable.Items.Clear();
+            this.lstAvailable.Items.Clear();
 
-            lstAvailable.ClearSelection();
-            lstAssigned.ClearSelection();
+            this.lstAvailable.ClearSelection();
+            this.lstAssigned.ClearSelection();
 
-            Sort(lstAssigned);
-
+            this.Sort(this.lstAssigned);
         }
 
         protected void cmdRemoveAll_Click(object sender, EventArgs e)
         {
+            var objListItem = default(ListItem);
 
-            ListItem objListItem = default(ListItem);
-
-            foreach (ListItem tempLoopVar_objListItem in lstAssigned.Items)
+            foreach (ListItem tempLoopVar_objListItem in this.lstAssigned.Items)
             {
                 objListItem = tempLoopVar_objListItem;
-                lstAvailable.Items.Add(objListItem);
+                this.lstAvailable.Items.Add(objListItem);
             }
 
-            lstAssigned.Items.Clear();
+            this.lstAssigned.Items.Clear();
 
-            lstAvailable.ClearSelection();
-            lstAssigned.ClearSelection();
+            this.lstAvailable.ClearSelection();
+            this.lstAssigned.ClearSelection();
 
-            Sort(lstAvailable);
+            this.Sort(this.lstAvailable);
         }
 
         protected void Sort(ListBox ctlListBox)
         {
-
-            ArrayList arrListItems = new ArrayList();
-            ListItem objListItem = default(ListItem);
+            var arrListItems = new ArrayList();
+            var objListItem = default(ListItem);
 
             // store listitems in temp arraylist
             foreach (ListItem tempLoopVar_objListItem in ctlListBox.Items)
@@ -1684,102 +1786,106 @@ namespace DotNetNuke.Modules.Events
 
         protected void cmdAddCals_Click(object sender, EventArgs e)
         {
-            ListItem objListItem = default(ListItem);
-            EventMasterInfo masterEvent = new EventMasterInfo();
+            var objListItem = default(ListItem);
+            var masterEvent = new EventMasterInfo();
 
-            foreach (ListItem tempLoopVar_objListItem in lstAvailableCals.Items)
+            foreach (ListItem tempLoopVar_objListItem in this.lstAvailableCals.Items)
             {
                 objListItem = tempLoopVar_objListItem;
                 if (objListItem.Selected)
                 {
                     masterEvent.MasterID = 0;
-                    masterEvent.ModuleID = ModuleId;
-                    masterEvent.SubEventID = System.Convert.ToInt32(objListItem.Value);
-                    _objCtlMasterEvent.EventsMasterSave(masterEvent);
+                    masterEvent.ModuleID = this.ModuleId;
+                    masterEvent.SubEventID = Convert.ToInt32(objListItem.Value);
+                    this._objCtlMasterEvent.EventsMasterSave(masterEvent);
                 }
             }
 
-            BindSubEvents();
-            BindAvailableEvents();
+            this.BindSubEvents();
+            this.BindAvailableEvents();
         }
 
         protected void cmdAddAllCals_Click(object sender, EventArgs e)
         {
-            ListItem objListItem = default(ListItem);
-            EventMasterInfo masterEvent = new EventMasterInfo();
+            var objListItem = default(ListItem);
+            var masterEvent = new EventMasterInfo();
 
-            foreach (ListItem tempLoopVar_objListItem in lstAvailableCals.Items)
+            foreach (ListItem tempLoopVar_objListItem in this.lstAvailableCals.Items)
             {
                 objListItem = tempLoopVar_objListItem;
                 masterEvent.MasterID = 0;
-                masterEvent.ModuleID = ModuleId;
-                masterEvent.SubEventID = System.Convert.ToInt32(objListItem.Value);
-                _objCtlMasterEvent.EventsMasterSave(masterEvent);
+                masterEvent.ModuleID = this.ModuleId;
+                masterEvent.SubEventID = Convert.ToInt32(objListItem.Value);
+                this._objCtlMasterEvent.EventsMasterSave(masterEvent);
             }
 
-            BindSubEvents();
-            BindAvailableEvents();
+            this.BindSubEvents();
+            this.BindAvailableEvents();
         }
 
         protected void cmdRemoveCals_Click(object sender, EventArgs e)
         {
-            ListItem objListItem = default(ListItem);
+            var objListItem = default(ListItem);
 
-            foreach (ListItem tempLoopVar_objListItem in lstAssignedCals.Items)
+            foreach (ListItem tempLoopVar_objListItem in this.lstAssignedCals.Items)
             {
                 objListItem = tempLoopVar_objListItem;
                 if (objListItem.Selected)
                 {
-                    _objCtlMasterEvent.EventsMasterDelete(int.Parse(objListItem.Value), ModuleId);
+                    this._objCtlMasterEvent.EventsMasterDelete(int.Parse(objListItem.Value), this.ModuleId);
                 }
             }
 
-            BindSubEvents();
-            BindAvailableEvents();
+            this.BindSubEvents();
+            this.BindAvailableEvents();
         }
 
         protected void cmdRemoveAllCals_Click(object sender, EventArgs e)
         {
-            ListItem objListItem = default(ListItem);
+            var objListItem = default(ListItem);
 
-            foreach (ListItem tempLoopVar_objListItem in lstAssignedCals.Items)
+            foreach (ListItem tempLoopVar_objListItem in this.lstAssignedCals.Items)
             {
                 objListItem = tempLoopVar_objListItem;
-                _objCtlMasterEvent.EventsMasterDelete(int.Parse(objListItem.Value), ModuleId);
+                this._objCtlMasterEvent.EventsMasterDelete(int.Parse(objListItem.Value), this.ModuleId);
             }
 
-            BindSubEvents();
-            BindAvailableEvents();
+            this.BindSubEvents();
+            this.BindAvailableEvents();
         }
 
         protected void cmdUpdateTemplate_Click(object sender, EventArgs e)
         {
-            string strTemplate = ddlTemplates.SelectedValue;
-            Settings.Templates.SaveTemplate(ModuleId, strTemplate, txtEventTemplate.Text.Trim());
-            lblTemplateUpdated.Visible = true;
-            lblTemplateUpdated.Text = string.Format(Localization.GetString("TemplateUpdated", LocalResourceFile), Localization.GetString(strTemplate + "Name", LocalResourceFile));
+            var strTemplate = this.ddlTemplates.SelectedValue;
+            this.Settings.Templates.SaveTemplate(this.ModuleId, strTemplate, this.txtEventTemplate.Text.Trim());
+            this.lblTemplateUpdated.Visible = true;
+            this.lblTemplateUpdated.Text =
+                string.Format(Localization.GetString("TemplateUpdated", this.LocalResourceFile),
+                              Localization.GetString(strTemplate + "Name", this.LocalResourceFile));
         }
 
         protected void cmdResetTemplate_Click(object sender, EventArgs e)
         {
-            string strTemplate = ddlTemplates.SelectedValue;
-            Settings.Templates.ResetTemplate(ModuleId, strTemplate, LocalResourceFile);
-            txtEventTemplate.Text = Settings.Templates.GetTemplate(strTemplate);
-            lblTemplateUpdated.Visible = true;
-            lblTemplateUpdated.Text = string.Format(Localization.GetString("TemplateReset", LocalResourceFile), Localization.GetString(strTemplate + "Name", LocalResourceFile));
+            var strTemplate = this.ddlTemplates.SelectedValue;
+            this.Settings.Templates.ResetTemplate(this.ModuleId, strTemplate, this.LocalResourceFile);
+            this.txtEventTemplate.Text = this.Settings.Templates.GetTemplate(strTemplate);
+            this.lblTemplateUpdated.Visible = true;
+            this.lblTemplateUpdated.Text =
+                string.Format(Localization.GetString("TemplateReset", this.LocalResourceFile),
+                              Localization.GetString(strTemplate + "Name", this.LocalResourceFile));
         }
 
         protected void ddlTemplates_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtEventTemplate.Text = Settings.Templates.GetTemplate(ddlTemplates.SelectedValue);
-            lblTemplateUpdated.Visible = false;
+            this.txtEventTemplate.Text = this.Settings.Templates.GetTemplate(this.ddlTemplates.SelectedValue);
+            this.lblTemplateUpdated.Visible = false;
         }
 
         protected void cancelButton_Click(object sender, EventArgs e)
         {
             try
             {
-                Response.Redirect(GetSocialNavigateUrl(), true);
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
             }
             catch (Exception) //Module failed to load
             {
@@ -1791,8 +1897,8 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                UpdateSettings();
-                Response.Redirect(GetSocialNavigateUrl(), true);
+                this.UpdateSettings();
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
             }
             catch (Exception) //Module failed to load
             {
@@ -1801,43 +1907,60 @@ namespace DotNetNuke.Modules.Events
         }
 
         #endregion
-
     }
 
     #region Comparer Class
+
     public class ListItemComparer : IComparer
     {
-
         public int Compare(object x, object y)
         {
-            ListItem a = (ListItem)x;
-            ListItem b = (ListItem)y;
-            CaseInsensitiveComparer c = new CaseInsensitiveComparer();
+            var a = (ListItem) x;
+            var b = (ListItem) y;
+            var c = new CaseInsensitiveComparer();
             return c.Compare(a.Text, b.Text);
         }
     }
+
     #endregion
 
     #region DataClasses
+
     public class ThemeSetting
     {
-        #region Member Variables
-        public ThemeSettingTypeEnum SettingType;
-        public string ThemeName;
-        public string ThemeFile;
-        public string CssClass;
-        #endregion
         #region Enumerators
+
         public enum ThemeSettingTypeEnum
         {
             DefaultTheme = 0,
             CustomTheme = 1
         }
+
         #endregion
+
+        #region Overrides
+
+        public override string ToString()
+        {
+            return string.Format("{0},{1},{2}", Convert.ToInt32(this.SettingType), this.ThemeName, this.ThemeFile);
+        }
+
+        #endregion
+
+        #region Member Variables
+
+        public ThemeSettingTypeEnum SettingType;
+        public string ThemeName;
+        public string ThemeFile;
+        public string CssClass;
+
+        #endregion
+
         #region Methods
+
         public bool ValidateSetting(string setting)
         {
-            string[] s = setting.Split(',');
+            var s = setting.Split(',');
             if (!(s.GetUpperBound(0) == 2))
             {
                 return false;
@@ -1851,37 +1974,32 @@ namespace DotNetNuke.Modules.Events
 
         public void ReadSetting(string setting, int portalID)
         {
-            if (!ValidateSetting(setting))
+            if (!this.ValidateSetting(setting))
             {
-                throw (new Exception("Setting is not right format to convert into ThemeSetting"));
+                throw new Exception("Setting is not right format to convert into ThemeSetting");
             }
 
-            string[] s = setting.Split(',');
-            SettingType = (ThemeSettingTypeEnum)int.Parse(s[0]);
-            ThemeName = s[1];
-            CssClass = "Theme" + ThemeName;
-            switch (SettingType)
+            var s = setting.Split(',');
+            this.SettingType = (ThemeSettingTypeEnum) int.Parse(s[0]);
+            this.ThemeName = s[1];
+            this.CssClass = "Theme" + this.ThemeName;
+            switch (this.SettingType)
             {
                 case ThemeSettingTypeEnum.DefaultTheme:
-                    ThemeFile = string.Format("{0}/DesktopModules/Events/Themes/{1}/{1}.css", DotNetNuke.Common.Globals.ApplicationPath, ThemeName);
+                    this.ThemeFile = string.Format("{0}/DesktopModules/Events/Themes/{1}/{1}.css",
+                                                   Globals.ApplicationPath, this.ThemeName);
                     break;
                 case ThemeSettingTypeEnum.CustomTheme:
-                    Entities.Portals.PortalController pc = new Entities.Portals.PortalController();
+                    var pc = new PortalController();
                     var with_1 = pc.GetPortal(portalID);
-                    ThemeFile = string.Format("{0}/{1}/DNNEvents/Themes/{2}/{2}.css", DotNetNuke.Common.Globals.ApplicationPath, with_1.HomeDirectory, ThemeName);
+                    this.ThemeFile = string.Format("{0}/{1}/DNNEvents/Themes/{2}/{2}.css", Globals.ApplicationPath,
+                                                   with_1.HomeDirectory, this.ThemeName);
                     break;
             }
+        }
 
-        }
-        #endregion
-        #region Overrides
-        public override string ToString()
-        {
-            return string.Format("{0},{1},{2}", System.Convert.ToInt32(SettingType), ThemeName, ThemeFile);
-        }
         #endregion
     }
+
     #endregion
 }
-
-

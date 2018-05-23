@@ -22,15 +22,9 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
 namespace DotNetNuke.Modules.Events
 {
     using DotNetNuke.Entities.Modules.Settings;
-    using DotNetNuke.Modules.Events;
     using global::Components;
 
     /// <summary>

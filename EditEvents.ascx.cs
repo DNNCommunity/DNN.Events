@@ -1,20 +1,3 @@
-using DotNetNuke.Services.Exceptions;
-using System.Diagnostics;
-using DotNetNuke.Entities.Users;
-using DotNetNuke.Framework;
-using Microsoft.VisualBasic;
-using System.Web.UI.WebControls;
-using System.Collections;
-using DotNetNuke.Common.Utilities;
-using DotNetNuke.Services.Localization;
-using System;
-using DotNetNuke.Security.Permissions;
-using DotNetNuke.Security.Roles;
-using System.Globalization;
-using DotNetNuke.Security;
-using DotNetNuke.Web.UI.WebControls.Extensions;
-
-
 #region Copyright
 
 // 
@@ -42,321 +25,363 @@ using DotNetNuke.Web.UI.WebControls.Extensions;
 
 namespace DotNetNuke.Modules.Events
 {
+    using System;
+    using System.Collections;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Reflection;
+    using System.Threading;
+    using System.Web.UI.WebControls;
+    using DNNtc;
+    using DotNetNuke.Common.Utilities;
+    using DotNetNuke.Entities.Users;
+    using DotNetNuke.Framework;
+    using DotNetNuke.Security;
+    using DotNetNuke.Security.Permissions;
+    using DotNetNuke.Security.Roles;
+    using DotNetNuke.Services.Exceptions;
+    using DotNetNuke.Services.FileSystem;
+    using DotNetNuke.Services.Localization;
+    using DotNetNuke.Web.UI.WebControls.Extensions;
     using global::Components;
+    using Microsoft.VisualBasic;
+    using EventInfo = global::Components.EventInfo;
+    using Globals = DotNetNuke.Common.Globals;
 
-    [DNNtc.ModuleControlProperties("Edit", "Edit Events", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", false, true)]
+    [ModuleControlProperties("Edit", "Edit Events", ControlType.View, "https://dnnevents.codeplex.com/documentation",
+        false, true)]
     public partial class EditEvents : EventBase
     {
-
         #region Private Area
+
         private int _itemID = -1;
         private bool _editRecur = true;
-        private EventController _objCtlEvent = new EventController();
-        private EventRecurMasterController _objCtlEventRecurMaster = new EventRecurMasterController();
+        private readonly EventController _objCtlEvent = new EventController();
+        private readonly EventRecurMasterController _objCtlEventRecurMaster = new EventRecurMasterController();
         private EventInfo _objEvent = new EventInfo();
         private EventSignupsInfo _objEventSignups = new EventSignupsInfo();
-        private EventSignupsController _objCtlEventSignups = new EventSignupsController();
+        private readonly EventSignupsController _objCtlEventSignups = new EventSignupsController();
         private ArrayList _lstEvents = new ArrayList();
-        private ArrayList _lstOwnerUsers = new ArrayList();
-        private CultureInfo _culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+        private readonly ArrayList _lstOwnerUsers = new ArrayList();
+        private readonly CultureInfo _culture = Thread.CurrentThread.CurrentCulture;
         private const string RecurTableDisplayType = "inline-block";
 
         #endregion
 
         #region Event Handlers
-        private void Page_Load(System.Object sender, EventArgs e)
+
+        private void Page_Load(object sender, EventArgs e)
         {
             try
             {
                 // Verify that the current user has edit access to this module
-                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()) ||
-                    IsModuleEditor())
-                {
-                }
+                if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName) || this.IsModuleEditor())
+                { }
                 else
                 {
                     // to stop errors when not authorised to edit
-                    valReminderTime.MinimumValue = "15";
-                    valReminderTime.MaximumValue = "60";
+                    this.valReminderTime.MinimumValue = "15";
+                    this.valReminderTime.MaximumValue = "60";
 
-                    Response.Redirect(GetSocialNavigateUrl(), true);
+                    this.Response.Redirect(this.GetSocialNavigateUrl(), true);
                 }
 
-                grdAddUser.ModuleConfiguration = ModuleConfiguration.Clone();
+                this.grdAddUser.ModuleConfiguration = this.ModuleConfiguration.Clone();
 
                 // Add the external Validation.js to the Page
                 const string csname = "ExtValidationScriptFile";
-                Type cstype = System.Reflection.MethodBase.GetCurrentMethod().GetType();
-                string cstext = "<script src=\"" + ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") + "\" type=\"text/javascript\"></script>";
-                if (!Page.ClientScript.IsClientScriptBlockRegistered(csname))
+                var cstype = MethodBase.GetCurrentMethod().GetType();
+                var cstext = "<script src=\"" + this.ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
+                             "\" type=\"text/javascript\"></script>";
+                if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname))
                 {
-                    Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
+                    this.Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
                 }
 
                 // Determine ItemId of Event to Update
-                if (!(ReferenceEquals(Request.Params["ItemId"], null)))
+                if (!ReferenceEquals(this.Request.Params["ItemId"], null))
                 {
-                    _itemID = int.Parse(Request.Params["ItemId"]);
+                    this._itemID = int.Parse(this.Request.Params["ItemId"]);
                 }
-                _editRecur = false;
-                if (!(ReferenceEquals(Request.Params["EditRecur"], null)))
+                this._editRecur = false;
+                if (!ReferenceEquals(this.Request.Params["EditRecur"], null))
                 {
-                    if (Request.Params["EditRecur"].ToLower() == "all")
+                    if (this.Request.Params["EditRecur"].ToLower() == "all")
                     {
-                        _editRecur = true;
+                        this._editRecur = true;
                     }
                 }
 
                 // Set the selected theme
-                SetTheme(pnlEventsModuleEdit);
+                this.SetTheme(this.pnlEventsModuleEdit);
 
                 //EPT: "Changed DotNetNuke.Security.PortalSecurity.HasEditPermissions(ModuleId)" into "IsEditable"
                 //RWJS: Replaced with custom function IsModuleEditor which checks whether users has editor permissions
-                if ((IsModuleEditor()) ||
-                    (IsModerator()) ||
-                    (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString())))
-                {
-                }
+                if (this.IsModuleEditor() ||
+                    this.IsModerator() ||
+                    PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
+                { }
                 else
                 {
-                    Response.Redirect(GetSocialNavigateUrl(), true);
+                    this.Response.Redirect(this.GetSocialNavigateUrl(), true);
                 }
 
-                trOwner.Visible = false;
-                if ((IsModerator() && Settings.Ownerchangeallowed) ||
-                    PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()))
+                this.trOwner.Visible = false;
+                if (this.IsModerator() && this.Settings.Ownerchangeallowed ||
+                    PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
                 {
-                    trOwner.Visible = true;
+                    this.trOwner.Visible = true;
                 }
 
-                pnlEnroll.Visible = false;
-                divNoEnrolees.Visible = false;
+                this.pnlEnroll.Visible = false;
+                this.divNoEnrolees.Visible = false;
 
-                if (Settings.Eventsignup)
+                if (this.Settings.Eventsignup)
                 {
-                    pnlEnroll.Visible = true;
-                    chkSignups.Visible = true;
-                    if (Settings.Maxnoenrolees > 1 && divAddUser.Visible)
+                    this.pnlEnroll.Visible = true;
+                    this.chkSignups.Visible = true;
+                    if (this.Settings.Maxnoenrolees > 1 && this.divAddUser.Visible)
                     {
-                        divNoEnrolees.Visible = true;
+                        this.divNoEnrolees.Visible = true;
                     }
                 }
 
-                trTypeOfEnrollment.Visible = Settings.Eventsignupallowpaid;
-                trPayPalAccount.Visible = Settings.Eventsignupallowpaid;
+                this.trTypeOfEnrollment.Visible = this.Settings.Eventsignupallowpaid;
+                this.trPayPalAccount.Visible = this.Settings.Eventsignupallowpaid;
 
-                tblEventEmail.Attributes.Add("style", "display:none; width:100%");
-                if (!Settings.Newpereventemail)
+                this.tblEventEmail.Attributes.Add("style", "display:none; width:100%");
+                if (!this.Settings.Newpereventemail)
                 {
-                    pnlEventEmailRole.Visible = false;
+                    this.pnlEventEmailRole.Visible = false;
                 }
-                else if (_itemID == -1 && Settings.Moderateall && !IsModerator())
+                else if (this._itemID == -1 && this.Settings.Moderateall && !this.IsModerator())
                 {
-                    pnlEventEmailRole.Visible = false;
+                    this.pnlEventEmailRole.Visible = false;
                 }
 
-                pnlReminder.Visible = Settings.Eventnotify;
-                pnlImage.Visible = Settings.Eventimage;
-                pnlDetailPage.Visible = Settings.DetailPageAllowed;
+                this.pnlReminder.Visible = this.Settings.Eventnotify;
+                this.pnlImage.Visible = this.Settings.Eventimage;
+                this.pnlDetailPage.Visible = this.Settings.DetailPageAllowed;
 
                 // Setup Popup Event
-                dpStartDate.ClientEvents.OnDateSelected = "function() {if (Page_ClientValidate('startdate')) CopyField('" + dpStartDate.ClientID + "','" + dpEndDate.ClientID + "');}";
-                tpStartTime.ClientEvents.OnDateSelected = "function() {SetComboIndex('" + tpStartTime.ClientID + "','" + tpEndTime.ClientID + "','" + dpStartDate.ClientID + "','" + dpEndDate.ClientID + "','" + Settings.Timeinterval + "');}";
-                ctlURL.FileFilter = DotNetNuke.Common.Globals.glbImageFileTypes;
-                if (!Page.IsPostBack)
+                this.dpStartDate.ClientEvents.OnDateSelected =
+                    "function() {if (Page_ClientValidate('startdate')) CopyField('" + this.dpStartDate.ClientID +
+                    "','" + this.dpEndDate.ClientID + "');}";
+                this.tpStartTime.ClientEvents.OnDateSelected =
+                    "function() {SetComboIndex('" + this.tpStartTime.ClientID + "','" + this.tpEndTime.ClientID +
+                    "','" + this.dpStartDate.ClientID + "','" + this.dpEndDate.ClientID + "','" +
+                    this.Settings.Timeinterval + "');}";
+                this.ctlURL.FileFilter = Globals.glbImageFileTypes;
+                if (!this.Page.IsPostBack)
                 {
-                    txtSubject.MaxLength++;
-                    txtReminder.MaxLength++;
+                    this.txtSubject.MaxLength++;
+                    this.txtReminder.MaxLength++;
                 }
-                string limitSubject = "javascript:limitText(this," + (txtSubject.MaxLength - 1).ToString() + ",'" + Localization.GetString("LimitChars", LocalResourceFile) + "');";
-                string limitReminder = "javascript:limitText(this," + (txtReminder.MaxLength - 1).ToString() + ",'" + Localization.GetString("LimitChars", LocalResourceFile) + "');";
-                txtSubject.Attributes.Add("onkeydown", limitSubject);
-                txtSubject.Attributes.Add("onkeyup", limitSubject);
-                txtReminder.Attributes.Add("onkeydown", limitReminder);
-                txtReminder.Attributes.Add("onkeyup", limitReminder);
+                var limitSubject = "javascript:limitText(this," + (this.txtSubject.MaxLength - 1) + ",'" +
+                                   Localization.GetString("LimitChars", this.LocalResourceFile) + "');";
+                var limitReminder = "javascript:limitText(this," + (this.txtReminder.MaxLength - 1) + ",'" +
+                                    Localization.GetString("LimitChars", this.LocalResourceFile) + "');";
+                this.txtSubject.Attributes.Add("onkeydown", limitSubject);
+                this.txtSubject.Attributes.Add("onkeyup", limitSubject);
+                this.txtReminder.Attributes.Add("onkeydown", limitReminder);
+                this.txtReminder.Attributes.Add("onkeyup", limitReminder);
 
-                Page.ClientScript.RegisterExpandoAttribute(valValidStartTime2.ClientID, "TimeInterval", Settings.Timeinterval);
-                Page.ClientScript.RegisterExpandoAttribute(valValidStartTime2.ClientID, "ErrorMessage", string.Format(Localization.GetString("valValidStartTime2", LocalResourceFile), Settings.Timeinterval));
-                Page.ClientScript.RegisterExpandoAttribute(valValidStartTime2.ClientID, "ClientID", tpStartTime.ClientID);
-                Page.ClientScript.RegisterExpandoAttribute(valValidEndTime2.ClientID, "TimeInterval", Settings.Timeinterval);
-                Page.ClientScript.RegisterExpandoAttribute(valValidEndTime2.ClientID, "ErrorMessage", string.Format(Localization.GetString("valValidEndTime2", LocalResourceFile), Settings.Timeinterval));
-                Page.ClientScript.RegisterExpandoAttribute(valValidEndTime2.ClientID, "ClientID", tpEndTime.ClientID);
+                this.Page.ClientScript.RegisterExpandoAttribute(this.valValidStartTime2.ClientID, "TimeInterval",
+                                                                this.Settings.Timeinterval);
+                this.Page.ClientScript.RegisterExpandoAttribute(this.valValidStartTime2.ClientID, "ErrorMessage",
+                                                                string.Format(
+                                                                    Localization.GetString(
+                                                                        "valValidStartTime2", this.LocalResourceFile),
+                                                                    this.Settings.Timeinterval));
+                this.Page.ClientScript.RegisterExpandoAttribute(this.valValidStartTime2.ClientID, "ClientID",
+                                                                this.tpStartTime.ClientID);
+                this.Page.ClientScript.RegisterExpandoAttribute(this.valValidEndTime2.ClientID, "TimeInterval",
+                                                                this.Settings.Timeinterval);
+                this.Page.ClientScript.RegisterExpandoAttribute(this.valValidEndTime2.ClientID, "ErrorMessage",
+                                                                string.Format(
+                                                                    Localization.GetString(
+                                                                        "valValidEndTime2", this.LocalResourceFile),
+                                                                    this.Settings.Timeinterval));
+                this.Page.ClientScript.RegisterExpandoAttribute(this.valValidEndTime2.ClientID, "ClientID",
+                                                                this.tpEndTime.ClientID);
 
                 // If the page is being requested the first time, determine if an
                 // contact itemId value is specified, and if so populate page
                 // contents with the contact details
-                if (!Page.IsPostBack)
+                if (!this.Page.IsPostBack)
                 {
-                    LocalizeAll();
-                    LoadEvent();
+                    this.LocalizeAll();
+                    this.LoadEvent();
                 }
                 else
                 {
-                    string url = System.Convert.ToString(ctlURL.Url);
-                    string urlType = System.Convert.ToString(ctlURL.UrlType);
-                    ctlURL.Url = url;
-                    ctlURL.UrlType = urlType;
+                    var url = Convert.ToString(this.ctlURL.Url);
+                    var urlType = Convert.ToString(this.ctlURL.UrlType);
+                    this.ctlURL.Url = url;
+                    this.ctlURL.UrlType = urlType;
                 }
 
-                if (chkReminder.Checked)
+                if (this.chkReminder.Checked)
                 {
-                    tblReminderDetail.Attributes.Add("style", "display:block;");
+                    this.tblReminderDetail.Attributes.Add("style", "display:block;");
                 }
                 else
                 {
-                    tblReminderDetail.Attributes.Add("style", "display:none;");
+                    this.tblReminderDetail.Attributes.Add("style", "display:none;");
                 }
 
-                if (chkDetailPage.Checked)
+                if (this.chkDetailPage.Checked)
                 {
-                    tblDetailPageDetail.Attributes.Add("style", "display:block;");
+                    this.tblDetailPageDetail.Attributes.Add("style", "display:block;");
                 }
                 else
                 {
-                    tblDetailPageDetail.Attributes.Add("style", "display:none;");
+                    this.tblDetailPageDetail.Attributes.Add("style", "display:none;");
                 }
 
-                if (chkDisplayImage.Checked)
+                if (this.chkDisplayImage.Checked)
                 {
-                    tblImageURL.Attributes.Add("style", "display:block;");
+                    this.tblImageURL.Attributes.Add("style", "display:block;");
                 }
                 else
                 {
-                    tblImageURL.Attributes.Add("style", "display:none;");
+                    this.tblImageURL.Attributes.Add("style", "display:none;");
                 }
 
-                if (chkSignups.Checked)
+                if (this.chkSignups.Checked)
                 {
-                    tblEnrollmentDetails.Attributes.Add("style", "display:block;");
+                    this.tblEnrollmentDetails.Attributes.Add("style", "display:block;");
                 }
                 else
                 {
-                    tblEnrollmentDetails.Attributes.Add("style", "display:none;");
+                    this.tblEnrollmentDetails.Attributes.Add("style", "display:none;");
                 }
 
-                if (chkReccuring.Checked)
+                if (this.chkReccuring.Checked)
                 {
-                    tblRecurringDetails.Attributes.Add("style", "display:block;");
+                    this.tblRecurringDetails.Attributes.Add("style", "display:block;");
                 }
                 else
                 {
-                    tblRecurringDetails.Attributes.Add("style", "display:none;");
+                    this.tblRecurringDetails.Attributes.Add("style", "display:none;");
                 }
 
-                if (chkEventEmailChk.Checked)
+                if (this.chkEventEmailChk.Checked)
                 {
-                    tblEventEmailRoleDetail.Attributes.Add("style", "display:block;");
+                    this.tblEventEmailRoleDetail.Attributes.Add("style", "display:block;");
                 }
                 else
                 {
-                    tblEventEmailRoleDetail.Attributes.Add("style", "display:none;");
+                    this.tblEventEmailRoleDetail.Attributes.Add("style", "display:none;");
                 }
 
-                if (rblRepeatTypeP1.Checked)
+                if (this.rblRepeatTypeP1.Checked)
                 {
-                    tblDetailP1.Attributes.Add("style", "display:" + RecurTableDisplayType + ";white-space:nowrap;");
+                    this.tblDetailP1.Attributes.Add(
+                        "style", "display:" + RecurTableDisplayType + ";white-space:nowrap;");
                 }
                 else
                 {
-                    tblDetailP1.Attributes.Add("style", "display:none;white-space:nowrap;");
+                    this.tblDetailP1.Attributes.Add("style", "display:none;white-space:nowrap;");
                 }
 
-                if (rblRepeatTypeW1.Checked)
+                if (this.rblRepeatTypeW1.Checked)
                 {
-                    tblDetailW1.Attributes.Add("style", "display:" + RecurTableDisplayType + ";");
+                    this.tblDetailW1.Attributes.Add("style", "display:" + RecurTableDisplayType + ";");
                 }
                 else
                 {
-                    tblDetailW1.Attributes.Add("style", "display:none;");
+                    this.tblDetailW1.Attributes.Add("style", "display:none;");
                 }
 
-                if (rblRepeatTypeM.Checked)
+                if (this.rblRepeatTypeM.Checked)
                 {
-                    tblDetailM1.Attributes.Add("style", "display:" + RecurTableDisplayType + ";");
+                    this.tblDetailM1.Attributes.Add("style", "display:" + RecurTableDisplayType + ";");
                 }
                 else
                 {
-                    tblDetailM1.Attributes.Add("style", "display:none;");
+                    this.tblDetailM1.Attributes.Add("style", "display:none;");
                 }
 
-                if (rblRepeatTypeY1.Checked)
+                if (this.rblRepeatTypeY1.Checked)
                 {
-                    tblDetailY1.Attributes.Add("style", "display:" + RecurTableDisplayType + ";");
+                    this.tblDetailY1.Attributes.Add("style", "display:" + RecurTableDisplayType + ";");
                 }
                 else
                 {
-                    tblDetailY1.Attributes.Add("style", "display:none;");
+                    this.tblDetailY1.Attributes.Add("style", "display:none;");
                 }
 
-                if (dpY1Period.SelectedDate.ToString().Length == 0)
+                if (this.dpY1Period.SelectedDate.ToString().Length == 0)
                 {
-                    dpY1Period.SelectedDate = SelectedDate.Date;
+                    this.dpY1Period.SelectedDate = this.SelectedDate.Date;
                 }
-                if (txtReminderFrom.Text.Length == 0)
+                if (this.txtReminderFrom.Text.Length == 0)
                 {
-                    txtReminderFrom.Text = Settings.Reminderfrom;
+                    this.txtReminderFrom.Text = this.Settings.Reminderfrom;
                 }
-                if (txtEventEmailFrom.Text.Length == 0)
+                if (this.txtEventEmailFrom.Text.Length == 0)
                 {
-                    txtEventEmailFrom.Text = Settings.Reminderfrom;
-                }
-
-                if (chkAllDayEvent.Checked)
-                {
-                    divStartTime.Attributes.Add("style", "display:none;");
-                    divEndTime.Attributes.Add("style", "display:none;");
+                    this.txtEventEmailFrom.Text = this.Settings.Reminderfrom;
                 }
 
+                if (this.chkAllDayEvent.Checked)
+                {
+                    this.divStartTime.Attributes.Add("style", "display:none;");
+                    this.divEndTime.Attributes.Add("style", "display:none;");
+                }
             }
             catch (Exception exc) //Module failed to load
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-
         }
 
-        protected void valValidStartDate3_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+        protected void valValidStartDate3_ServerValidate(object source, ServerValidateEventArgs args)
         {
-            if (ReferenceEquals(dpStartDate.SelectedDate, null))
+            if (ReferenceEquals(this.dpStartDate.SelectedDate, null))
             {
                 args.IsValid = false;
-                valValidStartDate.Visible = true;
+                this.valValidStartDate.Visible = true;
             }
         }
 
-        protected void valValidStartTime2_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+        protected void valValidStartTime2_ServerValidate(object source, ServerValidateEventArgs args)
         {
-            DateTime inDate = System.Convert.ToDateTime(tpStartTime.SelectedDate);
-            valValidStartTime2.ErrorMessage = string.Format(Localization.GetString("valValidStartTime2", LocalResourceFile), Settings.Timeinterval);
-            args.IsValid = ValidateTime(inDate);
+            var inDate = Convert.ToDateTime(this.tpStartTime.SelectedDate);
+            this.valValidStartTime2.ErrorMessage =
+                string.Format(Localization.GetString("valValidStartTime2", this.LocalResourceFile),
+                              this.Settings.Timeinterval);
+            args.IsValid = this.ValidateTime(inDate);
         }
 
-        protected void valValidEndTime2_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+        protected void valValidEndTime2_ServerValidate(object source, ServerValidateEventArgs args)
         {
-            DateTime inDate = System.Convert.ToDateTime(tpEndTime.SelectedDate);
-            valValidEndTime2.ErrorMessage = string.Format(Localization.GetString("valValidEndTime2", LocalResourceFile), Settings.Timeinterval);
-            args.IsValid = ValidateTime(inDate);
+            var inDate = Convert.ToDateTime(this.tpEndTime.SelectedDate);
+            this.valValidEndTime2.ErrorMessage =
+                string.Format(Localization.GetString("valValidEndTime2", this.LocalResourceFile),
+                              this.Settings.Timeinterval);
+            args.IsValid = this.ValidateTime(inDate);
         }
 
-        private void valValidRecurEndDate_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+        private void valValidRecurEndDate_ServerValidate(object source, ServerValidateEventArgs args)
         {
-            if (ReferenceEquals(dpStartDate.SelectedDate, null))
+            if (ReferenceEquals(this.dpStartDate.SelectedDate, null))
             {
                 return;
             }
-            DateTime recurDate = System.Convert.ToDateTime(dpRecurEndDate.SelectedDate);
-            DateTime startDate = System.Convert.ToDateTime(dpStartDate.SelectedDate);
-            if (recurDate < startDate && !rblRepeatTypeN.Checked)
+            var recurDate = Convert.ToDateTime(this.dpRecurEndDate.SelectedDate);
+            var startDate = Convert.ToDateTime(this.dpStartDate.SelectedDate);
+            if (recurDate < startDate && !this.rblRepeatTypeN.Checked)
             {
                 args.IsValid = false;
-                valValidRecurEndDate.Visible = true;
+                this.valValidRecurEndDate.Visible = true;
             }
             else
             {
                 args.IsValid = true;
-                valValidRecurEndDate.Visible = false;
+                this.valValidRecurEndDate.Visible = false;
             }
-
         }
 
         #endregion
@@ -365,166 +390,192 @@ namespace DotNetNuke.Modules.Events
 
         private void LocalizeAll()
         {
-            CultureInfo culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            var culture = Thread.CurrentThread.CurrentCulture;
 
-            txtSubject.Text = Settings.Templates.txtSubject;
-            txtReminder.Text = Settings.Templates.txtMessage;
+            this.txtSubject.Text = this.Settings.Templates.txtSubject;
+            this.txtReminder.Text = this.Settings.Templates.txtMessage;
 
-            grdEnrollment.Columns[0].HeaderText = Localization.GetString("Select", LocalResourceFile);
-            grdEnrollment.Columns[1].HeaderText = Localization.GetString("EnrollUserName", LocalResourceFile);
-            grdEnrollment.Columns[2].HeaderText = Localization.GetString("EnrollDisplayName", LocalResourceFile);
-            grdEnrollment.Columns[3].HeaderText = Localization.GetString("EnrollEmail", LocalResourceFile);
-            grdEnrollment.Columns[4].HeaderText = Localization.GetString("EnrollPhone", LocalResourceFile);
-            grdEnrollment.Columns[5].HeaderText = Localization.GetString("EnrollApproved", LocalResourceFile);
-            grdEnrollment.Columns[6].HeaderText = Localization.GetString("EnrollNo", LocalResourceFile);
-            grdEnrollment.Columns[7].HeaderText = Localization.GetString("EventStart", LocalResourceFile);
+            this.grdEnrollment.Columns[0].HeaderText = Localization.GetString("Select", this.LocalResourceFile);
+            this.grdEnrollment.Columns[1].HeaderText = Localization.GetString("EnrollUserName", this.LocalResourceFile);
+            this.grdEnrollment.Columns[2].HeaderText =
+                Localization.GetString("EnrollDisplayName", this.LocalResourceFile);
+            this.grdEnrollment.Columns[3].HeaderText = Localization.GetString("EnrollEmail", this.LocalResourceFile);
+            this.grdEnrollment.Columns[4].HeaderText = Localization.GetString("EnrollPhone", this.LocalResourceFile);
+            this.grdEnrollment.Columns[5].HeaderText = Localization.GetString("EnrollApproved", this.LocalResourceFile);
+            this.grdEnrollment.Columns[6].HeaderText = Localization.GetString("EnrollNo", this.LocalResourceFile);
+            this.grdEnrollment.Columns[7].HeaderText = Localization.GetString("EventStart", this.LocalResourceFile);
 
-            chkW1Sun.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int)DayOfWeek.Sunday];
-            chkW1Sun2.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int)DayOfWeek.Sunday];
-            chkW1Mon.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int)DayOfWeek.Monday];
-            chkW1Tue.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int)DayOfWeek.Tuesday];
-            chkW1Wed.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int)DayOfWeek.Wednesday];
-            chkW1Thu.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int)DayOfWeek.Thursday];
-            chkW1Fri.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int)DayOfWeek.Friday];
-            chkW1Sat.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int)DayOfWeek.Saturday];
+            this.chkW1Sun.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int) DayOfWeek.Sunday];
+            this.chkW1Sun2.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int) DayOfWeek.Sunday];
+            this.chkW1Mon.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int) DayOfWeek.Monday];
+            this.chkW1Tue.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int) DayOfWeek.Tuesday];
+            this.chkW1Wed.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int) DayOfWeek.Wednesday];
+            this.chkW1Thu.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int) DayOfWeek.Thursday];
+            this.chkW1Fri.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int) DayOfWeek.Friday];
+            this.chkW1Sat.Text = culture.DateTimeFormat.AbbreviatedDayNames[(int) DayOfWeek.Saturday];
 
-            cmbM1Period.Items.Clear();
+            this.cmbM1Period.Items.Clear();
             // Corrected a problem w/Every nth Week on a specific day with the following
-            cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Sunday), "0"));
-            cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Monday), "1"));
-            cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Tuesday), "2"));
-            cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Wednesday), "3"));
-            cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Thursday), "4"));
-            cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Friday), "5"));
-            cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Saturday), "6"));
+            this.cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Sunday), "0"));
+            this.cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Monday), "1"));
+            this.cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Tuesday), "2"));
+            this.cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Wednesday), "3"));
+            this.cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Thursday), "4"));
+            this.cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Friday), "5"));
+            this.cmbM1Period.Items.Add(new ListItem(culture.DateTimeFormat.GetDayName(DayOfWeek.Saturday), "6"));
 
-            cmbM2Period.Items.Clear();
-            for (int i = 1; i <= 31; i++)
+            this.cmbM2Period.Items.Clear();
+            for (var i = 1; i <= 31; i++)
             {
-                cmbM2Period.Items.Add(new ListItem(Localization.GetString(i.ToString(), LocalResourceFile), i.ToString()));
+                this.cmbM2Period.Items.Add(new ListItem(Localization.GetString(i.ToString(), this.LocalResourceFile),
+                                                        i.ToString()));
             }
 
-            lblMaxRecurrences.Text = string.Format(Localization.GetString("lblMaxRecurrences", LocalResourceFile), Settings.Maxrecurrences);
+            this.lblMaxRecurrences.Text =
+                string.Format(Localization.GetString("lblMaxRecurrences", this.LocalResourceFile),
+                              this.Settings.Maxrecurrences);
 
             if (culture.DateTimeFormat.FirstDayOfWeek == DayOfWeek.Sunday)
             {
-                chkW1Sun.Attributes.Add("style", "display:inline;");
-                chkW1Sun2.Attributes.Add("style", "display:none;");
+                this.chkW1Sun.Attributes.Add("style", "display:inline;");
+                this.chkW1Sun2.Attributes.Add("style", "display:none;");
             }
             else
             {
-                chkW1Sun2.Attributes.Add("style", "display:inline;");
-                chkW1Sun.Attributes.Add("style", "display:none;");
+                this.chkW1Sun2.Attributes.Add("style", "display:inline;");
+                this.chkW1Sun.Attributes.Add("style", "display:none;");
             }
 
-            dpStartDate.DatePopupButton.ToolTip = Localization.GetString("DatePickerTooltip", LocalResourceFile);
-            dpEndDate.DatePopupButton.ToolTip = Localization.GetString("DatePickerTooltip", LocalResourceFile);
-            dpRecurEndDate.DatePopupButton.ToolTip = Localization.GetString("DatePickerTooltip", LocalResourceFile);
-            dpY1Period.DatePopupButton.ToolTip = Localization.GetString("DatePickerTooltip", LocalResourceFile);
+            this.dpStartDate.DatePopupButton.ToolTip =
+                Localization.GetString("DatePickerTooltip", this.LocalResourceFile);
+            this.dpEndDate.DatePopupButton.ToolTip =
+                Localization.GetString("DatePickerTooltip", this.LocalResourceFile);
+            this.dpRecurEndDate.DatePopupButton.ToolTip =
+                Localization.GetString("DatePickerTooltip", this.LocalResourceFile);
+            this.dpY1Period.DatePopupButton.ToolTip =
+                Localization.GetString("DatePickerTooltip", this.LocalResourceFile);
 
-            tpEndTime.TimePopupButton.ToolTip = Localization.GetString("TimePickerTooltip", LocalResourceFile);
-
+            this.tpEndTime.TimePopupButton.ToolTip =
+                Localization.GetString("TimePickerTooltip", this.LocalResourceFile);
         }
 
         public void LoadEvent()
         {
-            StorePrevPageInViewState();
+            this.StorePrevPageInViewState();
 
-            pnlRecurring.Visible = true;
-            lblMaxRecurrences.Visible = false;
-            if (!Settings.Allowreoccurring)
+            this.pnlRecurring.Visible = true;
+            this.lblMaxRecurrences.Visible = false;
+            if (!this.Settings.Allowreoccurring)
             {
-                dpRecurEndDate.Enabled = false;
-                cmbP1Period.Enabled = false;
-                txtP1Every.Enabled = false;
-                dpRecurEndDate.Visible = false;
-                cmbP1Period.Visible = false;
-                txtP1Every.Visible = false;
-                pnlRecurring.Visible = false;
+                this.dpRecurEndDate.Enabled = false;
+                this.cmbP1Period.Enabled = false;
+                this.txtP1Every.Enabled = false;
+                this.dpRecurEndDate.Visible = false;
+                this.cmbP1Period.Visible = false;
+                this.txtP1Every.Visible = false;
+                this.pnlRecurring.Visible = false;
             }
             else
             {
-                if (Settings.Maxrecurrences != "")
+                if (this.Settings.Maxrecurrences != "")
                 {
-                    lblMaxRecurrences.Visible = true;
+                    this.lblMaxRecurrences.Visible = true;
                 }
             }
 
             //Populate the timezone combobox (look up timezone translations based on currently set culture)
-            cboTimeZone.DataBind(Settings.TimeZoneId);
-            if (!Settings.EnableEventTimeZones)
+            this.cboTimeZone.DataBind(this.Settings.TimeZoneId);
+            if (!this.Settings.EnableEventTimeZones)
             {
-                cboTimeZone.Enabled = false;
+                this.cboTimeZone.Enabled = false;
             }
 
-            if (_editRecur)
+            if (this._editRecur)
             {
-                deleteButton.Attributes.Add("onClick", "javascript:return confirm('" + Localization.GetString("ConfirmEventSeriesDelete", LocalResourceFile) + "');");
-                deleteButton.Text = Localization.GetString("deleteSeriesButton", LocalResourceFile);
-                updateButton.Text = Localization.GetString("updateSeriesButton", LocalResourceFile);
-                copyButton.Attributes.Add("onClick", "javascript:return confirm('" + Localization.GetString("ConfirmEventCopy", LocalResourceFile) + "');");
-                copyButton.Text = Localization.GetString("copySeriesButton", LocalResourceFile);
+                this.deleteButton.Attributes.Add(
+                    "onClick",
+                    "javascript:return confirm('" +
+                    Localization.GetString("ConfirmEventSeriesDelete", this.LocalResourceFile) + "');");
+                this.deleteButton.Text = Localization.GetString("deleteSeriesButton", this.LocalResourceFile);
+                this.updateButton.Text = Localization.GetString("updateSeriesButton", this.LocalResourceFile);
+                this.copyButton.Attributes.Add(
+                    "onClick",
+                    "javascript:return confirm('" +
+                    Localization.GetString("ConfirmEventCopy", this.LocalResourceFile) + "');");
+                this.copyButton.Text = Localization.GetString("copySeriesButton", this.LocalResourceFile);
             }
             else
             {
-                deleteButton.Attributes.Add("onClick", "javascript:return confirm('" + Localization.GetString("ConfirmEventDelete", LocalResourceFile) + "');");
-                deleteButton.Text = Localization.GetString("deleteButton", LocalResourceFile);
-                updateButton.Text = Localization.GetString("updateButton", LocalResourceFile);
-                copyButton.Attributes.Add("onClick", "javascript:return confirm('" + Localization.GetString("ConfirmEventCopy", LocalResourceFile) + "');");
-                copyButton.Text = Localization.GetString("copyButton", LocalResourceFile);
+                this.deleteButton.Attributes.Add(
+                    "onClick",
+                    "javascript:return confirm('" +
+                    Localization.GetString("ConfirmEventDelete", this.LocalResourceFile) + "');");
+                this.deleteButton.Text = Localization.GetString("deleteButton", this.LocalResourceFile);
+                this.updateButton.Text = Localization.GetString("updateButton", this.LocalResourceFile);
+                this.copyButton.Attributes.Add(
+                    "onClick",
+                    "javascript:return confirm('" +
+                    Localization.GetString("ConfirmEventCopy", this.LocalResourceFile) + "');");
+                this.copyButton.Text = Localization.GetString("copyButton", this.LocalResourceFile);
             }
-            lnkSelectedEmail.Attributes.Add("onClick", "javascript:return confirm('" + Localization.GetString("ConfirmSendToAllSelected", LocalResourceFile) + "');");
-            lnkSelectedDelete.Attributes.Add("onClick", "javascript:return confirm('" + Localization.GetString("ConfirmDeleteSelected", LocalResourceFile) + "');");
+            this.lnkSelectedEmail.Attributes.Add(
+                "onClick",
+                "javascript:return confirm('" +
+                Localization.GetString("ConfirmSendToAllSelected", this.LocalResourceFile) + "');");
+            this.lnkSelectedDelete.Attributes.Add(
+                "onClick",
+                "javascript:return confirm('" +
+                Localization.GetString("ConfirmDeleteSelected", this.LocalResourceFile) + "');");
 
-            txtPayPalAccount.Text = Settings.Paypalaccount;
+            this.txtPayPalAccount.Text = this.Settings.Paypalaccount;
 
-            int iInterval = int.Parse(Settings.Timeinterval);
-            DateTime currentDate = ModuleNow();
-            int currentMinutes = currentDate.Minute;
-            int remainder = currentMinutes % iInterval;
+            var iInterval = int.Parse(this.Settings.Timeinterval);
+            var currentDate = this.ModuleNow();
+            var currentMinutes = currentDate.Minute;
+            var remainder = currentMinutes % iInterval;
             if (remainder > 0)
             {
                 currentDate = currentDate.AddMinutes(iInterval - remainder);
             }
 
-            tpStartTime.TimeView.Interval = new TimeSpan(0, iInterval, 0);
-            tpStartTime.SelectedDate = currentDate;
-            tpEndTime.TimeView.Interval = new TimeSpan(0, iInterval, 0);
-            tpEndTime.SelectedDate = currentDate.AddMinutes(iInterval);
+            this.tpStartTime.TimeView.Interval = new TimeSpan(0, iInterval, 0);
+            this.tpStartTime.SelectedDate = currentDate;
+            this.tpEndTime.TimeView.Interval = new TimeSpan(0, iInterval, 0);
+            this.tpEndTime.SelectedDate = currentDate.AddMinutes(iInterval);
 
 
             // Can this event be moderated
-            lblModerated.Visible = Settings.Moderateall;
+            this.lblModerated.Visible = this.Settings.Moderateall;
 
             // Send Reminder Default
-            chkReminder.Checked = Settings.Sendreminderdefault;
+            this.chkReminder.Checked = this.Settings.Sendreminderdefault;
 
             // Populate description
-            ftbDesktopText.Text = Settings.Templates.NewEventTemplate;
+            this.ftbDesktopText.Text = this.Settings.Templates.NewEventTemplate;
 
             // Set default validation value
-            valNoEnrolees.MaximumValue = "9999";
+            this.valNoEnrolees.MaximumValue = "9999";
 
             // Hide enrolment info by default
-            lblEnrolledUsers.Visible = false;
-            grdEnrollment.Visible = false;
-            lnkSelectedDelete.Visible = false;
-            lnkSelectedEmail.Visible = false;
+            this.lblEnrolledUsers.Visible = false;
+            this.grdEnrollment.Visible = false;
+            this.lnkSelectedDelete.Visible = false;
+            this.lnkSelectedEmail.Visible = false;
 
-            trAllowAnonEnroll.Visible = Settings.AllowAnonEnroll;
+            this.trAllowAnonEnroll.Visible = this.Settings.AllowAnonEnroll;
 
             // Populate enrollment email text boxes
-            txtEventEmailSubject.Text = Settings.Templates.txtEditViewEmailSubject;
-            txtEventEmailBody.Text = Settings.Templates.txtEditViewEmailBody;
+            this.txtEventEmailSubject.Text = this.Settings.Templates.txtEditViewEmailSubject;
+            this.txtEventEmailBody.Text = this.Settings.Templates.txtEditViewEmailBody;
 
-            if (_itemID != -1)
+            if (this._itemID != -1)
             {
                 // Edit Item Mode
-                EventInfo objEvent = default(EventInfo);
-                objEvent = _objCtlEvent.EventsGet(_itemID, ModuleId);
+                var objEvent = default(EventInfo);
+                objEvent = this._objCtlEvent.EventsGet(this._itemID, this.ModuleId);
 
-                bool blEventSignup = false;
-                if (Settings.Eventsignup)
+                var blEventSignup = false;
+                if (this.Settings.Eventsignup)
                 {
                     blEventSignup = objEvent.Signups;
                 }
@@ -534,47 +585,47 @@ namespace DotNetNuke.Modules.Events
                 }
                 if (blEventSignup)
                 {
-                    pnlEnroll.Visible = true;
-                    chkSignups.Visible = true;
-                    lnkSelectedDelete.Visible = true;
-                    lnkSelectedEmail.Visible = true;
-                    if (_itemID != 0)
+                    this.pnlEnroll.Visible = true;
+                    this.chkSignups.Visible = true;
+                    this.lnkSelectedDelete.Visible = true;
+                    this.lnkSelectedEmail.Visible = true;
+                    if (this._itemID != 0)
                     {
-                        tblEventEmail.Attributes.Add("style", "display:block; width:100%");
+                        this.tblEventEmail.Attributes.Add("style", "display:block; width:100%");
                     }
                 }
 
                 // Check user has edit permissions to this event
-                if (IsEventEditor(objEvent, false))
-                {
-                }
+                if (this.IsEventEditor(objEvent, false))
+                { }
                 else
                 {
-                    Response.Redirect(GetSocialNavigateUrl(), true);
+                    this.Response.Redirect(this.GetSocialNavigateUrl(), true);
                 }
 
                 // Create an object to consolidate master/single data into - use master object for common data
-                EventRecurMasterInfo objEventData = default(EventRecurMasterInfo);
-                objEventData = _objCtlEventRecurMaster.EventsRecurMasterGet(objEvent.RecurMasterID, objEvent.ModuleID);
+                var objEventData = default(EventRecurMasterInfo);
+                objEventData =
+                    this._objCtlEventRecurMaster.EventsRecurMasterGet(objEvent.RecurMasterID, objEvent.ModuleID);
 
                 // Hide recurrences section, disable timezone change if it is a recurring event
                 // and we aren't editing the series
-                if (objEventData.RRULE != "" && !_editRecur)
+                if (objEventData.RRULE != "" && !this._editRecur)
                 {
-                    pnlRecurring.Visible = false;
-                    cboTimeZone.Enabled = false;
+                    this.pnlRecurring.Visible = false;
+                    this.cboTimeZone.Enabled = false;
                 }
 
                 // If we are editing single item, populate with single event data
-                if (!_editRecur)
+                if (!this._editRecur)
                 {
                     objEventData.Dtstart = objEvent.EventTimeBegin;
-                    objEventData.Duration = System.Convert.ToString(System.Convert.ToString(objEvent.Duration) + "M");
+                    objEventData.Duration = Convert.ToString(Convert.ToString(objEvent.Duration) + "M");
                     objEventData.Until = objEvent.EventTimeBegin;
                     objEventData.RRULE = "";
                     objEventData.EventName = objEvent.EventName;
                     objEventData.EventDesc = objEvent.EventDesc;
-                    objEventData.Importance = (EventRecurMasterInfo.Priority)objEvent.Importance;
+                    objEventData.Importance = (EventRecurMasterInfo.Priority) objEvent.Importance;
                     objEventData.Notify = objEvent.Notify;
                     objEventData.Approved = objEvent.Approved;
                     objEventData.Signups = objEvent.Signups;
@@ -611,126 +662,136 @@ namespace DotNetNuke.Modules.Events
                     objEventData.SocialUserID = objEvent.SocialUserId;
                     objEventData.Summary = objEvent.Summary;
                 }
-                int intDuration = 0;
+                var intDuration = 0;
                 intDuration = int.Parse(objEventData.Duration.Substring(0, objEventData.Duration.Length - 1));
-                txtTitle.Text = objEventData.EventName;
-                ftbDesktopText.Text = objEventData.EventDesc;
+                this.txtTitle.Text = objEventData.EventName;
+                this.ftbDesktopText.Text = objEventData.EventDesc;
 
                 // Set Dropdown to Original TimeZone w/ModuleID Settings TimeZone
-                cboTimeZone.DataBind(objEvent.EventTimeZoneId);
+                this.cboTimeZone.DataBind(objEvent.EventTimeZoneId);
 
                 // Set dates/times
-                dpStartDate.SelectedDate = objEventData.Dtstart.Date;
-                dpEndDate.SelectedDate = objEventData.Dtstart.AddMinutes(intDuration).Date;
-                dpRecurEndDate.SelectedDate = objEventData.Until;
+                this.dpStartDate.SelectedDate = objEventData.Dtstart.Date;
+                this.dpEndDate.SelectedDate = objEventData.Dtstart.AddMinutes(intDuration).Date;
+                this.dpRecurEndDate.SelectedDate = objEventData.Until;
 
                 // Adjust Time not in DropDown Selection...
-                DateTime starttime = objEventData.Dtstart;
+                var starttime = objEventData.Dtstart;
                 if (starttime.Minute % iInterval > 0)
                 {
-                    starttime = objEventData.Dtstart.Date.AddMinutes(System.Convert.ToDouble((objEventData.Dtstart.Hour * 60) + (starttime.Minute) - (starttime.Minute % iInterval)));
+                    starttime = objEventData.Dtstart.Date.AddMinutes(
+                        Convert.ToDouble(objEventData.Dtstart.Hour * 60 + starttime.Minute -
+                                         starttime.Minute % iInterval));
                 }
-                tpStartTime.SelectedDate = starttime;
+                this.tpStartTime.SelectedDate = starttime;
 
-                DateTime endtime = objEventData.Dtstart.AddMinutes(intDuration);
+                var endtime = objEventData.Dtstart.AddMinutes(intDuration);
                 if (endtime.Minute % iInterval > 0)
                 {
-                    endtime = System.Convert.ToDateTime(objEventData.Dtstart.AddMinutes(intDuration).Date.AddMinutes(System.Convert.ToDouble(System.Convert.ToInt32(objEventData.Dtstart.AddMinutes(intDuration).Hour * 60) + (endtime.Minute) - (endtime.Minute % iInterval))));
+                    endtime = Convert.ToDateTime(objEventData
+                                                     .Dtstart.AddMinutes(intDuration).Date
+                                                     .AddMinutes(
+                                                         Convert.ToDouble(
+                                                             Convert.ToInt32(
+                                                                 objEventData.Dtstart.AddMinutes(intDuration).Hour *
+                                                                 60) + endtime.Minute - endtime.Minute % iInterval)));
                 }
-                tpEndTime.SelectedDate = endtime;
+                this.tpEndTime.SelectedDate = endtime;
 
-                chkSignups.Checked = objEventData.Signups;
-                chkAllowAnonEnroll.Checked = objEventData.AllowAnonEnroll;
-                txtMaxEnrollment.Text = objEventData.MaxEnrollment.ToString();
-                txtEnrolled.Text = objEventData.Enrolled.ToString();
-                txtPayPalAccount.Text = objEventData.PayPalAccount.ToString();
+                this.chkSignups.Checked = objEventData.Signups;
+                this.chkAllowAnonEnroll.Checked = objEventData.AllowAnonEnroll;
+                this.txtMaxEnrollment.Text = objEventData.MaxEnrollment.ToString();
+                this.txtEnrolled.Text = objEventData.Enrolled.ToString();
+                this.txtPayPalAccount.Text = objEventData.PayPalAccount;
                 if (objEventData.EnrollType == "PAID")
                 {
-                    rblFree.Checked = false;
-                    rblPaid.Checked = true;
+                    this.rblFree.Checked = false;
+                    this.rblPaid.Checked = true;
                 }
                 else if (objEventData.EnrollType == "FREE")
                 {
-                    rblFree.Checked = true;
-                    rblPaid.Checked = false;
+                    this.rblFree.Checked = true;
+                    this.rblPaid.Checked = false;
                 }
 
-                txtEnrollFee.Text = string.Format("{0:F2}", objEventData.EnrollFee);
-                lblTotalCurrency.Text = PortalSettings.Currency;
+                this.txtEnrollFee.Text = string.Format("{0:F2}", objEventData.EnrollFee);
+                this.lblTotalCurrency.Text = this.PortalSettings.Currency;
 
                 if (blEventSignup)
                 {
                     // Load Enrolled User Grid
-                    BuildEnrolleeGrid(objEvent);
+                    this.BuildEnrolleeGrid(objEvent);
                 }
 
                 if (Information.IsNumeric(objEventData.EnrollRoleID))
                 {
-                    LoadEnrollRoles(objEventData.EnrollRoleID);
-                    LoadNewEventEmailRoles(objEventData.EnrollRoleID);
+                    this.LoadEnrollRoles(objEventData.EnrollRoleID);
+                    this.LoadNewEventEmailRoles(objEventData.EnrollRoleID);
                 }
                 else
                 {
-                    LoadEnrollRoles(-1);
-                    LoadNewEventEmailRoles(-1);
+                    this.LoadEnrollRoles(-1);
+                    this.LoadNewEventEmailRoles(-1);
                 }
 
-                LoadCategory(objEventData.Category);
-                LoadLocation(objEventData.Location);
-                LoadOwnerUsers(objEventData.OwnerID);
+                this.LoadCategory(objEventData.Category);
+                this.LoadLocation(objEventData.Location);
+                this.LoadOwnerUsers(objEventData.OwnerID);
 
-                cmbImportance.SelectedIndex = System.Convert.ToInt16(GetCmbStatus(objEventData.Importance, "cmbImportance"));
-                CreatedBy.Text = objEvent.CreatedBy;
-                CreatedDate.Text = objEventData.CreatedDate.ToShortDateString();
-                lblCreatedBy.Visible = true;
-                CreatedBy.Visible = true;
-                lblOn.Visible = true;
-                CreatedDate.Visible = true;
-                pnlAudit.Visible = true;
+                this.cmbImportance.SelectedIndex =
+                    Convert.ToInt16(this.GetCmbStatus(objEventData.Importance, "cmbImportance"));
+                this.CreatedBy.Text = objEvent.CreatedBy;
+                this.CreatedDate.Text = objEventData.CreatedDate.ToShortDateString();
+                this.lblCreatedBy.Visible = true;
+                this.CreatedBy.Visible = true;
+                this.lblOn.Visible = true;
+                this.CreatedDate.Visible = true;
+                this.pnlAudit.Visible = true;
 
-                EventRRULEInfo objEventRRULE = default(EventRRULEInfo);
-                objEventRRULE = _objCtlEventRecurMaster.DecomposeRRULE(objEventData.RRULE, objEventData.Dtstart);
-                string strRepeatType = _objCtlEventRecurMaster.RepeatType(objEventRRULE);
+                var objEventRRULE = default(EventRRULEInfo);
+                objEventRRULE = this._objCtlEventRecurMaster.DecomposeRRULE(objEventData.RRULE, objEventData.Dtstart);
+                var strRepeatType = this._objCtlEventRecurMaster.RepeatType(objEventRRULE);
 
                 switch (strRepeatType)
                 {
                     case "N":
-                        rblRepeatTypeN.Checked = true;
-                        cmbP1Period.SelectedIndex = 0;
+                        this.rblRepeatTypeN.Checked = true;
+                        this.cmbP1Period.SelectedIndex = 0;
                         break;
                     //txtP1Every.Text = "0"
                     case "P1":
-                        rblRepeatTypeP1.Checked = true;
-                        chkReccuring.Checked = true;
-                        cmbP1Period.SelectedIndex = System.Convert.ToInt16(GetCmbStatus(objEventRRULE.Freq.Substring(0, 1), "cmbP1Period"));
-                        txtP1Every.Text = objEventRRULE.Interval.ToString();
+                        this.rblRepeatTypeP1.Checked = true;
+                        this.chkReccuring.Checked = true;
+                        this.cmbP1Period.SelectedIndex =
+                            Convert.ToInt16(this.GetCmbStatus(objEventRRULE.Freq.Substring(0, 1), "cmbP1Period"));
+                        this.txtP1Every.Text = objEventRRULE.Interval.ToString();
                         break;
                     case "W1":
-                        rblRepeatTypeW1.Checked = true;
-                        chkReccuring.Checked = true;
-                        if (_culture.DateTimeFormat.FirstDayOfWeek == DayOfWeek.Sunday)
+                        this.rblRepeatTypeW1.Checked = true;
+                        this.chkReccuring.Checked = true;
+                        if (this._culture.DateTimeFormat.FirstDayOfWeek == DayOfWeek.Sunday)
                         {
-                            chkW1Sun.Checked = objEventRRULE.Su;
+                            this.chkW1Sun.Checked = objEventRRULE.Su;
                         }
                         else
                         {
-                            chkW1Sun2.Checked = objEventRRULE.Su;
+                            this.chkW1Sun2.Checked = objEventRRULE.Su;
                         }
-                        chkW1Mon.Checked = objEventRRULE.Mo;
-                        chkW1Tue.Checked = objEventRRULE.Tu;
-                        chkW1Wed.Checked = objEventRRULE.We;
-                        chkW1Thu.Checked = objEventRRULE.Th;
-                        chkW1Fri.Checked = objEventRRULE.Fr;
-                        chkW1Sat.Checked = objEventRRULE.Sa;
-                        txtW1Every.Text = objEventRRULE.Interval.ToString();
+                        this.chkW1Mon.Checked = objEventRRULE.Mo;
+                        this.chkW1Tue.Checked = objEventRRULE.Tu;
+                        this.chkW1Wed.Checked = objEventRRULE.We;
+                        this.chkW1Thu.Checked = objEventRRULE.Th;
+                        this.chkW1Fri.Checked = objEventRRULE.Fr;
+                        this.chkW1Sat.Checked = objEventRRULE.Sa;
+                        this.txtW1Every.Text = objEventRRULE.Interval.ToString();
                         break;
                     case "M1":
-                        rblRepeatTypeM1.Checked = true;
-                        rblRepeatTypeM.Checked = true;
-                        chkReccuring.Checked = true;
-                        txtMEvery.Text = objEventRRULE.Interval.ToString();
-                        int intEvery = 0;
-                        int intPeriod = 0;
+                        this.rblRepeatTypeM1.Checked = true;
+                        this.rblRepeatTypeM.Checked = true;
+                        this.chkReccuring.Checked = true;
+                        this.txtMEvery.Text = objEventRRULE.Interval.ToString();
+                        var intEvery = 0;
+                        var intPeriod = 0;
                         if (objEventRRULE.Su)
                         {
                             intPeriod = 0;
@@ -766,201 +827,269 @@ namespace DotNetNuke.Modules.Events
                             intPeriod = 6;
                             intEvery = objEventRRULE.SaNo;
                         }
-                        cmbM1Period.SelectedIndex = intPeriod;
+                        this.cmbM1Period.SelectedIndex = intPeriod;
                         if (intEvery == -1)
                         {
-                            cmbM1Every.SelectedIndex = 4;
+                            this.cmbM1Every.SelectedIndex = 4;
                         }
                         else
                         {
-                            cmbM1Every.SelectedIndex = intEvery - 1;
+                            this.cmbM1Every.SelectedIndex = intEvery - 1;
                         }
                         break;
                     case "M2":
-                        rblRepeatTypeM2.Checked = true;
-                        rblRepeatTypeM.Checked = true;
-                        chkReccuring.Checked = true;
-                        cmbM2Period.SelectedIndex = objEventRRULE.ByMonthDay - 1;
-                        txtMEvery.Text = objEventRRULE.Interval.ToString();
+                        this.rblRepeatTypeM2.Checked = true;
+                        this.rblRepeatTypeM.Checked = true;
+                        this.chkReccuring.Checked = true;
+                        this.cmbM2Period.SelectedIndex = objEventRRULE.ByMonthDay - 1;
+                        this.txtMEvery.Text = objEventRRULE.Interval.ToString();
                         break;
                     case "Y1":
-                        rblRepeatTypeY1.Checked = true;
-                        chkReccuring.Checked = true;
-                        CultureInfo invCulture = CultureInfo.InvariantCulture;
-                        DateTime annualdate = DateTime.ParseExact(Strings.Format(objEventData.Dtstart, "yyyy") + "/" + objEventRRULE.ByMonth.ToString() + "/" + objEventRRULE.ByMonthDay.ToString(), "yyyy/M/d", invCulture);
-                        dpY1Period.SelectedDate = annualdate.Date;
+                        this.rblRepeatTypeY1.Checked = true;
+                        this.chkReccuring.Checked = true;
+                        var invCulture = CultureInfo.InvariantCulture;
+                        var annualdate =
+                            DateTime.ParseExact(
+                                Strings.Format(objEventData.Dtstart, "yyyy") + "/" + objEventRRULE.ByMonth + "/" +
+                                objEventRRULE.ByMonthDay, "yyyy/M/d", invCulture);
+                        this.dpY1Period.SelectedDate = annualdate.Date;
                         break;
-
                 }
 
-                chkReminder.Checked = objEventData.SendReminder;
-                txtReminder.Text = objEventData.Reminder;
+                this.chkReminder.Checked = objEventData.SendReminder;
+                this.txtReminder.Text = objEventData.Reminder;
 
-                if (txtReminder.Text.Length == 0)
+                if (this.txtReminder.Text.Length == 0)
                 {
-                    txtReminder.Text = Settings.Templates.txtMessage;
+                    this.txtReminder.Text = this.Settings.Templates.txtMessage;
                 }
 
-                txtSubject.Text = objEventData.Notify;
-                if (txtSubject.Text.Length == 0)
+                this.txtSubject.Text = objEventData.Notify;
+                if (this.txtSubject.Text.Length == 0)
                 {
-                    txtSubject.Text = Settings.Templates.txtSubject;
+                    this.txtSubject.Text = this.Settings.Templates.txtSubject;
                 }
 
-                txtReminderFrom.Text = objEventData.ReminderFrom;
-                txtEventEmailFrom.Text = objEventData.ReminderFrom;
+                this.txtReminderFrom.Text = objEventData.ReminderFrom;
+                this.txtEventEmailFrom.Text = objEventData.ReminderFrom;
                 if (objEventData.ReminderTime < 0)
                 {
-                    txtReminderTime.Text = System.Convert.ToString(15.ToString());
+                    this.txtReminderTime.Text = Convert.ToString(15.ToString());
                 }
                 else
                 {
-                    txtReminderTime.Text = objEventData.ReminderTime.ToString();
+                    this.txtReminderTime.Text = objEventData.ReminderTime.ToString();
                 }
 
-                if (!ReferenceEquals(ddlReminderTimeMeasurement.Items.FindByValue(objEventData.ReminderTimeMeasurement.ToString()), null))
+                if (!ReferenceEquals(
+                        this.ddlReminderTimeMeasurement.Items.FindByValue(objEventData.ReminderTimeMeasurement), null))
                 {
-                    ddlReminderTimeMeasurement.ClearSelection();
-                    ddlReminderTimeMeasurement.Items.FindByValue(objEventData.ReminderTimeMeasurement.ToString()).Selected = true;
+                    this.ddlReminderTimeMeasurement.ClearSelection();
+                    this.ddlReminderTimeMeasurement.Items.FindByValue(objEventData.ReminderTimeMeasurement).Selected =
+                        true;
                 }
 
                 // Set DetailURL
-                chkDetailPage.Checked = objEventData.DetailPage;
-                URLDetail.Url = objEventData.DetailURL;
+                this.chkDetailPage.Checked = objEventData.DetailPage;
+                this.URLDetail.Url = objEventData.DetailURL;
 
 
                 // Set Image Control
-                chkDisplayImage.Checked = objEventData.ImageDisplay;
-                ctlURL.Url = objEventData.ImageURL;
+                this.chkDisplayImage.Checked = objEventData.ImageDisplay;
+                this.ctlURL.Url = objEventData.ImageURL;
                 if (objEventData.ImageURL.StartsWith("FileID="))
                 {
-                    int fileId = int.Parse(objEventData.ImageURL.Substring(7));
-                    Services.FileSystem.IFileInfo objFileInfo = Services.FileSystem.FileManager.Instance.GetFile(fileId);
+                    var fileId = int.Parse(objEventData.ImageURL.Substring(7));
+                    var objFileInfo = FileManager.Instance.GetFile(fileId);
                     if (!ReferenceEquals(objFileInfo, null))
                     {
-                        ctlURL.Url = objFileInfo.Folder + objFileInfo.FileName;
+                        this.ctlURL.Url = objFileInfo.Folder + objFileInfo.FileName;
                     }
                     else
                     {
-                        chkDisplayImage.Checked = false;
+                        this.chkDisplayImage.Checked = false;
                     }
                 }
 
-                if (objEventData.ImageWidth != 0 & objEventData.ImageWidth != -1)
+                if ((objEventData.ImageWidth != 0) & (objEventData.ImageWidth != -1))
                 {
-                    txtWidth.Text = objEventData.ImageWidth.ToString();
+                    this.txtWidth.Text = objEventData.ImageWidth.ToString();
                 }
 
-                if (objEventData.ImageHeight != 0 & objEventData.ImageHeight != -1)
+                if ((objEventData.ImageHeight != 0) & (objEventData.ImageHeight != -1))
                 {
-                    txtHeight.Text = objEventData.ImageHeight.ToString();
+                    this.txtHeight.Text = objEventData.ImageHeight.ToString();
                 }
-                txtCustomField1.Text = objEventData.CustomField1;
-                txtCustomField2.Text = objEventData.CustomField2;
-                chkEnrollListView.Checked = objEventData.EnrollListView;
-                chkDisplayEndDate.Checked = objEventData.DisplayEndDate;
-                chkAllDayEvent.Checked = objEventData.AllDayEvent;
-                ftbSummary.Text = objEventData.Summary;
+                this.txtCustomField1.Text = objEventData.CustomField1;
+                this.txtCustomField2.Text = objEventData.CustomField2;
+                this.chkEnrollListView.Checked = objEventData.EnrollListView;
+                this.chkDisplayEndDate.Checked = objEventData.DisplayEndDate;
+                this.chkAllDayEvent.Checked = objEventData.AllDayEvent;
+                this.ftbSummary.Text = objEventData.Summary;
 
                 if (blEventSignup)
                 {
-                    LoadRegUsers();
+                    this.LoadRegUsers();
                 }
-
             }
             else
             {
-                dpStartDate.SelectedDate = SelectedDate.Date;
-                dpEndDate.SelectedDate = SelectedDate.Date;
-                txtEnrollFee.Text = string.Format("{0:F2}", 0.0);
-                lblTotalCurrency.Text = PortalSettings.Currency;
-                dpRecurEndDate.SelectedDate = SelectedDate.AddDays(1);
-                dpY1Period.SelectedDate = SelectedDate.Date;
-                chkEnrollListView.Checked = Settings.Eventdefaultenrollview;
-                chkDisplayEndDate.Checked = true;
-                chkAllDayEvent.Checked = false;
+                this.dpStartDate.SelectedDate = this.SelectedDate.Date;
+                this.dpEndDate.SelectedDate = this.SelectedDate.Date;
+                this.txtEnrollFee.Text = string.Format("{0:F2}", 0.0);
+                this.lblTotalCurrency.Text = this.PortalSettings.Currency;
+                this.dpRecurEndDate.SelectedDate = this.SelectedDate.AddDays(1);
+                this.dpY1Period.SelectedDate = this.SelectedDate.Date;
+                this.chkEnrollListView.Checked = this.Settings.Eventdefaultenrollview;
+                this.chkDisplayEndDate.Checked = true;
+                this.chkAllDayEvent.Checked = false;
 
                 // Do not default recurrance end date
                 // Force user to key/select
-                LoadEnrollRoles(-1);
-                LoadNewEventEmailRoles(-1);
-                LoadCategory();
-                LoadLocation(-1);
-                LoadOwnerUsers(UserId);
-                pnlAudit.Visible = false;
-                deleteButton.Visible = false;
+                this.LoadEnrollRoles(-1);
+                this.LoadNewEventEmailRoles(-1);
+                this.LoadCategory();
+                this.LoadLocation(-1);
+                this.LoadOwnerUsers(this.UserId);
+                this.pnlAudit.Visible = false;
+                this.deleteButton.Visible = false;
             }
 
-            if (_itemID == -1 || _editRecur)
+            if (this._itemID == -1 || this._editRecur)
             {
-                divAddUser.Visible = false;
-                divNoEnrolees.Visible = false;
+                this.divAddUser.Visible = false;
+                this.divNoEnrolees.Visible = false;
             }
 
-            string errorminutes = Localization.GetString("invalidReminderMinutes", LocalResourceFile);
-            string errorhours = Localization.GetString("invalidReminderHours", LocalResourceFile);
-            string errordays = Localization.GetString("invalidReminderDays", LocalResourceFile);
-            ddlReminderTimeMeasurement.Attributes.Add("onchange", "valRemTime('" + valReminderTime.ClientID + "','" + valReminderTime2.ClientID + "','" + valReminderTime.ValidationGroup + "','" + ddlReminderTimeMeasurement.ClientID + "','" + errorminutes + "','" + errorhours + "','" + errordays + "');");
-            switch (ddlReminderTimeMeasurement.SelectedValue)
+            var errorminutes = Localization.GetString("invalidReminderMinutes", this.LocalResourceFile);
+            var errorhours = Localization.GetString("invalidReminderHours", this.LocalResourceFile);
+            var errordays = Localization.GetString("invalidReminderDays", this.LocalResourceFile);
+            this.ddlReminderTimeMeasurement.Attributes.Add(
+                "onchange",
+                "valRemTime('" + this.valReminderTime.ClientID + "','" + this.valReminderTime2.ClientID + "','" +
+                this.valReminderTime.ValidationGroup + "','" + this.ddlReminderTimeMeasurement.ClientID + "','" +
+                errorminutes + "','" + errorhours + "','" + errordays + "');");
+            switch (this.ddlReminderTimeMeasurement.SelectedValue)
             {
                 case "m":
-                    valReminderTime.ErrorMessage = errorminutes;
-                    valReminderTime.MinimumValue = "15";
-                    valReminderTime.MaximumValue = "60";
+                    this.valReminderTime.ErrorMessage = errorminutes;
+                    this.valReminderTime.MinimumValue = "15";
+                    this.valReminderTime.MaximumValue = "60";
                     break;
                 case "h":
-                    valReminderTime.ErrorMessage = errorhours;
-                    valReminderTime.MinimumValue = "1";
-                    valReminderTime.MaximumValue = "24";
+                    this.valReminderTime.ErrorMessage = errorhours;
+                    this.valReminderTime.MinimumValue = "1";
+                    this.valReminderTime.MaximumValue = "24";
                     break;
                 case "d":
-                    valReminderTime.ErrorMessage = errordays;
-                    valReminderTime.MinimumValue = "1";
-                    valReminderTime.MaximumValue = "30";
+                    this.valReminderTime.ErrorMessage = errordays;
+                    this.valReminderTime.MinimumValue = "1";
+                    this.valReminderTime.MaximumValue = "30";
                     break;
             }
-            valReminderTime2.ErrorMessage = valReminderTime.ErrorMessage;
+            this.valReminderTime2.ErrorMessage = this.valReminderTime.ErrorMessage;
 
-            if (txtPayPalAccount.Text.Length == 0)
+            if (this.txtPayPalAccount.Text.Length == 0)
             {
-                txtPayPalAccount.Text = Settings.Paypalaccount;
+                this.txtPayPalAccount.Text = this.Settings.Paypalaccount;
             }
 
-            trCustomField1.Visible = Settings.EventsCustomField1;
-            trCustomField2.Visible = Settings.EventsCustomField2;
+            this.trCustomField1.Visible = this.Settings.EventsCustomField1;
+            this.trCustomField2.Visible = this.Settings.EventsCustomField2;
 
-            trTimeZone.Visible = Settings.Tzdisplay;
+            this.trTimeZone.Visible = this.Settings.Tzdisplay;
 
-            chkDetailPage.Attributes.Add("onclick", "javascript:showTbl('" + chkDetailPage.ClientID + "','" + tblDetailPageDetail.ClientID + "');");
-            chkReminder.Attributes.Add("onclick", "javascript:showTbl('" + chkReminder.ClientID + "','" + tblReminderDetail.ClientID + "');");
-            chkDisplayImage.Attributes.Add("onclick", "javascript:showTbl('" + chkDisplayImage.ClientID + "','" + tblImageURL.ClientID + "');");
-            chkReccuring.Attributes.Add("onclick", "javascript:if (this.checked == true) dnn.dom.getById('" + rblRepeatTypeP1.ClientID + "').checked = true; else dnn.dom.getById('" + rblRepeatTypeN.ClientID + "').checked = true;showhideTbls('" + RecurTableDisplayType + "','" + chkReccuring.ClientID + "','" + tblRecurringDetails.ClientID + "','" + rblRepeatTypeP1.ClientID + "','" + tblDetailP1.ClientID + "','" + rblRepeatTypeW1.ClientID + "','" + tblDetailW1.ClientID + "','" + rblRepeatTypeM.ClientID + "','" + tblDetailM1.ClientID + "','" + rblRepeatTypeY1.ClientID + "','" + tblDetailY1.ClientID + "');");
-            if (Settings.Eventsignup)
+            this.chkDetailPage.Attributes.Add(
+                "onclick",
+                "javascript:showTbl('" + this.chkDetailPage.ClientID + "','" + this.tblDetailPageDetail.ClientID +
+                "');");
+            this.chkReminder.Attributes.Add(
+                "onclick",
+                "javascript:showTbl('" + this.chkReminder.ClientID + "','" + this.tblReminderDetail.ClientID +
+                "');");
+            this.chkDisplayImage.Attributes.Add(
+                "onclick",
+                "javascript:showTbl('" + this.chkDisplayImage.ClientID + "','" + this.tblImageURL.ClientID +
+                "');");
+            this.chkReccuring.Attributes.Add(
+                "onclick",
+                "javascript:if (this.checked == true) dnn.dom.getById('" + this.rblRepeatTypeP1.ClientID +
+                "').checked = true; else dnn.dom.getById('" + this.rblRepeatTypeN.ClientID +
+                "').checked = true;showhideTbls('" + RecurTableDisplayType + "','" + this.chkReccuring.ClientID +
+                "','" + this.tblRecurringDetails.ClientID + "','" + this.rblRepeatTypeP1.ClientID + "','" +
+                this.tblDetailP1.ClientID + "','" + this.rblRepeatTypeW1.ClientID + "','" +
+                this.tblDetailW1.ClientID + "','" + this.rblRepeatTypeM.ClientID + "','" +
+                this.tblDetailM1.ClientID + "','" + this.rblRepeatTypeY1.ClientID + "','" +
+                this.tblDetailY1.ClientID + "');");
+            if (this.Settings.Eventsignup)
             {
-                chkEventEmailChk.Attributes.Add("onclick", "javascript:showhideChk2('" + chkEventEmailChk.ClientID + "','" + tblEventEmailRoleDetail.ClientID + "','" + chkSignups.ClientID + "','" + tblEventEmail.ClientID + "');");
+                this.chkEventEmailChk.Attributes.Add(
+                    "onclick",
+                    "javascript:showhideChk2('" + this.chkEventEmailChk.ClientID + "','" +
+                    this.tblEventEmailRoleDetail.ClientID + "','" + this.chkSignups.ClientID + "','" +
+                    this.tblEventEmail.ClientID + "');");
             }
             else
             {
-                chkEventEmailChk.Attributes.Add("onclick", "javascript:showhideChk2('" + chkEventEmailChk.ClientID + "','" + tblEventEmailRoleDetail.ClientID + "','" + chkEventEmailChk.ClientID + "','" + tblEventEmail.ClientID + "');");
+                this.chkEventEmailChk.Attributes.Add(
+                    "onclick",
+                    "javascript:showhideChk2('" + this.chkEventEmailChk.ClientID + "','" +
+                    this.tblEventEmailRoleDetail.ClientID + "','" + this.chkEventEmailChk.ClientID + "','" +
+                    this.tblEventEmail.ClientID + "');");
             }
-            rblRepeatTypeP1.Attributes.Add("onclick", "javascript:showhideTbls('" + RecurTableDisplayType + "','" + chkReccuring.ClientID + "','" + tblRecurringDetails.ClientID + "','" + rblRepeatTypeP1.ClientID + "','" + tblDetailP1.ClientID + "','" + rblRepeatTypeW1.ClientID + "','" + tblDetailW1.ClientID + "','" + rblRepeatTypeM.ClientID + "','" + tblDetailM1.ClientID + "','" + rblRepeatTypeY1.ClientID + "','" + tblDetailY1.ClientID + "');");
-            rblRepeatTypeW1.Attributes.Add("onclick", "javascript:showhideTbls('" + RecurTableDisplayType + "','" + chkReccuring.ClientID + "','" + tblRecurringDetails.ClientID + "','" + rblRepeatTypeP1.ClientID + "','" + tblDetailP1.ClientID + "','" + rblRepeatTypeW1.ClientID + "','" + tblDetailW1.ClientID + "','" + rblRepeatTypeM.ClientID + "','" + tblDetailM1.ClientID + "','" + rblRepeatTypeY1.ClientID + "','" + tblDetailY1.ClientID + "');");
-            rblRepeatTypeM.Attributes.Add("onclick", "javascript:showhideTbls('" + RecurTableDisplayType + "','" + chkReccuring.ClientID + "','" + tblRecurringDetails.ClientID + "','" + rblRepeatTypeP1.ClientID + "','" + tblDetailP1.ClientID + "','" + rblRepeatTypeW1.ClientID + "','" + tblDetailW1.ClientID + "','" + rblRepeatTypeM.ClientID + "','" + tblDetailM1.ClientID + "','" + rblRepeatTypeY1.ClientID + "','" + tblDetailY1.ClientID + "');if (this.checked == true) dnn.dom.getById('" + rblRepeatTypeM1.ClientID + "').checked = true;");
-            rblRepeatTypeY1.Attributes.Add("onclick", "javascript:showhideTbls('" + RecurTableDisplayType + "','" + chkReccuring.ClientID + "','" + tblRecurringDetails.ClientID + "','" + rblRepeatTypeP1.ClientID + "','" + tblDetailP1.ClientID + "','" + rblRepeatTypeW1.ClientID + "','" + tblDetailW1.ClientID + "','" + rblRepeatTypeM.ClientID + "','" + tblDetailM1.ClientID + "','" + rblRepeatTypeY1.ClientID + "','" + tblDetailY1.ClientID + "');");
-            btnCopyStartdate.Attributes.Add("onclick", string.Format("javascript:CopyStartDateToEnddate('{0}','{1}','{2}','{3}','{4}');", dpStartDate.ClientID, dpEndDate.ClientID, tpStartTime.ClientID, tpEndTime.ClientID, chkAllDayEvent.ClientID));
-            chkAllDayEvent.Attributes.Add("onclick", "javascript:showTimes('" + chkAllDayEvent.ClientID + "','" + divStartTime.ClientID + "','" + divEndTime.ClientID + "');");
-
+            this.rblRepeatTypeP1.Attributes.Add(
+                "onclick",
+                "javascript:showhideTbls('" + RecurTableDisplayType + "','" + this.chkReccuring.ClientID + "','" +
+                this.tblRecurringDetails.ClientID + "','" + this.rblRepeatTypeP1.ClientID + "','" +
+                this.tblDetailP1.ClientID + "','" + this.rblRepeatTypeW1.ClientID + "','" +
+                this.tblDetailW1.ClientID + "','" + this.rblRepeatTypeM.ClientID + "','" +
+                this.tblDetailM1.ClientID + "','" + this.rblRepeatTypeY1.ClientID + "','" +
+                this.tblDetailY1.ClientID + "');");
+            this.rblRepeatTypeW1.Attributes.Add(
+                "onclick",
+                "javascript:showhideTbls('" + RecurTableDisplayType + "','" + this.chkReccuring.ClientID + "','" +
+                this.tblRecurringDetails.ClientID + "','" + this.rblRepeatTypeP1.ClientID + "','" +
+                this.tblDetailP1.ClientID + "','" + this.rblRepeatTypeW1.ClientID + "','" +
+                this.tblDetailW1.ClientID + "','" + this.rblRepeatTypeM.ClientID + "','" +
+                this.tblDetailM1.ClientID + "','" + this.rblRepeatTypeY1.ClientID + "','" +
+                this.tblDetailY1.ClientID + "');");
+            this.rblRepeatTypeM.Attributes.Add(
+                "onclick",
+                "javascript:showhideTbls('" + RecurTableDisplayType + "','" + this.chkReccuring.ClientID + "','" +
+                this.tblRecurringDetails.ClientID + "','" + this.rblRepeatTypeP1.ClientID + "','" +
+                this.tblDetailP1.ClientID + "','" + this.rblRepeatTypeW1.ClientID + "','" +
+                this.tblDetailW1.ClientID + "','" + this.rblRepeatTypeM.ClientID + "','" +
+                this.tblDetailM1.ClientID + "','" + this.rblRepeatTypeY1.ClientID + "','" +
+                this.tblDetailY1.ClientID + "');if (this.checked == true) dnn.dom.getById('" +
+                this.rblRepeatTypeM1.ClientID + "').checked = true;");
+            this.rblRepeatTypeY1.Attributes.Add(
+                "onclick",
+                "javascript:showhideTbls('" + RecurTableDisplayType + "','" + this.chkReccuring.ClientID + "','" +
+                this.tblRecurringDetails.ClientID + "','" + this.rblRepeatTypeP1.ClientID + "','" +
+                this.tblDetailP1.ClientID + "','" + this.rblRepeatTypeW1.ClientID + "','" +
+                this.tblDetailW1.ClientID + "','" + this.rblRepeatTypeM.ClientID + "','" +
+                this.tblDetailM1.ClientID + "','" + this.rblRepeatTypeY1.ClientID + "','" +
+                this.tblDetailY1.ClientID + "');");
+            this.btnCopyStartdate.Attributes.Add(
+                "onclick",
+                string.Format("javascript:CopyStartDateToEnddate('{0}','{1}','{2}','{3}','{4}');",
+                              this.dpStartDate.ClientID, this.dpEndDate.ClientID, this.tpStartTime.ClientID,
+                              this.tpEndTime.ClientID, this.chkAllDayEvent.ClientID));
+            this.chkAllDayEvent.Attributes.Add(
+                "onclick",
+                "javascript:showTimes('" + this.chkAllDayEvent.ClientID + "','" + this.divStartTime.ClientID +
+                "','" + this.divEndTime.ClientID + "');");
         }
 
         public long GetCmbStatus(object value, string cmbDropDown)
         {
-            int iIndex = 0;
-            DropDownList oDropDown = default(DropDownList);
+            var iIndex = 0;
+            var oDropDown = default(DropDownList);
 
-            oDropDown = (DropDownList)(FindControl(cmbDropDown));
+            oDropDown = (DropDownList) this.FindControl(cmbDropDown);
             for (iIndex = 0; iIndex <= oDropDown.Items.Count - 1; iIndex++)
             {
-                if (oDropDown.Items[iIndex].Value == System.Convert.ToString(value))
+                if (oDropDown.Items[iIndex].Value == Convert.ToString(value))
                 {
                     return iIndex;
                 }
@@ -970,61 +1099,66 @@ namespace DotNetNuke.Modules.Events
 
         public void LoadEnrollRoles(int roleID)
         {
-            RoleController objRoles = new RoleController();
-            ddEnrollRoles.DataSource = objRoles.GetPortalRoles(PortalId);
-            ddEnrollRoles.DataTextField = "RoleName";
-            ddEnrollRoles.DataValueField = "RoleID";
-            ddEnrollRoles.DataBind();
+            var objRoles = new RoleController();
+            this.ddEnrollRoles.DataSource = objRoles.GetPortalRoles(this.PortalId);
+            this.ddEnrollRoles.DataTextField = "RoleName";
+            this.ddEnrollRoles.DataValueField = "RoleID";
+            this.ddEnrollRoles.DataBind();
             //"<None Specified>"
-            ddEnrollRoles.Items.Insert(0, new ListItem(Localization.GetString("None", LocalResourceFile), "-1"));
+            this.ddEnrollRoles.Items.Insert(
+                0, new ListItem(Localization.GetString("None", this.LocalResourceFile), "-1"));
             if (roleID == 0)
             {
-                ddEnrollRoles.Items.FindByValue("0").Selected = true;
+                this.ddEnrollRoles.Items.FindByValue("0").Selected = true;
             }
             else if (roleID > 0)
             {
-                if (ReferenceEquals(ddEnrollRoles.Items.FindByValue(System.Convert.ToString(roleID)), null))
+                if (ReferenceEquals(this.ddEnrollRoles.Items.FindByValue(Convert.ToString(roleID)), null))
                 {
-                    ddEnrollRoles.Items.Insert(0, new ListItem(Localization.GetString("EnrolleeRoleDeleted", LocalResourceFile), roleID.ToString()));
+                    this.ddEnrollRoles.Items.Insert(
+                        0,
+                        new ListItem(Localization.GetString("EnrolleeRoleDeleted", this.LocalResourceFile),
+                                     roleID.ToString()));
                 }
-                ddEnrollRoles.Items.FindByValue(System.Convert.ToString(roleID)).Selected = true;
+                this.ddEnrollRoles.Items.FindByValue(Convert.ToString(roleID)).Selected = true;
             }
         }
 
         public void LoadNewEventEmailRoles(int roleID)
         {
-            RoleController objRoles = new RoleController();
-            ddEventEmailRoles.DataSource = objRoles.GetPortalRoles(PortalId);
-            ddEventEmailRoles.DataTextField = "RoleName";
-            ddEventEmailRoles.DataValueField = "RoleID";
-            ddEventEmailRoles.DataBind();
-            if (roleID < 0 || ReferenceEquals(ddEventEmailRoles.Items.FindByValue(System.Convert.ToString(roleID)), null))
+            var objRoles = new RoleController();
+            this.ddEventEmailRoles.DataSource = objRoles.GetPortalRoles(this.PortalId);
+            this.ddEventEmailRoles.DataTextField = "RoleName";
+            this.ddEventEmailRoles.DataValueField = "RoleID";
+            this.ddEventEmailRoles.DataBind();
+            if (roleID < 0 || ReferenceEquals(this.ddEventEmailRoles.Items.FindByValue(Convert.ToString(roleID)), null))
             {
                 try
                 {
-                    ddEventEmailRoles.Items.FindByValue(PortalSettings.RegisteredRoleId.ToString()).Selected = true;
+                    this.ddEventEmailRoles.Items.FindByValue(this.PortalSettings.RegisteredRoleId.ToString()).Selected =
+                        true;
                 }
                 catch
-                {
-                }
+                { }
             }
             else
             {
-                ddEventEmailRoles.Items.FindByValue(System.Convert.ToString(roleID)).Selected = true;
+                this.ddEventEmailRoles.Items.FindByValue(Convert.ToString(roleID)).Selected = true;
             }
         }
 
         public void LoadCategory(int category = default(int))
         {
-            EventCategoryController objCntCategories = new EventCategoryController();
-            ArrayList tmpCategories = objCntCategories.EventsCategoryList(PortalId);
-            ArrayList objCategories = new ArrayList();
-            if ((Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay & Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.Some)
-                || Settings.Restrictcategories)
+            var objCntCategories = new EventCategoryController();
+            var tmpCategories = objCntCategories.EventsCategoryList(this.PortalId);
+            var objCategories = new ArrayList();
+            if ((this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay) &
+                (this.Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.Some)
+                || this.Settings.Restrictcategories)
             {
                 foreach (EventCategoryInfo objCategory in tmpCategories)
                 {
-                    foreach (int moduleCategory in Settings.ModuleCategoryIDs)
+                    foreach (int moduleCategory in this.Settings.ModuleCategoryIDs)
                     {
                         if (moduleCategory == objCategory.Category)
                         {
@@ -1037,66 +1171,70 @@ namespace DotNetNuke.Modules.Events
             {
                 objCategories = tmpCategories;
             }
-            cmbCategory.DataSource = objCategories;
-            cmbCategory.DataTextField = "CategoryName";
-            cmbCategory.DataValueField = "Category";
-            cmbCategory.DataBind();
+            this.cmbCategory.DataSource = objCategories;
+            this.cmbCategory.DataTextField = "CategoryName";
+            this.cmbCategory.DataValueField = "Category";
+            this.cmbCategory.DataBind();
 
             // Do we need to add None
-            if ((!(Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay) | Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.All)
-                && Settings.Restrictcategories == false)
+            if (!(this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay) |
+                (this.Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.All)
+                && this.Settings.Restrictcategories == false)
             {
-                cmbCategory.Items.Insert(0, new ListItem(Localization.GetString("None", LocalResourceFile), "-1"));
+                this.cmbCategory.Items.Insert(
+                    0, new ListItem(Localization.GetString("None", this.LocalResourceFile), "-1"));
             }
 
             // Select the appropriate row
-            if (Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.All)
+            if (this.Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.All)
             {
-                cmbCategory.ClearSelection();
-                cmbCategory.Items[0].Selected = true;
+                this.cmbCategory.ClearSelection();
+                this.cmbCategory.Items[0].Selected = true;
             }
 
-            if ((category > 0) && !ReferenceEquals(category, null))
+            if (category > 0 && !ReferenceEquals(category, null))
             {
-                cmbCategory.ClearSelection();
-                cmbCategory.Items.FindByValue(System.Convert.ToString(category)).Selected = true;
+                this.cmbCategory.ClearSelection();
+                this.cmbCategory.Items.FindByValue(Convert.ToString(category)).Selected = true;
             }
-            else if (!(Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay) & Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.Some)
+            else if (!(this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay) &
+                     (this.Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.Some))
             {
-                cmbCategory.ClearSelection();
-                cmbCategory.Items.FindByValue(System.Convert.ToString(Settings.ModuleCategoryIDs[0])).Selected = true;
+                this.cmbCategory.ClearSelection();
+                this.cmbCategory.Items.FindByValue(Convert.ToString(this.Settings.ModuleCategoryIDs[0])).Selected =
+                    true;
             }
-
         }
 
         public void LoadLocation(int location)
         {
-            EventLocationController objCntLocation = new EventLocationController();
-            cmbLocation.DataSource = objCntLocation.EventsLocationList(PortalId);
-            cmbLocation.DataTextField = "LocationName";
-            cmbLocation.DataValueField = "Location";
-            cmbLocation.DataBind();
+            var objCntLocation = new EventLocationController();
+            this.cmbLocation.DataSource = objCntLocation.EventsLocationList(this.PortalId);
+            this.cmbLocation.DataTextField = "LocationName";
+            this.cmbLocation.DataValueField = "Location";
+            this.cmbLocation.DataBind();
             //"<None Specified>"
-            cmbLocation.Items.Insert(0, new ListItem(Localization.GetString("None", LocalResourceFile), "-1"));
-            if ((location > 0) && !ReferenceEquals(location, null))
+            this.cmbLocation.Items.Insert(
+                0, new ListItem(Localization.GetString("None", this.LocalResourceFile), "-1"));
+            if (location > 0 && !ReferenceEquals(location, null))
             {
-                cmbLocation.Items.FindByValue(System.Convert.ToString(location)).Selected = true;
+                this.cmbLocation.Items.FindByValue(Convert.ToString(location)).Selected = true;
             }
         }
 
         private void LoadOwnerUsers(int ownerID)
         {
-            ModulePermissionCollection objCollModulePermission = default(ModulePermissionCollection);
-            objCollModulePermission = ModulePermissionController.GetModulePermissions(ModuleId, TabId);
-            ModulePermissionInfo objModulePermission = default(ModulePermissionInfo);
+            var objCollModulePermission = default(ModulePermissionCollection);
+            objCollModulePermission = ModulePermissionController.GetModulePermissions(this.ModuleId, this.TabId);
+            var objModulePermission = default(ModulePermissionInfo);
 
             // To cope with host users or someone who is no longer an editor!!
-            EventUser objEventModuleEditor = new EventUser();
+            var objEventModuleEditor = new EventUser();
             objEventModuleEditor.UserID = ownerID;
-            LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
+            this.LoadSingleUser(objEventModuleEditor, this._lstOwnerUsers);
 
-            if ((IsModerator() && Settings.Ownerchangeallowed) ||
-                PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()))
+            if (this.IsModerator() && this.Settings.Ownerchangeallowed ||
+                PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
             {
                 foreach (ModulePermissionInfo tempLoopVar_objModulePermission in objCollModulePermission)
                 {
@@ -1105,14 +1243,15 @@ namespace DotNetNuke.Modules.Events
                     {
                         if (objModulePermission.UserID < 0)
                         {
-                            RoleController objCtlRole = new RoleController();
-                            ArrayList lstRoleUsers = objCtlRole.GetUsersByRoleName(PortalId, objModulePermission.RoleName);
+                            var objCtlRole = new RoleController();
+                            var lstRoleUsers =
+                                objCtlRole.GetUsersByRoleName(this.PortalId, objModulePermission.RoleName);
                             foreach (UserInfo objUser in lstRoleUsers)
                             {
                                 objEventModuleEditor = new EventUser();
                                 objEventModuleEditor.UserID = objUser.UserID;
                                 objEventModuleEditor.DisplayName = objUser.DisplayName;
-                                LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
+                                this.LoadSingleUser(objEventModuleEditor, this._lstOwnerUsers);
                             }
                         }
                         else
@@ -1120,29 +1259,29 @@ namespace DotNetNuke.Modules.Events
                             objEventModuleEditor = new EventUser();
                             objEventModuleEditor.UserID = objModulePermission.UserID;
                             objEventModuleEditor.DisplayName = objModulePermission.DisplayName;
-                            LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
+                            this.LoadSingleUser(objEventModuleEditor, this._lstOwnerUsers);
                         }
                     }
                 }
             }
-            _lstOwnerUsers.Sort(new UserListSort());
+            this._lstOwnerUsers.Sort(new UserListSort());
 
-            cmbOwner.DataSource = _lstOwnerUsers;
-            cmbOwner.DataTextField = "DisplayName";
-            cmbOwner.DataValueField = "UserID";
-            cmbOwner.DataBind();
-            cmbOwner.Items.FindByValue(System.Convert.ToString(ownerID)).Selected = true;
+            this.cmbOwner.DataSource = this._lstOwnerUsers;
+            this.cmbOwner.DataTextField = "DisplayName";
+            this.cmbOwner.DataValueField = "UserID";
+            this.cmbOwner.DataBind();
+            this.cmbOwner.Items.FindByValue(Convert.ToString(ownerID)).Selected = true;
         }
 
         private void LoadRegUsers()
         {
-            grdAddUser.RefreshGrid();
+            this.grdAddUser.RefreshGrid();
         }
 
         private void LoadSingleUser(EventUser objEventUser, ArrayList lstUsers)
         {
-            bool blAdd = true;
-            EventUser objEventUser2 = default(EventUser);
+            var blAdd = true;
+            var objEventUser2 = default(EventUser);
             foreach (EventUser tempLoopVar_objEventUser2 in lstUsers)
             {
                 objEventUser2 = tempLoopVar_objEventUser2;
@@ -1155,17 +1294,16 @@ namespace DotNetNuke.Modules.Events
             {
                 if (objEventUser.DisplayName == null)
                 {
-                    UserController objCtlUser = new UserController();
-                    UserInfo objUser = objCtlUser.GetUser(PortalId, objEventUser.UserID);
+                    var objCtlUser = new UserController();
+                    var objUser = objCtlUser.GetUser(this.PortalId, objEventUser.UserID);
                     if (!ReferenceEquals(objUser, null))
                     {
                         objEventUser.DisplayName = objUser.DisplayName;
                     }
                     else
                     {
-                        objEventUser.DisplayName = Localization.GetString("OwnerDeleted", LocalResourceFile);
+                        objEventUser.DisplayName = Localization.GetString("OwnerDeleted", this.LocalResourceFile);
                     }
-
                 }
                 lstUsers.Add(objEventUser);
             }
@@ -1173,30 +1311,33 @@ namespace DotNetNuke.Modules.Events
 
         private void Email(bool selected)
         {
-            DataGridItem item = default(DataGridItem);
-            EventSignupsInfo objEnroll = default(EventSignupsInfo);
-            EventInfo objEvent = default(EventInfo);
+            var item = default(DataGridItem);
+            var objEnroll = default(EventSignupsInfo);
+            var objEvent = default(EventInfo);
             // Get Current Event, if <> 0
-            if (_itemID > 0)
+            if (this._itemID > 0)
             {
-                objEvent = _objCtlEvent.EventsGet(_itemID, ModuleId);
+                objEvent = this._objCtlEvent.EventsGet(this._itemID, this.ModuleId);
             }
             else
             {
                 return;
             }
 
-            EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-            EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
-            objEventEmailInfo.TxtEmailSubject = txtEventEmailSubject.Text;
-            objEventEmailInfo.TxtEmailBody = txtEventEmailBody.Text;
-            objEventEmailInfo.TxtEmailFrom = txtEventEmailFrom.Text;
-            foreach (DataGridItem tempLoopVar_item in grdEnrollment.Items)
+            var objEventEmailInfo = new EventEmailInfo();
+            var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                ((PageBase) this.Page).PageCulture.Name);
+            objEventEmailInfo.TxtEmailSubject = this.txtEventEmailSubject.Text;
+            objEventEmailInfo.TxtEmailBody = this.txtEventEmailBody.Text;
+            objEventEmailInfo.TxtEmailFrom = this.txtEventEmailFrom.Text;
+            foreach (DataGridItem tempLoopVar_item in this.grdEnrollment.Items)
             {
                 item = tempLoopVar_item;
-                if (((CheckBox)(item.FindControl("chkSelect"))).Checked || (selected == false))
+                if (((CheckBox) item.FindControl("chkSelect")).Checked || selected == false)
                 {
-                    objEnroll = _objCtlEventSignups.EventsSignupsGet(System.Convert.ToInt32(grdEnrollment.DataKeys[item.ItemIndex]), ModuleId, false);
+                    objEnroll = this._objCtlEventSignups.EventsSignupsGet(
+                        Convert.ToInt32(this.grdEnrollment.DataKeys[item.ItemIndex]), this.ModuleId,
+                        false);
                     objEventEmailInfo.UserIDs.Clear();
                     objEventEmailInfo.UserEmails.Clear();
                     objEventEmailInfo.UserLocales.Clear();
@@ -1218,112 +1359,122 @@ namespace DotNetNuke.Modules.Events
 
         private void UpdateProcessing(int processItem)
         {
-            if (!Page.IsValid)
+            if (!this.Page.IsValid)
             {
                 return;
             }
 
-            PortalSecurity objSecurity = new PortalSecurity();
-            DateTime tStartTime = default(DateTime);
-            DateTime tEndTime = default(DateTime);
-            DateTime tRecurEndDate = default(DateTime);
-            EventInfoHelper objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
+            var objSecurity = new PortalSecurity();
+            var tStartTime = default(DateTime);
+            var tEndTime = default(DateTime);
+            var tRecurEndDate = default(DateTime);
+            var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
 
             // Make EndDate = StartDate if no recurring dates
-            if (rblRepeatTypeN.Checked)
+            if (this.rblRepeatTypeN.Checked)
             {
-                dpRecurEndDate.SelectedDate = ConvertDateStringstoDatetime(dpStartDate.SelectedDate.ToString(), "00:00").Date;
+                this.dpRecurEndDate.SelectedDate = this
+                    .ConvertDateStringstoDatetime(this.dpStartDate.SelectedDate.ToString(), "00:00").Date;
             }
 
-            valRequiredRecurEndDate.Validate();
+            this.valRequiredRecurEndDate.Validate();
 
             // Make sure date formatted correctly
-            if (chkAllDayEvent.Checked)
+            if (this.chkAllDayEvent.Checked)
             {
-                tStartTime = ConvertDateStringstoDatetime(dpStartDate.SelectedDate.ToString(), "00:00");
-                tEndTime = System.Convert.ToDateTime(ConvertDateStringstoDatetime(dpEndDate.SelectedDate.ToString(), "00:00").AddMinutes(1439));
+                tStartTime = this.ConvertDateStringstoDatetime(this.dpStartDate.SelectedDate.ToString(), "00:00");
+                tEndTime = Convert.ToDateTime(
+                    this.ConvertDateStringstoDatetime(this.dpEndDate.SelectedDate.ToString(), "00:00")
+                        .AddMinutes(1439));
             }
             else
             {
-                tStartTime = ConvertDateStringstoDatetime(dpStartDate.SelectedDate.ToString(), System.Convert.ToString((System.Convert.ToDateTime(tpStartTime.SelectedDate)).ToString("HH:mm", CultureInfo.InvariantCulture)));
-                tEndTime = ConvertDateStringstoDatetime(dpEndDate.SelectedDate.ToString(), System.Convert.ToString((System.Convert.ToDateTime(tpEndTime.SelectedDate)).ToString("HH:mm", CultureInfo.InvariantCulture)));
+                tStartTime =
+                    this.ConvertDateStringstoDatetime(this.dpStartDate.SelectedDate.ToString(),
+                                                      Convert.ToString(
+                                                          Convert.ToDateTime(this.tpStartTime.SelectedDate)
+                                                                 .ToString("HH:mm", CultureInfo.InvariantCulture)));
+                tEndTime = this.ConvertDateStringstoDatetime(this.dpEndDate.SelectedDate.ToString(),
+                                                             Convert.ToString(
+                                                                 Convert.ToDateTime(this.tpEndTime.SelectedDate)
+                                                                        .ToString(
+                                                                            "HH:mm", CultureInfo.InvariantCulture)));
             }
 
-            if (tEndTime < tStartTime && !chkAllDayEvent.Checked)
+            if (tEndTime < tStartTime && !this.chkAllDayEvent.Checked)
             {
-                valValidEndTime.ErrorMessage = Localization.GetString("valValidEndTime", LocalResourceFile);
-                valValidEndTime.IsValid = false;
-                valValidEndTime.Visible = true;
+                this.valValidEndTime.ErrorMessage = Localization.GetString("valValidEndTime", this.LocalResourceFile);
+                this.valValidEndTime.IsValid = false;
+                this.valValidEndTime.Visible = true;
                 return;
             }
 
-            tRecurEndDate = System.Convert.ToDateTime(dpRecurEndDate.SelectedDate);
+            tRecurEndDate = Convert.ToDateTime(this.dpRecurEndDate.SelectedDate);
 
-            if (rblRepeatTypeP1.Checked)
+            if (this.rblRepeatTypeP1.Checked)
             {
-                valP1Every.Validate();
-                valP1Every2.Validate();
-                if (valP1Every.IsValid == false || valP1Every2.IsValid == false)
+                this.valP1Every.Validate();
+                this.valP1Every2.Validate();
+                if (this.valP1Every.IsValid == false || this.valP1Every2.IsValid == false)
+                {
+                    return;
+                }
+            }
+
+            if (this.rblRepeatTypeW1.Checked)
+            {
+                this.valW1Day.Validate();
+                this.valW1Day2.Validate();
+                if (this.chkW1Sun.Checked == false && this.chkW1Sun2.Checked == false &&
+                    this.chkW1Mon.Checked == false && this.chkW1Tue.Checked == false &&
+                    this.chkW1Wed.Checked == false && this.chkW1Thu.Checked == false &&
+                    this.chkW1Fri.Checked == false && this.chkW1Sat.Checked == false)
+                {
+                    this.valW1Day3.ErrorMessage = Localization.GetString("valW1Day3", this.LocalResourceFile);
+                    this.valW1Day3.Text = Localization.GetString("valW1Day3", this.LocalResourceFile);
+                    this.valW1Day3.IsValid = false;
+                    this.valW1Day3.Visible = true;
+                    return;
+                }
+                if (this.valW1Day.IsValid == false || this.valW1Day2.IsValid == false)
+                {
+                    return;
+                }
+            }
+
+            if (this.rblRepeatTypeM.Checked && this.rblRepeatTypeM2.Checked)
+            {
+                this.valM2Every.Validate();
+                this.valM2Every2.Validate();
+                if (this.valM2Every.IsValid == false || this.valM2Every2.IsValid == false)
+                {
+                    return;
+                }
+            }
+            // If Annual Recurrence, Check date
+            if (this.rblRepeatTypeY1.Checked)
+            {
+                this.valRequiredYearEventDate.Validate();
+                this.valValidYearEventDate.Validate();
+                if (this.valRequiredYearEventDate.IsValid == false || this.valValidYearEventDate.IsValid == false)
                 {
                     return;
                 }
             }
 
-            if (rblRepeatTypeW1.Checked)
+            if (this.Settings.Expireevents != ""
+                && !this._editRecur)
             {
-                valW1Day.Validate();
-                valW1Day2.Validate();
-                if (chkW1Sun.Checked == false &&
-                    chkW1Sun2.Checked == false &&
-                    chkW1Mon.Checked == false &&
-                    chkW1Tue.Checked == false &&
-                    chkW1Wed.Checked == false &&
-                    chkW1Thu.Checked == false &&
-                    chkW1Fri.Checked == false &&
-                    chkW1Sat.Checked == false)
+                if (tStartTime < DateTime.Now.AddDays(-Convert.ToInt32(this.Settings.Expireevents)))
                 {
-                    valW1Day3.ErrorMessage = Localization.GetString("valW1Day3", LocalResourceFile);
-                    valW1Day3.Text = Localization.GetString("valW1Day3", LocalResourceFile);
-                    valW1Day3.IsValid = false;
-                    valW1Day3.Visible = true;
-                    return;
-                }
-                if (valW1Day.IsValid == false || valW1Day2.IsValid == false)
-                {
-                    return;
-                }
-            }
-
-            if (rblRepeatTypeM.Checked && rblRepeatTypeM2.Checked)
-            {
-                valM2Every.Validate();
-                valM2Every2.Validate();
-                if (valM2Every.IsValid == false || valM2Every2.IsValid == false)
-                {
-                    return;
-                }
-
-            }
-            // If Annual Recurrence, Check date
-            if (rblRepeatTypeY1.Checked)
-            {
-                valRequiredYearEventDate.Validate();
-                valValidYearEventDate.Validate();
-                if (valRequiredYearEventDate.IsValid == false || valValidYearEventDate.IsValid == false)
-                {
-                    return;
-                }
-            }
-
-            if (Settings.Expireevents != ""
-                && !_editRecur)
-            {
-                if (tStartTime < DateTime.Now.AddDays(-System.Convert.ToInt32(Settings.Expireevents)))
-                {
-                    valValidStartDate2.IsValid = false;
-                    valValidStartDate2.Visible = true;
-                    valValidStartDate2.Text = string.Format(Localization.GetString("valValidStartDate2", LocalResourceFile), System.Convert.ToInt32(Settings.Expireevents));
-                    valValidStartDate2.ErrorMessage = string.Format(Localization.GetString("valValidStartDate2", LocalResourceFile), System.Convert.ToInt32(Settings.Expireevents));
+                    this.valValidStartDate2.IsValid = false;
+                    this.valValidStartDate2.Visible = true;
+                    this.valValidStartDate2.Text =
+                        string.Format(Localization.GetString("valValidStartDate2", this.LocalResourceFile),
+                                      Convert.ToInt32(this.Settings.Expireevents));
+                    this.valValidStartDate2.ErrorMessage =
+                        string.Format(Localization.GetString("valValidStartDate2", this.LocalResourceFile),
+                                      Convert.ToInt32(this.Settings.Expireevents));
                     return;
                 }
             }
@@ -1331,159 +1482,177 @@ namespace DotNetNuke.Modules.Events
             double duration = 0;
             duration = tEndTime.Subtract(tStartTime).TotalMinutes;
 
-            if (rblPaid.Checked)
+            if (this.rblPaid.Checked)
             {
-                if (Information.IsNumeric(txtEnrollFee.Text))
+                if (Information.IsNumeric(this.txtEnrollFee.Text))
                 {
                     // ReSharper disable CompareOfFloatsByEqualityOperator
-                    if (System.Convert.ToDouble(txtEnrollFee.Text) == 0.0)
+                    if (Convert.ToDouble(this.txtEnrollFee.Text) == 0.0)
                     {
                         // ReSharper restore CompareOfFloatsByEqualityOperator
-                        valBadFee.IsValid = false;
-                        valBadFee.Visible = true;
+                        this.valBadFee.IsValid = false;
+                        this.valBadFee.Visible = true;
                         return;
                     }
                 }
                 else
                 {
-                    valBadFee.IsValid = false;
-                    valBadFee.Visible = true;
+                    this.valBadFee.IsValid = false;
+                    this.valBadFee.Visible = true;
                     return;
                 }
-                if (txtPayPalAccount.Text.Trim() == "")
+                if (this.txtPayPalAccount.Text.Trim() == "")
                 {
-                    valPayPalAccount.IsValid = false;
-                    valPayPalAccount.Visible = true;
+                    this.valPayPalAccount.IsValid = false;
+                    this.valPayPalAccount.Visible = true;
                     return;
                 }
             }
 
             //Check valid Reminder Time
-            if (chkReminder.Checked)
+            if (this.chkReminder.Checked)
             {
-                int remtime = System.Convert.ToInt32(txtReminderTime.Text);
-                switch (ddlReminderTimeMeasurement.SelectedValue)
+                var remtime = Convert.ToInt32(this.txtReminderTime.Text);
+                switch (this.ddlReminderTimeMeasurement.SelectedValue)
                 {
                     case "m":
-                        if (remtime < 15 | remtime > 60)
+                        if ((remtime < 15) | (remtime > 60))
                         {
-                            valReminderTime2.IsValid = false;
-                            valReminderTime2.Visible = true;
+                            this.valReminderTime2.IsValid = false;
+                            this.valReminderTime2.Visible = true;
                             return;
                         }
                         break;
                     case "h":
-                        if (remtime < 1 | remtime > 24)
+                        if ((remtime < 1) | (remtime > 24))
                         {
-                            valReminderTime2.IsValid = false;
-                            valReminderTime2.Visible = true;
+                            this.valReminderTime2.IsValid = false;
+                            this.valReminderTime2.Visible = true;
                             return;
                         }
                         break;
                     case "d":
-                        if (remtime < 1 | remtime > 30)
+                        if ((remtime < 1) | (remtime > 30))
                         {
-                            valReminderTime2.IsValid = false;
-                            valReminderTime2.Visible = true;
+                            this.valReminderTime2.IsValid = false;
+                            this.valReminderTime2.Visible = true;
                             return;
                         }
                         break;
                 }
             }
 
-            if (chkSignups.Checked)
+            if (this.chkSignups.Checked)
             {
-                valMaxEnrollment.Validate();
-                if (!valMaxEnrollment.IsValid)
+                this.valMaxEnrollment.Validate();
+                if (!this.valMaxEnrollment.IsValid)
                 {
                     return;
                 }
             }
 
-            valW1Day.Visible = false;
-            valW1Day2.Visible = false;
-            valW1Day3.Visible = false;
-            valConflict.Visible = false;
-            valLocationConflict.Visible = false;
-            valPayPalAccount.Visible = false;
-            valBadFee.Visible = false;
-            valValidRecurStartDate.Visible = false;
-            valNoEnrolees.Visible = false;
-            valMaxEnrollment.Visible = false;
+            this.valW1Day.Visible = false;
+            this.valW1Day2.Visible = false;
+            this.valW1Day3.Visible = false;
+            this.valConflict.Visible = false;
+            this.valLocationConflict.Visible = false;
+            this.valPayPalAccount.Visible = false;
+            this.valBadFee.Visible = false;
+            this.valValidRecurStartDate.Visible = false;
+            this.valNoEnrolees.Visible = false;
+            this.valMaxEnrollment.Visible = false;
 
             // Everythings Cool, Update Database
-            EventInfo objEvent = default(EventInfo);
-            EventRecurMasterInfo objEventRecurMaster = new EventRecurMasterInfo();
-            EventRecurMasterInfo objEventRMSave = new EventRecurMasterInfo();
+            var objEvent = default(EventInfo);
+            var objEventRecurMaster = new EventRecurMasterInfo();
+            var objEventRMSave = new EventRecurMasterInfo();
 
             // Get Current Event, if <> 0
             if (processItem > 0)
             {
-                objEvent = _objCtlEvent.EventsGet(processItem, ModuleId);
-                objEventRecurMaster = _objCtlEventRecurMaster.EventsRecurMasterGet(objEvent.RecurMasterID, objEvent.ModuleID);
-                objEventRMSave = _objCtlEventRecurMaster.EventsRecurMasterGet(objEvent.RecurMasterID, objEvent.ModuleID);
-                if (_editRecur)
+                objEvent = this._objCtlEvent.EventsGet(processItem, this.ModuleId);
+                objEventRecurMaster =
+                    this._objCtlEventRecurMaster.EventsRecurMasterGet(objEvent.RecurMasterID, objEvent.ModuleID);
+                objEventRMSave =
+                    this._objCtlEventRecurMaster.EventsRecurMasterGet(objEvent.RecurMasterID, objEvent.ModuleID);
+                if (this._editRecur)
                 {
-                    _lstEvents = _objCtlEvent.EventsGetRecurrences(objEventRecurMaster.RecurMasterID, objEventRecurMaster.ModuleID);
+                    this._lstEvents =
+                        this._objCtlEvent.EventsGetRecurrences(objEventRecurMaster.RecurMasterID,
+                                                               objEventRecurMaster.ModuleID);
                 }
                 else
                 {
-                    _lstEvents.Add(objEvent);
+                    this._lstEvents.Add(objEvent);
                 }
             }
-            int intDuration = 0;
+            var intDuration = 0;
             objEventRecurMaster.Dtstart = tStartTime;
-            objEventRecurMaster.Duration = System.Convert.ToString(System.Convert.ToString(duration) + "M");
-            intDuration = System.Convert.ToInt32(duration);
+            objEventRecurMaster.Duration = Convert.ToString(Convert.ToString(duration) + "M");
+            intDuration = Convert.ToInt32(duration);
             objEventRecurMaster.Until = tRecurEndDate;
-            objEventRecurMaster.UpdatedByID = UserId;
-            objEventRecurMaster.OwnerID = int.Parse(cmbOwner.SelectedValue);
+            objEventRecurMaster.UpdatedByID = this.UserId;
+            objEventRecurMaster.OwnerID = int.Parse(this.cmbOwner.SelectedValue);
             if (processItem < 0)
             {
                 objEventRecurMaster.RecurMasterID = -1;
-                objEventRecurMaster.CreatedByID = UserId;
-                objEventRecurMaster.ModuleID = ModuleId;
-                objEventRecurMaster.PortalID = PortalId;
-                objEventRecurMaster.CultureName = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+                objEventRecurMaster.CreatedByID = this.UserId;
+                objEventRecurMaster.ModuleID = this.ModuleId;
+                objEventRecurMaster.PortalID = this.PortalId;
+                objEventRecurMaster.CultureName = Thread.CurrentThread.CurrentCulture.Name;
                 objEventRecurMaster.JournalItem = false;
             }
             // Filter text for non-admins and moderators
-            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()) == true)
+            if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
             {
-                objEventRecurMaster.EventName = txtTitle.Text;
-                objEventRecurMaster.EventDesc = System.Convert.ToString(ftbDesktopText.Text);
-                objEventRecurMaster.CustomField1 = txtCustomField1.Text;
-                objEventRecurMaster.CustomField2 = txtCustomField2.Text;
-                objEventRecurMaster.Notify = txtSubject.Text;
-                objEventRecurMaster.Reminder = txtReminder.Text;
-                objEventRecurMaster.Summary = System.Convert.ToString(ftbSummary.Text);
+                objEventRecurMaster.EventName = this.txtTitle.Text;
+                objEventRecurMaster.EventDesc = Convert.ToString(this.ftbDesktopText.Text);
+                objEventRecurMaster.CustomField1 = this.txtCustomField1.Text;
+                objEventRecurMaster.CustomField2 = this.txtCustomField2.Text;
+                objEventRecurMaster.Notify = this.txtSubject.Text;
+                objEventRecurMaster.Reminder = this.txtReminder.Text;
+                objEventRecurMaster.Summary = Convert.ToString(this.ftbSummary.Text);
             }
-            else if (IsModerator())
+            else if (this.IsModerator())
             {
-                objEventRecurMaster.EventName = objSecurity.InputFilter(txtTitle.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.EventDesc = System.Convert.ToString(ftbDesktopText.Text);
-                objEventRecurMaster.CustomField1 = objSecurity.InputFilter(txtCustomField1.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.CustomField2 = objSecurity.InputFilter(txtCustomField2.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.Notify = objSecurity.InputFilter(txtSubject.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.Reminder = objSecurity.InputFilter(txtReminder.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.Summary = System.Convert.ToString(ftbSummary.Text);
+                objEventRecurMaster.EventName =
+                    objSecurity.InputFilter(this.txtTitle.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.EventDesc = Convert.ToString(this.ftbDesktopText.Text);
+                objEventRecurMaster.CustomField1 =
+                    objSecurity.InputFilter(this.txtCustomField1.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.CustomField2 =
+                    objSecurity.InputFilter(this.txtCustomField2.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.Notify =
+                    objSecurity.InputFilter(this.txtSubject.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.Reminder =
+                    objSecurity.InputFilter(this.txtReminder.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.Summary = Convert.ToString(this.ftbSummary.Text);
             }
             else
             {
-                objEventRecurMaster.EventName = objSecurity.InputFilter(txtTitle.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.EventDesc = objSecurity.InputFilter(System.Convert.ToString(ftbDesktopText.Text), PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.CustomField1 = objSecurity.InputFilter(txtCustomField1.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.CustomField2 = objSecurity.InputFilter(txtCustomField2.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.Notify = objSecurity.InputFilter(txtSubject.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.Reminder = objSecurity.InputFilter(txtReminder.Text, PortalSecurity.FilterFlag.NoScripting);
-                objEventRecurMaster.Summary = objSecurity.InputFilter(System.Convert.ToString(ftbSummary.Text), PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.EventName =
+                    objSecurity.InputFilter(this.txtTitle.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.EventDesc =
+                    objSecurity.InputFilter(Convert.ToString(this.ftbDesktopText.Text),
+                                            PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.CustomField1 =
+                    objSecurity.InputFilter(this.txtCustomField1.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.CustomField2 =
+                    objSecurity.InputFilter(this.txtCustomField2.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.Notify =
+                    objSecurity.InputFilter(this.txtSubject.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.Reminder =
+                    objSecurity.InputFilter(this.txtReminder.Text, PortalSecurity.FilterFlag.NoScripting);
+                objEventRecurMaster.Summary =
+                    objSecurity.InputFilter(Convert.ToString(this.ftbSummary.Text),
+                                            PortalSecurity.FilterFlag.NoScripting);
             }
 
             // If New Event
             if (processItem < 0)
             {
                 // If Moderator turned on, set approve=false
-                if (Settings.Moderateall)
+                if (this.Settings.Moderateall)
                 {
                     objEventRecurMaster.Approved = false;
                 }
@@ -1494,39 +1663,39 @@ namespace DotNetNuke.Modules.Events
             }
 
             // Reset Approved, if Moderate All option is on
-            if (Settings.Moderateall &&
-                objEventRecurMaster.Approved == true)
+            if (this.Settings.Moderateall &&
+                objEventRecurMaster.Approved)
             {
                 objEventRecurMaster.Approved = false;
             }
 
             // If Admin or Moderator, automatically approve event
-            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName.ToString()) ||
-                IsModerator())
+            if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName) || this.IsModerator())
             {
                 objEventRecurMaster.Approved = true;
             }
 
-            objEventRecurMaster.Importance = (EventRecurMasterInfo.Priority)int.Parse(cmbImportance.SelectedItem.Value);
+            objEventRecurMaster.Importance =
+                (EventRecurMasterInfo.Priority) int.Parse(this.cmbImportance.SelectedItem.Value);
 
-            objEventRecurMaster.Signups = chkSignups.Checked;
-            objEventRecurMaster.AllowAnonEnroll = chkAllowAnonEnroll.Checked;
-            if (rblFree.Checked)
+            objEventRecurMaster.Signups = this.chkSignups.Checked;
+            objEventRecurMaster.AllowAnonEnroll = this.chkAllowAnonEnroll.Checked;
+            if (this.rblFree.Checked)
             {
                 objEventRecurMaster.EnrollType = "FREE";
             }
-            else if (rblPaid.Checked)
+            else if (this.rblPaid.Checked)
             {
                 objEventRecurMaster.EnrollType = "PAID";
             }
 
-            objEventRecurMaster.PayPalAccount = txtPayPalAccount.Text;
-            objEventRecurMaster.EnrollFee = decimal.Parse(txtEnrollFee.Text);
-            objEventRecurMaster.MaxEnrollment = System.Convert.ToInt32(txtMaxEnrollment.Text);
+            objEventRecurMaster.PayPalAccount = this.txtPayPalAccount.Text;
+            objEventRecurMaster.EnrollFee = decimal.Parse(this.txtEnrollFee.Text);
+            objEventRecurMaster.MaxEnrollment = Convert.ToInt32(this.txtMaxEnrollment.Text);
 
-            if (int.Parse(ddEnrollRoles.SelectedValue) != -1)
+            if (int.Parse(this.ddEnrollRoles.SelectedValue) != -1)
             {
-                objEventRecurMaster.EnrollRoleID = int.Parse(ddEnrollRoles.SelectedItem.Value);
+                objEventRecurMaster.EnrollRoleID = int.Parse(this.ddEnrollRoles.SelectedItem.Value);
             }
             else
             {
@@ -1534,11 +1703,11 @@ namespace DotNetNuke.Modules.Events
             }
 
             // Update Detail Page setting in the database
-            if (chkDetailPage.Checked && URLDetail.Url != "")
+            if (this.chkDetailPage.Checked && this.URLDetail.Url != "")
             {
                 objEventRecurMaster.DetailPage = true;
-                objEventRecurMaster.DetailURL = System.Convert.ToString(URLDetail.Url);
-                objEventRecurMaster.DetailNewWin = System.Convert.ToBoolean(URLDetail.NewWindow);
+                objEventRecurMaster.DetailURL = Convert.ToString(this.URLDetail.Url);
+                objEventRecurMaster.DetailNewWin = Convert.ToBoolean(this.URLDetail.NewWindow);
             }
             else
             {
@@ -1546,134 +1715,138 @@ namespace DotNetNuke.Modules.Events
             }
 
             // Update Image settings in the database
-            if (chkDisplayImage.Checked)
+            if (this.chkDisplayImage.Checked)
             {
                 objEventRecurMaster.ImageDisplay = true;
-                if (ctlURL.UrlType == "F")
+                if (this.ctlURL.UrlType == "F")
                 {
-                    if (ctlURL.Url.StartsWith("FileID="))
+                    if (this.ctlURL.Url.StartsWith("FileID="))
                     {
-                        int fileId = int.Parse(System.Convert.ToString(ctlURL.Url.Substring(7)));
-                        Services.FileSystem.IFileInfo objFileInfo = Services.FileSystem.FileManager.Instance.GetFile(fileId);
-                        if (txtWidth.Text == "" || txtWidth.Text == 0.ToString())
+                        var fileId = int.Parse(Convert.ToString(this.ctlURL.Url.Substring(7)));
+                        var objFileInfo = FileManager.Instance.GetFile(fileId);
+                        if (this.txtWidth.Text == "" || this.txtWidth.Text == 0.ToString())
                         {
-                            txtWidth.Text = System.Convert.ToString(objFileInfo.Width.ToString());
+                            this.txtWidth.Text = Convert.ToString(objFileInfo.Width.ToString());
                         }
-                        if (txtHeight.Text == "" || txtHeight.Text == 0.ToString())
+                        if (this.txtHeight.Text == "" || this.txtHeight.Text == 0.ToString())
                         {
-                            txtHeight.Text = System.Convert.ToString(objFileInfo.Height.ToString());
+                            this.txtHeight.Text = Convert.ToString(objFileInfo.Height.ToString());
                         }
                     }
                 }
-                objEventRecurMaster.ImageURL = System.Convert.ToString(ctlURL.Url);
-                objEventRecurMaster.ImageType = System.Convert.ToString(ctlURL.UrlType);
+                objEventRecurMaster.ImageURL = Convert.ToString(this.ctlURL.Url);
+                objEventRecurMaster.ImageType = Convert.ToString(this.ctlURL.UrlType);
             }
             else
             {
                 objEventRecurMaster.ImageDisplay = false;
             }
 
-            if (txtWidth.Text == "")
+            if (this.txtWidth.Text == "")
             {
                 objEventRecurMaster.ImageWidth = 0;
             }
             else
             {
-                objEventRecurMaster.ImageWidth = int.Parse(txtWidth.Text);
+                objEventRecurMaster.ImageWidth = int.Parse(this.txtWidth.Text);
             }
-            if (txtHeight.Text == "")
+            if (this.txtHeight.Text == "")
             {
                 objEventRecurMaster.ImageHeight = 0;
             }
             else
             {
-                objEventRecurMaster.ImageHeight = int.Parse(txtHeight.Text);
+                objEventRecurMaster.ImageHeight = int.Parse(this.txtHeight.Text);
             }
 
-            objEventRecurMaster.Category = int.Parse(cmbCategory.SelectedValue);
-            objEventRecurMaster.Location = int.Parse(cmbLocation.SelectedValue);
+            objEventRecurMaster.Category = int.Parse(this.cmbCategory.SelectedValue);
+            objEventRecurMaster.Location = int.Parse(this.cmbLocation.SelectedValue);
 
-            objEventRecurMaster.SendReminder = chkReminder.Checked;
-            objEventRecurMaster.ReminderTime = int.Parse(txtReminderTime.Text);
-            objEventRecurMaster.ReminderTimeMeasurement = ddlReminderTimeMeasurement.SelectedValue;
-            objEventRecurMaster.ReminderFrom = txtReminderFrom.Text;
+            objEventRecurMaster.SendReminder = this.chkReminder.Checked;
+            objEventRecurMaster.ReminderTime = int.Parse(this.txtReminderTime.Text);
+            objEventRecurMaster.ReminderTimeMeasurement = this.ddlReminderTimeMeasurement.SelectedValue;
+            objEventRecurMaster.ReminderFrom = this.txtReminderFrom.Text;
 
-            objEventRecurMaster.EnrollListView = chkEnrollListView.Checked;
-            objEventRecurMaster.DisplayEndDate = chkDisplayEndDate.Checked;
-            objEventRecurMaster.AllDayEvent = chkAllDayEvent.Checked;
-            objEventRecurMaster.EventTimeZoneId = cboTimeZone.SelectedValue;
-            objEventRecurMaster.SocialGroupID = GetUrlGroupId();
-            objEventRecurMaster.SocialUserID = GetUrlUserId();
-
+            objEventRecurMaster.EnrollListView = this.chkEnrollListView.Checked;
+            objEventRecurMaster.DisplayEndDate = this.chkDisplayEndDate.Checked;
+            objEventRecurMaster.AllDayEvent = this.chkAllDayEvent.Checked;
+            objEventRecurMaster.EventTimeZoneId = this.cboTimeZone.SelectedValue;
+            objEventRecurMaster.SocialGroupID = this.GetUrlGroupId();
+            objEventRecurMaster.SocialUserID = this.GetUrlUserId();
 
 
             // If it is possible we are edititng a recurring event create RRULE
-            if (processItem == 0 || _editRecur || (!_editRecur && objEventRMSave.RRULE == ""))
+            if (processItem == 0 || this._editRecur || !this._editRecur && objEventRMSave.RRULE == "")
             {
-                objEventRecurMaster = CreateEventRRULE(objEventRecurMaster);
-                if (rblRepeatTypeN.Checked)
+                objEventRecurMaster = this.CreateEventRRULE(objEventRecurMaster);
+                if (this.rblRepeatTypeN.Checked)
                 {
                     objEventRecurMaster.Until = objEventRecurMaster.Dtstart.Date;
                 }
             }
 
             // If editing single occurence of recurring event & start date > last date, error
-            if (processItem > 0 && objEventRMSave.RRULE != "" && !_editRecur)
+            if (processItem > 0 && objEventRMSave.RRULE != "" && !this._editRecur)
             {
                 if (tStartTime.Date > objEventRMSave.Until.Date)
                 {
-                    valValidRecurStartDate.IsValid = false;
-                    valValidRecurStartDate.Visible = true;
+                    this.valValidRecurStartDate.IsValid = false;
+                    this.valValidRecurStartDate.Visible = true;
                     return;
                 }
                 if (tStartTime.Date < objEventRMSave.Dtstart.Date)
                 {
-                    valValidRecurStartDate2.IsValid = false;
-                    valValidRecurStartDate2.Visible = true;
+                    this.valValidRecurStartDate2.IsValid = false;
+                    this.valValidRecurStartDate2.Visible = true;
                     return;
                 }
             }
 
             // If new Event or Recurring event then check for new instances
             if (processItem < 0 ||
-                (objEventRMSave.RRULE == "" && objEventRecurMaster.RRULE != "" && !_editRecur) ||
-                _editRecur)
+                objEventRMSave.RRULE == "" && objEventRecurMaster.RRULE != "" && !this._editRecur || this._editRecur)
             {
-                ArrayList lstEventsNew = default(ArrayList);
-                lstEventsNew = _objCtlEventRecurMaster.CreateEventRecurrences(objEventRecurMaster, intDuration, Settings.Maxrecurrences);
-                _lstEvents = CompareOldNewEvents(_lstEvents, lstEventsNew);
+                var lstEventsNew = default(ArrayList);
+                lstEventsNew =
+                    this._objCtlEventRecurMaster.CreateEventRecurrences(objEventRecurMaster, intDuration,
+                                                                        this.Settings.Maxrecurrences);
+                this._lstEvents = this.CompareOldNewEvents(this._lstEvents, lstEventsNew);
 
                 if (lstEventsNew.Count == 0)
                 {
                     // Last error!!
-                    valValidRecurEndDate2.IsValid = false;
-                    valValidRecurEndDate2.Visible = true;
+                    this.valValidRecurEndDate2.IsValid = false;
+                    this.valValidRecurEndDate2.Visible = true;
                     return;
                 }
             }
 
-            foreach (EventInfo tempLoopVar_objEvent in _lstEvents)
+            foreach (EventInfo tempLoopVar_objEvent in this._lstEvents)
             {
                 objEvent = tempLoopVar_objEvent;
                 if (objEvent.EventID > 0 && objEvent.UpdateStatus != "Delete")
                 {
                     objEvent.UpdateStatus = "Match";
-                    EventInfo objEventSave = objEvent.Clone();
-                    if (_editRecur && objEvent.EventTimeBegin.ToShortTimeString() == objEventRMSave.Dtstart.ToShortTimeString())
+                    var objEventSave = objEvent.Clone();
+                    if (this._editRecur && objEvent.EventTimeBegin.ToShortTimeString() ==
+                        objEventRMSave.Dtstart.ToShortTimeString())
                     {
-                        objEvent.EventTimeBegin = ConvertDateStringstoDatetime(objEvent.EventTimeBegin.ToShortDateString(), Strings.Format(objEventRecurMaster.Dtstart, "HH:mm"));
+                        objEvent.EventTimeBegin =
+                            this.ConvertDateStringstoDatetime(objEvent.EventTimeBegin.ToShortDateString(),
+                                                              Strings.Format(objEventRecurMaster.Dtstart, "HH:mm"));
                         if (tRecurEndDate.Date < objEvent.EventTimeBegin.Date)
                         {
                             tRecurEndDate = objEvent.EventTimeBegin.Date.AddDays(30);
                         }
                     }
 
-                    if ((_editRecur && System.Convert.ToString(objEvent.Duration) + "M" == objEventRMSave.Duration) || !_editRecur)
+                    if (this._editRecur && Convert.ToString(objEvent.Duration) + "M" == objEventRMSave.Duration ||
+                        !this._editRecur)
                     {
                         objEvent.Duration = intDuration;
                     }
 
-                    if (!_editRecur)
+                    if (!this._editRecur)
                     {
                         objEvent.EventTimeBegin = objEventRecurMaster.Dtstart;
                         if (tRecurEndDate.Date < objEvent.EventTimeBegin.Date)
@@ -1683,121 +1856,124 @@ namespace DotNetNuke.Modules.Events
                         objEvent.Duration = intDuration;
                     }
 
-                    if ((_editRecur && objEvent.EventName == objEventRMSave.EventName) || !_editRecur)
+                    if (this._editRecur && objEvent.EventName == objEventRMSave.EventName || !this._editRecur)
                     {
                         objEvent.EventName = objEventRecurMaster.EventName;
                     }
-                    if ((_editRecur && objEvent.EventDesc == objEventRMSave.EventDesc) || !_editRecur)
+                    if (this._editRecur && objEvent.EventDesc == objEventRMSave.EventDesc || !this._editRecur)
                     {
                         objEvent.EventDesc = objEventRecurMaster.EventDesc;
                     }
 
-                    if ((_editRecur && (int)objEvent.Importance == (int)objEventRMSave.Importance) || !_editRecur)
+                    if (this._editRecur && (int) objEvent.Importance == (int) objEventRMSave.Importance ||
+                        !this._editRecur)
                     {
-                        objEvent.Importance = (EventInfo.Priority)objEventRecurMaster.Importance;
+                        objEvent.Importance = (EventInfo.Priority) objEventRecurMaster.Importance;
                     }
-                    if ((_editRecur && objEvent.Signups == objEventRMSave.Signups) || !_editRecur)
+                    if (this._editRecur && objEvent.Signups == objEventRMSave.Signups || !this._editRecur)
                     {
                         objEvent.Signups = objEventRecurMaster.Signups;
                     }
-                    if ((_editRecur && objEvent.JournalItem == objEventRMSave.JournalItem) || !_editRecur)
+                    if (this._editRecur && objEvent.JournalItem == objEventRMSave.JournalItem || !this._editRecur)
                     {
                         objEvent.JournalItem = objEventRecurMaster.JournalItem;
                     }
-                    if ((_editRecur && objEvent.AllowAnonEnroll == objEventRMSave.AllowAnonEnroll) || !_editRecur)
+                    if (this._editRecur && objEvent.AllowAnonEnroll == objEventRMSave.AllowAnonEnroll ||
+                        !this._editRecur)
                     {
                         objEvent.AllowAnonEnroll = objEventRecurMaster.AllowAnonEnroll;
                     }
-                    if ((_editRecur && objEvent.EnrollType == objEventRMSave.EnrollType) || !_editRecur)
+                    if (this._editRecur && objEvent.EnrollType == objEventRMSave.EnrollType || !this._editRecur)
                     {
                         objEvent.EnrollType = objEventRecurMaster.EnrollType;
                     }
-                    if ((_editRecur && objEvent.PayPalAccount == objEventRMSave.PayPalAccount) || !_editRecur)
+                    if (this._editRecur && objEvent.PayPalAccount == objEventRMSave.PayPalAccount || !this._editRecur)
                     {
                         objEvent.PayPalAccount = objEventRecurMaster.PayPalAccount;
                     }
-                    if ((_editRecur && objEvent.EnrollFee == objEventRMSave.EnrollFee) || !_editRecur)
+                    if (this._editRecur && objEvent.EnrollFee == objEventRMSave.EnrollFee || !this._editRecur)
                     {
                         objEvent.EnrollFee = objEventRecurMaster.EnrollFee;
                     }
-                    if ((_editRecur && objEvent.MaxEnrollment == objEventRMSave.MaxEnrollment) || !_editRecur)
+                    if (this._editRecur && objEvent.MaxEnrollment == objEventRMSave.MaxEnrollment || !this._editRecur)
                     {
                         objEvent.MaxEnrollment = objEventRecurMaster.MaxEnrollment;
                     }
-                    if ((_editRecur && objEvent.EnrollRoleID == objEventRMSave.EnrollRoleID) || !_editRecur)
+                    if (this._editRecur && objEvent.EnrollRoleID == objEventRMSave.EnrollRoleID || !this._editRecur)
                     {
                         objEvent.EnrollRoleID = objEventRecurMaster.EnrollRoleID;
                     }
-                    if ((_editRecur && objEvent.DetailPage == objEventRMSave.DetailPage) || !_editRecur)
+                    if (this._editRecur && objEvent.DetailPage == objEventRMSave.DetailPage || !this._editRecur)
                     {
                         objEvent.DetailPage = objEventRecurMaster.DetailPage;
                     }
-                    if ((_editRecur && objEvent.DetailNewWin == objEventRMSave.DetailNewWin) || !_editRecur)
+                    if (this._editRecur && objEvent.DetailNewWin == objEventRMSave.DetailNewWin || !this._editRecur)
                     {
                         objEvent.DetailNewWin = objEventRecurMaster.DetailNewWin;
                     }
 
-                    if ((_editRecur && objEvent.DetailURL == objEventRMSave.DetailURL) || !_editRecur)
+                    if (this._editRecur && objEvent.DetailURL == objEventRMSave.DetailURL || !this._editRecur)
                     {
                         objEvent.DetailURL = objEventRecurMaster.DetailURL;
                     }
 
-                    if ((_editRecur && objEvent.ImageDisplay == objEventRMSave.ImageDisplay) || !_editRecur)
+                    if (this._editRecur && objEvent.ImageDisplay == objEventRMSave.ImageDisplay || !this._editRecur)
                     {
                         objEvent.ImageDisplay = objEventRecurMaster.ImageDisplay;
                     }
-                    if ((_editRecur && objEvent.ImageType == objEventRMSave.ImageType) || !_editRecur)
+                    if (this._editRecur && objEvent.ImageType == objEventRMSave.ImageType || !this._editRecur)
                     {
                         objEvent.ImageType = objEventRecurMaster.ImageType;
                     }
 
-                    if ((_editRecur && objEvent.ImageURL == objEventRMSave.ImageURL) || !_editRecur)
+                    if (this._editRecur && objEvent.ImageURL == objEventRMSave.ImageURL || !this._editRecur)
                     {
                         objEvent.ImageURL = objEventRecurMaster.ImageURL;
                     }
-                    if ((_editRecur && objEvent.ImageWidth == objEventRMSave.ImageWidth) || !_editRecur)
+                    if (this._editRecur && objEvent.ImageWidth == objEventRMSave.ImageWidth || !this._editRecur)
                     {
                         objEvent.ImageWidth = objEventRecurMaster.ImageWidth;
                     }
-                    if ((_editRecur && objEvent.ImageHeight == objEventRMSave.ImageHeight) || !_editRecur)
+                    if (this._editRecur && objEvent.ImageHeight == objEventRMSave.ImageHeight || !this._editRecur)
                     {
                         objEvent.ImageHeight = objEventRecurMaster.ImageHeight;
                     }
-                    if ((_editRecur && objEvent.Category == objEventRMSave.Category) || !_editRecur)
+                    if (this._editRecur && objEvent.Category == objEventRMSave.Category || !this._editRecur)
                     {
                         objEvent.Category = objEventRecurMaster.Category;
                     }
-                    if ((_editRecur && objEvent.Location == objEventRMSave.Location) || !_editRecur)
+                    if (this._editRecur && objEvent.Location == objEventRMSave.Location || !this._editRecur)
                     {
                         objEvent.Location = objEventRecurMaster.Location;
                     }
 
                     // Save Event Notification Info
-                    if ((_editRecur && objEvent.SendReminder == objEventRMSave.SendReminder) || !_editRecur)
+                    if (this._editRecur && objEvent.SendReminder == objEventRMSave.SendReminder || !this._editRecur)
                     {
                         objEvent.SendReminder = objEventRecurMaster.SendReminder;
                     }
-                    if ((_editRecur && objEvent.Reminder == objEventRMSave.Reminder) || !_editRecur)
+                    if (this._editRecur && objEvent.Reminder == objEventRMSave.Reminder || !this._editRecur)
                     {
                         objEvent.Reminder = objEventRecurMaster.Reminder;
                     }
-                    if ((_editRecur && objEvent.Notify == objEventRMSave.Notify) || !_editRecur)
+                    if (this._editRecur && objEvent.Notify == objEventRMSave.Notify || !this._editRecur)
                     {
                         objEvent.Notify = objEventRecurMaster.Notify;
                     }
-                    if ((_editRecur && objEvent.ReminderTime == objEventRMSave.ReminderTime) || !_editRecur)
+                    if (this._editRecur && objEvent.ReminderTime == objEventRMSave.ReminderTime || !this._editRecur)
                     {
                         objEvent.ReminderTime = objEventRecurMaster.ReminderTime;
                     }
-                    if ((_editRecur && objEvent.ReminderTimeMeasurement == objEventRMSave.ReminderTimeMeasurement) || !_editRecur)
+                    if (this._editRecur && objEvent.ReminderTimeMeasurement == objEventRMSave.ReminderTimeMeasurement ||
+                        !this._editRecur)
                     {
                         objEvent.ReminderTimeMeasurement = objEventRecurMaster.ReminderTimeMeasurement;
                     }
-                    if ((_editRecur && objEvent.ReminderFrom == objEventRMSave.ReminderFrom) || !_editRecur)
+                    if (this._editRecur && objEvent.ReminderFrom == objEventRMSave.ReminderFrom || !this._editRecur)
                     {
                         objEvent.ReminderFrom = objEventRecurMaster.ReminderFrom;
                     }
-                    if ((_editRecur && objEvent.OwnerID == objEventRMSave.OwnerID) || !_editRecur)
+                    if (this._editRecur && objEvent.OwnerID == objEventRMSave.OwnerID || !this._editRecur)
                     {
                         objEvent.OwnerID = objEventRecurMaster.OwnerID;
                     }
@@ -1805,27 +1981,27 @@ namespace DotNetNuke.Modules.Events
                     // Set for re-submit to Search Engine
                     objEvent.SearchSubmitted = false;
 
-                    if ((_editRecur && objEvent.CustomField1 == objEventRMSave.CustomField1) || !_editRecur)
+                    if (this._editRecur && objEvent.CustomField1 == objEventRMSave.CustomField1 || !this._editRecur)
                     {
                         objEvent.CustomField1 = objEventRecurMaster.CustomField1;
                     }
-                    if ((_editRecur && objEvent.CustomField2 == objEventRMSave.CustomField2) || !_editRecur)
+                    if (this._editRecur && objEvent.CustomField2 == objEventRMSave.CustomField2 || !this._editRecur)
                     {
                         objEvent.CustomField2 = objEventRecurMaster.CustomField2;
                     }
-                    if ((_editRecur && objEvent.EnrollListView == objEventRMSave.EnrollListView) || !_editRecur)
+                    if (this._editRecur && objEvent.EnrollListView == objEventRMSave.EnrollListView || !this._editRecur)
                     {
                         objEvent.EnrollListView = objEventRecurMaster.EnrollListView;
                     }
-                    if ((_editRecur && objEvent.DisplayEndDate == objEventRMSave.DisplayEndDate) || !_editRecur)
+                    if (this._editRecur && objEvent.DisplayEndDate == objEventRMSave.DisplayEndDate || !this._editRecur)
                     {
                         objEvent.DisplayEndDate = objEventRecurMaster.DisplayEndDate;
                     }
-                    if ((_editRecur && objEvent.AllDayEvent == objEventRMSave.AllDayEvent) || !_editRecur)
+                    if (this._editRecur && objEvent.AllDayEvent == objEventRMSave.AllDayEvent || !this._editRecur)
                     {
                         objEvent.AllDayEvent = objEventRecurMaster.AllDayEvent;
                     }
-                    if ((_editRecur && objEvent.Summary == objEventRMSave.Summary) || !_editRecur)
+                    if (this._editRecur && objEvent.Summary == objEventRMSave.Summary || !this._editRecur)
                     {
                         objEvent.Summary = objEventRecurMaster.Summary;
                     }
@@ -1838,9 +2014,9 @@ namespace DotNetNuke.Modules.Events
                         objEvent.Notify != objEventSave.Notify ||
                         objEvent.Signups != objEventSave.Signups ||
                         objEvent.AllowAnonEnroll != objEventSave.AllowAnonEnroll ||
-                        objEvent.MaxEnrollment != objEventSave.MaxEnrollment |
-                        objEvent.EnrollRoleID != objEventSave.EnrollRoleID |
-                        objEvent.EnrollFee != objEventSave.EnrollFee ||
+                        (objEvent.MaxEnrollment != objEventSave.MaxEnrollment) |
+                        (objEvent.EnrollRoleID != objEventSave.EnrollRoleID) |
+                        (objEvent.EnrollFee != objEventSave.EnrollFee) ||
                         objEvent.EnrollType != objEventSave.EnrollType ||
                         objEvent.PayPalAccount != objEventSave.PayPalAccount ||
                         objEvent.DetailPage != objEventSave.DetailPage ||
@@ -1848,11 +2024,11 @@ namespace DotNetNuke.Modules.Events
                         objEvent.DetailURL != objEventSave.DetailURL ||
                         objEvent.ImageURL != objEventSave.ImageURL ||
                         objEvent.ImageType != objEventSave.ImageType ||
-                        objEvent.ImageWidth != objEventSave.ImageWidth |
-                        objEvent.ImageHeight != objEventSave.ImageHeight ||
+                        (objEvent.ImageWidth != objEventSave.ImageWidth) |
+                        (objEvent.ImageHeight != objEventSave.ImageHeight) ||
                         objEvent.ImageDisplay != objEventSave.ImageDisplay ||
-                        objEvent.Location != objEventSave.Location |
-                        objEvent.Category != objEventSave.Category ||
+                        (objEvent.Location != objEventSave.Location) |
+                        (objEvent.Category != objEventSave.Category) ||
                         objEvent.Reminder != objEventSave.Reminder ||
                         objEvent.SendReminder != objEventSave.SendReminder ||
                         objEvent.ReminderTime != objEventSave.ReminderTime ||
@@ -1866,68 +2042,83 @@ namespace DotNetNuke.Modules.Events
                         objEvent.Summary != objEventSave.Summary ||
                         objEvent.OwnerID != objEventSave.OwnerID)
                     {
-                        objEvent.LastUpdatedID = UserId;
+                        objEvent.LastUpdatedID = this.UserId;
                         objEvent.Approved = objEventRecurMaster.Approved;
                         objEvent.UpdateStatus = "Update";
                     }
-
                 }
 
                 // Do we need to check for schedule conflict
-                if (Settings.Preventconflicts && objEvent.UpdateStatus != "Delete")
+                if (this.Settings.Preventconflicts && objEvent.UpdateStatus != "Delete")
                 {
-                    bool getSubEvents = Settings.MasterEvent;
-                    ArrayList categoryIDs = new ArrayList();
+                    var getSubEvents = this.Settings.MasterEvent;
+                    var categoryIDs = new ArrayList();
                     categoryIDs.Add("-1");
-                    ArrayList locationIDs = new ArrayList();
+                    var locationIDs = new ArrayList();
                     locationIDs.Add("-1");
-                    ArrayList selectedEvents = objEventInfoHelper.GetEvents(objEvent.EventTimeBegin.Date, objEvent.EventTimeBegin.AddMinutes(objEvent.Duration).Date, getSubEvents, categoryIDs, locationIDs, objEventRecurMaster.SocialGroupID, objEventRecurMaster.SocialUserID);
-                    DateTime conflictDateChk = DateTime.Now;
-                    DateTime conflictDate = objEventInfoHelper.IsConflict(objEvent, selectedEvents, conflictDateChk);
+                    var selectedEvents =
+                        objEventInfoHelper.GetEvents(objEvent.EventTimeBegin.Date,
+                                                     objEvent.EventTimeBegin.AddMinutes(objEvent.Duration).Date,
+                                                     getSubEvents, categoryIDs, locationIDs,
+                                                     objEventRecurMaster.SocialGroupID,
+                                                     objEventRecurMaster.SocialUserID);
+                    var conflictDateChk = DateTime.Now;
+                    var conflictDate = objEventInfoHelper.IsConflict(objEvent, selectedEvents, conflictDateChk);
                     if (conflictDate != conflictDateChk)
                     {
                         //Conflict Error
-                        if (Settings.Locationconflict)
+                        if (this.Settings.Locationconflict)
                         {
-                            valLocationConflict.IsValid = false;
-                            valLocationConflict.Visible = true;
-                            valLocationConflict.ErrorMessage = Localization.GetString("valLocationConflict", LocalResourceFile) + " - " + string.Format("{0:g}", conflictDate);
-                            valLocationConflict.Text = Localization.GetString("valLocationConflict", LocalResourceFile) + " - " + string.Format("{0:g}", conflictDate);
+                            this.valLocationConflict.IsValid = false;
+                            this.valLocationConflict.Visible = true;
+                            this.valLocationConflict.ErrorMessage =
+                                Localization.GetString("valLocationConflict", this.LocalResourceFile) + " - " +
+                                string.Format("{0:g}", conflictDate);
+                            this.valLocationConflict.Text =
+                                Localization.GetString("valLocationConflict", this.LocalResourceFile) + " - " +
+                                string.Format("{0:g}", conflictDate);
                         }
                         else
                         {
-                            valConflict.IsValid = false;
-                            valConflict.Visible = true;
-                            valConflict.ErrorMessage = Localization.GetString("valConflict", LocalResourceFile) + " - " + string.Format("{0:g}", conflictDate);
-                            valConflict.Text = Localization.GetString("valConflict", LocalResourceFile) + " - " + string.Format("{0:g}", conflictDate);
+                            this.valConflict.IsValid = false;
+                            this.valConflict.Visible = true;
+                            this.valConflict.ErrorMessage =
+                                Localization.GetString("valConflict", this.LocalResourceFile) + " - " +
+                                string.Format("{0:g}", conflictDate);
+                            this.valConflict.Text = Localization.GetString("valConflict", this.LocalResourceFile) +
+                                                    " - " + string.Format("{0:g}", conflictDate);
                         }
                         return;
                     }
                 }
-
             }
 
             if (objEventRecurMaster.RecurMasterID == -1 ||
-                (objEventRMSave.RRULE == "" && !_editRecur) ||
-                _editRecur)
+                objEventRMSave.RRULE == "" && !this._editRecur || this._editRecur)
             {
-                objEventRecurMaster = _objCtlEventRecurMaster.EventsRecurMasterSave(objEventRecurMaster, TabId, true);
+                objEventRecurMaster =
+                    this._objCtlEventRecurMaster.EventsRecurMasterSave(objEventRecurMaster, this.TabId, true);
             }
 
             if (objEventRecurMaster.RecurMasterID == -1)
             {
-                SelectedDate = objEventRecurMaster.Dtstart.Date;
+                this.SelectedDate = objEventRecurMaster.Dtstart.Date;
             }
 
             // url tracking
-            UrlController objUrls = new UrlController();
-            objUrls.UpdateUrl(PortalId, System.Convert.ToString(ctlURL.Url), System.Convert.ToString(ctlURL.UrlType), System.Convert.ToBoolean(ctlURL.Log), System.Convert.ToBoolean(ctlURL.Track), ModuleId, System.Convert.ToBoolean(ctlURL.NewWindow));
-            objUrls.UpdateUrl(PortalId, System.Convert.ToString(URLDetail.Url), System.Convert.ToString(URLDetail.UrlType), System.Convert.ToBoolean(URLDetail.Log), System.Convert.ToBoolean(URLDetail.Track), ModuleId, System.Convert.ToBoolean(URLDetail.NewWindow));
+            var objUrls = new UrlController();
+            objUrls.UpdateUrl(this.PortalId, Convert.ToString(this.ctlURL.Url), Convert.ToString(this.ctlURL.UrlType),
+                              Convert.ToBoolean(this.ctlURL.Log), Convert.ToBoolean(this.ctlURL.Track), this.ModuleId,
+                              Convert.ToBoolean(this.ctlURL.NewWindow));
+            objUrls.UpdateUrl(this.PortalId, Convert.ToString(this.URLDetail.Url),
+                              Convert.ToString(this.URLDetail.UrlType), Convert.ToBoolean(this.URLDetail.Log),
+                              Convert.ToBoolean(this.URLDetail.Track), this.ModuleId,
+                              Convert.ToBoolean(this.URLDetail.NewWindow));
 
-            bool blEmailSend = false;
-            bool blModeratorEmailSent = false;
-            EventInfo objEventEmail = new EventInfo();
-            foreach (EventInfo tempLoopVar_objEvent in _lstEvents)
+            var blEmailSend = false;
+            var blModeratorEmailSent = false;
+            var objEventEmail = new EventInfo();
+            foreach (EventInfo tempLoopVar_objEvent in this._lstEvents)
             {
                 objEvent = tempLoopVar_objEvent;
                 objEvent.RecurMasterID = objEventRecurMaster.RecurMasterID;
@@ -1936,22 +2127,22 @@ namespace DotNetNuke.Modules.Events
                     case "Match":
                         break;
                     case "Delete":
-                        _objCtlEvent.EventsDelete(objEvent.EventID, objEvent.ModuleID, objEvent.ContentItemID);
+                        this._objCtlEvent.EventsDelete(objEvent.EventID, objEvent.ModuleID, objEvent.ContentItemID);
                         break;
                     default:
                         if (!objEvent.Cancelled)
                         {
-                            EventInfo oEvent = objEvent;
-                            objEvent = _objCtlEvent.EventsSave(objEvent, false, TabId, true);
+                            var oEvent = objEvent;
+                            objEvent = this._objCtlEvent.EventsSave(objEvent, false, this.TabId, true);
                             if (!oEvent.Approved && !blModeratorEmailSent)
                             {
                                 oEvent.RRULE = objEventRecurMaster.RRULE;
-                                SendModeratorEmail(oEvent);
+                                this.SendModeratorEmail(oEvent);
                                 blModeratorEmailSent = true;
                             }
                             if (oEvent.EventID != -1)
                             {
-                                UpdateExistingNotificationRecords(oEvent);
+                                this.UpdateExistingNotificationRecords(oEvent);
                             }
                             else
                             {
@@ -1967,33 +2158,32 @@ namespace DotNetNuke.Modules.Events
             }
             if (blEmailSend)
             {
-                SendNewEventEmails(objEventEmail);
-                CreateNewEventJournal(objEventEmail);
+                this.SendNewEventEmails(objEventEmail);
+                this.CreateNewEventJournal(objEventEmail);
             }
-            if (chkEventEmailChk.Checked)
+            if (this.chkEventEmailChk.Checked)
             {
-                SendEventEmail((EventInfo)(_lstEvents[0]));
+                this.SendEventEmail((EventInfo) this._lstEvents[0]);
             }
-
         }
 
         private EventRecurMasterInfo CreateEventRRULE(EventRecurMasterInfo objEventRecurMaster)
         {
-            string strWkst = "";
-            CultureInfo culture = new CultureInfo(objEventRecurMaster.CultureName, false);
+            var strWkst = "";
+            var culture = new CultureInfo(objEventRecurMaster.CultureName, false);
             strWkst = "SU";
             if (culture.DateTimeFormat.FirstDayOfWeek != DayOfWeek.Sunday)
             {
                 strWkst = "MO";
             }
 
-            if (rblRepeatTypeN.Checked)
+            if (this.rblRepeatTypeN.Checked)
             {
                 objEventRecurMaster.RRULE = "";
             }
-            else if (rblRepeatTypeP1.Checked)
+            else if (this.rblRepeatTypeP1.Checked)
             {
-                switch (cmbP1Period.SelectedItem.Value.Trim())
+                switch (this.cmbP1Period.SelectedItem.Value.Trim())
                 {
                     case "D":
                         objEventRecurMaster.RRULE = "FREQ=DAILY";
@@ -2009,49 +2199,51 @@ namespace DotNetNuke.Modules.Events
                         break;
                 }
 
-                objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + ";INTERVAL=" + txtP1Every.Text;
+                objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + ";INTERVAL=" + this.txtP1Every.Text;
             }
-            else if (rblRepeatTypeW1.Checked)
+            else if (this.rblRepeatTypeW1.Checked)
             {
-                objEventRecurMaster.RRULE = "FREQ=WEEKLY;WKST=" + strWkst + ";INTERVAL=" + txtW1Every.Text + ";BYDAY=";
-                if (chkW1Sun.Checked || chkW1Sun2.Checked)
+                objEventRecurMaster.RRULE = "FREQ=WEEKLY;WKST=" + strWkst + ";INTERVAL=" + this.txtW1Every.Text +
+                                            ";BYDAY=";
+                if (this.chkW1Sun.Checked || this.chkW1Sun2.Checked)
                 {
                     objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + "SU,";
                 }
-                if (chkW1Mon.Checked)
+                if (this.chkW1Mon.Checked)
                 {
                     objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + "MO,";
                 }
-                if (chkW1Tue.Checked)
+                if (this.chkW1Tue.Checked)
                 {
                     objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + "TU,";
                 }
-                if (chkW1Wed.Checked)
+                if (this.chkW1Wed.Checked)
                 {
                     objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + "WE,";
                 }
-                if (chkW1Thu.Checked)
+                if (this.chkW1Thu.Checked)
                 {
                     objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + "TH,";
                 }
-                if (chkW1Fri.Checked)
+                if (this.chkW1Fri.Checked)
                 {
                     objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + "FR,";
                 }
-                if (chkW1Sat.Checked)
+                if (this.chkW1Sat.Checked)
                 {
                     objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + "SA,";
                 }
-                objEventRecurMaster.RRULE = objEventRecurMaster.RRULE.Substring(0, objEventRecurMaster.RRULE.Length - 1);
+                objEventRecurMaster.RRULE =
+                    objEventRecurMaster.RRULE.Substring(0, objEventRecurMaster.RRULE.Length - 1);
             }
-            else if (rblRepeatTypeM1.Checked && rblRepeatTypeM.Checked)
+            else if (this.rblRepeatTypeM1.Checked && this.rblRepeatTypeM.Checked)
             {
-                objEventRecurMaster.RRULE = "FREQ=MONTHLY;INTERVAL=" + txtMEvery.Text + ";BYDAY=";
-                int intWeek = 0;
-                string strWeek = "";
-                if (cmbM1Every.SelectedIndex < 4)
+                objEventRecurMaster.RRULE = "FREQ=MONTHLY;INTERVAL=" + this.txtMEvery.Text + ";BYDAY=";
+                var intWeek = 0;
+                var strWeek = "";
+                if (this.cmbM1Every.SelectedIndex < 4)
                 {
-                    intWeek = cmbM1Every.SelectedIndex + 1;
+                    intWeek = this.cmbM1Every.SelectedIndex + 1;
                     strWeek = "+" + Convert.ToString(intWeek);
                 }
                 else
@@ -2061,8 +2253,8 @@ namespace DotNetNuke.Modules.Events
                 }
                 objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + strWeek;
 
-                string strDay = "";
-                switch (cmbM1Period.SelectedValue)
+                var strDay = "";
+                switch (this.cmbM1Period.SelectedValue)
                 {
                     case "0":
                         strDay = "SU";
@@ -2088,22 +2280,24 @@ namespace DotNetNuke.Modules.Events
                 }
                 objEventRecurMaster.RRULE = objEventRecurMaster.RRULE + strDay;
             }
-            else if (rblRepeatTypeM2.Checked && rblRepeatTypeM.Checked)
+            else if (this.rblRepeatTypeM2.Checked && this.rblRepeatTypeM.Checked)
             {
-                objEventRecurMaster.RRULE = "FREQ=MONTHLY;INTERVAL=" + txtMEvery.Text + ";BYMONTHDAY=+" + cmbM2Period.SelectedValue;
+                objEventRecurMaster.RRULE = "FREQ=MONTHLY;INTERVAL=" + this.txtMEvery.Text + ";BYMONTHDAY=+" +
+                                            this.cmbM2Period.SelectedValue;
             }
-            else if (rblRepeatTypeY1.Checked)
+            else if (this.rblRepeatTypeY1.Checked)
             {
-                DateTime yearDate = System.Convert.ToDateTime(dpY1Period.SelectedDate);
-                objEventRecurMaster.RRULE = "FREQ=YEARLY;INTERVAL=1;BYMONTH=" + Convert.ToString(yearDate.Month) + ";BYMONTHDAY=+" + Convert.ToString(yearDate.Day);
+                var yearDate = Convert.ToDateTime(this.dpY1Period.SelectedDate);
+                objEventRecurMaster.RRULE = "FREQ=YEARLY;INTERVAL=1;BYMONTH=" + Convert.ToString(yearDate.Month) +
+                                            ";BYMONTHDAY=+" + Convert.ToString(yearDate.Day);
             }
             return objEventRecurMaster;
         }
 
         private ArrayList CompareOldNewEvents(ArrayList lstEventsOld, ArrayList lstEventsNew)
         {
-            EventInfo objEventOld = default(EventInfo);
-            EventInfo objEventNew = default(EventInfo);
+            var objEventOld = default(EventInfo);
+            var objEventNew = default(EventInfo);
             foreach (EventInfo tempLoopVar_objEventOld in lstEventsOld)
             {
                 objEventOld = tempLoopVar_objEventOld;
@@ -2146,15 +2340,18 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 // Add Notification Records to Database, if required
-                if (chkReminder.Checked == true)
+                if (this.chkReminder.Checked)
                 {
-                    DateTime eventTimeBegin = default(DateTime);
+                    var eventTimeBegin = default(DateTime);
                     //Adjust Begin Time to UTC
                     eventTimeBegin = objEvent.EventTimeBegin;
-                    eventTimeBegin = eventTimeBegin.AddMinutes(0); //only to pass to EventsNotificationTimeChange in correct format...
-                                                                   // Update Time for any existing Notifications for the Event
-                    EventNotificationController objEventNotificationController = new EventNotificationController();
-                    objEventNotificationController.EventsNotificationTimeChange(objEvent.EventID, eventTimeBegin, ModuleId);
+                    eventTimeBegin =
+                        eventTimeBegin
+                            .AddMinutes(0); //only to pass to EventsNotificationTimeChange in correct format...
+                    // Update Time for any existing Notifications for the Event
+                    var objEventNotificationController = new EventNotificationController();
+                    objEventNotificationController.EventsNotificationTimeChange(
+                        objEvent.EventID, eventTimeBegin, this.ModuleId);
                 }
             }
             catch (Exception exc)
@@ -2168,14 +2365,15 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 // Send Moderator email
-                if (Settings.Moderateall)
+                if (this.Settings.Moderateall)
                 {
-                    EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-                    EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
-                    objEventEmailInfo.TxtEmailSubject = Settings.Templates.moderateemailsubject;
-                    objEventEmailInfo.TxtEmailBody = Settings.Templates.moderateemailmessage;
-                    objEventEmailInfo.TxtEmailFrom = Settings.StandardEmail;
-                    ArrayList moderators = GetModerators();
+                    var objEventEmailInfo = new EventEmailInfo();
+                    var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                        ((PageBase) this.Page).PageCulture.Name);
+                    objEventEmailInfo.TxtEmailSubject = this.Settings.Templates.moderateemailsubject;
+                    objEventEmailInfo.TxtEmailBody = this.Settings.Templates.moderateemailmessage;
+                    objEventEmailInfo.TxtEmailFrom = this.Settings.StandardEmail;
+                    var moderators = this.GetModerators();
                     foreach (UserInfo moderator in moderators)
                     {
                         objEventEmailInfo.UserEmails.Add(moderator.Email);
@@ -2184,7 +2382,6 @@ namespace DotNetNuke.Modules.Events
                     }
                     objEventEmail.SendEmails(objEventEmailInfo, objEvent);
                 }
-
             }
             catch (Exception exc)
             {
@@ -2194,22 +2391,21 @@ namespace DotNetNuke.Modules.Events
 
         private void SendEventEmail(EventInfo objEventEmailIn)
         {
-            EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-            EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
-            objEventEmailInfo.TxtEmailSubject = txtEventEmailSubject.Text;
-            objEventEmailInfo.TxtEmailBody = txtEventEmailBody.Text;
-            objEventEmailInfo.TxtEmailFrom = txtEventEmailFrom.Text;
-            EventEmailAddRoleUsers(int.Parse(ddEventEmailRoles.SelectedValue), objEventEmailInfo);
+            var objEventEmailInfo = new EventEmailInfo();
+            var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                ((PageBase) this.Page).PageCulture.Name);
+            objEventEmailInfo.TxtEmailSubject = this.txtEventEmailSubject.Text;
+            objEventEmailInfo.TxtEmailBody = this.txtEventEmailBody.Text;
+            objEventEmailInfo.TxtEmailFrom = this.txtEventEmailFrom.Text;
+            this.EventEmailAddRoleUsers(int.Parse(this.ddEventEmailRoles.SelectedValue), objEventEmailInfo);
             objEventEmail.SendEmails(objEventEmailInfo, objEventEmailIn);
-
         }
 
         private DateTime ConvertDateStringstoDatetime(string strDate, string strTime)
         {
+            var invCulture = CultureInfo.InvariantCulture;
 
-            CultureInfo invCulture = CultureInfo.InvariantCulture;
-
-            DateTime tDate = default(DateTime);
+            var tDate = default(DateTime);
             tDate = Convert.ToDateTime(strDate).Date;
 
             // Since dates may not be in a form directly combinable with time, convert back to string to enable combination
@@ -2220,44 +2416,53 @@ namespace DotNetNuke.Modules.Events
 
         private void BuildEnrolleeGrid(EventInfo objEvent)
         {
-            ArrayList objSignups = default(ArrayList);
+            var objSignups = default(ArrayList);
             // Refresh Enrollment Grid
-            if (_editRecur)
+            if (this._editRecur)
             {
-                objSignups = _objCtlEventSignups.EventsSignupsGetEventRecurMaster(objEvent.RecurMasterID, objEvent.ModuleID);
+                objSignups =
+                    this._objCtlEventSignups
+                        .EventsSignupsGetEventRecurMaster(objEvent.RecurMasterID, objEvent.ModuleID);
             }
             else
             {
-                objSignups = _objCtlEventSignups.EventsSignupsGetEvent(objEvent.EventID, objEvent.ModuleID);
+                objSignups = this._objCtlEventSignups.EventsSignupsGetEvent(objEvent.EventID, objEvent.ModuleID);
             }
 
-            ArrayList eventEnrollment = new ArrayList();
-            EventSignupsInfo objSignup = default(EventSignupsInfo);
-            UserController objCtlUser = new UserController();
-            int noEnrolees = 0;
+            var eventEnrollment = new ArrayList();
+            var objSignup = default(EventSignupsInfo);
+            var objCtlUser = new UserController();
+            var noEnrolees = 0;
             foreach (EventSignupsInfo tempLoopVar_objSignup in objSignups)
             {
                 objSignup = tempLoopVar_objSignup;
-                EventEnrollList objEnrollListItem = new EventEnrollList();
+                var objEnrollListItem = new EventEnrollList();
                 noEnrolees += objSignup.NoEnrolees;
                 if (objSignup.UserID != -1)
                 {
-                    UserInfo objUser = default(UserInfo);
-                    objUser = objCtlUser.GetUser(PortalId, objSignup.UserID);
-                    EventInfoHelper objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
-                    objEnrollListItem.EnrollDisplayName = objEventInfoHelper.UserDisplayNameProfile(objSignup.UserID, objSignup.UserName, LocalResourceFile).DisplayNameURL;
+                    var objUser = default(UserInfo);
+                    objUser = objCtlUser.GetUser(this.PortalId, objSignup.UserID);
+                    var objEventInfoHelper =
+                        new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                    objEnrollListItem.EnrollDisplayName = objEventInfoHelper
+                        .UserDisplayNameProfile(objSignup.UserID, objSignup.UserName, this.LocalResourceFile)
+                        .DisplayNameURL;
                     if (!ReferenceEquals(objUser, null))
                     {
                         objEnrollListItem.EnrollUserName = objUser.Username;
-                        objEnrollListItem.EnrollEmail = string.Format("<a href=\"mailto:{0}?subject={1}\">{0}</a>", objSignup.Email, objEvent.EventName);
+                        objEnrollListItem.EnrollEmail =
+                            string.Format("<a href=\"mailto:{0}?subject={1}\">{0}</a>", objSignup.Email,
+                                          objEvent.EventName);
                         objEnrollListItem.EnrollPhone = objUser.Profile.Telephone;
                     }
                 }
                 else
                 {
                     objEnrollListItem.EnrollDisplayName = objSignup.AnonName;
-                    objEnrollListItem.EnrollUserName = Localization.GetString("AnonUser", LocalResourceFile);
-                    objEnrollListItem.EnrollEmail = string.Format("<a href=\"mailto:{0}?subject={1}\">{0}</a>", objSignup.AnonEmail, objEvent.EventName);
+                    objEnrollListItem.EnrollUserName = Localization.GetString("AnonUser", this.LocalResourceFile);
+                    objEnrollListItem.EnrollEmail =
+                        string.Format("<a href=\"mailto:{0}?subject={1}\">{0}</a>", objSignup.AnonEmail,
+                                      objEvent.EventName);
                     objEnrollListItem.EnrollPhone = objSignup.AnonTelephone;
                 }
                 objEnrollListItem.SignupID = objSignup.SignupID;
@@ -2269,157 +2474,161 @@ namespace DotNetNuke.Modules.Events
 
             if (eventEnrollment.Count > 0)
             {
-                grdEnrollment.DataSource = eventEnrollment;
-                grdEnrollment.DataBind();
-                tblEventEmail.Attributes.Add("style", "display:block; width:100%");
-                lblEnrolledUsers.Visible = true;
-                grdEnrollment.Visible = true;
-                lnkSelectedDelete.Visible = true;
-                lnkSelectedEmail.Visible = true;
+                this.grdEnrollment.DataSource = eventEnrollment;
+                this.grdEnrollment.DataBind();
+                this.tblEventEmail.Attributes.Add("style", "display:block; width:100%");
+                this.lblEnrolledUsers.Visible = true;
+                this.grdEnrollment.Visible = true;
+                this.lnkSelectedDelete.Visible = true;
+                this.lnkSelectedEmail.Visible = true;
             }
             else
             {
-                lblEnrolledUsers.Visible = false;
-                grdEnrollment.Visible = false;
-                if (!Settings.Newpereventemail)
+                this.lblEnrolledUsers.Visible = false;
+                this.grdEnrollment.Visible = false;
+                if (!this.Settings.Newpereventemail)
                 {
-                    tblEventEmail.Attributes.Add("style", "display:none; width:100%");
+                    this.tblEventEmail.Attributes.Add("style", "display:none; width:100%");
                 }
-                lnkSelectedDelete.Visible = false;
-                lnkSelectedEmail.Visible = false;
+                this.lnkSelectedDelete.Visible = false;
+                this.lnkSelectedEmail.Visible = false;
             }
 
             objEvent.Enrolled = eventEnrollment.Count;
             objEvent.Signups = true;
-            ShowHideEnrolleeColumns(objEvent);
+            this.ShowHideEnrolleeColumns(objEvent);
 
-            txtEnrolled.Text = noEnrolees.ToString();
-            valNoEnrolees.MaximumValue = Convert.ToString(objEvent.MaxEnrollment - noEnrolees);
-            if (int.Parse(valNoEnrolees.MaximumValue) > Settings.Maxnoenrolees | objEvent.MaxEnrollment == 0)
+            this.txtEnrolled.Text = noEnrolees.ToString();
+            this.valNoEnrolees.MaximumValue = Convert.ToString(objEvent.MaxEnrollment - noEnrolees);
+            if ((int.Parse(this.valNoEnrolees.MaximumValue) > this.Settings.Maxnoenrolees) |
+                (objEvent.MaxEnrollment == 0))
             {
-                valNoEnrolees.MaximumValue = Settings.Maxnoenrolees.ToString();
+                this.valNoEnrolees.MaximumValue = this.Settings.Maxnoenrolees.ToString();
             }
-            else if (int.Parse(valNoEnrolees.MaximumValue) < 1)
+            else if (int.Parse(this.valNoEnrolees.MaximumValue) < 1)
             {
-                valNoEnrolees.MaximumValue = "1";
+                this.valNoEnrolees.MaximumValue = "1";
             }
-            lblMaxNoEnrolees.Text = string.Format(Localization.GetString("lblMaxNoEnrolees", LocalResourceFile), valNoEnrolees.MaximumValue);
+            this.lblMaxNoEnrolees.Text =
+                string.Format(Localization.GetString("lblMaxNoEnrolees", this.LocalResourceFile),
+                              this.valNoEnrolees.MaximumValue);
         }
 
         private void ShowHideEnrolleeColumns(EventInfo objEvent)
         {
-            string txtColumns = EnrolmentColumns(objEvent, true);
-            GridView gvUsersToEnroll = (GridView)(grdAddUser.FindControl("gvUsersToEnroll"));
+            var txtColumns = this.EnrolmentColumns(objEvent, true);
+            var gvUsersToEnroll = (GridView) this.grdAddUser.FindControl("gvUsersToEnroll");
             if (txtColumns.LastIndexOf("UserName", StringComparison.Ordinal) < 0)
             {
-                grdEnrollment.Columns[1].Visible = false;
+                this.grdEnrollment.Columns[1].Visible = false;
                 gvUsersToEnroll.Columns[1].Visible = false;
             }
             else
             {
-                grdEnrollment.Columns[1].Visible = true;
+                this.grdEnrollment.Columns[1].Visible = true;
                 gvUsersToEnroll.Columns[1].Visible = true;
             }
             if (txtColumns.LastIndexOf("DisplayName", StringComparison.Ordinal) < 0)
             {
-                grdEnrollment.Columns[2].Visible = false;
+                this.grdEnrollment.Columns[2].Visible = false;
                 gvUsersToEnroll.Columns[2].Visible = false;
             }
             else
             {
-                grdEnrollment.Columns[2].Visible = true;
+                this.grdEnrollment.Columns[2].Visible = true;
                 gvUsersToEnroll.Columns[2].Visible = true;
             }
             if (txtColumns.LastIndexOf("Email", StringComparison.Ordinal) < 0)
             {
-                grdEnrollment.Columns[3].Visible = false;
+                this.grdEnrollment.Columns[3].Visible = false;
                 gvUsersToEnroll.Columns[3].Visible = false;
             }
             else
             {
-                grdEnrollment.Columns[3].Visible = true;
+                this.grdEnrollment.Columns[3].Visible = true;
                 gvUsersToEnroll.Columns[3].Visible = true;
             }
             if (txtColumns.LastIndexOf("Phone", StringComparison.Ordinal) < 0)
             {
-                grdEnrollment.Columns[4].Visible = false;
+                this.grdEnrollment.Columns[4].Visible = false;
             }
             else
             {
-                grdEnrollment.Columns[4].Visible = true;
+                this.grdEnrollment.Columns[4].Visible = true;
             }
             if (txtColumns.LastIndexOf("Approved", StringComparison.Ordinal) < 0)
             {
-                grdEnrollment.Columns[5].Visible = false;
+                this.grdEnrollment.Columns[5].Visible = false;
             }
             else
             {
-                grdEnrollment.Columns[5].Visible = true;
+                this.grdEnrollment.Columns[5].Visible = true;
             }
             if (txtColumns.LastIndexOf("Qty", StringComparison.Ordinal) < 0)
             {
-                grdEnrollment.Columns[6].Visible = false;
+                this.grdEnrollment.Columns[6].Visible = false;
             }
             else
             {
-                grdEnrollment.Columns[6].Visible = true;
+                this.grdEnrollment.Columns[6].Visible = true;
             }
-            if (_editRecur)
+            if (this._editRecur)
             {
-                grdEnrollment.Columns[7].Visible = true;
+                this.grdEnrollment.Columns[7].Visible = true;
             }
             else
             {
-                grdEnrollment.Columns[7].Visible = false;
+                this.grdEnrollment.Columns[7].Visible = false;
             }
-
         }
 
         private void AddRegUser(int inUserID, EventInfo objEvent)
         {
             // Check if signup already exists since due to partial rendering it may be possible
             // to click the enroll user link twice
-            int intUserID = inUserID;
-            _objEventSignups = _objCtlEventSignups.EventsSignupsGetUser(objEvent.EventID, intUserID, objEvent.ModuleID);
+            var intUserID = inUserID;
+            this._objEventSignups =
+                this._objCtlEventSignups.EventsSignupsGetUser(objEvent.EventID, intUserID, objEvent.ModuleID);
 
-            if (ReferenceEquals(_objEventSignups, null))
+            if (ReferenceEquals(this._objEventSignups, null))
             {
                 // Get user info
-                UserInfo objUserInfo = UserController.GetUserById(PortalId, intUserID);
+                var objUserInfo = UserController.GetUserById(this.PortalId, intUserID);
 
-                _objEventSignups = new EventSignupsInfo();
-                _objEventSignups.EventID = objEvent.EventID;
-                _objEventSignups.ModuleID = objEvent.ModuleID;
-                _objEventSignups.UserID = intUserID;
-                _objEventSignups.AnonEmail = null;
-                _objEventSignups.AnonName = null;
-                _objEventSignups.AnonTelephone = null;
-                _objEventSignups.AnonCulture = null;
-                _objEventSignups.AnonTimeZoneId = null;
-                _objEventSignups.PayPalPaymentDate = DateTime.UtcNow;
-                _objEventSignups.Approved = true;
-                _objEventSignups.NoEnrolees = int.Parse(txtNoEnrolees.Text);
-                _objEventSignups = CreateEnrollment(_objEventSignups, objEvent);
+                this._objEventSignups = new EventSignupsInfo();
+                this._objEventSignups.EventID = objEvent.EventID;
+                this._objEventSignups.ModuleID = objEvent.ModuleID;
+                this._objEventSignups.UserID = intUserID;
+                this._objEventSignups.AnonEmail = null;
+                this._objEventSignups.AnonName = null;
+                this._objEventSignups.AnonTelephone = null;
+                this._objEventSignups.AnonCulture = null;
+                this._objEventSignups.AnonTimeZoneId = null;
+                this._objEventSignups.PayPalPaymentDate = DateTime.UtcNow;
+                this._objEventSignups.Approved = true;
+                this._objEventSignups.NoEnrolees = int.Parse(this.txtNoEnrolees.Text);
+                this._objEventSignups = this.CreateEnrollment(this._objEventSignups, objEvent);
 
                 // Mail users
-                if (Settings.SendEnrollMessageAdded)
+                if (this.Settings.SendEnrollMessageAdded)
                 {
-                    EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-                    EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
-                    objEventEmailInfo.TxtEmailSubject = Settings.Templates.txtEnrollMessageSubject;
-                    objEventEmailInfo.TxtEmailBody = Settings.Templates.txtEnrollMessageAdded;
-                    objEventEmailInfo.TxtEmailFrom = Settings.StandardEmail;
-                    objEventEmailInfo.UserIDs.Add(_objEventSignups.UserID);
+                    var objEventEmailInfo = new EventEmailInfo();
+                    var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                        ((PageBase) this.Page).PageCulture.Name);
+                    objEventEmailInfo.TxtEmailSubject = this.Settings.Templates.txtEnrollMessageSubject;
+                    objEventEmailInfo.TxtEmailBody = this.Settings.Templates.txtEnrollMessageAdded;
+                    objEventEmailInfo.TxtEmailFrom = this.Settings.StandardEmail;
+                    objEventEmailInfo.UserIDs.Add(this._objEventSignups.UserID);
                     objEventEmailInfo.UserIDs.Add(objEvent.OwnerID);
-                    objEventEmail.SendEmails(objEventEmailInfo, objEvent, _objEventSignups);
+                    objEventEmail.SendEmails(objEventEmailInfo, objEvent, this._objEventSignups);
                 }
             }
         }
 
         private bool ValidateTime(DateTime indate)
         {
-            int inMinutes = indate.Minute;
-            int remainder = inMinutes % int.Parse(Settings.Timeinterval);
+            var inMinutes = indate.Minute;
+            var remainder = inMinutes % int.Parse(this.Settings.Timeinterval);
             if (remainder > 0)
             {
                 return false;
@@ -2430,12 +2639,12 @@ namespace DotNetNuke.Modules.Events
         #endregion
 
         #region Links and Buttons
+
         protected void cancelButton_Click(object sender, EventArgs e)
         {
             try
             {
-                Response.Redirect(GetStoredPrevPage(), true);
-
+                this.Response.Redirect(this.GetStoredPrevPage(), true);
             }
             catch (Exception) //Module failed to load
             {
@@ -2447,12 +2656,11 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                UpdateProcessing(_itemID);
-                if (Page.IsValid)
+                this.UpdateProcessing(this._itemID);
+                if (this.Page.IsValid)
                 {
-                    Response.Redirect(GetStoredPrevPage(), true);
+                    this.Response.Redirect(this.GetStoredPrevPage(), true);
                 }
-
             }
             catch (Exception exc) //Module failed to load
             {
@@ -2460,29 +2668,31 @@ namespace DotNetNuke.Modules.Events
             }
         }
 
-        protected void deleteButton_Click(System.Object sender, EventArgs e)
+        protected void deleteButton_Click(object sender, EventArgs e)
         {
             try
             {
-                _objEvent = _objCtlEvent.EventsGet(_itemID, ModuleId);
-                if (_editRecur)
+                this._objEvent = this._objCtlEvent.EventsGet(this._itemID, this.ModuleId);
+                if (this._editRecur)
                 {
-                    _objCtlEventRecurMaster.EventsRecurMasterDelete(_objEvent.RecurMasterID, _objEvent.ModuleID);
+                    this._objCtlEventRecurMaster.EventsRecurMasterDelete(
+                        this._objEvent.RecurMasterID, this._objEvent.ModuleID);
                 }
                 else
                 {
-                    if (_objEvent.RRULE != "")
+                    if (this._objEvent.RRULE != "")
                     {
-                        _objEvent.Cancelled = true;
-                        _objEvent.LastUpdatedID = UserId;
-                        _objEvent = _objCtlEvent.EventsSave(_objEvent, false, TabId, true);
+                        this._objEvent.Cancelled = true;
+                        this._objEvent.LastUpdatedID = this.UserId;
+                        this._objEvent = this._objCtlEvent.EventsSave(this._objEvent, false, this.TabId, true);
                     }
                     else
                     {
-                        _objCtlEventRecurMaster.EventsRecurMasterDelete(_objEvent.RecurMasterID, _objEvent.ModuleID);
+                        this._objCtlEventRecurMaster.EventsRecurMasterDelete(
+                            this._objEvent.RecurMasterID, this._objEvent.ModuleID);
                     }
                 }
-                Response.Redirect(GetSocialNavigateUrl(), true);
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
             }
             catch (Exception) //Module failed to load
             {
@@ -2490,43 +2700,45 @@ namespace DotNetNuke.Modules.Events
             }
         }
 
-        protected void lnkSelectedEmail_Click(System.Object sender, EventArgs e)
+        protected void lnkSelectedEmail_Click(object sender, EventArgs e)
         {
-            Email(true);
+            this.Email(true);
         }
 
-        protected void lnkSelectedDelete_Click(System.Object sender, EventArgs e)
+        protected void lnkSelectedDelete_Click(object sender, EventArgs e)
         {
-            DataGridItem item = default(DataGridItem);
-            EventSignupsInfo objEnroll = default(EventSignupsInfo);
-            int eventID = 0;
+            var item = default(DataGridItem);
+            var objEnroll = default(EventSignupsInfo);
+            var eventID = 0;
 
-            foreach (DataGridItem tempLoopVar_item in grdEnrollment.Items)
+            foreach (DataGridItem tempLoopVar_item in this.grdEnrollment.Items)
             {
                 item = tempLoopVar_item;
-                if (((CheckBox)(item.FindControl("chkSelect"))).Checked)
+                if (((CheckBox) item.FindControl("chkSelect")).Checked)
                 {
-                    int intSignupID = System.Convert.ToInt32(grdEnrollment.DataKeys[item.ItemIndex]);
-                    objEnroll = _objCtlEventSignups.EventsSignupsGet(intSignupID, ModuleId, false);
+                    var intSignupID = Convert.ToInt32(this.grdEnrollment.DataKeys[item.ItemIndex]);
+                    objEnroll = this._objCtlEventSignups.EventsSignupsGet(intSignupID, this.ModuleId, false);
                     if (!ReferenceEquals(objEnroll, null))
                     {
                         if (eventID != objEnroll.EventID)
                         {
-                            _objEvent = _objCtlEvent.EventsGet(objEnroll.EventID, ModuleId);
+                            this._objEvent = this._objCtlEvent.EventsGet(objEnroll.EventID, this.ModuleId);
                         }
                         eventID = objEnroll.EventID;
 
                         // Delete Selected Enrollee
-                        DeleteEnrollment(intSignupID, _objEvent.ModuleID, _objEvent.EventID);
+                        this.DeleteEnrollment(intSignupID, this._objEvent.ModuleID, this._objEvent.EventID);
 
                         // Mail users
-                        if (Settings.SendEnrollMessageDeleted)
+                        if (this.Settings.SendEnrollMessageDeleted)
                         {
-                            EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-                            EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
-                            objEventEmailInfo.TxtEmailSubject = Settings.Templates.txtEnrollMessageSubject;
-                            objEventEmailInfo.TxtEmailBody = Settings.Templates.txtEnrollMessageDeleted;
-                            objEventEmailInfo.TxtEmailFrom = Settings.StandardEmail;
+                            var objEventEmailInfo = new EventEmailInfo();
+                            var objEventEmail =
+                                new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                ((PageBase) this.Page).PageCulture.Name);
+                            objEventEmailInfo.TxtEmailSubject = this.Settings.Templates.txtEnrollMessageSubject;
+                            objEventEmailInfo.TxtEmailBody = this.Settings.Templates.txtEnrollMessageDeleted;
+                            objEventEmailInfo.TxtEmailFrom = this.Settings.StandardEmail;
                             if (objEnroll.UserID > -1)
                             {
                                 objEventEmailInfo.UserIDs.Add(objEnroll.UserID);
@@ -2537,28 +2749,26 @@ namespace DotNetNuke.Modules.Events
                                 objEventEmailInfo.UserLocales.Add(objEnroll.AnonCulture);
                                 objEventEmailInfo.UserTimeZoneIds.Add(objEnroll.AnonTimeZoneId);
                             }
-                            objEventEmailInfo.UserIDs.Add(_objEvent.OwnerID);
-                            objEventEmail.SendEmails(objEventEmailInfo, _objEvent, objEnroll);
+                            objEventEmailInfo.UserIDs.Add(this._objEvent.OwnerID);
+                            objEventEmail.SendEmails(objEventEmailInfo, this._objEvent, objEnroll);
                         }
                     }
-
                 }
             }
 
-            LoadRegUsers();
-            BuildEnrolleeGrid(_objEvent);
+            this.LoadRegUsers();
+            this.BuildEnrolleeGrid(this._objEvent);
         }
 
         protected void copyButton_Click(object sender, EventArgs e)
         {
             try
             {
-                UpdateProcessing(-1);
-                if (Page.IsValid)
+                this.UpdateProcessing(-1);
+                if (this.Page.IsValid)
                 {
-                    Response.Redirect(GetStoredPrevPage(), true);
+                    this.Response.Redirect(this.GetStoredPrevPage(), true);
                 }
-
             }
             catch (Exception exc) //Module failed to load
             {
@@ -2568,27 +2778,27 @@ namespace DotNetNuke.Modules.Events
 
         protected void ddEnrollRoles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadRegUsers();
+            this.LoadRegUsers();
         }
 
         protected void chkSignups_CheckedChanged(object sender, EventArgs e)
         {
-            tblEventEmail.Attributes.Add("style", "display:none; width:100%");
-            if (chkSignups.Checked)
+            this.tblEventEmail.Attributes.Add("style", "display:none; width:100%");
+            if (this.chkSignups.Checked)
             {
-                tblEnrollmentDetails.Attributes.Add("style", "display:block;");
-                LoadRegUsers();
-                if (txtEnrolled.Text != 0.ToString())
+                this.tblEnrollmentDetails.Attributes.Add("style", "display:block;");
+                this.LoadRegUsers();
+                if (this.txtEnrolled.Text != 0.ToString())
                 {
-                    tblEventEmail.Attributes.Add("style", "display:block; width:100%");
+                    this.tblEventEmail.Attributes.Add("style", "display:block; width:100%");
                 }
             }
             else
             {
-                tblEnrollmentDetails.Attributes.Add("style", "display:none;");
-                if (Settings.Newpereventemail && chkEventEmailChk.Checked)
+                this.tblEnrollmentDetails.Attributes.Add("style", "display:none;");
+                if (this.Settings.Newpereventemail && this.chkEventEmailChk.Checked)
                 {
-                    tblEventEmail.Attributes.Add("style", "display:block; width:100%");
+                    this.tblEventEmail.Attributes.Add("style", "display:block; width:100%");
                 }
             }
         }
@@ -2597,31 +2807,36 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                if (int.Parse(txtNoEnrolees.Text) > int.Parse(valNoEnrolees.MaximumValue) || int.Parse(txtNoEnrolees.Text) < int.Parse(valNoEnrolees.MinimumValue))
+                if (int.Parse(this.txtNoEnrolees.Text) > int.Parse(this.valNoEnrolees.MaximumValue) ||
+                    int.Parse(this.txtNoEnrolees.Text) < int.Parse(this.valNoEnrolees.MinimumValue))
                 {
-                    valNoEnrolees.IsValid = false;
-                    valNoEnrolees.Visible = true;
-                    valNoEnrolees.ErrorMessage = string.Format(Localization.GetString("valNoEnrolees", LocalResourceFile), valNoEnrolees.MaximumValue);
+                    this.valNoEnrolees.IsValid = false;
+                    this.valNoEnrolees.Visible = true;
+                    this.valNoEnrolees.ErrorMessage =
+                        string.Format(Localization.GetString("valNoEnrolees", this.LocalResourceFile),
+                                      this.valNoEnrolees.MaximumValue);
                     return;
                 }
             }
             catch
             {
-                valNoEnrolees.IsValid = false;
-                valNoEnrolees.Visible = true;
-                valNoEnrolees.ErrorMessage = string.Format(Localization.GetString("valNoEnrolees", LocalResourceFile), valNoEnrolees.MaximumValue);
+                this.valNoEnrolees.IsValid = false;
+                this.valNoEnrolees.Visible = true;
+                this.valNoEnrolees.ErrorMessage =
+                    string.Format(Localization.GetString("valNoEnrolees", this.LocalResourceFile),
+                                  this.valNoEnrolees.MaximumValue);
                 return;
             }
 
-            EventInfo objEvent = _objCtlEvent.EventsGet(_itemID, ModuleId);
+            var objEvent = this._objCtlEvent.EventsGet(this._itemID, this.ModuleId);
 
             foreach (int inUserid in arrUsers)
             {
-                AddRegUser(inUserid, objEvent);
+                this.AddRegUser(inUserid, objEvent);
             }
-            LoadRegUsers();
-            BuildEnrolleeGrid(objEvent);
-            txtNoEnrolees.Text = System.Convert.ToString(1.ToString());
+            this.LoadRegUsers();
+            this.BuildEnrolleeGrid(objEvent);
+            this.txtNoEnrolees.Text = Convert.ToString(1.ToString());
         }
 
         #endregion
@@ -2629,41 +2844,35 @@ namespace DotNetNuke.Modules.Events
         #region  Web Form Designer Generated Code
 
         //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
+        [DebuggerStepThrough]
         private void InitializeComponent()
-        {
+        { }
 
-        }
-
-        private void Page_Init(System.Object sender, EventArgs e)
+        private void Page_Init(object sender, EventArgs e)
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         #endregion
-
     }
 
     #region Comparer Class
+
     public class UserListSort : IComparer
     {
-
         public int Compare(object x, object y)
         {
-            string xdisplayname = "";
-            string ydisplayname = "";
+            var xdisplayname = "";
+            var ydisplayname = "";
 
-            xdisplayname = ((EventUser)x).DisplayName;
-            ydisplayname = ((EventUser)y).DisplayName;
-            CaseInsensitiveComparer c = new CaseInsensitiveComparer();
+            xdisplayname = ((EventUser) x).DisplayName;
+            ydisplayname = ((EventUser) y).DisplayName;
+            var c = new CaseInsensitiveComparer();
             return c.Compare(xdisplayname, ydisplayname);
         }
     }
 
     #endregion
-
 }
-
-
