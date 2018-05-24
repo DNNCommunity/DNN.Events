@@ -29,7 +29,7 @@
             </asp:Panel>
         </div>
         <div>
-            <asp:Panel ID="pnlGrid" runat="server" Width="100%" BorderWidth="2px" BorderStyle="Outset" CssClass="SubHead" style="margin-top:2px">
+            <asp:Panel ID="pnlGrid" runat="server" Width="100%" BorderWidth="2px" BorderStyle="Outset" CssClass="SubHead" style="margin-top: 2px">
                 <asp:DataGrid ID="grdRecurEvents" runat="server" Width="100%" BorderWidth="0px" CssClass="Normal" GridLines="Horizontal" AutoGenerateColumns="False" OnItemCommand="grdRecurEvents_ItemCommand" DataKeyField="RecurMasterID">
                     <EditItemStyle VerticalAlign="Bottom"></EditItemStyle>
                     <AlternatingItemStyle BackColor="WhiteSmoke"></AlternatingItemStyle>
@@ -49,7 +49,7 @@
                         <asp:TemplateColumn HeaderText="Event">
                             <ItemTemplate>
                                 <asp:LinkButton ID="lnkRecurDownload" CssClass="CommandButton" runat="server" CommandName="Select" CommandArgument="Select">
-								<%# DataBinder.Eval(Container.DataItem,"EventName") %>
+                                    <%# DataBinder.Eval(Container.DataItem, "EventName") %>
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateColumn>
@@ -75,7 +75,7 @@
                         <asp:TemplateColumn HeaderText="Event">
                             <ItemTemplate>
                                 <asp:LinkButton ID="lnkDownload" CssClass="CommandButton" runat="server" CommandName="Select" CommandArgument="Select">
-								<%# DataBinder.Eval(Container.DataItem,"EventName") %>
+                                    <%# DataBinder.Eval(Container.DataItem, "EventName") %>
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateColumn>
@@ -100,13 +100,13 @@
                         <asp:TemplateColumn HeaderText="Event">
                             <ItemTemplate>
                                 <asp:LinkButton ID="lnkEnrollEventName" CssClass="CommandButton" CommandArgument="Select" CommandName="Select" runat="server">
-								<%# DataBinder.Eval(Container.DataItem,"EventName") %>
+                                    <%# DataBinder.Eval(Container.DataItem, "EventName") %>
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateColumn>
                         <asp:TemplateColumn>
                             <ItemTemplate>
-                                <asp:ImageButton ID="btnUserEmail" runat="server" IconKey="Email" CausesValidation="false" CommandName="User" CommandArgument="Select" Visible='<%# DataBinder.Eval(Container.DataItem,"EmailVisible") %>' />
+                                <asp:ImageButton ID="btnUserEmail" runat="server" IconKey="Email" CausesValidation="false" CommandName="User" CommandArgument="Select" Visible='<%# DataBinder.Eval(Container.DataItem, "EmailVisible") %>'/>
                             </ItemTemplate>
                         </asp:TemplateColumn>
                         <asp:BoundColumn DataField="UserName" HeaderText="User"></asp:BoundColumn>
@@ -115,16 +115,25 @@
                 </asp:DataGrid>
             </asp:Panel>
         </div>
-        <div class="SubHead" >
+        <div class="SubHead">
             <asp:Label ID="lblMessage" runat="server" CssClass="SubHead">Note: Deny will delete Event/Signup Entries from the Database!</asp:Label>
         </div>
         <ul class="dnnActions dnnClear">
-            <li><asp:LinkButton OnClick="returnButton_Click" ID="returnButton" CssClass="dnnPrimaryAction" runat="server" resourcekey="returnButton" CausesValidation="False" /></li>
-            <li><asp:LinkButton OnClick="cmdUpdateSelected_Click" ID="cmdUpdateSelected" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdUpdateSelected" CausesValidation="False" /></li>
-            <li><asp:LinkButton OnClick="cmdSelectApproveAll_Click" ID="cmdSelectApproveAll" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdSelectApproveAll" CausesValidation="False" /></li>
-            <li><asp:LinkButton OnClick="cmdSelectDenyAll_Click" ID="cmdSelectDenyAll" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdSelectDenyAll" CausesValidation="False" /></li>
-            <li><asp:LinkButton OnClick="cmdUnmarkAll_Click" ID="cmdUnmarkAll" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdUnmarkAll" CausesValidation="False" /></li>
+            <li>
+                <asp:LinkButton OnClick="returnButton_Click" ID="returnButton" CssClass="dnnPrimaryAction" runat="server" resourcekey="returnButton" CausesValidation="False"/>
+            </li>
+            <li>
+                <asp:LinkButton OnClick="cmdUpdateSelected_Click" ID="cmdUpdateSelected" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdUpdateSelected" CausesValidation="False"/>
+            </li>
+            <li>
+                <asp:LinkButton OnClick="cmdSelectApproveAll_Click" ID="cmdSelectApproveAll" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdSelectApproveAll" CausesValidation="False"/>
+            </li>
+            <li>
+                <asp:LinkButton OnClick="cmdSelectDenyAll_Click" ID="cmdSelectDenyAll" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdSelectDenyAll" CausesValidation="False"/>
+            </li>
+            <li>
+                <asp:LinkButton OnClick="cmdUnmarkAll_Click" ID="cmdUnmarkAll" CssClass="dnnSecondaryAction" runat="server" resourcekey="cmdUnmarkAll" CausesValidation="False"/>
+            </li>
         </ul>
     </div>
 </asp:Panel>
-

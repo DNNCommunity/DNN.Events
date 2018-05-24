@@ -1,6 +1,5 @@
-using System.Web.UI.WebControls;
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -20,72 +19,50 @@ using System.Web.UI.WebControls;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events.ScheduleControl
 {
-	
-	/// -----------------------------------------------------------------------------
-	/// Project	 : schedule
-	/// Class	 : ClickableTableCell
-	///
-	/// -----------------------------------------------------------------------------
-	/// <summary>
-	/// The ClickableTableCell class is used for causing postback when the user
-	/// clicks on empty slots
-	/// </summary>
-	public class ClickableTableCell : TableCell
-	{
-		
-		private int _row;
-		private int _column;
-		
-		public int Row
-		{
-			get
-			{
-				return _row;
-			}
-			set
-			{
-				_row = value;
-			}
-		}
-		
-		public int Column
-		{
-			get
-			{
-				return _column;
-			}
-			set
-			{
-				_column = value;
-			}
-		}
-		
-		
-		public ClickableTableCell(int newRow, int newColumn)
-		{
-			this._row = newRow;
-			this._column = newColumn;
-		}
-		
-		protected override void OnPreRender(System.EventArgs e)
-		{
-			base.OnPreRender(e);
-			if (Controls.Count > 0)
-			{
-				return ; // don't allow clicking on cells that contain existing items
-			}
-			this.Style.Add("cursor", "hand"); // change the cursor: only works in Internet Explorer
-			BaseSchedule scheduleControl = (BaseSchedule) this.Parent.Parent.Parent;
-			// get tooltip from parent schedule control
-			this.ToolTip = scheduleControl.EmptySlotToolTip;
-			string eventArgument = _row + "-" + System.Convert.ToString(_column);
-			this.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(scheduleControl, eventArgument);
-		}
-	}
-	
+    using System;
+    using System.Web.UI.WebControls;
+
+    /// -----------------------------------------------------------------------------
+    /// Project	 : schedule
+    /// Class	 : ClickableTableCell
+    /// 
+    /// -----------------------------------------------------------------------------
+    /// <summary>
+    ///     The ClickableTableCell class is used for causing postback when the user
+    ///     clicks on empty slots
+    /// </summary>
+    public class ClickableTableCell : TableCell
+    {
+        public ClickableTableCell(int newRow, int newColumn)
+        {
+            this.Row = newRow;
+            this.Column = newColumn;
+        }
+
+        public int Row { get; set; }
+
+        public int Column { get; set; }
+
+        protected override void OnPreRender(EventArgs e)
+        {
+            base.OnPreRender(e);
+            if (this.Controls.Count > 0)
+            {
+                return; // don't allow clicking on cells that contain existing items
+            }
+            this.Style.Add("cursor", "hand"); // change the cursor: only works in Internet Explorer
+            var scheduleControl = (BaseSchedule) this.Parent.Parent.Parent;
+            // get tooltip from parent schedule control
+            this.ToolTip = scheduleControl.EmptySlotToolTip;
+            var eventArgument = this.Row + "-" + Convert.ToString(this.Column);
+            this.Attributes["onclick"] =
+                this.Page.ClientScript.GetPostBackClientHyperlink(scheduleControl, eventArgument);
+        }
+    }
 }

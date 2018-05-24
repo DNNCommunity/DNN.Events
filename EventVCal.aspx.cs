@@ -1,9 +1,5 @@
-using System.Diagnostics;
-using System.Web.UI;
-using System.Web;
-using System;
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -23,43 +19,46 @@ using System;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
-	{
-		public partial class EventVCal : Page
-		{
-			
-#region  Web Form Designer Generated Code
-			
-			//This call is required by the Web Form Designer.
-			[DebuggerStepThrough()]private void InitializeComponent()
-			{
-				
-			}
-			
-			private void Page_Init(System.Object sender, EventArgs e)
-			{
-				//CODEGEN: This method call is required by the Web Form Designer
-				//Do not modify it using the code editor.
-				InitializeComponent();
-			}
-			
-#endregion
-			
-#region Event Handlers
-			private void Page_Load(System.Object sender, EventArgs e)
-			{
-				VEvent oVEvent = new VEvent();
-				//N. Pitsch
-				HttpContext oContext = default(HttpContext);
-				oContext = HttpContext.Current;
-				oVEvent.ProcessVCalRequest(oContext);
-			}
-#endregion
-			
-		}
-	}
-	
+{
+    using System;
+    using System.Diagnostics;
+    using System.Web;
+    using System.Web.UI;
 
+    public partial class EventVCal : Page
+    {
+        #region Event Handlers
+
+        private void Page_Load(object sender, EventArgs e)
+        {
+            var oVEvent = new VEvent();
+            //N. Pitsch
+            var oContext = default(HttpContext);
+            oContext = HttpContext.Current;
+            oVEvent.ProcessVCalRequest(oContext);
+        }
+
+        #endregion
+
+        #region  Web Form Designer Generated Code
+
+        //This call is required by the Web Form Designer.
+        [DebuggerStepThrough]
+        private void InitializeComponent()
+        { }
+
+        private void Page_Init(object sender, EventArgs e)
+        {
+            //CODEGEN: This method call is required by the Web Form Designer
+            //Do not modify it using the code editor.
+            this.InitializeComponent();
+        }
+
+        #endregion
+    }
+}

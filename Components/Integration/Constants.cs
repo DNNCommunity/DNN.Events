@@ -1,4 +1,5 @@
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -18,28 +19,25 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events.Components.Integration
-	{
-		
-		public class Constants
-		{
-			
-#region Misc.
-			
-			/// <summary>
-			/// The name of the content type stored in the ContentTypes table of the core.
-			/// </summary>
-			public const string ContentEventRecurMasterTypeName = "DNN_Events_EventRecurMaster";
-			public const string ContentEventTypeName = "DNN_Events_Event";
-			public const string JournalEventCreateTypeName = "eventcreate";
-			public const string JournalEventAttendTypeName = "eventattend";
-			
-#endregion
-			
-		}
-	}
-	
-	
+{
+    public class Constants
+    {
+        #region Misc.
+
+        /// <summary>
+        ///     The name of the content type stored in the ContentTypes table of the core.
+        /// </summary>
+        public const string ContentEventRecurMasterTypeName = "DNN_Events_EventRecurMaster";
+
+        public const string ContentEventTypeName = "DNN_Events_Event";
+        public const string JournalEventCreateTypeName = "eventcreate";
+        public const string JournalEventAttendTypeName = "eventattend";
+
+        #endregion
+    }
+}

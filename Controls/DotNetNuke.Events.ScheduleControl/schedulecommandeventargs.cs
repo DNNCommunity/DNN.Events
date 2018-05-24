@@ -1,7 +1,5 @@
-using System;
-using System.Web.UI.WebControls;
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -21,50 +19,39 @@ using System.Web.UI.WebControls;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events.ScheduleControl
 {
-	
-	/// -----------------------------------------------------------------------------
-	/// Project	 : schedule
-	/// Class	 : ScheduleItemEventArgs
-	///
-	/// -----------------------------------------------------------------------------
-	/// <summary>
-	/// The ScheduleItemEventArgs class can be used with the OnItemCommand event of the Schedule controls
-	/// </summary>
-	[CLSCompliant(true)]public sealed class ScheduleCommandEventArgs : CommandEventArgs
-	{
-		
-		private ScheduleItem _item;
-		private object _commandSource;
-		
-		public ScheduleCommandEventArgs(ScheduleItem item, object commandSource, CommandEventArgs originalArgs) : base(originalArgs)
-		{
-			this._item = item;
-			this._commandSource = commandSource;
-		}
-		
-		public ScheduleItem Item
-		{
-			get
-			{
-				return _item;
-			}
-		}
-		
-		public dynamic CommandSource
-		{
-			get
-			{
-				return _commandSource;
-			}
-		}
-	}
-	
-	public delegate void ScheduleCommandEventHandler(object sender, ScheduleCommandEventArgs e);
-	
-	
+    using System;
+    using System.Web.UI.WebControls;
+
+    /// -----------------------------------------------------------------------------
+    /// Project	 : schedule
+    /// Class	 : ScheduleItemEventArgs
+    /// 
+    /// -----------------------------------------------------------------------------
+    /// <summary>
+    ///     The ScheduleItemEventArgs class can be used with the OnItemCommand event of the Schedule controls
+    /// </summary>
+    [CLSCompliant(true)]
+    public sealed class ScheduleCommandEventArgs : CommandEventArgs
+    {
+        private readonly object _commandSource;
+
+        public ScheduleCommandEventArgs(ScheduleItem item, object commandSource,
+                                        CommandEventArgs originalArgs) : base(originalArgs)
+        {
+            this.Item = item;
+            this._commandSource = commandSource;
+        }
+
+        public ScheduleItem Item { get; }
+
+        public dynamic CommandSource => this._commandSource;
+    }
+
+    public delegate void ScheduleCommandEventHandler(object sender, ScheduleCommandEventArgs e);
 }

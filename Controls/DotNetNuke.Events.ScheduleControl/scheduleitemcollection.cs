@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -21,88 +19,57 @@ using System.Collections;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events.ScheduleControl
 {
-	
-	/// -----------------------------------------------------------------------------
-	/// Project	 : schedule
-	/// Class	 : ScheduleItemCollection
-	///
-	/// -----------------------------------------------------------------------------
-	/// <summary>
-	/// The ScheduleItemCollection class represents a collection of ScheduleItem objects.
-	/// </summary>
-	/// -----------------------------------------------------------------------------
-	public class ScheduleItemCollection : ICollection, IEnumerable
-	{
-		
-		private ArrayList items;
-		
-		public ScheduleItemCollection(ArrayList items)
-		{
-			this.items = items;
-		}
-		
-		public int Count
-		{
-			get
-			{
-				return items.Count;
-			}
-		}
-		
-		public bool IsReadOnly
-		{
-			get
-			{
-				return false;
-			}
-		}
-		
-		public bool IsSynchronized
-		{
-			get
-			{
-				return false;
-			}
-		}
-		
-		public ScheduleItem this[int index]
-		{
-			get
-			{
-				return ((ScheduleItem) (items[index]));
-			}
-		}
-		
-		public dynamic SyncRoot
-		{
-			get
-			{
-				return this;
-			}
-		}
-		
-		public void CopyTo(Array array, int index)
-		{
-			ScheduleItem current = default(ScheduleItem);
-			foreach (ScheduleItem tempLoopVar_current in this)
-			{
-				current = tempLoopVar_current;
-				array.SetValue(current, index);
-				index++;
-			}
-		}
-		
-		public IEnumerator GetEnumerator()
-		{
-			return items.GetEnumerator();
-		}
-		
-	} //ScheduleItemCollection
-	
-	
+    using System;
+    using System.Collections;
+
+    /// -----------------------------------------------------------------------------
+    /// Project	 : schedule
+    /// Class	 : ScheduleItemCollection
+    /// 
+    /// -----------------------------------------------------------------------------
+    /// <summary>
+    ///     The ScheduleItemCollection class represents a collection of ScheduleItem objects.
+    /// </summary>
+    /// -----------------------------------------------------------------------------
+    public class ScheduleItemCollection : ICollection, IEnumerable
+    {
+        private readonly ArrayList items;
+
+        public ScheduleItemCollection(ArrayList items)
+        {
+            this.items = items;
+        }
+
+        public bool IsReadOnly => false;
+
+        public ScheduleItem this[int index] => (ScheduleItem) this.items[index];
+
+        public int Count => this.items.Count;
+
+        public bool IsSynchronized => false;
+
+        public dynamic SyncRoot => this;
+
+        public void CopyTo(Array array, int index)
+        {
+            var current = default(ScheduleItem);
+            foreach (ScheduleItem tempLoopVar_current in this)
+            {
+                current = tempLoopVar_current;
+                array.SetValue(current, index);
+                index++;
+            }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return this.items.GetEnumerator();
+        }
+    } //ScheduleItemCollection
 }

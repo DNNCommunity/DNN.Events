@@ -1,4 +1,5 @@
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -18,15 +19,17 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 {
     using System;
-    using DNNtc;
+    using global::Components;
 
-    [ModuleControlProperties("TemplateHelp", "Event Template Help", ControlType.View, "https://dnnevents.codeplex.com/documentation", true, true)]
+    [DNNtc.ModuleControlProperties("TemplateHelp", "Event Template Help", DNNtc.ControlType.View,
+        "https://dnnevents.codeplex.com/documentation", true, true)]
     public partial class EventTemplateHelp : EventBase
     {
         protected void Page_Load(object sender, EventArgs e)

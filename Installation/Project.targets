@@ -552,8 +552,8 @@
 		</CreateItem>
 		<!--Copy the files-->
     <!-- Uncomment if you are developing in a running DNN site -->
-	  <!-- 
-    <Copy SourceFiles="@(BinFiles)" DestinationFolder="..\..\bin\" SkipUnchangedFiles="true" ContinueOnError="false" /> 
-    -->
+	   
+    <!--<Copy SourceFiles="@(BinFiles)" DestinationFolder="..\..\bin\" SkipUnchangedFiles="true" ContinueOnError="false" />--> 
+    
   </Target>
 </Project>

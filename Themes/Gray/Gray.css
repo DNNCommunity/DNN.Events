@@ -3,570 +3,498 @@
    ================================
 */
 .ThemeGray .EvtHdrLftCol {
-width:33%;
-float:left;
-min-height:1px;
+    float: left;
+    min-height: 1px;
+    width: 33%;
 }
 
 .ThemeGray .EvtHdrMdlCol {
-width:34%;
-float:left;
-min-height:1px;
-text-align:center;
+    float: left;
+    min-height: 1px;
+    text-align: center;
+    width: 34%;
 }
 
 .ThemeGray .EvtHdrRgtCol {
-width:33%;
-float:left;
+    float: left;
+    width: 33%;
 }
 
 .ThemeGray .Eventtooltipheader, .ThemeGray .Eventtooltipbody {
-width:300px;
-z-index:99;
-font-size:10px;
-font-family:arial;
-padding:5px
+    font-family: arial;
+    font-size: 10px;
+    padding: 5px;
+    width: 300px;
+    z-index: 99;
 }
 
 .ThemeGray .Eventtooltipheader {
-border:#e5dfdf 1px solid;
-background-color:#e5dfdf;
-color:#000;
-font-weight:700;
-font-size:11px
+    background-color: #e5dfdf;
+    border: #e5dfdf 1px solid;
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
 }
 
 .ThemeGray .Eventtooltipbody {
-border-left:#e5dfdf 1px solid;
-border-right:#e5dfdf 1px solid;
-border-bottom:#e5dfdf 1px solid;
-background-color:#fff
+    background-color: #fff;
+    border-bottom: #e5dfdf 1px solid;
+    border-left: #e5dfdf 1px solid;
+    border-right: #e5dfdf 1px solid;
 }
 
 .ThemeGray .Eventtooltipbody hr {
-width:100%;
-color:#e5dfdf;
-background-color:#e5dfdf;
-height:1px;
-border:0
+    background-color: #e5dfdf;
+    border: 0;
+    color: #e5dfdf;
+    height: 1px;
+    width: 100%;
 }
 
 .ThemeGray .Event {
-table-layout:auto;
-font-size:9px;
-color:#FFF;
-font-family:verdana;
-height:400px;
-width:75%;
-text-align:center;
-border:#e5dfdf 1px solid;
-background-color:#EFE7E7;
-white-space:normal;
-line-height:1.3em
+    background-color: #EFE7E7;
+    border: #e5dfdf 1px solid;
+    color: #FFF;
+    font-family: verdana;
+    font-size: 9px;
+    height: 400px;
+    line-height: 1.3em;
+    table-layout: auto;
+    text-align: center;
+    white-space: normal;
+    width: 75%;
 }
 
 .ThemeGray .EventTitle {
-font-weight:700;
-font-size:14px;
-background-image:url(gradient_Gray.jpg);
-width:100%;
-color:#fff;
-text-align:center;
-height:32px
+    background-image: url(gradient_Gray.jpg);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    height: 32px;
+    text-align: center;
+    width: 100%;
 }
 
-.ThemeGray .EventTitle,.ThemeGray .EventTitle td {
-font-weight:700;
-font-size:14px;
-width:100%;
-color:#FFF;
-text-align:center;
-background-image:url(gradient_Gray.jpg);
-height:32px
+.ThemeGray .EventTitle, .ThemeGray .EventTitle td {
+    background-image: url(gradient_Gray.jpg);
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 700;
+    height: 32px;
+    text-align: center;
+    width: 100%;
 }
 
-.ThemeGray .EventNextPrev,.ThemeGray .EventNextPrev a:link,.ThemeGray .EventNextPrev,.ThemeGray .EventNextPrev a:visited {
-font-size:10px;
-color:#FFF;
-padding:0 0.5em
+.ThemeGray .EventNextPrev, .ThemeGray .EventNextPrev a:link, .ThemeGray .EventNextPrev, .ThemeGray .EventNextPrev a:visited {
+    color: #FFF;
+    font-size: 10px;
+    padding: 0 0.5em
 }
 
 .ThemeGray .EventNextPrev a:hover {
-font-size:10px;
-color:red;
-padding:0 0.5em
+    color: red;
+    font-size: 10px;
+    padding: 0 0.5em
 }
 
 .ThemeGray .EventDayHeader {
-font-weight:700;
-font-size:9px;
-font-family:Verdana;
-background-color:silver;
-vertical-align:middle
+    background-color: silver;
+    font-family: Verdana;
+    font-size: 9px;
+    font-weight: 700;
+    vertical-align: middle
 }
 
-.ThemeGray .EventDay,.ThemeGray .EventDayEvents,.ThemeGray .EventWeekendDayEvents,.ThemeGray .EventDay td,.ThemeGray .EventDay a,.ThemeGray .EventDay a:visited {
-font-size:9px;
-width:14%;
-color:#000;
-font-family:Verdana;
-height:14%
-}
-.ThemeGray .EventDayEvents a,.ThemeGray .EventDayEvents a:visited,.ThemeGray .EventDayEvents a:hover, .ThemeGray .EventWeekendDayEvents a,.ThemeGray .EventWeekendDayEvents a:visited,.ThemeGray .EventWeekendDayEvents a:hover  {
-font-size:9px;
-color:blue;
-font-family:Verdana
-}
-.ThemeGray .EventWeekendDayEvents {
-background-color: #dcdcdc;
+.ThemeGray .EventDay, .ThemeGray .EventDayEvents, .ThemeGray .EventWeekendDayEvents, .ThemeGray .EventDay td, .ThemeGray .EventDay a, .ThemeGray .EventDay a:visited {
+    color: #000;
+    font-family: Verdana;
+    font-size: 9px;
+    height: 14%;
+    width: 14%;
 }
 
-.ThemeGray .EventDay a,.ThemeGray .EventDay a:visited {
-font-size:9px;
-color:#000;
-font-family:Verdana
+.ThemeGray .EventDayEvents a, .ThemeGray .EventDayEvents a:visited, .ThemeGray .EventDayEvents a:hover, .ThemeGray .EventWeekendDayEvents a, .ThemeGray .EventWeekendDayEvents a:visited, .ThemeGray .EventWeekendDayEvents a:hover {
+    color: blue;
+    font-family: Verdana;
+    font-size: 9px;
+}
+
+.ThemeGray .EventWeekendDayEvents { background-color: #dcdcdc; }
+
+.ThemeGray .EventDay a, .ThemeGray .EventDay a:visited {
+    color: #000;
+    font-family: Verdana;
+    font-size: 9px;
 }
 
 .ThemeGray .EventDay a:hover {
-font-size:9px;
-color:red;
-font-family:Verdana
+    color: red;
+    font-family: Verdana;
+    font-size: 9px;
 }
 
-.ThemeGray .EventDayScroll div {
-margin-bottom:0.6em
-}
+.ThemeGray .EventDayScroll div { margin-bottom: 0.6em }
 
 .ThemeGray .EventOtherMonthDay {
-color:gray;
-background-color:#dcdcdc
+    background-color: #dcdcdc;
+    color: gray;
 }
 
-.ThemeGray .EventOtherMonthDay a,.ThemeGray .EventOtherMonthDay a:visited,.ThemeGray .EventOtherMonthDay a:hover {
-color:#8080c0
-}
+.ThemeGray .EventOtherMonthDay a, .ThemeGray .EventOtherMonthDay a:visited, .ThemeGray .EventOtherMonthDay a:hover { color: #8080c0 }
 
-.ThemeGray .EventWeekendDay {
-background-color:#dcdcdc
-}
+.ThemeGray .EventWeekendDay { background-color: #dcdcdc }
 
 .ThemeGray .EventTodayDay {
-font-weight:700;
-color:#00f;
-background-color:#a9a9a9
+    background-color: #a9a9a9;
+    color: #00f;
+    font-weight: 700;
 }
 
-.ThemeGray .EventSelectedDay {
-border:red 2px solid;
-}
-.ThemeGray .EventSelectedDay, .ThemeGray .EventSelectedDay a, .ThemeGray .EventSelectedDay a:visited, .ThemeGray .EventSelectedDay a:hover  {
-font-size:9px
-}
+.ThemeGray .EventSelectedDay { border: red 2px solid; }
 
-.ThemeGray .EventSelector {
-background-color:#c0c0e0
-}
+.ThemeGray .EventSelectedDay, .ThemeGray .EventSelectedDay a, .ThemeGray .EventSelectedDay a:visited, .ThemeGray .EventSelectedDay a:hover { font-size: 9px }
 
-.ThemeGray .EventSelector a,.ThemeGray .EventSelector a:visited,.ThemeGray .EventSelector a:hover {
-color:#00f;
-text-decoration:none
+.ThemeGray .EventSelector { background-color: #c0c0e0 }
+
+.ThemeGray .EventSelector a, .ThemeGray .EventSelector a:visited, .ThemeGray .EventSelector a:hover {
+    color: #00f;
+    text-decoration: none
 }
 
 .ThemeGray .WeekTable table {
-table-layout:auto;
-font-size:9px;
-color:#000;
-font-family:Verdana;
-text-align:center;
-border:#e5dfdf 1px solid
+    border: #e5dfdf 1px solid;
+    color: #000;
+    font-family: Verdana;
+    font-size: 9px;
+    table-layout: auto;
+    text-align: center;
 }
 
 .ThemeGray .WeekItem {
-border:transparent 1px solid;
-background-color:#ddd1d1
+    background-color: #ddd1d1;
+    border: transparent 1px solid;
 }
 
-.ThemeGray .WeekTable table td,.ThemeGray .WeekTable table th {
-border:0;
-padding:0 2px
+.ThemeGray .WeekTable table td, .ThemeGray .WeekTable table th {
+    border: 0;
+    padding: 0 2px
 }
 
 .ThemeGray .WeekDay {
-font-weight:700;
-font-size:9px;
-color:#000;
-font-family:verdana,helvetica,arial;
-background-color:#000;
-text-align:center;
-vertical-align:middle;
-border:transparent 1px solid
+    background-color: #000;
+    border: transparent 1px solid;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .ThemeGray .WeekBackground {
-font-family:verdana,helvetica,arial;
-background-color:#efe7e7;
-font-size:9px;
-color:#000;
-border:transparent 1px solid
+    background-color: #efe7e7;
+    border: transparent 1px solid;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
 }
 
 .ThemeGray .WeekTitle {
-font-family:verdana,helvetica,arial;
-font-size:9px;
-color:#fff;
-height:15%;
-text-align:center;
-background-image:url(gradient_Gray.jpg);
-width:11%;
-border:transparent 1px solid
+    background-image: url(gradient_Gray.jpg);
+    border: transparent 1px solid;
+    color: #fff;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    height: 15%;
+    text-align: center;
+    width: 11%;
 }
 
 .ThemeGray .WeekOfTitle {
-font-weight:700;
-font-size:10px;
-width:100%;
-color:#000;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:middle
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeGray .WeekNextPrev {
-font-weight:700;
-font-family:verdana,helvetica,arial;
-font-size:10px;
-width:100%;
-color:#fff;
-text-align:center;
-vertical-align:middle
+    color: #fff;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeGray .WeekRangeheader {
-color:#000;
-text-align:center;
-vertical-align:middle;
-font-family:verdana,helvetica,arial;
-font-size:9px;
-background-color:#E5DFDF;
-border:none
+    background-color: #E5DFDF;
+    border: none;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: center;
+    vertical-align: middle;
 }
 
-.ThemeGray .ListTable {
-width:300px
-}
+.ThemeGray .ListTable { width: 300px }
 
 .ThemeGray A.ListTitle:hover {
-font-size:9px;
-vertical-align:top;
-color:red;
-font-family:verdana,helvetica,arial;
-background-color:transparent;
-text-align:left;
-text-decoration:underline
+    background-color: transparent;
+    color: red;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: left;
+    text-decoration: underline;
+    vertical-align: top;
 }
 
 .ThemeGray .ListLink {
-font-weight:700;
-font-size:9px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
-background-color:transparent;
-color:#000
+    background-color: transparent;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: left;
+    vertical-align: top;
 }
 
 .ThemeGray .ListHeader, .ThemeGray .DetailEnrollGridHeader, .ThemeGray .DetailEnrollGridHeader TD, .ThemeGray .EditEnrollGridHeader, .ThemeGray .EditEnrollGridHeader TD, .ThemeGray .EnrollGridHeader, .ThemeGray .EnrollGridHeader TD {
-font-weight:700;
-font-size:9px;
-background-image:url(gradient_Gray.jpg);
-color:Silver;
-font-family:verdana,helvetica,arial;
-height:32px;
-text-align:left;
-width:300px;
-vertical-align:middle
+    background-image: url(gradient_Gray.jpg);
+    color: Silver;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 700;
+    height: 32px;
+    text-align: left;
+    vertical-align: middle;
+    width: 300px;
 }
 
 .ThemeGray .DetailEnrollGridHeader, .ThemeGray .DetailEnrollGridHeader TD, .ThemeGray .EditEnrollGridHeader, .ThemeGray .EditEnrollGridHeader TD, .ThemeGray .EnrollGridHeader, .ThemeGray .EnrollGridHeader TD {
-text-align:center;
-font-size:12px;
+    font-size: 12px;
+    text-align: center;
 }
 
-.ThemeGray .DetailEnrollUser, .ThemeGray .DetailEnrollDisplay,  .ThemeGray .DetailEnrollDisplay a:link, .ThemeGray .DetailEnrollEmail, .ThemeGray .DetailEnrollEmail a:link, .ThemeGray .DetailEnrollPhone, .ThemeGray .DetailEnrollApproved, .ThemeGray .DetailEnrollNo, .ThemeGray .EditEnrollSelect, .ThemeGray .EditEnrollUser, .ThemeGray .EditEnrollDisplay,  .ThemeGray .EditEnrollDisplay a:link, .ThemeGray .EditEnrollEmail, .ThemeGray .EditEnrollEmail a:link, .ThemeGray .EditEnrollPhone, .ThemeGray .EditEnrollApproved, .ThemeGray .EditEnrollNo, .ThemeGray .EditEnrollDate, .ThemeGray .EditEnrollDate .ThemeGray .EnrollSelect, .ThemeGray .EnrollApproved, .ThemeGray .EnrollNo, .ThemeGray .EnrollFee, .ThemeGray .EnrollDate  {
-font-size:12px;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:top;
-font-weight:normal;
+.ThemeGray .DetailEnrollUser, .ThemeGray .DetailEnrollDisplay, .ThemeGray .DetailEnrollDisplay a:link, .ThemeGray .DetailEnrollEmail, .ThemeGray .DetailEnrollEmail a:link, .ThemeGray .DetailEnrollPhone, .ThemeGray .DetailEnrollApproved, .ThemeGray .DetailEnrollNo, .ThemeGray .EditEnrollSelect, .ThemeGray .EditEnrollUser, .ThemeGray .EditEnrollDisplay, .ThemeGray .EditEnrollDisplay a:link, .ThemeGray .EditEnrollEmail, .ThemeGray .EditEnrollEmail a:link, .ThemeGray .EditEnrollPhone, .ThemeGray .EditEnrollApproved, .ThemeGray .EditEnrollNo, .ThemeGray .EditEnrollDate, .ThemeGray .EditEnrollDate .ThemeGray .EnrollSelect, .ThemeGray .EnrollApproved, .ThemeGray .EnrollNo, .ThemeGray .EnrollFee, .ThemeGray .EnrollDate {
+    font-family: verdana, helvetica, arial;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: top;
 }
 
-.ThemeGray .ListHeader A {
-color:#fff
-}
+.ThemeGray .ListHeader A { color: #fff }
 
 .ThemeGray .ListPager TD {
-font-size:9px;
-font-family:verdana,helvetica,arial
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
 }
 
 .ThemeGray .ListDuration {
-width:60px;
-font-size:9px;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:top;
-background-color:transparent;
-color:#000
+    background-color: transparent;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: center;
+    vertical-align: top;
+    width: 60px;
 }
 
 .ThemeGray .ListCustomField2 {
-font-size:9px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
-color:#000
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: left;
+    vertical-align: top;
 }
 
-.ThemeGray .ListAlternate, .ThemeGray .DetailEnrollGridAlternate, .ThemeGray .EditEnrollGridAlternate, .ThemeGray .EnrollGridAlternate {
-background-color:#F5F5F5
-}
+.ThemeGray .ListAlternate, .ThemeGray .DetailEnrollGridAlternate, .ThemeGray .EditEnrollGridAlternate, .ThemeGray .EnrollGridAlternate { background-color: #F5F5F5 }
 
 .ThemeGray .ListDataGrid, .ThemeGray .DetailEnrollGrid, .ThemeGray .EditEnrollGrid, .ThemeGray .EnrollGrid {
-background-color:#EFE7E7;
-border-style:none
+    background-color: #EFE7E7;
+    border-style: none
 }
 
-.ThemeGray .ListDataGrid td, .ThemeGray .DetailEnrollGrid td, .ThemeGray .EditEnrollGrid td, .ThemeGray .EnrollGrid td {
-border-style:none
-}
+.ThemeGray .ListDataGrid td, .ThemeGray .DetailEnrollGrid td, .ThemeGray .EditEnrollGrid td, .ThemeGray .EnrollGrid td { border-style: none }
 
 .ThemeGray .ListEdit {
-width:10px;
-text-align:center;
-vertical-align:top;
-background-color:transparent;
-color:#000
+    background-color: transparent;
+    color: #000;
+    text-align: center;
+    vertical-align: top;
+    width: 10px;
 }
 
-.ThemeGray .ListDate,.ThemeGray .ListTitle,.ThemeGray .ListDescription,.ThemeGray .ListCategory,.ThemeGray .ListLocation,.ThemeGray .ListLocation a,.ThemeGray .ListCustomField1, .ThemeGray .ListRecurText, .ThemeGray .ListRecurUntil, .ThemeGray .EnrollTitle {
-font-size:9px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top;
-background-color:transparent;
-color:#000
+.ThemeGray .ListDate, .ThemeGray .ListTitle, .ThemeGray .ListDescription, .ThemeGray .ListCategory, .ThemeGray .ListLocation, .ThemeGray .ListLocation a, .ThemeGray .ListCustomField1, .ThemeGray .ListRecurText, .ThemeGray .ListRecurUntil, .ThemeGray .EnrollTitle {
+    background-color: transparent;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: left;
+    vertical-align: top;
 }
 
 .ThemeGray .RptTable {
-    background-color:#EFE7E7;
-    border-style:none;
-    border-collapse:collapse;
-    width:100%;
+    background-color: #EFE7E7;
+    border-collapse: collapse;
+    border-style: none;
+    width: 100%;
 }
 
-.ThemeGray .RptRepeater  {
-    width:100%;
-}
+.ThemeGray .RptRepeater { width: 100%; }
 
-.ThemeGray .RptRepeater td  {
-    border-style:none;
-}
+.ThemeGray .RptRepeater td { border-style: none; }
 
 .ThemeGray .RptHeader {
-    font-weight:700;
-    font-size:9px;
-    background-image:url(gradient_Gray.jpg);
-    color:Silver;
-    font-family:verdana,helvetica,arial;
-    height:32px;
-    text-align:center;
-    width:300px;
-    vertical-align:middle;
-    width:100%;
+    background-image: url(gradient_Gray.jpg);
+    color: Silver;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 700;
+    height: 32px;
+    text-align: center;
+    vertical-align: middle;
+    width: 300px;
+    width: 100%;
 }
 
 .ThemeGray .RptNormal {
-    font-size:9px;
-    font-family:verdana,helvetica,arial;
-    text-align:left;
-    vertical-align:top;
-    background-color:transparent;
-    color:#000;
+    background-color: transparent;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: left;
+    vertical-align: top;
 }
 
 .ThemeGray .RptAlternate {
-    background-color:#F5F5F5;
-    font-size:9px;
-    font-family:verdana,helvetica,arial;
-    text-align:left;
-    vertical-align:top;
-    color:#000;
+    background-color: #F5F5F5;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: left;
+    vertical-align: top;
 }
 
-.ThemeGray .RptPagerCurrentPage {
-    color: Red;
-}
+.ThemeGray .RptPagerCurrentPage { color: Red; }
 
-.ThemeGray .RptPagerHeader td {
-    border-style:none;
-}
+.ThemeGray .RptPagerHeader td { border-style: none; }
 
-.ThemeGray .DetailReminderDiv, .ThemeGray .DetailiCalDiv , 
+.ThemeGray .DetailReminderDiv, .ThemeGray .DetailiCalDiv,
 .ThemeGray .DetailEnrollDiv, .ThemeGray .DetailEnrollTableDiv,
 .ThemeGray .DetailCommands,
 .ThemeGray .DetailEventDetailsDiv1,
 .ThemeGray .DetailEventDetailsDiv2,
 .ThemeGray .DetailEventDetailsDiv3,
-.ThemeGray .DetailEventDetailsDiv4  {
-width:90%;
-padding-left: 5px;
+.ThemeGray .DetailEventDetailsDiv4 {
+    padding-left: 5px;
+    width: 90%;
 }
 
-.ThemeGray .DetailReminderLeft, .ThemeGray .DetailReminderRight, 
+.ThemeGray .DetailReminderLeft, .ThemeGray .DetailReminderRight,
 .ThemeGray .DetailiCalLeft, .ThemeGray .DetailiCalRight,
 .ThemeGray .DetailEnrollLeft, .ThemeGray .DetailEnrollRight,
 .ThemeGray .DetailContentLeft, .ThemeGray .DetailContentRight {
-text-align:left;
-float:left;
+    float: left;
+    text-align: left;
 }
 
-.ThemeGray .DetailReminderLeft, .ThemeGray .DetailReminderRight, 
+.ThemeGray .DetailReminderLeft, .ThemeGray .DetailReminderRight,
 .ThemeGray .DetailiCalLeft, .ThemeGray .DetailiCalRight,
 .ThemeGray .DetailEnrollLeft, .ThemeGray .DetailEnrollRight,
 .ThemeGray .DetailEnrollTableLeft, .ThemeGray .DetailEnrollTableRight,
-.ThemeGray .DetailContentLeft, .ThemeGray .DetailContentRight {
-padding:5px 0 5px 0;
-}
+.ThemeGray .DetailContentLeft, .ThemeGray .DetailContentRight { padding: 5px 0 5px 0; }
 
-.ThemeGray .DetailReminderLeft, .ThemeGray .DetailiCalLeft, 
-.ThemeGray .DetailEnrollLeft, .ThemeGray .DetailContentLeft {
-width:35%;
-}
+.ThemeGray .DetailReminderLeft, .ThemeGray .DetailiCalLeft,
+.ThemeGray .DetailEnrollLeft, .ThemeGray .DetailContentLeft { width: 35%; }
 
-.ThemeGray .DetailClear {
-clear:both;
-}
+.ThemeGray .DetailClear { clear: both; }
 
-.ThemeGray .IconBar {
-white-space:nowrap;
-}
+.ThemeGray .IconBar { white-space: nowrap; }
 
-.ThemeGray  .IconBar img, .ThemeGray  .IconBar input{
-	vertical-align:baseline;
-}
+.ThemeGray .IconBar img, .ThemeGray .IconBar input { vertical-align: baseline; }
 
 .ThemeGray .TopIconBar {
-width:33%;
-vertical-align:top;
+    vertical-align: top;
+    width: 33%;
 }
 
-.ThemeGray .TopIconBar DIV {
-float:right;
-}
+.ThemeGray .TopIconBar DIV { float: right; }
 
-.ThemeGray .BottomIconBar {
-padding-top:3px;
-}
+.ThemeGray .BottomIconBar { padding-top: 3px; }
 
-.ThemeGray .IconBarPadding  {
-padding-right:2px;
-}
+.ThemeGray .IconBarPadding { padding-right: 2px; }
 
 .ThemeGray .EditEvents .TimePicker, .ThemeGray .EditEvents .DatePicker {
-Display:inline !important;
-float:left;
-margin-bottom:10px;
+    Display: inline !important;
+    float: left;
+    margin-bottom: 10px;
 }
 
-.ThemeGray .EditEvents .DatePicker {
-width:150px !important;
-}
+.ThemeGray .EditEvents .DatePicker { width: 150px !important; }
 
-.ThemeGray .EditEvents .cmdDatePicker {
-    margin-top: 5px;
-}
+.ThemeGray .EditEvents .cmdDatePicker { margin-top: 5px; }
 
-.ThemeGray .EvtHdrMdlCol .DatePicker {
-Display:inline-block;
-}
+.ThemeGray .EvtHdrMdlCol .DatePicker { Display: inline-block; }
 
-.ThemeGray .EvtDateControls {
-margin-bottom:5px;
-}
+.ThemeGray .EvtDateControls { margin-bottom: 5px; }
 
 .ThemeGray .RadPicker_Default .riTextBox {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
     height: 20px;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
 }
 
-.ThemeGray .SelCategoryTR {
-height:35px;
-}
+.ThemeGray .SelCategoryTR { height: 35px; }
 
-.ThemeGray  .SelCategoryTR div{
-vertical-align:middle;
-}
+.ThemeGray .SelCategoryTR div { vertical-align: middle; }
 
-.ThemeGray  .SelCategory span{
-font-weight:bold;
-}
+.ThemeGray .SelCategory span { font-weight: bold; }
 
 html body .ThemeGray .RadInput_Default .riTextBox.DateFormat,
 .ThemeGray .RadComboBox_Default .rcbInput.CategoryFormat {
-font-size:11px;
-font-family:verdana,helvetica,arial;
+    font-family: verdana, helvetica, arial;
+    font-size: 11px;
 }
 
-.ThemeGray .RadComboBox_Default.SelectCategory {
-width: 150px !important;
-}
+.ThemeGray .RadComboBox_Default.SelectCategory { width: 150px !important; }
 
-.ThemeGray ul.dnnActions li.cmdRight {
-float:right;
-}
+.ThemeGray ul.dnnActions li.cmdRight { float: right; }
 
-.ThemeGray .EventSettings .dnnFormItem INPUT[type='text'] {
-min-width:1px;
-}
+.ThemeGray .EventSettings .dnnFormItem INPUT[type='text'] { min-width: 1px; }
 
-.ThemeGray .dnnFormItem .autoWidth LABEL {
-width:auto;
-}
+.ThemeGray .dnnFormItem .autoWidth LABEL { width: auto; }
 
-.ThemeGray .dnnFormItem .inputCenter INPUT {
-float:none;
-}
+.ThemeGray .dnnFormItem .inputCenter INPUT { float: none; }
 
 .ThemeGray .EditEvents .dnnFormItem .evtRecWeekDays label, .ThemeGray .EditEvents .dnnFormItem .evtRecWeekDays input {
-float:none;
-width:auto;
-display:inline;
+    display: inline;
+    float: none;
+    width: auto;
 }
+
 .ThemeGray .EditEvents .evtShortInputFloat {
-float:none;
-min-width:1%;
-width:31px;
+    float: none;
+    min-width: 1%;
+    width: 31px;
 }
 
 .ThemeGray .EditEvents .evtShortInput {
-min-width:1%;
-width:31px;
+    min-width: 1%;
+    width: 31px;
 }
 
-.ThemeGray .EditEvents .evtGridInput {
-float:none;
-}
+.ThemeGray .EditEvents .evtGridInput { float: none; }
 
-.ThemeGray .EditEvents .SubHead {
-font-size:inherit;
-}
+.ThemeGray .EditEvents .SubHead { font-size: inherit; }
 
-.ThemeGray .EditEvents .evtRadioTop .dnnRadiobutton {
-vertical-align:top;
-}
+.ThemeGray .EditEvents .evtRadioTop .dnnRadiobutton { vertical-align: top; }
 
 .ThemeGray .EditEvents .dnnForm.dnnTextEditor {
-float:left;
-width:auto;
+    float: left;
+    width: auto;
 }

@@ -1,14 +1,5 @@
-using DotNetNuke.Services.Exceptions;
-using System.Diagnostics;
-using DotNetNuke.Framework;
-using Microsoft.VisualBasic;
-using System.Web;
-using DotNetNuke.Services.Localization;
-using System;
-using System.Globalization;
-
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -28,44 +19,229 @@ using System.Globalization;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events
 {
-    [DNNtc.ModuleControlProperties("PPEnroll", "Event PayPal Enrollment", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", false, true)]
+    using System;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Threading;
+    using System.Web;
+    using DotNetNuke.Framework;
+    using DotNetNuke.Security;
+    using DotNetNuke.Services.Exceptions;
+    using DotNetNuke.Services.Localization;
+    using global::Components;
+    using Microsoft.VisualBasic;
+    using Globals = DotNetNuke.Common.Globals;
+
+    [DNNtc.ModuleControlProperties("PPEnroll", "Event PayPal Enrollment", DNNtc.ControlType.View,
+        "https://dnnevents.codeplex.com/documentation", false, true)]
     public partial class EventPPEnroll : EventBase
     {
+        #region Event Handlers
+
+        private void Page_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                double dblTotal = 0;
+                var strCurrency = "";
+
+                if (!ReferenceEquals(this.Request.Params["ItemID"], null))
+                {
+                    this._itemID = int.Parse(this.Request.Params["ItemID"]);
+                }
+                if (!ReferenceEquals(this.Request.Params["AnonEmail"], null))
+                {
+                    this._anonEmail = HttpUtility.UrlDecode(this.Request.Params["AnonEmail"]);
+                }
+                if (!ReferenceEquals(this.Request.Params["AnonName"], null))
+                {
+                    this._anonName = HttpUtility.UrlDecode(this.Request.Params["AnonName"]);
+                }
+                if (!ReferenceEquals(this.Request.Params["AnonPhone"], null))
+                {
+                    this._anonTelephone = HttpUtility.UrlDecode(this.Request.Params["AnonPhone"]);
+                    if (this._anonTelephone == "0")
+                    {
+                        this._anonTelephone = "";
+                    }
+                }
+
+                // Set the selected theme
+                this.SetTheme(this.pnlEventsModulePayPal);
+
+                this.divMessage.Attributes.Add("style", "display:none;");
+
+                if (!this.Page.IsPostBack)
+                {
+                    if (this._itemID != -1)
+                    {
+                        if (!ReferenceEquals(this.Request.Params["NoEnrol"], null))
+                        {
+                            this._noEnrol = int.Parse(this.Request.Params["NoEnrol"]);
+                        }
+
+                        var objEvent = default(EventInfo);
+                        objEvent = this._objCtlEvent.EventsGet(this._itemID, this.ModuleId);
+
+                        //  Compute Dates/Times (for recurring)
+                        var startdate = objEvent.EventTimeBegin;
+                        this.SelectedDate = startdate.Date;
+                        var d = default(DateTime);
+                        d = startdate.Date.AddMinutes(objEvent.EventTimeBegin.TimeOfDay.TotalMinutes);
+                        this.lblStartDate.Text = d.ToLongDateString() + " " + d.ToShortTimeString();
+                        this.lblEventName.Text = objEvent.EventName;
+                        this.lblDescription.Text = this.Server.HtmlDecode(objEvent.EventDesc);
+                        this.lblFee.Text = string.Format("{0:#0.00}", objEvent.EnrollFee);
+                        this.lblNoEnrolees.Text = Convert.ToString(this._noEnrol);
+                        this.lblPurchase.Text = Localization.GetString("lblPurchase", this.LocalResourceFile);
+                        this.lblPurchase.Visible = true;
+                    }
+                    else if (!ReferenceEquals(this.Request.Params["signupid"], null))
+                    {
+                        // Get EventSignup
+                        this._objEventSignups = new EventSignupsInfo();
+                        var signupID = Convert.ToInt32(this.Request.Params["signupid"]);
+                        this._objEventSignups =
+                            this._objCtlEventSignups.EventsSignupsGet(signupID, this.ModuleId, false);
+                        this.lblStartDate.Text = this._objEventSignups.EventTimeBegin.ToLongDateString() + " " +
+                                                 this._objEventSignups.EventTimeBegin.ToShortTimeString();
+                        this.lblEventName.Text = this._objEventSignups.EventName;
+                        // Get Related Event
+                        var objEvent = default(EventInfo);
+                        objEvent = this._objCtlEvent.EventsGet(this._objEventSignups.EventID,
+                                                               this._objEventSignups.ModuleID);
+                        this.lblDescription.Text = this.Server.HtmlDecode(objEvent.EventDesc);
+                        this.lblFee.Text = string.Format("{0:#0.00}", objEvent.EnrollFee);
+                        this.lblNoEnrolees.Text = Convert.ToString(this._objEventSignups.NoEnrolees);
+                        if (this.Request.Params["status"].ToLower() == "enrolled")
+                        {
+                            // User has been successfully enrolled for this event (paid enrollment)
+                            this.ShowMessage(Localization.GetString("lblComplete", this.LocalResourceFile),
+                                             MessageLevel.DNNSuccess);
+                            this.lblPurchase.Visible = false;
+                            this.cmdPurchase.Visible = false;
+                            this.cancelButton.Visible = false;
+                            this.cmdReturn.Visible = true;
+                        }
+                        else if (this.Request.Params["status"].ToLower() == "cancelled")
+                        {
+                            // User has been cancelled paid enrollment
+                            this.ShowMessage(Localization.GetString("lblCancel", this.LocalResourceFile),
+                                             MessageLevel.DNNWarning);
+                            this.lblPurchase.Visible = false;
+                            this.cmdPurchase.Visible = false;
+                            this.cancelButton.Visible = false;
+                            this.cmdReturn.Visible = true;
+                            // Make sure we delete the signup
+                            this.DeleteEnrollment(signupID, objEvent.ModuleID, objEvent.EventID);
+
+                            // Mail users
+                            if (this.Settings.SendEnrollMessageCancelled)
+                            {
+                                var objEventEmailInfo = new EventEmailInfo();
+                                var objEventEmail =
+                                    new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                    ((PageBase) this.Page).PageCulture.Name);
+                                objEventEmailInfo.TxtEmailSubject = this.Settings.Templates.txtEnrollMessageSubject;
+                                objEventEmailInfo.TxtEmailBody = this.Settings.Templates.txtEnrollMessageCancelled;
+                                objEventEmailInfo.TxtEmailFrom = this.Settings.StandardEmail;
+                                if (this._objEventSignups.UserID > -1)
+                                {
+                                    objEventEmailInfo.UserIDs.Add(this._objEventSignups.UserID);
+                                }
+                                else
+                                {
+                                    objEventEmailInfo.UserEmails.Add(this._objEventSignups.AnonEmail);
+                                    objEventEmailInfo.UserLocales.Add(this._objEventSignups.AnonCulture);
+                                    objEventEmailInfo.UserTimeZoneIds.Add(this._objEventSignups.AnonTimeZoneId);
+                                }
+                                objEventEmailInfo.UserIDs.Add(objEvent.OwnerID);
+                                objEventEmail.SendEmails(objEventEmailInfo, objEvent, this._objEventSignups);
+                            }
+                        }
+                    }
+                    else // security violation attempt to access item not related to this Module
+                    {
+                        this.Response.Redirect(this.GetSocialNavigateUrl(), true);
+                    }
+                }
+
+                dblTotal = Conversion.Val(this.lblFee.Text) * Conversion.Val(this.lblNoEnrolees.Text);
+                this.lblTotal.Text = Strings.Format(dblTotal, "#,##0.00");
+                strCurrency = this.PortalSettings.Currency;
+                this.lblFeeCurrency.Text = strCurrency;
+                this.lblTotalCurrency.Text = strCurrency;
+            }
+            catch (Exception exc) //Module failed to load
+            {
+                Exceptions.ProcessModuleLoadException(this, exc);
+            }
+        }
+
+        #endregion
+
+        #region Support Functions
+
+        private void ShowMessage(string msg, MessageLevel messageLevel)
+        {
+            this.lblMessage.Text = msg;
+
+            //Hide the rest of the form fields.
+            this.divMessage.Attributes.Add("style", "display:block;");
+
+            switch (messageLevel)
+            {
+                case MessageLevel.DNNSuccess:
+                    this.divMessage.Attributes.Add("class", "dnnFormMessage dnnFormSuccess");
+                    break;
+                case MessageLevel.DNNInformation:
+                    this.divMessage.Attributes.Add("class", "dnnFormMessage dnnFormInfo");
+                    break;
+                case MessageLevel.DNNWarning:
+                    this.divMessage.Attributes.Add("class", "dnnFormMessage dnnFormWarning");
+                    break;
+                case MessageLevel.DNNError:
+                    this.divMessage.Attributes.Add("class", "dnnFormMessage dnnFormValidationSummary");
+                    break;
+            }
+        }
+
+        #endregion
 
         #region  Web Form Designer Generated Code
 
         //This call is required by the Web Form Designer.
-        [DebuggerStepThrough()]
+        [DebuggerStepThrough]
         private void InitializeComponent()
-        {
+        { }
 
-        }
-
-        private void Page_Init(System.Object sender, EventArgs e)
+        private void Page_Init(object sender, EventArgs e)
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         #endregion
 
         #region Private Area
+
         private int _itemID = -1;
         private int _noEnrol = 1;
-        private EventController _objCtlEvent = new EventController();
+        private readonly EventController _objCtlEvent = new EventController();
         private EventSignupsInfo _objEventSignups = new EventSignupsInfo();
-        private EventSignupsController _objCtlEventSignups = new EventSignupsController();
-        private string _anonEmail = null;
-        private string _anonName = null;
-        private string _anonTelephone = null;
+        private readonly EventSignupsController _objCtlEventSignups = new EventSignupsController();
+        private string _anonEmail;
+        private string _anonName;
+        private string _anonTelephone;
 
-        private enum MessageLevel : int
+        private enum MessageLevel
         {
             DNNSuccess = 1,
             DNNInformation,
@@ -75,282 +251,182 @@ namespace DotNetNuke.Modules.Events
 
         #endregion
 
-        #region Event Handlers
-        private void Page_Load(System.Object sender, EventArgs e)
-        {
-            try
-            {
-                double dblTotal = 0;
-                string strCurrency = "";
-
-                if (!(ReferenceEquals(Request.Params["ItemID"], null)))
-                {
-                    _itemID = int.Parse(Request.Params["ItemID"]);
-                }
-                if (!(ReferenceEquals(Request.Params["AnonEmail"], null)))
-                {
-                    _anonEmail = HttpUtility.UrlDecode(Request.Params["AnonEmail"]);
-                }
-                if (!(ReferenceEquals(Request.Params["AnonName"], null)))
-                {
-                    _anonName = HttpUtility.UrlDecode(Request.Params["AnonName"]);
-                }
-                if (!(ReferenceEquals(Request.Params["AnonPhone"], null)))
-                {
-                    _anonTelephone = HttpUtility.UrlDecode(Request.Params["AnonPhone"]);
-                    if (_anonTelephone == "0")
-                    {
-                        _anonTelephone = "";
-                    }
-                }
-
-                // Set the selected theme
-                SetTheme(pnlEventsModulePayPal);
-
-                divMessage.Attributes.Add("style", "display:none;");
-
-                if (!(Page.IsPostBack))
-                {
-                    if (_itemID != -1)
-                    {
-                        if (!(ReferenceEquals(Request.Params["NoEnrol"], null)))
-                        {
-                            _noEnrol = int.Parse(Request.Params["NoEnrol"]);
-                        }
-
-                        EventInfo objEvent = default(EventInfo);
-                        objEvent = _objCtlEvent.EventsGet(_itemID, ModuleId);
-
-                        //  Compute Dates/Times (for recurring)
-                        DateTime startdate = objEvent.EventTimeBegin;
-                        SelectedDate = startdate.Date;
-                        DateTime d = default(DateTime);
-                        d = startdate.Date.AddMinutes(objEvent.EventTimeBegin.TimeOfDay.TotalMinutes);
-                        lblStartDate.Text = d.ToLongDateString() + " " + d.ToShortTimeString();
-                        lblEventName.Text = objEvent.EventName;
-                        lblDescription.Text = Server.HtmlDecode(objEvent.EventDesc);
-                        lblFee.Text = string.Format("{0:#0.00}", objEvent.EnrollFee);
-                        lblNoEnrolees.Text = Convert.ToString(_noEnrol);
-                        lblPurchase.Text = Localization.GetString("lblPurchase", LocalResourceFile);
-                        lblPurchase.Visible = true;
-                    }
-                    else if (!(ReferenceEquals(Request.Params["signupid"], null)))
-                    {
-                        // Get EventSignup
-                        _objEventSignups = new EventSignupsInfo();
-                        int signupID = System.Convert.ToInt32(Request.Params["signupid"]);
-                        _objEventSignups = _objCtlEventSignups.EventsSignupsGet(signupID, ModuleId, false);
-                        lblStartDate.Text = _objEventSignups.EventTimeBegin.ToLongDateString() + " " + _objEventSignups.EventTimeBegin.ToShortTimeString();
-                        lblEventName.Text = _objEventSignups.EventName;
-                        // Get Related Event
-                        EventInfo objEvent = default(EventInfo);
-                        objEvent = _objCtlEvent.EventsGet(_objEventSignups.EventID, _objEventSignups.ModuleID);
-                        lblDescription.Text = Server.HtmlDecode(objEvent.EventDesc);
-                        lblFee.Text = string.Format("{0:#0.00}", objEvent.EnrollFee);
-                        lblNoEnrolees.Text = Convert.ToString(_objEventSignups.NoEnrolees);
-                        if (Request.Params["status"].ToLower() == "enrolled")
-                        {
-                            // User has been successfully enrolled for this event (paid enrollment)
-                            ShowMessage(Localization.GetString("lblComplete", LocalResourceFile), MessageLevel.DNNSuccess);
-                            lblPurchase.Visible = false;
-                            cmdPurchase.Visible = false;
-                            cancelButton.Visible = false;
-                            cmdReturn.Visible = true;
-                        }
-                        else if (Request.Params["status"].ToLower() == "cancelled")
-                        {
-                            // User has been cancelled paid enrollment
-                            ShowMessage(Localization.GetString("lblCancel", LocalResourceFile), MessageLevel.DNNWarning);
-                            lblPurchase.Visible = false;
-                            cmdPurchase.Visible = false;
-                            cancelButton.Visible = false;
-                            cmdReturn.Visible = true;
-                            // Make sure we delete the signup
-                            DeleteEnrollment(signupID, objEvent.ModuleID, objEvent.EventID);
-
-                            // Mail users
-                            if (Settings.SendEnrollMessageCancelled)
-                            {
-                                EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-                                EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
-                                objEventEmailInfo.TxtEmailSubject = Settings.Templates.txtEnrollMessageSubject;
-                                objEventEmailInfo.TxtEmailBody = Settings.Templates.txtEnrollMessageCancelled;
-                                objEventEmailInfo.TxtEmailFrom = Settings.StandardEmail;
-                                if (_objEventSignups.UserID > -1)
-                                {
-                                    objEventEmailInfo.UserIDs.Add(_objEventSignups.UserID);
-                                }
-                                else
-                                {
-                                    objEventEmailInfo.UserEmails.Add(_objEventSignups.AnonEmail);
-                                    objEventEmailInfo.UserLocales.Add(_objEventSignups.AnonCulture);
-                                    objEventEmailInfo.UserTimeZoneIds.Add(_objEventSignups.AnonTimeZoneId);
-                                }
-                                objEventEmailInfo.UserIDs.Add(objEvent.OwnerID);
-                                objEventEmail.SendEmails(objEventEmailInfo, objEvent, _objEventSignups);
-                            }
-                        }
-                    }
-                    else // security violation attempt to access item not related to this Module
-                    {
-                        Response.Redirect(GetSocialNavigateUrl(), true);
-                    }
-                }
-
-                dblTotal = Conversion.Val(lblFee.Text) * Conversion.Val(lblNoEnrolees.Text);
-                lblTotal.Text = Strings.Format(dblTotal, "#,##0.00");
-                strCurrency = PortalSettings.Currency;
-                lblFeeCurrency.Text = strCurrency;
-                lblTotalCurrency.Text = strCurrency;
-            }
-            catch (Exception exc) //Module failed to load
-            {
-                Exceptions.ProcessModuleLoadException(this, exc);
-            }
-        }
-
-        #endregion
-
         #region Control Events
-        protected void cmdPurchase_Click(System.Object sender, EventArgs e)
+
+        protected void cmdPurchase_Click(object sender, EventArgs e)
         {
-            EventInfo objEvent = default(EventInfo);
+            var objEvent = default(EventInfo);
 
             try
             {
-                if (Page.IsValid)
+                if (this.Page.IsValid)
                 {
-                    objEvent = _objCtlEvent.EventsGet(_itemID, ModuleId);
+                    objEvent = this._objCtlEvent.EventsGet(this._itemID, this.ModuleId);
                     // User wants to purchase event, create Event Signup Record
-                    _objEventSignups = new EventSignupsInfo();
+                    this._objEventSignups = new EventSignupsInfo();
 
                     //Just in case the user has clicked back and has now clicked Purchase again!!
-                    EventSignupsInfo objEventSignupsChk = default(EventSignupsInfo);
-                    if (ReferenceEquals(_anonEmail, null))
+                    var objEventSignupsChk = default(EventSignupsInfo);
+                    if (ReferenceEquals(this._anonEmail, null))
                     {
-                        objEventSignupsChk = _objCtlEventSignups.EventsSignupsGetUser(objEvent.EventID, UserId, objEvent.ModuleID);
+                        objEventSignupsChk =
+                            this._objCtlEventSignups.EventsSignupsGetUser(
+                                objEvent.EventID, this.UserId, objEvent.ModuleID);
                     }
                     else
                     {
-                        objEventSignupsChk = _objCtlEventSignups.EventsSignupsGetAnonUser(objEvent.EventID, _anonEmail, objEvent.ModuleID);
+                        objEventSignupsChk =
+                            this._objCtlEventSignups.EventsSignupsGetAnonUser(
+                                objEvent.EventID, this._anonEmail, objEvent.ModuleID);
                     }
                     if (!ReferenceEquals(objEventSignupsChk, null))
                     {
-                        _objEventSignups.SignupID = objEventSignupsChk.SignupID;
+                        this._objEventSignups.SignupID = objEventSignupsChk.SignupID;
                     }
-                    _objEventSignups.EventID = objEvent.EventID;
-                    _objEventSignups.ModuleID = objEvent.ModuleID;
-                    if (ReferenceEquals(_anonEmail, null))
+                    this._objEventSignups.EventID = objEvent.EventID;
+                    this._objEventSignups.ModuleID = objEvent.ModuleID;
+                    if (ReferenceEquals(this._anonEmail, null))
                     {
-                        _objEventSignups.UserID = UserId;
-                        _objEventSignups.AnonEmail = null;
-                        _objEventSignups.AnonName = null;
-                        _objEventSignups.AnonTelephone = null;
-                        _objEventSignups.AnonCulture = null;
-                        _objEventSignups.AnonTimeZoneId = null;
+                        this._objEventSignups.UserID = this.UserId;
+                        this._objEventSignups.AnonEmail = null;
+                        this._objEventSignups.AnonName = null;
+                        this._objEventSignups.AnonTelephone = null;
+                        this._objEventSignups.AnonCulture = null;
+                        this._objEventSignups.AnonTimeZoneId = null;
                     }
                     else
                     {
-                        Security.PortalSecurity objSecurity = new Security.PortalSecurity();
-                        _objEventSignups.UserID = -1;
-                        _objEventSignups.AnonEmail = objSecurity.InputFilter(_anonEmail, Security.PortalSecurity.FilterFlag.NoScripting);
-                        _objEventSignups.AnonName = objSecurity.InputFilter(_anonName, Security.PortalSecurity.FilterFlag.NoScripting);
-                        _objEventSignups.AnonTelephone = objSecurity.InputFilter(_anonTelephone, Security.PortalSecurity.FilterFlag.NoScripting);
-                        _objEventSignups.AnonCulture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
-                        _objEventSignups.AnonTimeZoneId = GetDisplayTimeZoneId();
+                        var objSecurity = new PortalSecurity();
+                        this._objEventSignups.UserID = -1;
+                        this._objEventSignups.AnonEmail =
+                            objSecurity.InputFilter(this._anonEmail, PortalSecurity.FilterFlag.NoScripting);
+                        this._objEventSignups.AnonName =
+                            objSecurity.InputFilter(this._anonName, PortalSecurity.FilterFlag.NoScripting);
+                        this._objEventSignups.AnonTelephone =
+                            objSecurity.InputFilter(this._anonTelephone, PortalSecurity.FilterFlag.NoScripting);
+                        this._objEventSignups.AnonCulture = Thread.CurrentThread.CurrentCulture.Name;
+                        this._objEventSignups.AnonTimeZoneId = this.GetDisplayTimeZoneId();
                     }
-                    _objEventSignups.PayPalStatus = "none";
-                    _objEventSignups.PayPalReason = "PayPal call initiated...";
-                    _objEventSignups.PayPalPaymentDate = DateTime.UtcNow;
-                    _objEventSignups.Approved = false;
-                    _objEventSignups.NoEnrolees = int.Parse(lblNoEnrolees.Text);
+                    this._objEventSignups.PayPalStatus = "none";
+                    this._objEventSignups.PayPalReason = "PayPal call initiated...";
+                    this._objEventSignups.PayPalPaymentDate = DateTime.UtcNow;
+                    this._objEventSignups.Approved = false;
+                    this._objEventSignups.NoEnrolees = int.Parse(this.lblNoEnrolees.Text);
 
-                    _objEventSignups = CreateEnrollment(_objEventSignups, objEvent);
+                    this._objEventSignups = this.CreateEnrollment(this._objEventSignups, objEvent);
 
                     if (!ReferenceEquals(objEventSignupsChk, null))
                     {
-                        _objEventSignups = _objCtlEventSignups.EventsSignupsGet(objEventSignupsChk.SignupID, objEventSignupsChk.ModuleID, false);
+                        this._objEventSignups =
+                            this._objCtlEventSignups.EventsSignupsGet(objEventSignupsChk.SignupID,
+                                                                      objEventSignupsChk.ModuleID, false);
                     }
 
                     // Mail users
-                    if (Settings.SendEnrollMessagePaying)
+                    if (this.Settings.SendEnrollMessagePaying)
                     {
-                        EventEmailInfo objEventEmailInfo = new EventEmailInfo();
-                        EventEmails objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile, ((PageBase)Page).PageCulture.Name);
-                        objEventEmailInfo.TxtEmailSubject = Settings.Templates.txtEnrollMessageSubject;
-                        objEventEmailInfo.TxtEmailBody = Settings.Templates.txtEnrollMessagePaying;
-                        objEventEmailInfo.TxtEmailFrom = Settings.StandardEmail;
-                        if (ReferenceEquals(_anonEmail, null))
+                        var objEventEmailInfo = new EventEmailInfo();
+                        var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
+                                                            ((PageBase) this.Page).PageCulture.Name);
+                        objEventEmailInfo.TxtEmailSubject = this.Settings.Templates.txtEnrollMessageSubject;
+                        objEventEmailInfo.TxtEmailBody = this.Settings.Templates.txtEnrollMessagePaying;
+                        objEventEmailInfo.TxtEmailFrom = this.Settings.StandardEmail;
+                        if (ReferenceEquals(this._anonEmail, null))
                         {
-                            objEventEmailInfo.UserEmails.Add(PortalSettings.UserInfo.Email);
-                            objEventEmailInfo.UserLocales.Add(PortalSettings.UserInfo.Profile.PreferredLocale);
-                            objEventEmailInfo.UserTimeZoneIds.Add(PortalSettings.UserInfo.Profile.PreferredTimeZone.Id);
+                            objEventEmailInfo.UserEmails.Add(this.PortalSettings.UserInfo.Email);
+                            objEventEmailInfo.UserLocales.Add(this.PortalSettings.UserInfo.Profile.PreferredLocale);
+                            objEventEmailInfo.UserTimeZoneIds.Add(this.PortalSettings.UserInfo.Profile.PreferredTimeZone
+                                                                      .Id);
                         }
                         else
                         {
-                            objEventEmailInfo.UserEmails.Add(_objEventSignups.AnonEmail);
-                            objEventEmailInfo.UserLocales.Add(_objEventSignups.AnonCulture);
-                            objEventEmailInfo.UserTimeZoneIds.Add(_objEventSignups.AnonTimeZoneId);
+                            objEventEmailInfo.UserEmails.Add(this._objEventSignups.AnonEmail);
+                            objEventEmailInfo.UserLocales.Add(this._objEventSignups.AnonCulture);
+                            objEventEmailInfo.UserTimeZoneIds.Add(this._objEventSignups.AnonTimeZoneId);
                         }
                         objEventEmailInfo.UserIDs.Add(objEvent.OwnerID);
-                        objEventEmail.SendEmails(objEventEmailInfo, objEvent, _objEventSignups);
+                        objEventEmail.SendEmails(objEventEmailInfo, objEvent, this._objEventSignups);
                     }
 
                     // build PayPal URL
-                    string ppurl = Settings.Paypalurl + "/cgi-bin/webscr?cmd=_xclick&business=";
+                    var ppurl = this.Settings.Paypalurl + "/cgi-bin/webscr?cmd=_xclick&business=";
 
-                    int socialGroupId = GetUrlGroupId();
+                    var socialGroupId = this.GetUrlGroupId();
 
-                    EventInfoHelper objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
-                    string returnURL = "";
+                    var objEventInfoHelper =
+                        new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                    var returnURL = "";
                     if (socialGroupId > 0)
                     {
-                        returnURL = objEventInfoHelper.AddSkinContainerControls(DotNetNuke.Common.Globals.NavigateURL(TabId, "PPEnroll", "Mid=" + System.Convert.ToString(ModuleId), "signupid=" + System.Convert.ToString(_objEventSignups.SignupID), "status=enrolled", "groupid=" + socialGroupId.ToString()), "?");
+                        returnURL = objEventInfoHelper.AddSkinContainerControls(
+                            Globals.NavigateURL(this.TabId, "PPEnroll", "Mid=" + Convert.ToString(this.ModuleId),
+                                                "signupid=" + Convert.ToString(this._objEventSignups.SignupID),
+                                                "status=enrolled", "groupid=" + socialGroupId), "?");
                     }
                     else
                     {
-                        returnURL = objEventInfoHelper.AddSkinContainerControls(DotNetNuke.Common.Globals.NavigateURL(TabId, "PPEnroll", "Mid=" + System.Convert.ToString(ModuleId), "signupid=" + System.Convert.ToString(_objEventSignups.SignupID), "status=enrolled"), "?");
+                        returnURL = objEventInfoHelper.AddSkinContainerControls(
+                            Globals.NavigateURL(this.TabId, "PPEnroll", "Mid=" + Convert.ToString(this.ModuleId),
+                                                "signupid=" + Convert.ToString(this._objEventSignups.SignupID),
+                                                "status=enrolled"), "?");
                     }
                     if (returnURL.IndexOf("://") + 1 == 0)
                     {
-                        returnURL = DotNetNuke.Common.Globals.AddHTTP(DotNetNuke.Common.Globals.GetDomainName(Request)) + returnURL;
+                        returnURL = Globals.AddHTTP(Globals.GetDomainName(this.Request)) + returnURL;
                     }
-                    string cancelURL = "";
+                    var cancelURL = "";
                     if (socialGroupId > 0)
                     {
-                        cancelURL = objEventInfoHelper.AddSkinContainerControls(DotNetNuke.Common.Globals.NavigateURL(TabId, "PPEnroll", "Mid=" + System.Convert.ToString(ModuleId), "signupid=" + System.Convert.ToString(_objEventSignups.SignupID), "status=cancelled", "groupid=" + socialGroupId.ToString()), "?");
+                        cancelURL = objEventInfoHelper.AddSkinContainerControls(
+                            Globals.NavigateURL(this.TabId, "PPEnroll", "Mid=" + Convert.ToString(this.ModuleId),
+                                                "signupid=" + Convert.ToString(this._objEventSignups.SignupID),
+                                                "status=cancelled", "groupid=" + socialGroupId), "?");
                     }
                     else
                     {
-                        cancelURL = objEventInfoHelper.AddSkinContainerControls(DotNetNuke.Common.Globals.NavigateURL(TabId, "PPEnroll", "Mid=" + System.Convert.ToString(ModuleId), "signupid=" + System.Convert.ToString(_objEventSignups.SignupID), "status=cancelled"), "?");
+                        cancelURL = objEventInfoHelper.AddSkinContainerControls(
+                            Globals.NavigateURL(this.TabId, "PPEnroll", "Mid=" + Convert.ToString(this.ModuleId),
+                                                "signupid=" + Convert.ToString(this._objEventSignups.SignupID),
+                                                "status=cancelled"), "?");
                     }
                     if (cancelURL.IndexOf("://") + 1 == 0)
                     {
-                        cancelURL = DotNetNuke.Common.Globals.AddHTTP(DotNetNuke.Common.Globals.GetDomainName(Request)) + cancelURL;
+                        cancelURL = Globals.AddHTTP(Globals.GetDomainName(this.Request)) + cancelURL;
                     }
-                    string strPayPalURL = "";
-                    strPayPalURL = ppurl + DotNetNuke.Common.Globals.HTTPPOSTEncode(objEvent.PayPalAccount);
-                    strPayPalURL = strPayPalURL + "&item_name=" + DotNetNuke.Common.Globals.HTTPPOSTEncode(objEvent.ModuleTitle + " - " + lblEventName.Text + " ( " + lblFee.Text + " " + lblFeeCurrency.Text + " )");
-                    strPayPalURL = strPayPalURL + "&item_number=" + DotNetNuke.Common.Globals.HTTPPOSTEncode(System.Convert.ToString(_objEventSignups.SignupID));
-                    strPayPalURL = strPayPalURL + "&quantity=" + DotNetNuke.Common.Globals.HTTPPOSTEncode(Convert.ToString(_objEventSignups.NoEnrolees));
-                    strPayPalURL = strPayPalURL + "&custom=" + DotNetNuke.Common.Globals.HTTPPOSTEncode(System.Convert.ToDateTime(lblStartDate.Text).ToShortDateString());
+                    var strPayPalURL = "";
+                    strPayPalURL = ppurl + Globals.HTTPPOSTEncode(objEvent.PayPalAccount);
+                    strPayPalURL = strPayPalURL + "&item_name=" +
+                                   Globals.HTTPPOSTEncode(objEvent.ModuleTitle + " - " + this.lblEventName.Text +
+                                                          " ( " + this.lblFee.Text + " " + this.lblFeeCurrency.Text +
+                                                          " )");
+                    strPayPalURL = strPayPalURL + "&item_number=" +
+                                   Globals.HTTPPOSTEncode(Convert.ToString(this._objEventSignups.SignupID));
+                    strPayPalURL = strPayPalURL + "&quantity=" +
+                                   Globals.HTTPPOSTEncode(Convert.ToString(this._objEventSignups.NoEnrolees));
+                    strPayPalURL = strPayPalURL + "&custom=" +
+                                   Globals.HTTPPOSTEncode(
+                                       Convert.ToDateTime(this.lblStartDate.Text).ToShortDateString());
 
                     // Make sure currency is in correct format
-                    double dblFee = double.Parse(lblFee.Text);
-                    CultureInfo uiculture = System.Threading.Thread.CurrentThread.CurrentCulture;
-                    System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-                    strPayPalURL = strPayPalURL + "&amount=" + DotNetNuke.Common.Globals.HTTPPOSTEncode(Strings.Format(dblFee, "#,##0.00"));
-                    System.Threading.Thread.CurrentThread.CurrentCulture = uiculture;
+                    var dblFee = double.Parse(this.lblFee.Text);
+                    var uiculture = Thread.CurrentThread.CurrentCulture;
+                    Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+                    strPayPalURL = strPayPalURL + "&amount=" +
+                                   Globals.HTTPPOSTEncode(Strings.Format(dblFee, "#,##0.00"));
+                    Thread.CurrentThread.CurrentCulture = uiculture;
 
-                    strPayPalURL = strPayPalURL + "&currency_code=" + DotNetNuke.Common.Globals.HTTPPOSTEncode(lblTotalCurrency.Text);
+                    strPayPalURL = strPayPalURL + "&currency_code=" +
+                                   Globals.HTTPPOSTEncode(this.lblTotalCurrency.Text);
                     strPayPalURL = strPayPalURL + "&return=" + returnURL;
                     strPayPalURL = strPayPalURL + "&cancel_return=" + cancelURL;
-                    strPayPalURL = strPayPalURL + "&notify_url=" + DotNetNuke.Common.Globals.HTTPPOSTEncode(DotNetNuke.Common.Globals.AddHTTP(DotNetNuke.Common.Globals.GetDomainName(Request)) + "/DesktopModules/Events/EventIPN.aspx");
+                    strPayPalURL = strPayPalURL + "&notify_url=" +
+                                   Globals.HTTPPOSTEncode(Globals.AddHTTP(Globals.GetDomainName(this.Request)) +
+                                                          "/DesktopModules/Events/EventIPN.aspx");
                     strPayPalURL = strPayPalURL + "&undefined_quantity=&no_note=1&no_shipping=1";
                     //strPayPalURL = strPayPalURL & "&undefined_quantity=&no_note=1&no_shipping=1&rm=2"
 
                     // redirect to PayPal
-                    Response.Redirect(strPayPalURL, true);
+                    this.Response.Redirect(strPayPalURL, true);
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -359,11 +435,11 @@ namespace DotNetNuke.Modules.Events
             }
         }
 
-        protected void cancelButton_Click(System.Object sender, EventArgs e)
+        protected void cancelButton_Click(object sender, EventArgs e)
         {
             try
             {
-                Response.Redirect(GetSocialNavigateUrl(), true);
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
             }
             catch (Exception) //Module failed to load
             {
@@ -371,11 +447,11 @@ namespace DotNetNuke.Modules.Events
             }
         }
 
-        protected void cmdReturn_Click(System.Object sender, EventArgs e)
+        protected void cmdReturn_Click(object sender, EventArgs e)
         {
             try
             {
-                Response.Redirect(GetSocialNavigateUrl(), true);
+                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
             }
             catch (Exception) //Module failed to load
             {
@@ -384,34 +460,5 @@ namespace DotNetNuke.Modules.Events
         }
 
         #endregion
-        #region Support Functions
-        private void ShowMessage(string msg, MessageLevel messageLevel)
-        {
-            lblMessage.Text = msg;
-
-            //Hide the rest of the form fields.
-            divMessage.Attributes.Add("style", "display:block;");
-
-            switch (messageLevel)
-            {
-                case MessageLevel.DNNSuccess:
-                    divMessage.Attributes.Add("class", "dnnFormMessage dnnFormSuccess");
-                    break;
-                case MessageLevel.DNNInformation:
-                    divMessage.Attributes.Add("class", "dnnFormMessage dnnFormInfo");
-                    break;
-                case MessageLevel.DNNWarning:
-                    divMessage.Attributes.Add("class", "dnnFormMessage dnnFormWarning");
-                    break;
-                case MessageLevel.DNNError:
-                    divMessage.Attributes.Add("class", "dnnFormMessage dnnFormValidationSummary");
-                    break;
-            }
-        }
-
-        #endregion
-
-
     }
-
 }

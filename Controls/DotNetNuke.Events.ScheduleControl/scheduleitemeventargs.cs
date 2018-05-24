@@ -1,6 +1,5 @@
-using System;
-
 #region Copyright
+
 // 
 // DotNetNuke® - http://www.dotnetnuke.com
 // Copyright (c) 2002-2018
@@ -20,41 +19,33 @@ using System;
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE.
 //
+
 #endregion
 
 
 namespace DotNetNuke.Modules.Events.ScheduleControl
 {
-	
-	/// -----------------------------------------------------------------------------
-	/// Project	 : schedule
-	/// Class	 : ScheduleItemEventArgs
-	///
-	/// -----------------------------------------------------------------------------
-	/// <summary>
-	/// The ScheduleItemEventArgs class can be used with the OnItemCreated and
-	/// OnItemDataBound events of the Schedule controls
-	/// </summary>
-	[CLSCompliant(true)]public sealed class ScheduleItemEventArgs : EventArgs
-	{
-		
-		private ScheduleItem _item;
-		
-		public ScheduleItemEventArgs(ScheduleItem item)
-		{
-			this._item = item;
-		}
-		
-		public ScheduleItem Item
-		{
-			get
-			{
-				return _item;
-			}
-		}
-	}
-	
-	public delegate void ScheduleItemEventHandler(object sender, ScheduleItemEventArgs e);
-	
-	
+    using System;
+
+    /// -----------------------------------------------------------------------------
+    /// Project	 : schedule
+    /// Class	 : ScheduleItemEventArgs
+    /// 
+    /// -----------------------------------------------------------------------------
+    /// <summary>
+    ///     The ScheduleItemEventArgs class can be used with the OnItemCreated and
+    ///     OnItemDataBound events of the Schedule controls
+    /// </summary>
+    [CLSCompliant(true)]
+    public sealed class ScheduleItemEventArgs : EventArgs
+    {
+        public ScheduleItemEventArgs(ScheduleItem item)
+        {
+            this.Item = item;
+        }
+
+        public ScheduleItem Item { get; }
+    }
+
+    public delegate void ScheduleItemEventHandler(object sender, ScheduleItemEventArgs e);
 }
