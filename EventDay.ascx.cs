@@ -33,13 +33,12 @@ namespace DotNetNuke.Modules.Events
     using System.Web;
     using System.Web.UI;
     using System.Web.UI.WebControls;
-    using DNNtc;
     using DotNetNuke.Services.Exceptions;
     using DotNetNuke.Services.Localization;
     using global::Components;
     using Microsoft.VisualBasic;
 
-    [ModuleControlProperties("Day", "Events Day", ControlType.View, "https://dnnevents.codeplex.com/documentation",
+    [DNNtc.ModuleControlProperties("Day", "Events Day", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation",
         true, true)]
     public partial class EventDay : EventBase
     {

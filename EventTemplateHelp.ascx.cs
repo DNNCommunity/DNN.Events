@@ -26,10 +26,9 @@
 namespace DotNetNuke.Modules.Events
 {
     using System;
-    using DNNtc;
     using global::Components;
 
-    [ModuleControlProperties("TemplateHelp", "Event Template Help", ControlType.View,
+    [DNNtc.ModuleControlProperties("TemplateHelp", "Event Template Help", DNNtc.ControlType.View,
         "https://dnnevents.codeplex.com/documentation", true, true)]
     public partial class EventTemplateHelp : EventBase
     {

@@ -29,7 +29,6 @@ namespace DotNetNuke.Modules.Events
     using System.Diagnostics;
     using System.IO;
     using System.Web;
-    using DNNtc;
     using DotNetNuke.Common;
     using DotNetNuke.Entities.Icons;
     using DotNetNuke.Entities.Modules;
@@ -39,13 +38,13 @@ namespace DotNetNuke.Modules.Events
     using DotNetNuke.Services.Localization;
     using global::Components;
 
-    [ModulePermission("EVENTS_MODULE", "EVENTSSET", "Edit Settings")]
-    [ModulePermission("EVENTS_MODULE", "EVENTSMOD", "Events Moderator")]
-    [ModulePermission("EVENTS_MODULE", "EVENTSEDT", "Events Editor")]
-    [ModulePermission("EVENTS_MODULE", "EVENTSCAT", "Global Category Editor")]
-    [ModulePermission("EVENTS_MODULE", "EVENTSLOC", "Global Location Editor")]
-    [ModuleDependencies(ModuleDependency.CoreVersion, "8.0.0")]
-    [ModuleControlProperties("", "Events Container", ControlType.View, "https://dnnevents.codeplex.com/documentation",
+    [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSSET", "Edit Settings")]
+    [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSMOD", "Events Moderator")]
+    [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSEDT", "Events Editor")]
+    [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSCAT", "Global Category Editor")]
+    [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSLOC", "Global Location Editor")]
+    [DNNtc.ModuleDependencies(DNNtc.ModuleDependency.CoreVersion, "8.0.0")]
+    [DNNtc.ModuleControlProperties("", "Events Container", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation",
         true, false)]
     public partial class Events : EventBase, IActionable
     {
