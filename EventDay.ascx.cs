@@ -38,8 +38,7 @@ namespace DotNetNuke.Modules.Events
     using global::Components;
     using Microsoft.VisualBasic;
 
-    [DNNtc.ModuleControlProperties("Day", "Events Day", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation",
-        true, true)]
+    [DNNtc.ModuleControlProperties("Day", "Events Day", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", true, true)]
     public partial class EventDay : EventBase
     {
         #region Helper Functions

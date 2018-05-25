@@ -47,8 +47,7 @@ namespace DotNetNuke.Modules.Events
     using EventInfo = global::Components.EventInfo;
     using Globals = DotNetNuke.Common.Globals;
 
-    [DNNtc.ModuleControlProperties("Edit", "Edit Events", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation",
-        false, true)]
+    [DNNtc.ModuleControlProperties("Edit", "Edit Events", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", false, true)]
     public partial class EditEvents : EventBase
     {
         #region Private Area
