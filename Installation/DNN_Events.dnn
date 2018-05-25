@@ -322,6 +322,15 @@
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
+                    <controlKey>TemplateHelp</controlKey>
+                    <controlSrc>DesktopModules/Events/EventTemplateHelp.ascx</controlSrc>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Event Template Help</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
                     <controlKey>Settings</controlKey>
                     <controlSrc>DesktopModules/Events/Settings.ascx</controlSrc>
                     <supportsPartialRendering>true</supportsPartialRendering>
@@ -410,6 +419,7 @@
         <component type="Cleanup" version="06.03.00" fileName="Installation\CleanUp\Cleanup.06.03.00.txt" />
         <component type="Cleanup" version="06.03.01" fileName="Installation\CleanUp\Cleanup.06.03.01.txt" />
         <component type="Cleanup" version="06.03.02" fileName="Installation\CleanUp\Cleanup.06.03.02.txt" />
+        <component type="Cleanup" version="07.00.00" fileName="Installation\CleanUp\Cleanup.07.00.00.txt" />
         <component type="Config">
           <config>
             <configFile>web.config</configFile>

@@ -52,8 +52,7 @@ namespace DotNetNuke.Modules.Events
     using global::Components;
     using EventInfo = global::Components.EventInfo;
 
-    [DNNtc.ModuleControlProperties("Details", "Events Details", DNNtc.ControlType.View,
-        "https://dnnevents.codeplex.com/documentation", true, false)]
+    [DNNtc.ModuleControlProperties("Details", "Events Details", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", true, false)]
     public partial class EventDetails : EventBase
     {
         #region Event Handlers
