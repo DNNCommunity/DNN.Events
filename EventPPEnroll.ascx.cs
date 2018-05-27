@@ -38,8 +38,7 @@ namespace DotNetNuke.Modules.Events
     using Microsoft.VisualBasic;
     using Globals = DotNetNuke.Common.Globals;
 
-    [DNNtc.ModuleControlProperties("PPEnroll", "Event PayPal Enrollment", DNNtc.ControlType.View,
-        "https://dnnevents.codeplex.com/documentation", false, true)]
+    [DNNtc.ModuleControlProperties("PPEnroll", "Event PayPal Enrollment", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", false, true)]
     public partial class EventPPEnroll : EventBase
     {
         #region Event Handlers

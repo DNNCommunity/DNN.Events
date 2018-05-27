@@ -48,8 +48,7 @@ namespace DotNetNuke.Modules.Events
     using FirstDayOfWeek = System.Web.UI.WebControls.FirstDayOfWeek;
     using Globals = DotNetNuke.Common.Globals;
 
-    [DNNtc.ModuleControlProperties("EventSettings", "Event Settings", DNNtc.ControlType.View,
-        "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
+    [DNNtc.ModuleControlProperties("EventSettings", "Event Settings", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventSettings : EventBase
     {
         #region Private Data

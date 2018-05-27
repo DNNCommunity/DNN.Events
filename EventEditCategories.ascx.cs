@@ -37,8 +37,7 @@ namespace DotNetNuke.Modules.Events
     using DotNetNuke.Services.Localization;
     using global::Components;
 
-    [DNNtc.ModuleControlProperties("Categories", "Edit Event Categories", DNNtc.ControlType.View,
-        "https://dnnevents.codeplex.com/documentation", false, true)]
+    [DNNtc.ModuleControlProperties("Categories", "Edit Event Categories", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", false, true)]
     public partial class EventEditCategories : EventBase
     {
         #region Event Handler
