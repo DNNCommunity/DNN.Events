@@ -37,7 +37,7 @@ namespace DotNetNuke.Modules.Events
 
     public partial class EventIcons : EventBase
     {
-        private static readonly string _myFileName = typeof(EventIcons).BaseType.Name + ".ascx";
+        private string _myFileName => this.GetType().BaseType.Name + ".ascx";
 
         protected new string LocalResourceFile => Localization.GetResourceFile(this, _myFileName);
 
