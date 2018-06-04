@@ -211,13 +211,6 @@ namespace DotNetNuke.Modules.Events
                     this.LocalizeAll();
                     this.LoadEvent();
                 }
-                else
-                {
-                    var url = Convert.ToString(this.ctlURL.Url);
-                    var urlType = Convert.ToString(this.ctlURL.UrlType);
-                    this.ctlURL.Url = url;
-                    this.ctlURL.UrlType = urlType;
-                }
 
                 if (this.chkReminder.Checked)
                 {
