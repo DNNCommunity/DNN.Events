@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Open Source Web Application Framework")]
 [assembly: AssemblyCompany("DNNCorp")]
 [assembly: AssemblyProduct("http://www.dnnsoftware.com")]
-[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2015 by DNNCorp. All Rights Reserved.")]
+[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2018 by DNNCorp. All Rights Reserved.")]
 [assembly: AssemblyTrademark("DotNetNuke")]
 
 [assembly: ComVisible(false)]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("7.0.0.0")]
-[assembly: AssemblyFileVersion("7.0.0.0")]
+[assembly: AssemblyVersion("7.0.1.0")]
+[assembly: AssemblyFileVersion("7.0.1.0")]
