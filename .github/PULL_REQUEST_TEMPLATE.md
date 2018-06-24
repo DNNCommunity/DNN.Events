@@ -1,23 +1,23 @@
-* **Please check if the PR fulfills these requirements**
-- [ ] The commit message follows our guidelines
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+<!-- 
+Explain the benefit of this pull request
+You can erase any parts of this template not applicable to your Pull Request. 
+-->
+
+### Description of PR...
+
+## Changes made
+- Item 1
+- Item 2
 
 
-* **What kind of change does this PR introduce?** (Bug fix, feature, docs update, ...)
+## PR Template Checklist
+
+- [ ] Fixes Bug
+- [ ] Feature solution
+- [ ] Other
 
 
+## Please mark which issue is solved
+<!-- Type numbers directly after the #, it will show the issues with that number -->
 
-* **What is the current behavior?** (You can also link to an open issue here)
-
-
-
-* **What is the new behavior (if this is a feature change)?**
-
-
-
-* **Does this PR introduce a breaking change?** (What changes might users need to make in their application due to this PR?)
-
-
-
-* **Other information**:
+Close #
