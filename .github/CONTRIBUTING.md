@@ -11,7 +11,7 @@ so that we can have a chance of keeping on top of things.
 
 
 * Make sure you have a [GitHub account](https://github.com/signup/free)
-* [Submit an issue](https://github.com/DNNCommunity/DNN.Reports/issues) for your issue, assuming one does not already exist. If you have the rights, you should assign yourself to the issue. If you do not have that ability please add a comment noting that a pull request will be submitted for the issue. After review, if the pull request is accepted, we will mark the issue as resolved and assign it to a release so it can be QA'ed.
+* **Submit an issue** for your issue, assuming one does not already exist. If you have the rights, you should assign yourself to the issue. If you do not have that ability please add a comment noting that a pull request will be submitted for the issue. After review, if the pull request is accepted, we will mark the issue as resolved and assign it to a release so it can be QA'ed.
   * Clearly describe the issue including steps to reproduce when it is a bug.
   * Make sure you fill in the earliest version that you know has the issue.
 * Fork the repository on GitHub
