@@ -386,6 +386,7 @@
     <Content Include="Installation\ReleaseNotes\Release.06.03.00.txt" />
     <Content Include="Installation\ReleaseNotes\Release.07.00.00.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.03.02.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.07.00.02.txt" />
     <Content Include="Installation\ReleaseNotes\Release.07.00.01.txt" />
     <Content Include="Styles\jquery-ui.min.css" />
     <Content Include="SubControls\SelectLocation.ascx" />
