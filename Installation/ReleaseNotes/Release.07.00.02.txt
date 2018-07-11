@@ -1,0 +1,7 @@
+﻿<h2>Release notes DNN.Events 07.00.02</h2>
+<p>DNN.Events 07.00.02 will work for any DNN version <strong>8.0.1</strong> and up. Full details on the changes can be found in great detail at <a href="https://github.com/DNNCommunity/DNN.Events/releases" target="_blank">the repository on GitHub</a>.</p>
+<p>This is a bug fix release of the DNN.Events module.</p>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Casting errors due to the VB.net/C# conversion fixed</li>
+</ul>
