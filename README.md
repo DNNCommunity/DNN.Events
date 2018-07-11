@@ -100,3 +100,7 @@ See [Event themes](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Themes)
 #Supported by
 
 [![ReSharper](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/ReSharper Support.png)](https://www.jetbrains.com/resharper/)  
+
+## Maintainers
+This module is currently maintained by Erst Peter Tamminga (@EPTamminga)
+Please coordinate with him before publishing any new release and ask his review on any pull request.
