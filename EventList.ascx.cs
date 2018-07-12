@@ -361,24 +361,28 @@ namespace DotNetNuke.Modules.Events
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                if (this.Settings.Eventtooltiplist)
+                var eventListObject = e.Row.DataItem as EventListObject;
+                if (eventListObject != null)
                 {
-                    var tooltip = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Tooltip"));
-                    e.Row.Attributes.Add("title", tooltip);
-                }
-                var backColor = (Color) DataBinder.Eval(e.Row.DataItem, "CategoryColor");
-                if (backColor.Name != "0")
-                {
-                    for (var i = 0; i <= e.Row.Cells.Count - 1; i++)
+                    if (this.Settings.Eventtooltiplist && !string.IsNullOrEmpty(eventListObject.Tooltip))
                     {
-                        if (e.Row.Cells[i].Visible && !(this.gvEvents.Columns[i].SortExpression == "Description"))
+                        var tooltip = eventListObject.Tooltip;
+                        e.Row.Attributes.Add("title", tooltip);
+                    }
+                    var backColor = eventListObject.CategoryColor;
+                    if (backColor.Name != "0")
+                    {
+                        for (var i = 0; i <= e.Row.Cells.Count - 1; i++)
                         {
-                            e.Row.Cells[i].BackColor = backColor;
+                            if (e.Row.Cells[i].Visible && !(this.gvEvents.Columns[i].SortExpression == "Description"))
+                            {
+                                e.Row.Cells[i].BackColor = backColor;
+                            }
                         }
                     }
                 }
                 if (this.IsPrivateNotModerator &&
-                    !(this.UserId == Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "OwnerID"))))
+                    !(this.UserId == eventListObject.OwnerID))
                 {
                     var lnkevent = (HyperLink) e.Row.FindControl("lnkEvent");
                     lnkevent.Style.Add("cursor", "text");
