@@ -51,7 +51,7 @@ namespace DotNetNuke.Modules.Events
             }
             else
             {
-                if (this.ddlCategories.CheckedItems.Count != this.ddlCategories.Items.Count)
+                if (this.ddlCategories.CheckedItems.Count > 0 && this.ddlCategories.CheckedItems.Count != this.ddlCategories.Items.Count)
                 {
                     foreach (var item in this.ddlCategories.CheckedItems)
                     {
