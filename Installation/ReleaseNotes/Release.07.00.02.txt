@@ -4,4 +4,5 @@
 <h3>BUG FIXES</h3>
 <ul>
 	<li>Casting errors due to the VB.net/C# conversion fixed</li>
+	<li>Fixed an issue where it was impossible to create an event if the edit interval was set to 1440</li>
 </ul>
