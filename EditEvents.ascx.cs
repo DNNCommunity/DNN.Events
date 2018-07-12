@@ -529,10 +529,12 @@ namespace DotNetNuke.Modules.Events
                 currentDate = currentDate.AddMinutes(iInterval - remainder);
             }
 
-            this.tpStartTime.TimeView.Interval = new TimeSpan(0, iInterval, 0);
             this.tpStartTime.SelectedDate = currentDate;
-            this.tpEndTime.TimeView.Interval = new TimeSpan(0, iInterval, 0);
             this.tpEndTime.SelectedDate = currentDate.AddMinutes(iInterval);
+
+            int pickerInterval = iInterval == 1440 ? 1439 : iInterval;
+            this.tpStartTime.TimeView.Interval = new TimeSpan(0, pickerInterval, 0);
+            this.tpEndTime.TimeView.Interval = new TimeSpan(0, pickerInterval, 0);
 
 
             // Can this event be moderated
