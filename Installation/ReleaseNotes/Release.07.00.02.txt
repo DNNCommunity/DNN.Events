@@ -5,4 +5,6 @@
 <ul>
 	<li>Casting errors due to the VB.net/C# conversion fixed</li>
 	<li>Fixed an issue where it was impossible to create an event if the edit interval was set to 1440</li>
+	<li>Fixed an issue where it was impossible to view events after changing months when categories where enabled but none selected</li>
+	<li>Fixed an issue where it was impossible to view events after changing months when locations where enabled but none selected</li>
 </ul>
