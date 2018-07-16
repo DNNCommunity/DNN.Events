@@ -52,8 +52,9 @@ namespace DotNetNuke.Modules.Events
                 dummyRmid != "99999")
             {
                 var objEventController = new EventController();
+                int dummyRmidInt = int.TryParse(dummyRmid, out dummyRmidInt) ? dummyRmidInt : 0;
                 var upgradeOk =
-                    objEventController.UpgradeRecurringEventModule(this.ModuleId, int.Parse(dummyRmid),
+                    objEventController.UpgradeRecurringEventModule(this.ModuleId, dummyRmidInt,
                                                                    emSettings.Maxrecurrences, this.LocalResourceFile);
                 var objEventCtl = new EventController();
                 objEventCtl.EventsUpgrade("04.01.00");

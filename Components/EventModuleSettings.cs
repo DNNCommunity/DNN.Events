@@ -388,11 +388,12 @@ namespace Components
         {
             get
                 {
+                int moduleCatAll = int.TryParse(this.ModuleCategoryIDs[0] as string, out moduleCatAll) ? moduleCatAll : -1;
                     if (this.ModuleCategoryIDs.Count == 0)
                     {
                         this._moduleCategoriesSelected = CategoriesSelected.None;
                     }
-                    else if (Convert.ToInt32(this.ModuleCategoryIDs[0]) == -1)
+                    else if (moduleCatAll == -1)
                     {
                         this._moduleCategoriesSelected = CategoriesSelected.All;
                     }
