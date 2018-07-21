@@ -1830,7 +1830,7 @@ namespace DotNetNuke.Modules.Events
         {
             var cacheKey = "EventsModuleTitle" + intModuleID;
             var moduleTitle = Convert.ToString(DataCache.GetCache(cacheKey));
-            if (ReferenceEquals(moduleTitle, null))
+            if (string.IsNullOrEmpty(moduleTitle))
             {
                 var objModuleController = new ModuleController();
                 var objModuleTabs = objModuleController.GetModuleTabs(intModuleID);
