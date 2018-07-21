@@ -96,9 +96,9 @@ namespace DotNetNuke.Modules.Events
                             else
                             {
                                 this._selectedCategory.Clear();
-                                foreach (int category in this.Settings.ModuleCategoryIDs)
-                                {
-                                    this._selectedCategory.Add(category);
+                                foreach (var category in this.Settings.ModuleCategoryIDs)
+                            {
+                                this._selectedCategory.Add(category);
                                 }
                             }
                         }
@@ -119,7 +119,7 @@ namespace DotNetNuke.Modules.Events
                         else if (this.Settings.ModuleCategoriesSelected != EventModuleSettings.CategoriesSelected.All)
                         {
                             this._selectedCategory.Clear();
-                            foreach (int category in this.Settings.ModuleCategoryIDs)
+                            foreach (var category in this.Settings.ModuleCategoryIDs)
                             {
                                 this._selectedCategory.Add(category);
                             }
