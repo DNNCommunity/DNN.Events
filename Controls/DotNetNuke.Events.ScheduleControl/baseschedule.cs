@@ -2028,7 +2028,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 else if (this.DataSource is DataSet)
                 {
                     var ds = (DataSet) this.DataSource;
-                    if (ReferenceEquals(this.DataMember, null) || this.DataMember == "")
+                    if (string.IsNullOrEmpty(this.DataMember))
                     {
                         // if data member isn't supplied, default to the first table
                         returnValue = new DataView(ds.Tables[0]);

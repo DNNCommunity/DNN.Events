@@ -109,7 +109,7 @@ namespace DotNetNuke.Modules.Events
 
             var cacheKey = "EventsFolderName" + this.ModuleID;
             var folderName = Convert.ToString(DataCache.GetCache(cacheKey));
-            if (ReferenceEquals(folderName, null))
+            if (string.IsNullOrEmpty(folderName))
             {
                 folderName = DesktopModuleController
                     .GetDesktopModuleByModuleName("DNN_Events", eventInfo.PortalID).FolderName;
@@ -189,7 +189,7 @@ namespace DotNetNuke.Modules.Events
             sourceText = this.TokenLength(sourceText, "event", "description", dict);
 
             //categorylabel
-            if (!ReferenceEquals(eventInfo.CategoryName, null))
+            if (!string.IsNullOrEmpty(eventInfo.CategoryName))
             {
                 dict.Add("categorylabel", Localization.GetString("TokenCategoryLabel", this.LocalResourceFile));
             }
@@ -199,7 +199,7 @@ namespace DotNetNuke.Modules.Events
             }
 
             //category, categoryfontcolor, categorybackcolor
-            if (!ReferenceEquals(eventInfo.CategoryName, null))
+            if (!string.IsNullOrEmpty(eventInfo.CategoryName))
             {
                 if (eventInfo.Color.Length > 0)
                 {
@@ -222,7 +222,7 @@ namespace DotNetNuke.Modules.Events
             }
 
             //locationlabel
-            if (!ReferenceEquals(eventInfo.LocationName, null))
+            if (!string.IsNullOrEmpty(eventInfo.LocationName))
             {
                 dict.Add("locationlabel", Localization.GetString("TokenLocationLabel", this.LocalResourceFile));
             }
@@ -232,7 +232,7 @@ namespace DotNetNuke.Modules.Events
             }
 
             //location, locationurl
-            if (!ReferenceEquals(eventInfo.MapURL, null) && eventInfo.MapURL != "")
+            if (!string.IsNullOrEmpty(eventInfo.MapURL) && eventInfo.MapURL != "")
             {
                 dict.Add("location", string.Format("<a href='{1}'>{0}</a>", eventInfo.LocationName, eventInfo.MapURL));
                 dict.Add("locationurl", eventInfo.MapURL);
@@ -935,7 +935,7 @@ namespace DotNetNuke.Modules.Events
 
             //reminder, remindericon
             var img = "";
-            if (!ReferenceEquals(sourceText, null))
+            if (!string.IsNullOrEmpty(sourceText))
             {
                 if (sourceText.Contains("[event:reminder]") || sourceText.Contains("[event:remindericon]"))
                 {

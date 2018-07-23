@@ -1185,7 +1185,7 @@ namespace DotNetNuke.Modules.Events
                 this.cmbCategory.Items[0].Selected = true;
             }
 
-            if (category > 0 && !ReferenceEquals(category, null))
+            if (category > 0)
             {
                 this.cmbCategory.ClearSelection();
                 this.cmbCategory.Items.FindByValue(Convert.ToString(category)).Selected = true;
@@ -1209,7 +1209,7 @@ namespace DotNetNuke.Modules.Events
             //"<None Specified>"
             this.cmbLocation.Items.Insert(
                 0, new ListItem(Localization.GetString("None", this.LocalResourceFile), "-1"));
-            if (location > 0 && !ReferenceEquals(location, null))
+            if (location > 0)
             {
                 this.cmbLocation.Items.FindByValue(Convert.ToString(location)).Selected = true;
             }
