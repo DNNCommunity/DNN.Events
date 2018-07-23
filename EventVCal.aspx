@@ -1,1 +1,1 @@
-<%@ Page Language="vb" AutoEventWireup="false" Codebehind="EventVCal.aspx.vb" Inherits="DotNetNuke.Modules.Events.EventVCal" Explicit="True" %>
+<%@ Page Language="C#" AutoEventWireup="true" Codebehind="EventVCal.aspx.cs" Inherits="DotNetNuke.Modules.Events.EventVCal" Explicit="True" %>

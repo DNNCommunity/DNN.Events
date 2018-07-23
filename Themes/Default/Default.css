@@ -3,510 +3,437 @@
    ================================
 */
 .ThemeDefault .EvtHdrLftCol {
-width:33%;
-float:left;
-min-height:1px;
+    float: left;
+    min-height: 1px;
+    width: 33%;
 }
 
 .ThemeDefault .EvtHdrMdlCol {
-width:34%;
-float:left;
-min-height:1px;
-text-align:center;
+    float: left;
+    min-height: 1px;
+    text-align: center;
+    width: 34%;
 }
 
 .ThemeDefault .EvtHdrRgtCol {
-width:33%;
-float:left;
+    float: left;
+    width: 33%;
 }
 
 .ThemeDefault .Eventtooltipheader, .ThemeDefault .Eventtooltipbody {
-width:300px;
-z-index:99;
-font-size:10px;
-font-family:Arial;
-padding:5px
+    font-family: Arial;
+    font-size: 10px;
+    padding: 5px;
+    width: 300px;
+    z-index: 99;
 }
 
 .ThemeDefault .Eventtooltipheader {
-border:#c3d9ff 1px solid;
-background-color:#c3d9ff;
-color:#00008B;
-font-weight:700;
-font-size:11px
+    background-color: #c3d9ff;
+    border: #c3d9ff 1px solid;
+    color: #00008B;
+    font-size: 11px;
+    font-weight: 700;
 }
 
 .ThemeDefault .Eventtooltipbody {
-border-left:#c3d9ff 1px solid;
-border-right:#c3d9ff 1px solid;
-border-bottom:#c3d9ff 1px solid;
-background-color:#fff
+    background-color: #fff;
+    border-bottom: #c3d9ff 1px solid;
+    border-left: #c3d9ff 1px solid;
+    border-right: #c3d9ff 1px solid;
 }
 
 .ThemeDefault .Eventtooltipbody hr {
-width:100%;
-color:#c3d9ff;
-background-color:#c3d9ff;
-height:1px;
-border:0
+    background-color: #c3d9ff;
+    border: 0;
+    color: #c3d9ff;
+    height: 1px;
+    width: 100%;
 }
 
 .ThemeDefault .Event {
-table-layout:auto;
-font-size:10px;
-width:95%;
-color:#FFF;
-font-family:Verdana;
-height:500px;
-text-align:center;
-border:#e5dfdf 1px solid;
-background-color:#EFE7E7;
-white-space:normal;
-line-height:1.3em
+    background-color: #EFE7E7;
+    border: #e5dfdf 1px solid;
+    color: #FFF;
+    font-family: Verdana;
+    font-size: 10px;
+    height: 500px;
+    line-height: 1.3em;
+    table-layout: auto;
+    text-align: center;
+    white-space: normal;
+    width: 95%;
 }
 
 .ThemeDefault .EventTitle {
-font-weight:700;
-font-size:14px;
-background-image:url(gradient_Default.jpg);
-width:100%;
-color:#000;
-text-align:center;
-height:32px
+    background-image: url(gradient_Default.jpg);
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    height: 32px;
+    text-align: center;
+    width: 100%;
 }
 
-.ThemeDefault .EventTitle,.ThemeDefault .EventTitle td {
-font-weight:700;
-font-size:14px;
-width:100%;
-color:#000;
-text-align:center;
-background-image:url(gradient_Default.jpg);
-height:32px
+.ThemeDefault .EventTitle, .ThemeDefault .EventTitle td {
+    background-image: url(gradient_Default.jpg);
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    height: 32px;
+    text-align: center;
+    width: 100%;
 }
 
 .ThemeDefault .EventDayHeader {
-font-weight:700;
-font-size:10px;
-font-family:Verdana;
-background-color:silver;
-vertical-align:middle
+    background-color: silver;
+    font-family: Verdana;
+    font-size: 10px;
+    font-weight: 700;
+    vertical-align: middle
 }
 
-.ThemeDefault .EventDay,.ThemeDefault .EventDayEvents,.ThemeDefault .EventWeekendDayEvents,.ThemeDefault .EventDay td {
-font-size:10px;
-width:14%;
-color:#00f;
-font-family:Verdana;
-height:14%
+.ThemeDefault .EventDay, .ThemeDefault .EventDayEvents, .ThemeDefault .EventWeekendDayEvents, .ThemeDefault .EventDay td {
+    color: #00f;
+    font-family: Verdana;
+    font-size: 10px;
+    height: 14%;
+    width: 14%;
 }
 
-.ThemeDefault .EventDay a,.ThemeDefault .EventDay a:visited,.ThemeDefault .EventDay a:hover {
-font-size:10px;
-color:#00f;
-font-family:Verdana
+.ThemeDefault .EventDay a, .ThemeDefault .EventDay a:visited, .ThemeDefault .EventDay a:hover {
+    color: #00f;
+    font-family: Verdana;
+    font-size: 10px;
 }
 
-.ThemeDefault .EventDayEvents a,.ThemeDefault .EventDayEvents a:visited,.ThemeDefault .EventDayEvents a:hover, .ThemeDefault .EventWeekendDayEvents a,.ThemeDefault .EventWeekendDayEvents a:visited,.ThemeDefault .EventWeekendDayEvents a:hover  {
-font-size:10px;
-color:red;
-font-family:Verdana
+.ThemeDefault .EventDayEvents a, .ThemeDefault .EventDayEvents a:visited, .ThemeDefault .EventDayEvents a:hover, .ThemeDefault .EventWeekendDayEvents a, .ThemeDefault .EventWeekendDayEvents a:visited, .ThemeDefault .EventWeekendDayEvents a:hover {
+    color: red;
+    font-family: Verdana;
+    font-size: 10px;
 }
 
-.ThemeDefault .EventWeekendDayEvents {
-background-color: #f5f5f5;
-}
+.ThemeDefault .EventWeekendDayEvents { background-color: #f5f5f5; }
 
-.ThemeDefault .EventDayScroll div {
-margin-bottom:0.6em
-}
+.ThemeDefault .EventDayScroll div { margin-bottom: 0.6em }
 
 .ThemeDefault .EventOtherMonthDay {
-color:gray;
-background-color:#DCDCDC
+    background-color: #DCDCDC;
+    color: gray;
 }
 
-.ThemeDefault .EventOtherMonthDay a,.ThemeDefault .EventOtherMonthDay a:visited,.ThemeDefault .EventOtherMonthDay a:hover {
-color:#8080c0
-}
+.ThemeDefault .EventOtherMonthDay a, .ThemeDefault .EventOtherMonthDay a:visited, .ThemeDefault .EventOtherMonthDay a:hover { color: #8080c0 }
 
 .ThemeDefault .EventTodayDay {
-font-weight:700;
-color:#00f;
-background-color:#A9A9A9
+    background-color: #A9A9A9;
+    color: #00f;
+    font-weight: 700;
 }
 
-.ThemeDefault .EventSelectedDay {
-border:red 2px solid;
-}
+.ThemeDefault .EventSelectedDay { border: red 2px solid; }
 
-.ThemeDefault .EventSelectedDay, .ThemeDefault .EventSelectedDay a, .ThemeDefault .EventSelectedDay a:visited, .ThemeDefault .EventSelectedDay a:hover {
-font-size:10px
-}
+.ThemeDefault .EventSelectedDay, .ThemeDefault .EventSelectedDay a, .ThemeDefault .EventSelectedDay a:visited, .ThemeDefault .EventSelectedDay a:hover { font-size: 10px }
 
-.ThemeDefault .EventSelector {
-background-color:#c0c0e0
-}
+.ThemeDefault .EventSelector { background-color: #c0c0e0 }
 
-.ThemeDefault .EventSelector a,.ThemeDefault .EventSelector a:visited,.ThemeDefault .EventSelector a:hover {
-color:#00f;
-text-decoration:none
+.ThemeDefault .EventSelector a, .ThemeDefault .EventSelector a:visited, .ThemeDefault .EventSelector a:hover {
+    color: #00f;
+    text-decoration: none
 }
 
 .ThemeDefault .WeekTable table {
-table-layout:auto;
-font-size:10px;
-color:#000;
-font-family:Verdana;
-margin-left:auto;
-margin-right:auto;
-margin-bottom:0;
-text-align:center;
-border:#e5dfdf 1px solid;
-padding:0
+    border: #e5dfdf 1px solid;
+    color: #000;
+    font-family: Verdana;
+    font-size: 10px;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    table-layout: auto;
+    text-align: center;
 }
 
-.ThemeDefault .WeekTable table td,.ThemeDefault .WeekTable table th {
-border:0;
-padding:0 2px
+.ThemeDefault .WeekTable table td, .ThemeDefault .WeekTable table th {
+    border: 0;
+    padding: 0 2px
 }
 
 .ThemeDefault .WeekItem {
-text-align:center;
-font-family:verdana,helvetica,arial;
-font-size:9px;
-font-weight:700;
-background-color:#ecf2ff
+    background-color: #ecf2ff;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
 }
 
 .ThemeDefault .WeekBackground {
-font-family:verdana,helvetica,arial;
-background-color:#DCDCDC;
-font-size:9px;
-border:transparent 1px solid
+    background-color: #DCDCDC;
+    border: transparent 1px solid;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
 }
 
 .ThemeDefault .WeekTitle {
-font-family:verdana,helvetica,arial;
-font-size:9px;
-color:#000;
-height:15%;
-text-align:center;
-background-image:url(gradient_Default.jpg);
-width:11%;
-border:transparent 1px solid
+    background-image: url(gradient_Default.jpg);
+    border: transparent 1px solid;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    height: 15%;
+    text-align: center;
+    width: 11%;
 }
 
 .ThemeDefault .WeekOfTitle {
-font-weight:700;
-font-size:11px;
-width:100%;
-color:navy;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:middle;
-line-height:3.5em
+    color: navy;
+    font-family: verdana, helvetica, arial;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 3.5em;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeDefault .WeekNextPrev {
-font-weight:700;
-font-family:verdana,helvetica,arial;
-font-size:10px;
-width:100%;
-color:navy;
-text-align:center;
-vertical-align:middle
+    color: navy;
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeDefault .WeekRangeheader {
-color:#000;
-text-align:center;
-vertical-align:middle;
-font-family:verdana,helvetica,arial;
-font-size:9px;
-background-color:#E5DFDF;
-border:none
+    background-color: #E5DFDF;
+    border: none;
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: center;
+    vertical-align: middle;
 }
 
-.ThemeDefault .ListTable {
-width:100%
-}
+.ThemeDefault .ListTable { width: 100% }
 
 .ThemeDefault .ListLink {
-font-weight:700;
-font-size:10px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top
+    font-family: verdana, helvetica, arial;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: left;
+    vertical-align: top
 }
 
 .ThemeDefault .ListHeader, .ThemeDefault .DetailEnrollGridHeader, .ThemeDefault .EditEnrollGridHeader, .ThemeDefault .EnrollGridHeader {
-font-weight:700;
-font-size:9px;
-background-image:url(gradient_Default.jpg);
-color:#000;
-font-family:verdana,helvetica,arial;
-height:32px;
-text-align:left;
-vertical-align:middle
+    background-image: url(gradient_Default.jpg);
+    color: #000;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 700;
+    height: 32px;
+    text-align: left;
+    vertical-align: middle
 }
 
-.ThemeDefault .DetailEnrollGridHeader, .ThemeDefault .EditEnrollGridHeader, .ThemeDefault .EnrollGridHeader {
-text-align:center;
-}
+.ThemeDefault .DetailEnrollGridHeader, .ThemeDefault .EditEnrollGridHeader, .ThemeDefault .EnrollGridHeader { text-align: center; }
 
-.ThemeDefault .DetailEnrollUser, .ThemeDefault .DetailEnrollDisplay,  .ThemeDefault .DetailEnrollDisplay a:link, .ThemeDefault .DetailEnrollEmail, .ThemeDefault .DetailEnrollEmail a:link, .ThemeDefault .DetailEnrollPhone, .ThemeDefault .DetailEnrollApproved, .ThemeDefault .DetailEnrollNo, .ThemeDefault .EditEnrollSelect, .ThemeDefault .EditEnrollUser, .ThemeDefault .EditEnrollDisplay,  .ThemeDefault .EditEnrollDisplay a:link, .ThemeDefault .EditEnrollEmail, .ThemeDefault .EditEnrollEmail a:link, .ThemeDefault .EditEnrollPhone, .ThemeDefault .EditEnrollApproved, .ThemeDefault .EditEnrollNo, .ThemeDefault .EditEnrollDate, .ThemeDefault .EditEnrollDate .ThemeDefault .EnrollSelect, .ThemeDefault .EnrollApproved, .ThemeDefault .EnrollNo, .ThemeDefault .EnrollFee, .ThemeDefault .EnrollDate  {
-font-size:12px;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:top;
-font-weight:normal;
+.ThemeDefault .DetailEnrollUser, .ThemeDefault .DetailEnrollDisplay, .ThemeDefault .DetailEnrollDisplay a:link, .ThemeDefault .DetailEnrollEmail, .ThemeDefault .DetailEnrollEmail a:link, .ThemeDefault .DetailEnrollPhone, .ThemeDefault .DetailEnrollApproved, .ThemeDefault .DetailEnrollNo, .ThemeDefault .EditEnrollSelect, .ThemeDefault .EditEnrollUser, .ThemeDefault .EditEnrollDisplay, .ThemeDefault .EditEnrollDisplay a:link, .ThemeDefault .EditEnrollEmail, .ThemeDefault .EditEnrollEmail a:link, .ThemeDefault .EditEnrollPhone, .ThemeDefault .EditEnrollApproved, .ThemeDefault .EditEnrollNo, .ThemeDefault .EditEnrollDate, .ThemeDefault .EditEnrollDate .ThemeDefault .EnrollSelect, .ThemeDefault .EnrollApproved, .ThemeDefault .EnrollNo, .ThemeDefault .EnrollFee, .ThemeDefault .EnrollDate {
+    font-family: verdana, helvetica, arial;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: top;
 }
 
 .ThemeDefault .ListPager TD {
-font-size:9px;
-font-family:verdana,helvetica,arial
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
 }
 
 .ThemeDefault .ListDuration {
-width:60px;
-font-size:9px;
-font-family:verdana,helvetica,arial;
-text-align:center;
-vertical-align:top
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: center;
+    vertical-align: top;
+    width: 60px;
 }
 
-.ThemeDefault .ListDataGrid, .ThemeDefault .DetailEnrollGrid, .ThemeDefault .EditEnrollGrid, .ThemeDefault .EnrollGrid {
-border-style:none
-}
+.ThemeDefault .ListDataGrid, .ThemeDefault .DetailEnrollGrid, .ThemeDefault .EditEnrollGrid, .ThemeDefault .EnrollGrid { border-style: none }
 
 .ThemeDefault .ListEdit {
-width:10px;
-text-align:center;
-vertical-align:top
+    text-align: center;
+    vertical-align: top;
+    width: 10px;
 }
 
-.ThemeDefault .EventNextPrev,.ThemeDefault .EventNextPrev a:link,.ThemeDefault .EventNextPrev a,.ThemeDefault .EventNextPrev a:visited,.ThemeDefault .EventNextPrev a:hover {
-font-size:10px;
-color:#000;
-padding:0 0.5em
+.ThemeDefault .EventNextPrev, .ThemeDefault .EventNextPrev a:link, .ThemeDefault .EventNextPrev a, .ThemeDefault .EventNextPrev a:visited, .ThemeDefault .EventNextPrev a:hover {
+    color: #000;
+    font-size: 10px;
+    padding: 0 0.5em
 }
 
-.ThemeDefault .EventWeekendDay,.ThemeDefault .ListAlternate, .ThemeDefault .DetailEnrollGridAlternate, .ThemeDefault .EditEnrollGridAlternate, .ThemeDefault .EnrollGridAlternate {
-background-color:#F5F5F5
-}
+.ThemeDefault .EventWeekendDay, .ThemeDefault .ListAlternate, .ThemeDefault .DetailEnrollGridAlternate, .ThemeDefault .EditEnrollGridAlternate, .ThemeDefault .EnrollGridAlternate { background-color: #F5F5F5 }
 
-.ThemeDefault .ListDate,.ThemeDefault .ListTitle,.ThemeDefault .ListDescription,.ThemeDefault .ListCategory,.ThemeDefault .ListLocation,.ThemeDefault .ListLocation a,.ThemeDefault .ListCustomField1,.ThemeDefault .ListCustomField2, .ThemeDefault .ListRecurText, .ThemeDefault .ListRecurUntil, .ThemeDefault .EnrollTitle {
-font-size:9px;
-font-family:verdana,helvetica,arial;
-text-align:left;
-vertical-align:top
+.ThemeDefault .ListDate, .ThemeDefault .ListTitle, .ThemeDefault .ListDescription, .ThemeDefault .ListCategory, .ThemeDefault .ListLocation, .ThemeDefault .ListLocation a, .ThemeDefault .ListCustomField1, .ThemeDefault .ListCustomField2, .ThemeDefault .ListRecurText, .ThemeDefault .ListRecurUntil, .ThemeDefault .EnrollTitle {
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: left;
+    vertical-align: top
 }
 
 .ThemeDefault .RptTable {
-    border-style:none;
-    border-collapse:collapse;
-    width:100%;
+    border-collapse: collapse;
+    border-style: none;
+    width: 100%;
 }
 
-.ThemeDefault .RptRepeater  {
-    width:100%;
-}
+.ThemeDefault .RptRepeater { width: 100%; }
 
-.ThemeDefault .RptRepeater td  {
-    border-style:none;
-}
+.ThemeDefault .RptRepeater td { border-style: none; }
 
 .ThemeDefault .RptHeader {
-    font-weight:700;
-    font-size:9px;
-    background-image:url(gradient_Default.jpg);
-    font-family:verdana,helvetica,arial;
-    height:32px;
-    text-align:center;
-    vertical-align:middle;
-    width:100%;
+    background-image: url(gradient_Default.jpg);
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    font-weight: 700;
+    height: 32px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeDefault .RptNormal {
-    font-size:9px;
-    font-family:verdana,helvetica,arial;
-    text-align:left;
-    vertical-align:top;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: left;
+    vertical-align: top;
 }
 
 .ThemeDefault .RptAlternate {
-    background-color:#F5F5F5;
-    font-size:9px;
-    font-family:verdana,helvetica,arial;
-    text-align:left;
-    vertical-align:top;
+    background-color: #F5F5F5;
+    font-family: verdana, helvetica, arial;
+    font-size: 9px;
+    text-align: left;
+    vertical-align: top;
 }
 
-.ThemeDefault .RptPagerCurrentPage {
-    color: Red;
-}
+.ThemeDefault .RptPagerCurrentPage { color: Red; }
 
-.ThemeDefault .RptPagerHeader td {
-    border-style:none;
-}
+.ThemeDefault .RptPagerHeader td { border-style: none; }
 
-.ThemeDefault .DetailReminderDiv, .ThemeDefault .DetailiCalDiv , 
+.ThemeDefault .DetailReminderDiv, .ThemeDefault .DetailiCalDiv,
 .ThemeDefault .DetailEnrollDiv, .ThemeDefault .DetailEnrollTableDiv,
 .ThemeDefault .DetailCommands,
 .ThemeDefault .DetailEventDetailsDiv1,
 .ThemeDefault .DetailEventDetailsDiv2,
 .ThemeDefault .DetailEventDetailsDiv3,
-.ThemeDefault .DetailEventDetailsDiv4  {
-width:90%;
-padding-left: 5px;
+.ThemeDefault .DetailEventDetailsDiv4 {
+    padding-left: 5px;
+    width: 90%;
 }
 
-.ThemeDefault .DetailReminderLeft, .ThemeDefault .DetailReminderRight, 
+.ThemeDefault .DetailReminderLeft, .ThemeDefault .DetailReminderRight,
 .ThemeDefault .DetailiCalLeft, .ThemeDefault .DetailiCalRight,
 .ThemeDefault .DetailEnrollLeft, .ThemeDefault .DetailEnrollRight,
 .ThemeDefault .DetailContentLeft, .ThemeDefault .DetailContentRight {
-text-align:left;
-float:left;
+    float: left;
+    text-align: left;
 }
 
-.ThemeDefault .DetailReminderLeft, .ThemeDefault .DetailReminderRight, 
+.ThemeDefault .DetailReminderLeft, .ThemeDefault .DetailReminderRight,
 .ThemeDefault .DetailiCalLeft, .ThemeDefault .DetailiCalRight,
 .ThemeDefault .DetailEnrollLeft, .ThemeDefault .DetailEnrollRight,
 .ThemeDefault .DetailEnrollTableLeft, .ThemeDefault .DetailEnrollTableRight,
-.ThemeDefault .DetailContentLeft, .ThemeDefault .DetailContentRight {
-padding:5px 0 5px 0;
-}
+.ThemeDefault .DetailContentLeft, .ThemeDefault .DetailContentRight { padding: 5px 0 5px 0; }
 
-.ThemeDefault .DetailReminderLeft, .ThemeDefault .DetailiCalLeft, 
-.ThemeDefault .DetailEnrollLeft, .ThemeDefault .DetailContentLeft {
-width:35%;
-}
+.ThemeDefault .DetailReminderLeft, .ThemeDefault .DetailiCalLeft,
+.ThemeDefault .DetailEnrollLeft, .ThemeDefault .DetailContentLeft { width: 35%; }
 
-.ThemeDefault .DetailClear {
-clear:both;
-}
+.ThemeDefault .DetailClear { clear: both; }
 
-.ThemeDefault .IconBar {
-white-space:nowrap;
-}
+.ThemeDefault .IconBar { white-space: nowrap; }
 
-.ThemeDefault  .IconBar img, .ThemeDefault  .IconBar input{
-	vertical-align:baseline;
-}
+.ThemeDefault .IconBar img, .ThemeDefault .IconBar input { vertical-align: baseline; }
 
 .ThemeDefault .TopIconBar {
-width:33%;
-vertical-align:top;
+    vertical-align: top;
+    width: 33%;
 }
 
-.ThemeDefault .TopIconBar DIV {
-float:right;
-}
+.ThemeDefault .TopIconBar DIV { float: right; }
 
-.ThemeDefault .BottomIconBar {
-padding-top:3px;
-}
+.ThemeDefault .BottomIconBar { padding-top: 3px; }
 
-.ThemeDefault .IconBarPadding  {
-padding-right:2px;
-}
+.ThemeDefault .IconBarPadding { padding-right: 2px; }
 
 .ThemeDefault .EditEvents .TimePicker, .ThemeDefault .EditEvents .DatePicker {
-Display:inline !important;
-float:left;
-margin-bottom:10px;
+    Display: inline !important;
+    float: left;
+    margin-bottom: 10px;
 }
 
-.ThemeDefault .EditEvents .DatePicker {
-width:150px !important;
-}
+.ThemeDefault .EditEvents .DatePicker { width: 150px !important; }
 
-.ThemeDefault .EditEvents .cmdDatePicker {
-    margin-top: 5px;
-}
+.ThemeDefault .EditEvents .cmdDatePicker { margin-top: 5px; }
 
-.ThemeDefault .EvtHdrMdlCol .DatePicker {
-Display:inline-block;
-}
+.ThemeDefault .EvtHdrMdlCol .DatePicker { Display: inline-block; }
 
-.ThemeDefault .EvtDateControls {
-margin-bottom:5px;
-}
+.ThemeDefault .EvtDateControls { margin-bottom: 5px; }
 
 .ThemeDefault .RadPicker_Default .riTextBox {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
     height: 20px;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
 }
 
-.ThemeDefault .SelCategoryTR {
-height:35px;
-}
+.ThemeDefault .SelCategoryTR { height: 35px; }
 
-.ThemeDefault  .SelCategoryTR div{
-vertical-align:middle;
-}
+.ThemeDefault .SelCategoryTR div { vertical-align: middle; }
 
-.ThemeDefault  .SelCategory span{
-font-weight:bold;
-}
+.ThemeDefault .SelCategory span { font-weight: bold; }
 
 html body .ThemeDefault .RadInput_Default .riTextBox.DateFormat,
 .ThemeDefault .RadComboBox_Default .rcbInput.CategoryFormat {
-font-size:11px;
-font-family:verdana,helvetica,arial;
+    font-family: verdana, helvetica, arial;
+    font-size: 11px;
 }
 
-.ThemeDefault .RadComboBox_Default.SelectCategory {
-width: 150px !important;
-}
+.ThemeDefault .RadComboBox_Default.SelectCategory { width: 150px !important; }
 
-.ThemeDefault ul.dnnActions li.cmdRight {
-float:right;
-}
+.ThemeDefault ul.dnnActions li.cmdRight { float: right; }
 
-.ThemeDefault .EventSettings .dnnFormItem INPUT[type='text'] {
-min-width:1px;
-}
+.ThemeDefault .EventSettings .dnnFormItem INPUT[type='text'] { min-width: 1px; }
 
-.ThemeDefault .dnnFormItem .autoWidth LABEL {
-width:auto;
-}
+.ThemeDefault .dnnFormItem .autoWidth LABEL { width: auto; }
 
-.ThemeDefault .dnnFormItem .inputCenter INPUT {
-float:none;
-}
+.ThemeDefault .dnnFormItem .inputCenter INPUT { float: none; }
 
 .ThemeDefault .EditEvents .dnnFormItem .evtRecWeekDays label, .ThemeDefault .EditEvents .dnnFormItem .evtRecWeekDays input {
-float:none;
-width:auto;
-display:inline;
+    display: inline;
+    float: none;
+    width: auto;
 }
+
 .ThemeDefault .EditEvents .evtShortInputFloat {
-float:none;
-min-width:1%;
-width:31px;
+    float: none;
+    min-width: 1%;
+    width: 31px;
 }
 
 .ThemeDefault .EditEvents .evtShortInput {
-min-width:1%;
-width:31px;
+    min-width: 1%;
+    width: 31px;
 }
 
-.ThemeDefault .EditEvents .evtGridInput {
-float:none;
-}
+.ThemeDefault .EditEvents .evtGridInput { float: none; }
 
-.ThemeDefault .EditEvents .SubHead {
-font-size:inherit;
-}
+.ThemeDefault .EditEvents .SubHead { font-size: inherit; }
 
-.ThemeDefault .EditEvents .evtRadioTop .dnnRadiobutton {
-vertical-align:top;
-}
+.ThemeDefault .EditEvents .evtRadioTop .dnnRadiobutton { vertical-align: top; }
 
 .ThemeDefault .EditEvents .dnnForm.dnnTextEditor {
-float:left;
-width:auto;
+    float: left;
+    width: auto;
 }

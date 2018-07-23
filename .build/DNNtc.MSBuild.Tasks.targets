@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <MSBuildDNNtcTasksPath Condition="'$(MSBuildDNNtcTasksPath)' == ''">$(MSBuildExtensionsPath)\MSBuildDNNtcTasks</MSBuildDNNtcTasksPath>
+    <MSBuildDNNtcTasksLib>$(MSBuildDNNtcTasksPath)\DNNtc.MSBuild.Tasks.dll</MSBuildDNNtcTasksLib>
+  </PropertyGroup>
+  
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.GetVersionInfo" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.AssemblyComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.DependenciesComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.ScriptComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.ModuleControlsComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.BusinessControllerComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.ModulePermissionComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.CleanUpComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.ConfigComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.CreateFile" />
+  
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.CompressScriptComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.CompressCssComponent" />
+  <UsingTask AssemblyFile="$(MSBuildDNNtcTasksLib)" TaskName="DNNtc.MSBuild.Tasks.FormatDnnXmlFileComponent" />
+</Project>

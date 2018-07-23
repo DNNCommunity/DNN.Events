@@ -1,6 +1,6 @@
-﻿<dotnetnuke type="Package" version="5.0">
+<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNN_Events" type="Module" version="6.2.1">
+    <package name="DNN_Events" type="Module" version="7.0.2">
       <friendlyName>Events</friendlyName>
       <description>This module renders single and recurring events and includes Master and Sub Calendars with Event Rollup, TimeZone Adjustment, Event Enrollment, and Event Notification.</description>
       <iconFile>DesktopModules\Events\DNN_Events.png</iconFile>
@@ -11,10 +11,10 @@
         <email>support@dnnsoftware.com</email>
       </owner>
       <license src="License.txt"></license>
-      <releaseNotes src="Release.06.02.01.txt"></releaseNotes>
+      <releaseNotes src="Release.07.00.02.txt"></releaseNotes>
       <azureCompatible>true</azureCompatible>
       <dependencies>
-        <dependency type="CoreVersion">07.02.00</dependency>
+        <dependency type="CoreVersion">8.0.0</dependency>
       </dependencies>
       <components>
         <component type="Script">
@@ -207,6 +207,16 @@
             </script>
             <script type="Install">
               <path>Installation</path>
+              <name>06.02.02.SqlDataProvider</name>
+              <version>06.02.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
+              <name>06.03.02.SqlDataProvider</name>
+              <version>06.03.02</version>
+            </script>
+            <script type="Install">
+              <path>Installation</path>
               <name>Install.05.02.04.SqlDataProvider</name>
               <version>05.02.04</version>
             </script>
@@ -233,8 +243,8 @@
                   <moduleControl>
                     <controlKey>Edit</controlKey>
                     <controlSrc>DesktopModules/Events/EditEvents.ascx</controlSrc>
-                    <supportsPartialRendering>False</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>false</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Edit Events</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -242,8 +252,8 @@
                   <moduleControl>
                     <controlKey>Day</controlKey>
                     <controlSrc>DesktopModules/Events/EventDay.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Events Day</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -251,8 +261,8 @@
                   <moduleControl>
                     <controlKey>Details</controlKey>
                     <controlSrc>DesktopModules/Events/EventDetails.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <supportsPopUps>False</supportsPopUps>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>false</supportsPopUps>
                     <controlTitle>Events Details</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -260,8 +270,8 @@
                   <moduleControl>
                     <controlKey>Categories</controlKey>
                     <controlSrc>DesktopModules/Events/EventEditCategories.ascx</controlSrc>
-                    <supportsPartialRendering>False</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>false</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Edit Event Categories</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -269,8 +279,8 @@
                   <moduleControl>
                     <controlKey>Locations</controlKey>
                     <controlSrc>DesktopModules/Events/EventEditLocations.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Edit Event Locations</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -278,8 +288,8 @@
                   <moduleControl>
                     <controlKey>Moderate</controlKey>
                     <controlSrc>DesktopModules/Events/EventModerate.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Moderate Events and Enrollment</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -287,8 +297,8 @@
                   <moduleControl>
                     <controlKey>PPEnroll</controlKey>
                     <controlSrc>DesktopModules/Events/EventPPEnroll.ascx</controlSrc>
-                    <supportsPartialRendering>False</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>false</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event PayPal Enrollment</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -296,8 +306,8 @@
                   <moduleControl>
                     <controlKey></controlKey>
                     <controlSrc>DesktopModules/Events/Events.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <supportsPopUps>False</supportsPopUps>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>false</supportsPopUps>
                     <controlTitle>Events Container</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -305,17 +315,17 @@
                   <moduleControl>
                     <controlKey>EventSettings</controlKey>
                     <controlSrc>DesktopModules/Events/EventSettings.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event Settings</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey>TemplateHelp</controlKey>
                     <controlSrc>DesktopModules/Events/EventTemplateHelp.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event Template Help</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -323,8 +333,8 @@
                   <moduleControl>
                     <controlKey>Settings</controlKey>
                     <controlSrc>DesktopModules/Events/Settings.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <supportsPopUps>True</supportsPopUps>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event Settings</controlTitle>
                     <controlType>Admin</controlType>
                     <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
@@ -405,6 +415,12 @@
         <component type="Cleanup" version="06.01.04" fileName="Installation\CleanUp\Cleanup.06.01.04.txt" />
         <component type="Cleanup" version="06.02.00" fileName="Installation\CleanUp\Cleanup.06.02.00.txt" />
         <component type="Cleanup" version="06.02.01" fileName="Installation\CleanUp\Cleanup.06.02.01.txt" />
+        <component type="Cleanup" version="06.02.02" fileName="Installation\CleanUp\Cleanup.06.02.02.txt" />
+        <component type="Cleanup" version="06.03.00" fileName="Installation\CleanUp\Cleanup.06.03.00.txt" />
+        <component type="Cleanup" version="06.03.01" fileName="Installation\CleanUp\Cleanup.06.03.01.txt" />
+        <component type="Cleanup" version="06.03.02" fileName="Installation\CleanUp\Cleanup.06.03.02.txt" />
+        <component type="Cleanup" version="07.00.00" fileName="Installation\CleanUp\Cleanup.07.00.00.txt" />
+        <component type="Cleanup" version="07.00.02" fileName="Installation\CleanUp\Cleanup.07.00.02.txt" />
         <component type="Config">
           <config>
             <configFile>web.config</configFile>

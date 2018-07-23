@@ -27,37 +27,37 @@
 function byid(eID) {
     if (document.getElementById) {
         return document.getElementById(eID);
-    }
-    else if (document.all) {
+    } else if (document.all) {
         return document.all(eID);
-    }
-    else {
+    } else {
         return null;
     }
 }
-function selIndex(eID){
+
+function selIndex(eID) {
     return byid(eID).options[byid(eID).selectedIndex].value;
 }
+
 function setselIndex(eID, v) {
-    for ( var i = 0; i < byid(eID).options.length; i++ ) {
-        if ( byid(eID).options[i].value == v ) {
+    for (var i = 0; i < byid(eID).options.length; i++) {
+        if (byid(eID).options[i].value == v) {
             byid(eID).options[i].selected = true;
             return;
         }
     }
 }
+
 // Validation functions
 function timeoutFunc(fid) {
     byid(fid).focus();
     byid(fid).select();
 }
 
-function SetupRangeValidator(valfieldid, valfieldid2, valGroup, botno, topno, message)
-{
+function SetupRangeValidator(valfieldid, valfieldid2, valGroup, botno, topno, message) {
     var valField = byid(valfieldid);
     var valField2 = byid(valfieldid2);
-    valField.maximumvalue = '' + topno + '';
-    valField.minimumvalue = '' + botno + '';
+    valField.maximumvalue = "" + topno + "";
+    valField.minimumvalue = "" + botno + "";
     valField.errormessage = message;
     valField.innerHTML = message;
     valField2.errormessage = message;
@@ -65,37 +65,42 @@ function SetupRangeValidator(valfieldid, valfieldid2, valGroup, botno, topno, me
     window.Page_ClientValidate(valGroup);
 }
 
-function valRemTime(valTime,valTime2,valGroup,remMeasurement,errorminutes,errorhours,errordays){
+function valRemTime(valTime, valTime2, valGroup, remMeasurement, errorminutes, errorhours, errordays) {
     if (!errorhours) {
         errorhours = errorminutes;
     }
     if (!errordays) {
         errordays = errorminutes;
     }
-	switch (selIndex(remMeasurement)){
-	    case 'm': SetupRangeValidator(valTime, valTime2, valGroup, 15, 60, errorminutes); break;
-	    case 'h': SetupRangeValidator(valTime, valTime2, valGroup, 1, 24, errorhours); break;
-	    case 'd': SetupRangeValidator(valTime, valTime2, valGroup, 1, 30, errordays); break;
-	}
+    switch (selIndex(remMeasurement)) {
+    case "m":
+        SetupRangeValidator(valTime, valTime2, valGroup, 15, 60, errorminutes);
+        break;
+    case "h":
+        SetupRangeValidator(valTime, valTime2, valGroup, 1, 24, errorhours);
+        break;
+    case "d":
+        SetupRangeValidator(valTime, valTime2, valGroup, 1, 30, errordays);
+        break;
+    }
 }
 
 
 // functions used in EditEvents
-function CopyField()
-{
+function CopyField() {
     var sourceField;
     var targetField;
     sourceField = window.$find(arguments[0]);
     targetField = window.$find(arguments[1]);
-  if (!isNaN(sourceField.get_selectedDate())) {
-      if (sourceField.get_selectedDate() >targetField.get_selectedDate()) {
-          targetField.set_selectedDate(sourceField.get_selectedDate()) ;
-      }
-  }
-  else {
-      targetField.set_selectedDate(sourceField.get_selectedDate()) ;
-  }
+    if (!isNaN(sourceField.get_selectedDate())) {
+        if (sourceField.get_selectedDate() > targetField.get_selectedDate()) {
+            targetField.set_selectedDate(sourceField.get_selectedDate());
+        }
+    } else {
+        targetField.set_selectedDate(sourceField.get_selectedDate());
+    }
 }
+
 function SetComboIndex() {
     var tpStartTime = window.$find(arguments[0]);
     var tpEndTime = window.$find(arguments[1]);
@@ -108,31 +113,42 @@ function SetComboIndex() {
     var dtEndDate = dpEndDate.get_selectedDate()._toFormattedString();
     if (dtStartDate == dtEndDate && tiStartTime > tiEndTime) {
         var tvEndTime = tpEndTime.get_timeView();
-        tvEndTime.setTime(tiStartTime.getHours(), tiStartTime.getMinutes() + parseInt(timeInterval), tiStartTime.getSeconds(), tiEndTime);
+        tvEndTime.setTime(tiStartTime.getHours(),
+            tiStartTime.getMinutes() + parseInt(timeInterval),
+            tiStartTime.getSeconds(),
+            tiEndTime);
         dpEndDate.set_selectedDate(tiEndTime);
     }
 }
 
 function showTbl(chkField, tblDetail) {
     if (window.dnn.dom.getById(chkField).checked === true) {
-        window.dnn.dom.getById(tblDetail).style.display = 'block';
-    }
-    else {
-        window.dnn.dom.getById(tblDetail).style.display = 'none';
+        window.dnn.dom.getById(tblDetail).style.display = "block";
+    } else {
+        window.dnn.dom.getById(tblDetail).style.display = "none";
     }
 }
 
 function showTblSpecified(strDisplayType, chkField, tblDetail) {
     if (window.dnn.dom.getById(chkField).checked === true) {
         window.dnn.dom.getById(tblDetail).style.display = strDisplayType;
-    }
-    else {
-        window.dnn.dom.getById(tblDetail).style.display = 'none';
+    } else {
+        window.dnn.dom.getById(tblDetail).style.display = "none";
     }
 }
 
-function showhideTbls(strDisplayType, chkField1, tblDetail1, chkField2, tblDetail2, chkField3, tblDetail3, chkField4, tblDetail4, chkField5, tblDetail5) {
-    showTblSpecified('block', chkField1, tblDetail1);
+function showhideTbls(strDisplayType,
+    chkField1,
+    tblDetail1,
+    chkField2,
+    tblDetail2,
+    chkField3,
+    tblDetail3,
+    chkField4,
+    tblDetail4,
+    chkField5,
+    tblDetail5) {
+    showTblSpecified("block", chkField1, tblDetail1);
     showTblSpecified(strDisplayType, chkField2, tblDetail2);
     showTblSpecified(strDisplayType, chkField3, tblDetail3);
     showTblSpecified(strDisplayType, chkField4, tblDetail4);
@@ -142,54 +158,51 @@ function showhideTbls(strDisplayType, chkField1, tblDetail1, chkField2, tblDetai
 function showhideChk2(chkField1, tblDetail1, chkField2, tblDetail2) {
     showTbl(chkField1, tblDetail1);
     if (window.dnn.dom.getById(chkField1).checked === true) {
-        window.dnn.dom.getById(tblDetail2).style.display = 'block';
-    }
-    else if (window.dnn.dom.getById(chkField2).checked === true) {
-        window.dnn.dom.getById(tblDetail2).style.display = 'block';
-    }
-    else {
-        window.dnn.dom.getById(tblDetail2).style.display = 'none';
+        window.dnn.dom.getById(tblDetail2).style.display = "block";
+    } else if (window.dnn.dom.getById(chkField2).checked === true) {
+        window.dnn.dom.getById(tblDetail2).style.display = "block";
+    } else {
+        window.dnn.dom.getById(tblDetail2).style.display = "none";
     }
 }
 
 function showTimes(chkField, cmbField1, cmbField2) {
     if (window.dnn.dom.getById(chkField).checked === true) {
-        window.dnn.dom.getById(cmbField1).style.display = 'none';
-        window.dnn.dom.getById(cmbField2).style.display = 'none';
-        }
-    else {
-        window.dnn.dom.getById(cmbField1).style.display = '';
-        window.dnn.dom.getById(cmbField2).style.display = '';
-        }
+        window.dnn.dom.getById(cmbField1).style.display = "none";
+        window.dnn.dom.getById(cmbField2).style.display = "none";
+    } else {
+        window.dnn.dom.getById(cmbField1).style.display = "";
+        window.dnn.dom.getById(cmbField2).style.display = "";
+    }
 }
 
 // Functions used in Event Settings
-function disableactivate(defaultview,ctlMonth,ctlWeek,ctlList){
+function disableactivate(defaultview, ctlMonth, ctlWeek, ctlList) {
 
     byid(ctlMonth).disabled = false;
     byid(ctlWeek).disabled = false;
     byid(ctlList).disabled = false;
-    
-    switch (selIndex(defaultview)){
-        case 'EventMonth.ascx':
-            byid(ctlMonth).disabled = true;
-            byid(ctlMonth).checked = true;
-            break;
-        case 'EventWeek.ascx':
-            byid(ctlWeek).disabled = true;
-            byid(ctlWeek).checked = true;
-            break;
-        case 'EventList.ascx':
-            byid(ctlList).disabled = true;
-            byid(ctlList).checked = true;
-            break;
+
+    switch (selIndex(defaultview)) {
+    case "EventMonth.ascx":
+        byid(ctlMonth).disabled = true;
+        byid(ctlMonth).checked = true;
+        break;
+    case "EventWeek.ascx":
+        byid(ctlWeek).disabled = true;
+        byid(ctlWeek).checked = true;
+        break;
+    case "EventList.ascx":
+        byid(ctlList).disabled = true;
+        byid(ctlList).checked = true;
+        break;
     }
-}                                
-function disableControl(sourceID, state, destID){
+}
+
+function disableControl(sourceID, state, destID) {
     if (byid(sourceID).checked == state) {
         byid(destID).disabled = true;
-    }
-    else {
+    } else {
         byid(destID).disabled = false;
     }
 }
@@ -217,8 +230,7 @@ function disableRbl(sourceID, state, destID) {
     var rbValue = GetRadioButtonValue(sourceID);
     if (rbValue == state) {
         byid(destID).disabled = false;
-    }
-    else {
+    } else {
         byid(destID).disabled = true;
     }
 }
@@ -228,8 +240,7 @@ function disableDDL(sourceID, state, destID) {
     var ddlValue = ddl.options[ddl.selectedIndex].value;
     if (ddlValue == state) {
         byid(destID).disabled = false;
-    }
-    else {
+    } else {
         byid(destID).disabled = true;
     }
 }
@@ -240,8 +251,7 @@ function disablelistsettings(sourceID, state, field1, field2, field3, field4) {
         byid(field2).disabled = false;
         byid(field3).disabled = true;
         byid(field4).disabled = true;
-    }
-    else {
+    } else {
         byid(field1).disabled = true;
         byid(field2).disabled = true;
         byid(field3).disabled = false;
@@ -250,7 +260,7 @@ function disablelistsettings(sourceID, state, field1, field2, field3, field4) {
 }
 
 // Copy the content of the startdate control to the enddate control
-function CopyStartDateToEnddate(startdate, enddate,starttime,endtime,chkField) {
+function CopyStartDateToEnddate(startdate, enddate, starttime, endtime, chkField) {
     window.$find(enddate).set_selectedDate(window.$find(startdate).get_selectedDate());
     if (window.dnn.dom.getById(chkField).checked !== true) {
         var tpStartTime = window.$find(starttime);
@@ -265,19 +275,18 @@ function CopyStartDateToEnddate(startdate, enddate,starttime,endtime,chkField) {
 
 // Limit characters to be entered in a field with a message
 function limitText(limitField, limitNum, message) {
-	if (limitField.value.length > limitNum) {
-		limitField.value = limitField.value.substring(0, limitNum);
-		alert(message + " " + limitNum);
-	}
+    if (limitField.value.length > limitNum) {
+        limitField.value = limitField.value.substring(0, limitNum);
+        alert(message + " " + limitNum);
+    }
 }
 
 // functions used in Edit Categories
 function GetColor(valColor) {
-    if (valColor.length === 0 || valColor.substring(0, 1) === '#') {
+    if (valColor.length === 0 || valColor.substring(0, 1) === "#") {
         return valColor;
-    }
-    else {
-        return '#' + valColor;
+    } else {
+        return "#" + valColor;
     }
 }
 
@@ -295,7 +304,14 @@ function ValidateColor(source, arguments) {
 // ReSharper restore UnusedParameter
 // ReSharper restore UseOfImplicitGlobalInFunctionScope
 
-function CategoryPreviewPane(colPickerBack, colPickerFore, previewpane, lblPreviewCat, catForeColor, catBackColor, catName, catError) {
+function CategoryPreviewPane(colPickerBack,
+    colPickerFore,
+    previewpane,
+    lblPreviewCat,
+    catForeColor,
+    catBackColor,
+    catName,
+    catError) {
 
     var newForeColor = GetColor(byid(catForeColor).value);
     var newBackColor = GetColor(byid(catBackColor).value);
@@ -312,8 +328,7 @@ function CategoryPreviewPane(colPickerBack, colPickerFore, previewpane, lblPrevi
             window.$find(colPickerBack).set_selectedColor(newBackColor);
         }
         byid(lblPreviewCat).innerHTML = byid(catName).value;
-    }
-    else {
+    } else {
         byid(lblPreviewCat).innerHTML = catError;
         byid(lblPreviewCat).style.color = "#ffffff";
         byid(previewpane).style.backgroundColor = "#ed1c24";
@@ -340,11 +355,12 @@ function ValidateTime(source, arguments) {
 function btnUpdateClick(btnUpdateUniqueID, ddlCategoriesClientID) {
     var ddlCategories = window.$find(ddlCategoriesClientID);
     if (ddlCatText != ddlCategories.get_text()) {
-        window.__doPostBack(btnUpdateUniqueID, '');
+        window.__doPostBack(btnUpdateUniqueID, "");
     }
 }
 
-var ddlCatText = '';
+var ddlCatText = "";
+
 function storeText(ddlCategoriesClientID) {
     var ddlCategories = window.$find(ddlCategoriesClientID);
     ddlCatText = ddlCategories.get_text();
