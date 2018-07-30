@@ -183,7 +183,7 @@ namespace DotNetNuke.Modules.Events
 
         #region Control Events
 
-        protected void SelectCategory_CategorySelected(object sender, CommandEventArgs e)
+        protected void SelectCategory_CategorySelected(object sender, CommandEventArgs e) 
         {
             //Store the other selection(s) too.
             this.SelectLocation.StoreLocations();
