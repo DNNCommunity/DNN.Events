@@ -1630,7 +1630,7 @@ namespace DotNetNuke.Modules.Events
                 {
                     containerSrc = objTabInfo.ContainerSrc;
                 }
-                if (!ReferenceEquals(containerSrc, null))
+                if (!string.IsNullOrEmpty(containerSrc))
                 {
                     if (containerSrc.Substring(containerSrc.Length - 5, 5) == ".ascx")
                     {
@@ -1642,12 +1642,12 @@ namespace DotNetNuke.Modules.Events
             {
                 containerSrc = "[G]Containers/_default/No+Container";
             }
-            if (!ReferenceEquals(containerSrc, null))
+            if (!string.IsNullOrEmpty(containerSrc))
             {
                 url += addchar + "ContainerSrc=" + HttpUtility.HtmlEncode(containerSrc);
                 addchar = "&";
             }
-            if (!ReferenceEquals(skinSrc, null))
+            if (!string.IsNullOrEmpty(skinSrc))
             {
                 url += addchar + "SkinSrc=" + HttpUtility.HtmlEncode(skinSrc);
             }

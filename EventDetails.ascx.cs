@@ -221,7 +221,7 @@ namespace DotNetNuke.Modules.Events
                     txtPageText = HtmlUtils.Shorten(txtPageText, this.Settings.SEODescriptionLength, "...");
                     this.BasePage.Description = txtPageText;
                     txtPageText = this.BasePage.KeyWords;
-                    if (!ReferenceEquals(this._eventInfo.LocationName, null))
+                    if (!string.IsNullOrEmpty(this._eventInfo.LocationName))
                     {
                         if (!string.IsNullOrEmpty(txtPageText))
                         {
@@ -229,7 +229,7 @@ namespace DotNetNuke.Modules.Events
                         }
                         txtPageText = txtPageText + this._eventInfo.LocationName;
                     }
-                    if (!ReferenceEquals(this._eventInfo.CategoryName, null))
+                    if (!string.IsNullOrEmpty(this._eventInfo.CategoryName))
                     {
                         if (!string.IsNullOrEmpty(txtPageText))
                         {

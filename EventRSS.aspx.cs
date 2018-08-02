@@ -208,13 +208,10 @@ namespace DotNetNuke.Modules.Events
             var portalSettings = (PortalSettings) HttpContext.Current.Items["PortalSettings"];
             this._portalID = portalSettings.PortalId;
             this._userinfo = (UserInfo) HttpContext.Current.Items["UserInfo"];
-            if (!ReferenceEquals(portalSettings, null))
+            if (portalSettings.DefaultLanguage != "")
             {
-                if (portalSettings.DefaultLanguage != "")
-                {
-                    var userculture = new CultureInfo(portalSettings.DefaultLanguage, false);
-                    Thread.CurrentThread.CurrentCulture = userculture;
-                }
+                var userculture = new CultureInfo(portalSettings.DefaultLanguage, false);
+                Thread.CurrentThread.CurrentCulture = userculture;
             }
             if (this._userinfo.UserID > 0)
             {
@@ -437,11 +434,11 @@ namespace DotNetNuke.Modules.Events
 
                         writer.WriteElementString("dc:creator", objEvent.OwnerName);
 
-                        if (objEvent.Category > 0 && !ReferenceEquals(objEvent.Category, null))
+                        if (objEvent.Category > 0)
                         {
                             writer.WriteElementString("category", objEvent.CategoryName);
                         }
-                        if (objEvent.Location > 0 && !ReferenceEquals(objEvent.Location, null))
+                        if (objEvent.Location > 0)
                         {
                             writer.WriteElementString("category", objEvent.LocationName);
                         }
