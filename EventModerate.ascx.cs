@@ -557,7 +557,7 @@ namespace DotNetNuke.Modules.Events
 
         #region Grid and Other Events
 
-        private void rbModerate_SelectedIndexChanged(object sender, EventArgs e)
+        protected void rbModerate_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.rbModerate.SelectedValue == "Events")
             {
