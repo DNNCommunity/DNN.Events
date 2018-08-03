@@ -61,7 +61,7 @@ namespace Components
                 }
                 else
                 {
-                    if (!ReferenceEquals(localResourceFile, null))
+                    if (!string.IsNullOrEmpty(localResourceFile))
                     {
                         pv = Localization.GetString(pn, localResourceFile);
                         if (moduleID > 0)

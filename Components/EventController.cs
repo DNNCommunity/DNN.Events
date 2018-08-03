@@ -166,7 +166,7 @@ namespace DotNetNuke.Modules.Events
         {
             // Dim domainurl As String = ps.PortalAlias.HTTPAlias
             var domainurl = HttpContext.Current.Request.ServerVariables["HTTP_HOST"];
-            if (ReferenceEquals(domainurl, null))
+            if (string.IsNullOrEmpty(domainurl))
             {
                 var ps = (PortalSettings) HttpContext.Current.Items["PortalSettings"];
                 domainurl = ps.PortalAlias.HTTPAlias;
@@ -221,7 +221,7 @@ namespace DotNetNuke.Modules.Events
                         {
                             containerSrc = objTabInfo.ContainerSrc;
                         }
-                        if (!ReferenceEquals(containerSrc, null))
+                        if (!string.IsNullOrEmpty(containerSrc))
                         {
                             if (containerSrc.Substring(containerSrc.Length - 5, 5) == ".ascx")
                             {
@@ -234,12 +234,12 @@ namespace DotNetNuke.Modules.Events
                         containerSrc = "[G]Containers/_default/No+Container";
                     }
                 }
-                if (!ReferenceEquals(containerSrc, null))
+                if (!string.IsNullOrEmpty(containerSrc))
                 {
                     url += addchar + "ContainerSrc=" + HttpUtility.HtmlEncode(containerSrc);
                     addchar = "&";
                 }
-                if (!ReferenceEquals(skinSrc, null))
+                if (!string.IsNullOrEmpty(skinSrc))
                 {
                     url += addchar + "SkinSrc=" + HttpUtility.HtmlEncode(skinSrc);
                 }
@@ -1830,7 +1830,7 @@ namespace DotNetNuke.Modules.Events
         {
             var cacheKey = "EventsModuleTitle" + intModuleID;
             var moduleTitle = Convert.ToString(DataCache.GetCache(cacheKey));
-            if (ReferenceEquals(moduleTitle, null))
+            if (string.IsNullOrEmpty(moduleTitle))
             {
                 var objModuleController = new ModuleController();
                 var objModuleTabs = objModuleController.GetModuleTabs(intModuleID);
@@ -2456,14 +2456,14 @@ namespace DotNetNuke.Modules.Events
                     }
                     break;
                 case "MONTHLY":
-                    if (objEventRRULE.ByMonthDay == 0 && ReferenceEquals(objEventRRULE.ByDay, null))
+                    if (objEventRRULE.ByMonthDay == 0 && string.IsNullOrEmpty(objEventRRULE.ByDay))
                     {
                         objEventRRULE.ByMonthDay = dtStart.Day;
                         objEventRRULE.FreqBasic = true;
                     }
                     break;
                 case "WEEKLY":
-                    if (ReferenceEquals(objEventRRULE.ByDay, null))
+                    if (string.IsNullOrEmpty(objEventRRULE.ByDay))
                     {
                         objEventRRULE.FreqBasic = true;
                         var dtdow = dtStart.DayOfWeek;
@@ -2531,7 +2531,7 @@ namespace DotNetNuke.Modules.Events
                 {
                     blAddDate = false;
                 }
-                if (!ReferenceEquals(objEventRRULE.ByDay, null))
+                if (!string.IsNullOrEmpty(objEventRRULE.ByDay))
                 {
                     var dtdow = nextDate.DayOfWeek;
                     switch (dtdow)
@@ -2698,7 +2698,7 @@ namespace DotNetNuke.Modules.Events
                 return false;
             }
 
-            if (ReferenceEquals(intDayNo, null) || intDayNo == 0)
+            if (intDayNo == 0)
             {
                 return true;
             }
@@ -2750,7 +2750,7 @@ namespace DotNetNuke.Modules.Events
                     {
                         strRepeatType = "P1";
                     }
-                    else if (!ReferenceEquals(objEventRRULE.ByDay, null))
+                    else if (!string.IsNullOrEmpty(objEventRRULE.ByDay))
                     {
                         strRepeatType = "M1";
                     }
@@ -3211,7 +3211,7 @@ namespace DotNetNuke.Modules.Events
 
         private string AddHost(string content, string domainurl)
         {
-            if (ReferenceEquals(domainurl, null))
+            if (string.IsNullOrEmpty(domainurl))
             {
                 var objEventInfoHelper = new EventInfoHelper();
                 domainurl = objEventInfoHelper.GetDomainURL();

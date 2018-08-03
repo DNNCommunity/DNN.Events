@@ -724,8 +724,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 // - For CssClass, multiple class names may be added.
                 var sb = new StringBuilder();
                 var currdayofweek = this.DayOfWeekMapping(day.Date.DayOfWeek);
-                if ((this.WeekEndDays & currdayofweek) == currdayofweek && !day.IsOtherMonth &&
-                    !ReferenceEquals(this.WeekendDayStyle, null))
+                if ((this.WeekEndDays & currdayofweek) == currdayofweek && !day.IsOtherMonth)
                 {
                     tbcell.MergeStyle(this.WeekendDayStyle);
                     sb.AppendFormat(" {0}", this.WeekendDayStyle.CssClass);
@@ -862,7 +861,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 var fieldValue = this.Page.Request.Form[fieldName];
 
                 // If no dates were stored, return the empty list.
-                if (ReferenceEquals(fieldValue, null))
+                if (string.IsNullOrEmpty(fieldValue))
                 {
                     return dates;
                 }

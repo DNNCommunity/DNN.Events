@@ -99,7 +99,7 @@ namespace Components
                 if (ReferenceEquals(bs, null))
                 {
                     bs = CreateEventModuleSettings(moduleID, localResourceFile);
-                    if (!ReferenceEquals(localResourceFile, null))
+                    if (!string.IsNullOrEmpty(localResourceFile))
                     {
                         DataCache.SetCache(cacheKey, bs);
                     }
@@ -275,7 +275,7 @@ namespace Components
         {
             get
                 {
-                    if (ReferenceEquals(this._standardEmail, null))
+                    if (string.IsNullOrEmpty(this._standardEmail))
                     {
                         var portalsettings = PortalController.GetCurrentPortalSettings();
                         if (!ReferenceEquals(portalsettings, null))
@@ -579,7 +579,7 @@ namespace Components
         {
             get
                 {
-                    if (string.IsNullOrEmpty(this._rssDesc) && !ReferenceEquals(this._localresourcefile, null))
+                    if (string.IsNullOrEmpty(this._rssDesc) && !string.IsNullOrEmpty(this._localresourcefile))
                     {
                         this._rssDesc = Localization.GetString("RSSFeedDescDefault", this._localresourcefile);
                     }
@@ -593,7 +593,7 @@ namespace Components
         {
             get
                 {
-                    if (string.IsNullOrEmpty(this._rssTitle) && !ReferenceEquals(this._localresourcefile, null))
+                    if (string.IsNullOrEmpty(this._rssTitle) && !string.IsNullOrEmpty(this._localresourcefile))
                     {
                         this._rssTitle = Localization.GetString("RSSFeedTitleDefault", this._localresourcefile);
                     }
@@ -631,7 +631,7 @@ namespace Components
         {
             get
                 {
-                    if (ReferenceEquals(this._reminderfrom, null))
+                    if (string.IsNullOrEmpty(this._reminderfrom))
                     {
                         var portalsettings = PortalController.GetCurrentPortalSettings();
                         if (!ReferenceEquals(portalsettings, null))
@@ -783,9 +783,9 @@ namespace Components
         {
             get
                 {
-                    if (ReferenceEquals(this._timeZoneId, null))
+                    if (string.IsNullOrEmpty(this._timeZoneId))
                     {
-                        if (ReferenceEquals(this._timeZone, null))
+                        if (string.IsNullOrEmpty(this._timeZone))
                         {
                             var portalsettings = PortalController.GetCurrentPortalSettings();
                             if (!ReferenceEquals(portalsettings, null))

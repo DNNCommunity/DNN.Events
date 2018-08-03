@@ -1131,7 +1131,7 @@ namespace Components
             //Try Primary
             if (modSettings.PrimaryTimeZone == EventModuleSettings.TimeZones.UserTZ)
             {
-                if (!ReferenceEquals(userTimeZoneId, null))
+                if (!string.IsNullOrEmpty(userTimeZoneId))
                 {
                     displayTimeToneId = userTimeZoneId;
                 }
@@ -1154,7 +1154,7 @@ namespace Components
             {
                 if (modSettings.SecondaryTimeZone == EventModuleSettings.TimeZones.UserTZ)
                 {
-                    if (!ReferenceEquals(userTimeZoneId, null))
+                    if (!string.IsNullOrEmpty(userTimeZoneId))
                     {
                         displayTimeToneId = userTimeZoneId;
                     }
