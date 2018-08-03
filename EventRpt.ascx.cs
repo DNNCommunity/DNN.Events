@@ -183,14 +183,14 @@ namespace DotNetNuke.Modules.Events
 
         #region Control Events
 
-        private void SelectCategory_CategorySelected(object sender, CommandEventArgs e)
+        protected void SelectCategory_CategorySelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
             this.SelectLocation.StoreLocations();
             this.BindDataGrid();
         }
 
-        private void SelectLocation_LocationSelected(object sender, CommandEventArgs e)
+        protected void SelectLocation_LocationSelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
             this.SelectCategory.StoreCategories();
@@ -200,7 +200,7 @@ namespace DotNetNuke.Modules.Events
         private int _rptCurrentItemCount;
         private bool _rptAlternate = true;
 
-        private void rptEvents_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        protected void rptEvents_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             var rptColumns = this.Settings.RptColumns;
             var columnWidth = "\"" + Convert.ToInt32((double) 100 / this.Settings.RptColumns) + "%\"";
@@ -341,7 +341,7 @@ namespace DotNetNuke.Modules.Events
             return body.Replace("[event:repeatertooltip]", fullTooltip);
         }
 
-        private void rptPages_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        protected void rptPages_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             switch (e.Item.ItemType)
             {
@@ -362,7 +362,7 @@ namespace DotNetNuke.Modules.Events
             }
         }
 
-        private void rptPages_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void rptPages_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             this.PageNumber = Convert.ToInt32(e.CommandArgument) - 1;
             this.BindDataGrid();
