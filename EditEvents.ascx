@@ -237,7 +237,7 @@
                 </asp:RequiredFieldValidator>
                 <asp:CustomValidator id="valValidRecurEndDate" runat="server"
                                      ControlToValidate="dpRecurEndDate" cssclass="dnnFormMessage dnnFormError"
-                                     EnableViewState="false" resourcekey="valValidRecurEndDate">
+                                     EnableViewState="false" resourcekey="valValidRecurEndDate" OnServerValidate="valValidRecurEndDate_ServerValidate">
                 </asp:CustomValidator>
                 <asp:CustomValidator id="valValidRecurEndDate2" runat="server"
                                      ControlToValidate="dpRecurEndDate" cssclass="dnnFormMessage dnnFormError" EnableViewState="false"

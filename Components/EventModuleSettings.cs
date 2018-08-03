@@ -776,8 +776,6 @@ namespace Components
         [ModuleSetting]
         public string Timeinterval { get; set; } = "30";
 
-        private string TimeZone { get; set; } = string.Empty;
-
         [ModuleSetting]
         public string TimeZoneId
         {

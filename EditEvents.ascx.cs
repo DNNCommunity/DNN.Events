@@ -355,7 +355,7 @@ namespace DotNetNuke.Modules.Events
             args.IsValid = this.ValidateTime(inDate);
         }
 
-        private void valValidRecurEndDate_ServerValidate(object source, ServerValidateEventArgs args)
+        protected void valValidRecurEndDate_ServerValidate(object source, ServerValidateEventArgs args)
         {
             if (ReferenceEquals(this.dpStartDate.SelectedDate, null))
             {
