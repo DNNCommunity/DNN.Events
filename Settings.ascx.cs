@@ -48,7 +48,7 @@ namespace DotNetNuke.Modules.Events
             var dummyRmid = emSettings.RecurDummy;
             this.divUpgrade.Visible = false;
             this.divRetry.Visible = false;
-            if (!ReferenceEquals(dummyRmid, null) &&
+            if (!string.IsNullOrEmpty(dummyRmid) &&
                 dummyRmid != "99999")
             {
                 var objEventController = new EventController();
@@ -107,7 +107,7 @@ namespace DotNetNuke.Modules.Events
             var dummyRmid = emSettings.RecurDummy;
             this.divUpgrade.Visible = false;
             this.divRetry.Visible = false;
-            if (!ReferenceEquals(dummyRmid, null) &&
+            if (!string.IsNullOrEmpty(dummyRmid) &&
                 dummyRmid != "99999")
             {
                 this.divUpgrade.Visible = true;

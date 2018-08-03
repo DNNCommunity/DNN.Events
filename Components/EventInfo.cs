@@ -539,7 +539,7 @@ namespace Components
         {
             get
                 {
-                    if (ReferenceEquals(this._otherTimeZoneId, null))
+                    if (string.IsNullOrEmpty(this._otherTimeZoneId))
                     {
                         this._otherTimeZoneId = "UTC";
                     }

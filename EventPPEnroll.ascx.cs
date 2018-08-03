@@ -266,7 +266,7 @@ namespace DotNetNuke.Modules.Events
 
                     //Just in case the user has clicked back and has now clicked Purchase again!!
                     var objEventSignupsChk = default(EventSignupsInfo);
-                    if (ReferenceEquals(this._anonEmail, null))
+                    if (string.IsNullOrEmpty(this._anonEmail))
                     {
                         objEventSignupsChk =
                             this._objCtlEventSignups.EventsSignupsGetUser(
@@ -284,7 +284,7 @@ namespace DotNetNuke.Modules.Events
                     }
                     this._objEventSignups.EventID = objEvent.EventID;
                     this._objEventSignups.ModuleID = objEvent.ModuleID;
-                    if (ReferenceEquals(this._anonEmail, null))
+                    if (string.IsNullOrEmpty(this._anonEmail))
                     {
                         this._objEventSignups.UserID = this.UserId;
                         this._objEventSignups.AnonEmail = null;
@@ -330,7 +330,7 @@ namespace DotNetNuke.Modules.Events
                         objEventEmailInfo.TxtEmailSubject = this.Settings.Templates.txtEnrollMessageSubject;
                         objEventEmailInfo.TxtEmailBody = this.Settings.Templates.txtEnrollMessagePaying;
                         objEventEmailInfo.TxtEmailFrom = this.Settings.StandardEmail;
-                        if (ReferenceEquals(this._anonEmail, null))
+                        if (string.IsNullOrEmpty(this._anonEmail))
                         {
                             objEventEmailInfo.UserEmails.Add(this.PortalSettings.UserInfo.Email);
                             objEventEmailInfo.UserLocales.Add(this.PortalSettings.UserInfo.Profile.PreferredLocale);
