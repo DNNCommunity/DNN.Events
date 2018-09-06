@@ -357,29 +357,29 @@
 		<!-- Get files -->
 		<CreateItem
           Exclude="**\.svn\**;
-            	$(MSBuildProjectDirectory)\_*\**;
-            	$(MSBuildProjectDirectory)\.git\**;
-		$(MSBuildProjectDirectory)\obj\**;
-		$(MSBuildProjectDirectory)\bin\**;
-		$(MSBuildProjectDirectory)\My Project\*.*;
-		$(MSBuildProjectDirectory)\Properties\*.*;
-		$(MSBuildProjectDirectory)\Dependencies\*.*; 
-		$(MSBuildProjectDirectory)\*ReSharper*\**;
-            	$(MSBuildProjectDirectory)\Installation\*.png;
-            	$(MSBuildProjectDirectory)\tmpCompressScript\**;
-		MSBuildProjectDirectory)\tmpCompressCSS\**"
+			$(MSBuildProjectDirectory)\_*\**;
+			$(MSBuildProjectDirectory)\.git\**;
+			$(MSBuildProjectDirectory)\obj\**;
+			$(MSBuildProjectDirectory)\bin\**;
+			$(MSBuildProjectDirectory)\My Project\*.*;
+			$(MSBuildProjectDirectory)\Properties\*.*;
+			$(MSBuildProjectDirectory)\Dependencies\*.*; 
+			$(MSBuildProjectDirectory)\*ReSharper*\**;
+			$(MSBuildProjectDirectory)\Installation\*.png;
+			$(MSBuildProjectDirectory)\tmpCompressScript\**;
+			$(MSBuildProjectDirectory)\tmpCompressCSS\**"
           Include="$(MSBuildProjectDirectory)\**\*.ascx;
-		$(MSBuildProjectDirectory)\**\*.aspx;
-		$(MSBuildProjectDirectory)\**\*.css;
-		$(MSBuildProjectDirectory)\**\*.xml;
-		$(MSBuildProjectDirectory)\**\*.xslt;
-		$(MSBuildProjectDirectory)\**\*.resx;
-		$(MSBuildProjectDirectory)\**\*.rpt;
-		$(MSBuildProjectDirectory)\**\*.gif;
-		$(MSBuildProjectDirectory)\**\*.jpg;
-		$(MSBuildProjectDirectory)\**\*.png;
-            	$(MSBuildProjectDirectory)\**\*.js;
-            	$(MSBuildProjectDirectory)\**\*.html;">
+			$(MSBuildProjectDirectory)\**\*.aspx;
+			$(MSBuildProjectDirectory)\**\*.css;
+			$(MSBuildProjectDirectory)\**\*.xml;
+			$(MSBuildProjectDirectory)\**\*.xslt;
+			$(MSBuildProjectDirectory)\**\*.resx;
+			$(MSBuildProjectDirectory)\**\*.rpt;
+			$(MSBuildProjectDirectory)\**\*.gif;
+			$(MSBuildProjectDirectory)\**\*.jpg;
+			$(MSBuildProjectDirectory)\**\*.png;
+			$(MSBuildProjectDirectory)\**\*.js;
+			$(MSBuildProjectDirectory)\**\*.html;">
 			<Output TaskParameter="Include" ItemName="resources" />
 		</CreateItem>
 		<!-- Include module png as IconFile in resources zip -->
@@ -477,8 +477,9 @@
             $(MSBuildProjectDirectory)\**\*.user;
             $(MSBuildProjectDirectory)\**\*.zip;
             $(MSBuildProjectDirectory)\_ReSharper.*\**;
-						$(MSBuildProjectDirectory)\obj\**;
-						$(MSBuildProjectDirectory)\bin\**"
+			$(MSBuildProjectDirectory)\obj\**;
+			$(MSBuildProjectDirectory)\bin\**;
+			$(MSBuildProjectDirectory)\tmpCompressCSS\**"
           Include="$(MSBuildProjectDirectory)\**\*.*" >
 			<Output TaskParameter="Include" ItemName="srcsources" />
 		</CreateItem>
