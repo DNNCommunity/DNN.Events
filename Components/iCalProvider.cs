@@ -32,17 +32,17 @@ namespace DotNetNuke.Modules.Events
     using System.Linq;
     using System.Text;
     using System.Web;
-    using DotNetNuke.Common.Utilities;
+    using Common.Utilities;
     using DotNetNuke.Entities.Modules;
-    using DotNetNuke.Entities.Portals;
-    using DotNetNuke.Entities.Users;
-    using DotNetNuke.Security;
-    using DotNetNuke.Services.FileSystem;
-    using DotNetNuke.Services.Localization;
+    using Entities.Portals;
+    using Entities.Users;
+    using Security;
+    using Services.FileSystem;
+    using Services.Localization;
     using global::Components;
     using Microsoft.VisualBasic;
     using Calendar = System.Globalization.Calendar;
-    using Globals = DotNetNuke.Common.Globals;
+    using Globals = Common.Globals;
 
     #region vEvent Class
 
@@ -89,8 +89,8 @@ namespace DotNetNuke.Modules.Events
 
         public VEvent(bool series, HttpContext context)
         {
-            this._blSeries = series;
-            this._oContext = context;
+            _blSeries = series;
+            _oContext = context;
         }
 
         #endregion
@@ -99,7 +99,7 @@ namespace DotNetNuke.Modules.Events
 
         void IHttpHandler.ProcessRequest(HttpContext inContext)
         {
-            this.ProcessVCalRequest(inContext);
+            ProcessVCalRequest(inContext);
         }
 
         public void ProcessVCalRequest(HttpContext inContext)
@@ -112,81 +112,81 @@ namespace DotNetNuke.Modules.Events
             var iCategoryID = -1;
             var iSocialGroupId = -1;
             var calname = "";
-            this._moduleID = 0;
+            _moduleID = 0;
 
             // Get the scope information
-            this._oContext = inContext;
-            if (iItemID == 0 && this._oContext.Request.QueryString["itemID"] == "")
+            _oContext = inContext;
+            if (iItemID == 0 && _oContext.Request.QueryString["itemID"] == "")
             {
                 return;
             }
-            if (!(this._oContext.Request.QueryString["itemID"] == ""))
+            if (!(_oContext.Request.QueryString["itemID"] == ""))
             {
-                iItemID = Convert.ToInt64(this._oContext.Request.QueryString["itemID"]);
+                iItemID = Convert.ToInt64(_oContext.Request.QueryString["itemID"]);
             }
 
-            if (iModuleID == 0 && this._oContext.Request.QueryString["Mid"] == "")
+            if (iModuleID == 0 && _oContext.Request.QueryString["Mid"] == "")
             {
                 return;
             }
-            if (!(this._oContext.Request.QueryString["Mid"] == ""))
+            if (!(_oContext.Request.QueryString["Mid"] == ""))
             {
-                iModuleID = Convert.ToInt32(this._oContext.Request.QueryString["Mid"]);
+                iModuleID = Convert.ToInt32(_oContext.Request.QueryString["Mid"]);
             }
 
             //Save this in the private property value
-            this._moduleID = iModuleID;
+            _moduleID = iModuleID;
 
-            if (iTabID == 0 && this._oContext.Request.QueryString["TabId"] == "")
+            if (iTabID == 0 && _oContext.Request.QueryString["TabId"] == "")
             {
                 return;
             }
-            if (!(this._oContext.Request.QueryString["TabId"] == ""))
+            if (!(_oContext.Request.QueryString["TabId"] == ""))
             {
-                iTabID = Convert.ToInt32(this._oContext.Request.QueryString["TabId"]);
+                iTabID = Convert.ToInt32(_oContext.Request.QueryString["TabId"]);
             }
 
-            if (iItemID > 0 && this._oContext.Request.QueryString["Series"] == "")
+            if (iItemID > 0 && _oContext.Request.QueryString["Series"] == "")
             {
                 return;
             }
-            this._blSeries = false;
-            if (!(this._oContext.Request.QueryString["Series"] == ""))
+            _blSeries = false;
+            if (!(_oContext.Request.QueryString["Series"] == ""))
             {
-                this._blSeries = Convert.ToBoolean(this._oContext.Request.QueryString["series"]);
+                _blSeries = Convert.ToBoolean(_oContext.Request.QueryString["series"]);
             }
 
-            if (!(this._oContext.Request.QueryString["CategoryName"] == ""))
+            if (!(_oContext.Request.QueryString["CategoryName"] == ""))
             {
-                iCategoryName = this._oContext.Request.QueryString["CategoryName"];
+                iCategoryName = _oContext.Request.QueryString["CategoryName"];
                 var objSecurity = new PortalSecurity();
                 iCategoryName = objSecurity.InputFilter(iCategoryName, PortalSecurity.FilterFlag.NoSQL);
             }
             if (!(HttpContext.Current.Request.QueryString["CategoryID"] == ""))
             {
-                iCategoryID = Convert.ToInt32(this._oContext.Request.QueryString["CategoryID"]);
+                iCategoryID = Convert.ToInt32(_oContext.Request.QueryString["CategoryID"]);
             }
 
-            if (!(this._oContext.Request.QueryString["groupid"] == ""))
+            if (!(_oContext.Request.QueryString["groupid"] == ""))
             {
-                iSocialGroupId = Convert.ToInt32(this._oContext.Request.QueryString["groupid"]);
+                iSocialGroupId = Convert.ToInt32(_oContext.Request.QueryString["groupid"]);
             }
 
             if (!(HttpContext.Current.Request.QueryString["Calname"] == ""))
             {
-                calname = this._oContext.Request.QueryString["Calname"];
+                calname = _oContext.Request.QueryString["Calname"];
             }
 
             var iCal = "";
-            iCal = this.CreateiCal(iTabID, iModuleID, iItemID, iSocialGroupId, iCategoryName, iCategoryID, calname);
+            iCal = CreateiCal(iTabID, iModuleID, iItemID, iSocialGroupId, iCategoryName, iCategoryID, calname);
 
             // Stream The vCalendar
             var oStream = default(HttpResponse);
-            oStream = this._oContext.Response;
+            oStream = _oContext.Response;
             oStream.ContentEncoding = Encoding.UTF8;
             oStream.ContentType = "text/Calendar";
             oStream.AppendHeader("Content-Disposition",
-                                 "filename=" + HttpUtility.UrlEncode(this._icsFilename) + ".ics");
+                                 "filename=" + HttpUtility.UrlEncode(_icsFilename) + ".ics");
             oStream.Write(iCal);
         }
 
@@ -196,47 +196,47 @@ namespace DotNetNuke.Modules.Events
         {
             // Get relevant module settings
 
-            this._settings = EventModuleSettings.GetEventModuleSettings(iModuleID, null);
+            _settings = EventModuleSettings.GetEventModuleSettings(iModuleID, null);
 
             // Set up for this module
             var portalSettings = (PortalSettings) HttpContext.Current.Items["PortalSettings"];
-            this._objEventInfoHelper = new EventInfoHelper(iModuleID, iTabID, portalSettings.PortalId, this._settings);
-            this._portalurl = this._objEventInfoHelper.GetDomainURL();
+            _objEventInfoHelper = new EventInfoHelper(iModuleID, iTabID, portalSettings.PortalId, _settings);
+            _portalurl = _objEventInfoHelper.GetDomainURL();
             if (portalSettings.PortalAlias.HTTPAlias.IndexOf("/", StringComparison.Ordinal) > 0)
             {
-                this._portalurl = this._portalurl + Globals.ApplicationPath;
+                _portalurl = _portalurl + Globals.ApplicationPath;
             }
 
-            this._blOwnerEmail = this._settings.Exportowneremail;
-            if (this._blOwnerEmail)
+            _blOwnerEmail = _settings.Exportowneremail;
+            if (_blOwnerEmail)
             {
-                this._blAnonOwnerEmail = this._settings.Exportanonowneremail;
+                _blAnonOwnerEmail = _settings.Exportanonowneremail;
             }
-            this._blEventSignup = this._settings.Eventsignup;
-            if (this._settings.EnrollAnonFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
+            _blEventSignup = _settings.Eventsignup;
+            if (_settings.EnrollAnonFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
-                this._blAnonEmail = true;
+                _blAnonEmail = true;
             }
-            if (this._settings.EnrollViewFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
+            if (_settings.EnrollViewFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
-                this._blViewEmail = true;
+                _blViewEmail = true;
             }
-            if (this._settings.EnrollEditFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
+            if (_settings.EnrollEditFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
-                this._blEditEmail = true;
+                _blEditEmail = true;
             }
 
             var socialUserId = -1;
-            if (this._settings.SocialGroupModule == EventModuleSettings.SocialModule.UserProfile)
+            if (_settings.SocialGroupModule == EventModuleSettings.SocialModule.UserProfile)
             {
                 socialUserId = portalSettings.UserId;
             }
 
-            this._blImages = this._settings.Eventimage;
-            this._iUserid = portalSettings.UserId;
-            this._domainName = portalSettings.PortalAlias.HTTPAlias;
-            var iCalDaysBefore = this._settings.IcalDaysBefore;
-            var iCalDaysAfter = this._settings.IcalDaysAfter;
+            _blImages = _settings.Eventimage;
+            _iUserid = portalSettings.UserId;
+            _domainName = portalSettings.PortalAlias.HTTPAlias;
+            var iCalDaysBefore = _settings.IcalDaysBefore;
+            var iCalDaysAfter = _settings.IcalDaysAfter;
             if (!(HttpContext.Current.Request.QueryString["DaysBefore"] == ""))
             {
                 iCalDaysBefore = Convert.ToInt32(HttpContext.Current.Request.QueryString["DaysBefore"]);
@@ -247,8 +247,11 @@ namespace DotNetNuke.Modules.Events
             }
 
 
-            this._iCalURLAppend = this._settings.IcalURLAppend;
-            this._iCalDefaultImage = this._settings.IcalDefaultImage.Substring(6);
+            _iCalURLAppend = _settings.IcalURLAppend;
+            if (_settings.IcalDefaultImage.Length >= 6)
+            {
+                _iCalDefaultImage = _settings.IcalDefaultImage.Substring(6);
+            }
 
             // Lookup DesktopModuleID
             var objDesktopModule = default(DesktopModuleInfo);
@@ -258,7 +261,7 @@ namespace DotNetNuke.Modules.Events
             // Build the filename
             var objCtlModule = new ModuleController();
             var objModuleInfo = objCtlModule.GetModule(iModuleID, iTabID, false);
-            this._icsFilename = HtmlUtils.StripTags(objModuleInfo.ModuleTitle, false);
+            _icsFilename = HtmlUtils.StripTags(objModuleInfo.ModuleTitle, false);
 
             // Get the event that is being viewed
             var oEvent = new EventInfo();
@@ -269,27 +272,27 @@ namespace DotNetNuke.Modules.Events
             }
 
             var vEvents = new StringBuilder();
-            if (this._blSeries && iItemID == 0)
+            if (_blSeries && iItemID == 0)
             {
                 // Not supported yet
             }
-            else if (this._blSeries && iItemID > 0)
+            else if (_blSeries && iItemID > 0)
             {
                 // Process the series
                 var oEventRecurMaster = default(EventRecurMasterInfo);
                 var oCntrlRecurMaster = new EventRecurMasterController();
                 oEventRecurMaster = oCntrlRecurMaster.EventsRecurMasterGet(oEvent.RecurMasterID, oEvent.ModuleID);
-                vEvents.Append(this.CreateRecurvEvent(oEventRecurMaster));
+                vEvents.Append(CreateRecurvEvent(oEventRecurMaster));
 
-                this._icsFilename = oEventRecurMaster.EventName;
+                _icsFilename = oEventRecurMaster.EventName;
             }
-            else if (!this._blSeries && iItemID == 0)
+            else if (!_blSeries && iItemID == 0)
             {
                 // Process all events for the module
                 var categoryIDs = new ArrayList();
-                if (this._settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay)
+                if (_settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay)
                 {
-                    categoryIDs = this._settings.ModuleCategoryIDs;
+                    categoryIDs = _settings.ModuleCategoryIDs;
                     iCategoryName = "";
                 }
                 if (iCategoryName != "")
@@ -307,9 +310,9 @@ namespace DotNetNuke.Modules.Events
                     categoryIDs.Add("-1");
                 }
                 var locationIDs = new ArrayList();
-                if (this._settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay)
+                if (_settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay)
                 {
-                    locationIDs = this._settings.ModuleLocationIDs;
+                    locationIDs = _settings.ModuleLocationIDs;
                     iLocationName = "";
                 }
                 if (iLocationName != "")
@@ -330,11 +333,11 @@ namespace DotNetNuke.Modules.Events
                 var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
                 var moduleDateNow =
                     objEventTimeZoneUtilities
-                        .ConvertFromUTCToModuleTimeZone(DateTime.UtcNow, this._settings.TimeZoneId);
+                        .ConvertFromUTCToModuleTimeZone(DateTime.UtcNow, _settings.TimeZoneId);
                 var startdate = DateAndTime.DateAdd(DateInterval.Day, 0 - iCalDaysBefore - 1, moduleDateNow);
                 var enddate = DateAndTime.DateAdd(DateInterval.Day, iCalDaysAfter + 1, moduleDateNow);
                 var lstEvents = default(ArrayList);
-                lstEvents = this._objEventInfoHelper.GetEvents(startdate, enddate, this._settings.MasterEvent,
+                lstEvents = _objEventInfoHelper.GetEvents(startdate, enddate, _settings.MasterEvent,
                                                                categoryIDs, locationIDs, socialGroupId, socialUserId);
                 foreach (EventInfo tempLoopVar_oEvent in lstEvents)
                 {
@@ -347,22 +350,22 @@ namespace DotNetNuke.Modules.Events
                     var utcEnd = DateAndTime.DateAdd(DateInterval.Day, iCalDaysAfter, DateTime.UtcNow);
                     if (utcEventTimeEnd > utcStart && utcEventTimeBegin < utcEnd)
                     {
-                        vEvents.Append(this.CreatevEvent(oEvent, oEvent.EventTimeBegin, false, false));
+                        vEvents.Append(CreatevEvent(oEvent, oEvent.EventTimeBegin, false, false));
                     }
                 }
             }
             else
             {
                 // Process the single event
-                vEvents.Append(this.CreatevEvent(oEvent, oEvent.EventTimeBegin, false, false));
-                this._icsFilename = oEvent.EventName;
+                vEvents.Append(CreatevEvent(oEvent, oEvent.EventTimeBegin, false, false));
+                _icsFilename = oEvent.EventName;
             }
 
             // Create the initial VCALENDAR
             var vCalendar = new StringBuilder();
             vCalendar.Append("BEGIN:VCALENDAR" + Environment.NewLine);
             vCalendar.Append("VERSION:2.0" + Environment.NewLine);
-            vCalendar.Append(this.FoldText("PRODID:-//DNN//" + objDesktopModule.FriendlyName + " " +
+            vCalendar.Append(FoldText("PRODID:-//DNN//" + objDesktopModule.FriendlyName + " " +
                                            objDesktopModule.Version + "//EN") + Environment.NewLine);
             vCalendar.Append("CALSCALE:GREGORIAN" + Environment.NewLine);
             vCalendar.Append("METHOD:PUBLISH" + Environment.NewLine);
@@ -370,19 +373,19 @@ namespace DotNetNuke.Modules.Events
             {
                 vCalendar.Append("X-WR-CALNAME:" + calname + Environment.NewLine);
             }
-            else if (this._settings.IcalIncludeCalname)
+            else if (_settings.IcalIncludeCalname)
             {
-                vCalendar.Append("X-WR-CALNAME:" + this._icsFilename + Environment.NewLine);
+                vCalendar.Append("X-WR-CALNAME:" + _icsFilename + Environment.NewLine);
             }
 
             // Create the VTIMEZONE
-            if (this._timeZoneStart == DateTime.MinValue)
+            if (_timeZoneStart == DateTime.MinValue)
             {
-                this._timeZoneStart = DateTime.Now;
-                this._timeZoneEnd = DateAndTime.DateAdd(DateInterval.Minute, 30, this._timeZoneStart);
+                _timeZoneStart = DateTime.Now;
+                _timeZoneEnd = DateAndTime.DateAdd(DateInterval.Minute, 30, _timeZoneStart);
             }
 
-            vCalendar.Append(this.CreatevTimezones(this._timeZoneStart, this._timeZoneEnd));
+            vCalendar.Append(CreatevTimezones(_timeZoneStart, _timeZoneEnd));
 
             // Output the events
             vCalendar.Append(vEvents);
@@ -396,7 +399,7 @@ namespace DotNetNuke.Modules.Events
         private string CreatevTimezones(DateTime dtStartDate, DateTime dtEndDate)
         {
             var vTimezone = new StringBuilder();
-            foreach (string vTimeZoneId in this._vTimeZoneIds)
+            foreach (string vTimeZoneId in _vTimeZoneIds)
             {
                 var tzi = TimeZoneInfo.FindSystemTimeZoneById(vTimeZoneId);
                 var adjustments = tzi.GetAdjustmentRules();
@@ -412,7 +415,7 @@ namespace DotNetNuke.Modules.Events
                     var lastDSTEndDate = new DateTime();
                     for (intYear = dtStartDate.Year - 1; intYear <= dtEndDate.Year; intYear++)
                     {
-                        var yearDayLight = this.GetAdjustment(adjustments, intYear);
+                        var yearDayLight = GetAdjustment(adjustments, intYear);
                         var daylightStart = yearDayLight.StartDate;
                         var daylightEnd = yearDayLight.EndDate;
                         if ((lastDSTStartDate == DateTime.MinValue || daylightStart > lastDSTStartDate) &&
@@ -428,7 +431,7 @@ namespace DotNetNuke.Modules.Events
                     }
                     for (intYear = dtStartDate.Year - 1; intYear <= dtEndDate.Year; intYear++)
                     {
-                        var yearDayLight = this.GetAdjustment(adjustments, intYear);
+                        var yearDayLight = GetAdjustment(adjustments, intYear);
                         var daylightStart = yearDayLight.StartDate;
                         var daylightEnd = yearDayLight.EndDate;
 
@@ -466,9 +469,9 @@ namespace DotNetNuke.Modules.Events
                         if (daylightStart.Year > 1 && daylightStart < dtEndDate && !(daylightStart < lastDSTStartDate))
                         {
                             var dtFrom =
-                                this.FormatTZTime(
+                                FormatTZTime(
                                     tzi.GetUtcOffset(DateAndTime.DateAdd(DateInterval.Day, -2, daylightStart)));
-                            var dtTo = this.FormatTZTime(
+                            var dtTo = FormatTZTime(
                                 tzi.GetUtcOffset(
                                     DateAndTime.DateAdd(DateInterval.Day, Convert.ToDouble(+2), daylightStart)));
                             vTimezone.Append("BEGIN:DAYLIGHT" + Environment.NewLine);
@@ -484,13 +487,13 @@ namespace DotNetNuke.Modules.Events
                         if (daylightEnd.Year > 1 && daylightEnd < dtEndDate && !(daylightEnd < lastDSTEndDate))
                         {
                             var dtFrom =
-                                this.FormatTZTime(
+                                FormatTZTime(
                                     tzi.GetUtcOffset(DateAndTime.DateAdd(DateInterval.Day, -2, daylightEnd)));
-                            var dtTo = this.FormatTZTime(
+                            var dtTo = FormatTZTime(
                                 tzi.GetUtcOffset(
                                     DateAndTime.DateAdd(DateInterval.Day, Convert.ToDouble(+2), daylightEnd)));
                             vTimezone.Append("BEGIN:STANDARD" + Environment.NewLine);
-                            vTimezone.Append(this.FoldText("RRULE:FREQ=YEARLY;INTERVAL=1;BYMONTH=" + sByMonth +
+                            vTimezone.Append(FoldText("RRULE:FREQ=YEARLY;INTERVAL=1;BYMONTH=" + sByMonth +
                                                            ";BYDAY=" + sByDay + ";COUNT=1") + Environment.NewLine);
                             vTimezone.Append("TZOFFSETFROM:" + dtFrom + Environment.NewLine);
                             vTimezone.Append("TZOFFSETTO:" + dtTo + Environment.NewLine);
@@ -502,14 +505,14 @@ namespace DotNetNuke.Modules.Events
 
                         if (!(daylightStart.Year > 1))
                         {
-                            vTimezone.Append(this.CreatevTimezone1601(tzi));
+                            vTimezone.Append(CreatevTimezone1601(tzi));
                             break;
                         }
                     }
                 }
                 else
                 {
-                    vTimezone.Append(this.CreatevTimezone1601(tzi));
+                    vTimezone.Append(CreatevTimezone1601(tzi));
                 }
                 vTimezone.Append("END:VTIMEZONE" + Environment.NewLine);
             }
@@ -528,9 +531,9 @@ namespace DotNetNuke.Modules.Events
                     var endTransition = default(TimeZoneInfo.TransitionTime);
                     var yearDayLight = new YearDayLight();
                     startTransition = adjustment.DaylightTransitionStart;
-                    yearDayLight.StartDate = this.ProcessAdjustmentDate(startTransition, year);
+                    yearDayLight.StartDate = ProcessAdjustmentDate(startTransition, year);
                     endTransition = adjustment.DaylightTransitionEnd;
-                    yearDayLight.EndDate = this.ProcessAdjustmentDate(endTransition, year);
+                    yearDayLight.EndDate = ProcessAdjustmentDate(endTransition, year);
                     yearDayLight.Delta = Convert.ToInt32(adjustment.DaylightDelta.TotalMinutes);
                     return yearDayLight;
                 }
@@ -558,7 +561,7 @@ namespace DotNetNuke.Modules.Events
                 var startOfWeek = processTransition.Week * 7 - 6;
                 // What day of the week does the month start on
                 var firstDayOfWeek =
-                    (int) this.ProcessAdjustmentDate_cal.GetDayOfWeek(new DateTime(year, processTransition.Month, 1));
+                    (int) ProcessAdjustmentDate_cal.GetDayOfWeek(new DateTime(year, processTransition.Month, 1));
                 // Determine how much start date has to be adjusted
                 var changeDayOfWeek = (int) processTransition.DayOfWeek;
 
@@ -571,7 +574,7 @@ namespace DotNetNuke.Modules.Events
                     transitionDay = startOfWeek + (7 - firstDayOfWeek) + changeDayOfWeek;
                 }
                 // Adjust for months with no fifth week
-                if (transitionDay > this.ProcessAdjustmentDate_cal.GetDaysInMonth(year, processTransition.Month))
+                if (transitionDay > ProcessAdjustmentDate_cal.GetDaysInMonth(year, processTransition.Month))
                 {
                     transitionDay -= 7;
                 }
@@ -586,8 +589,8 @@ namespace DotNetNuke.Modules.Events
             var vTimezone1601 = new StringBuilder();
             var invCuluture = CultureInfo.InvariantCulture;
             var dt1601Date = DateTime.ParseExact("01/01/1601 00:00:00", "MM/dd/yyyy HH:mm:ss", invCuluture);
-            var dtTo = this.FormatTZTime(tzi.GetUtcOffset(dt1601Date));
-            var dtFrom = this.FormatTZTime(tzi.GetUtcOffset(dt1601Date));
+            var dtTo = FormatTZTime(tzi.GetUtcOffset(dt1601Date));
+            var dtFrom = FormatTZTime(tzi.GetUtcOffset(dt1601Date));
             vTimezone1601.Append("BEGIN:STANDARD" + Environment.NewLine);
             vTimezone1601.Append("TZOFFSETFROM:" + dtFrom + Environment.NewLine);
             vTimezone1601.Append("TZOFFSETTO:" + dtTo + Environment.NewLine);
@@ -621,17 +624,17 @@ namespace DotNetNuke.Modules.Events
                     oEvent.AllDayEvent == oEventRecurMaster.AllDayEvent &&
                     oEvent.ReminderTimeMeasurement == oEventRecurMaster.ReminderTimeMeasurement &&
                     oEvent.Cancelled == false &&
-                    (oEvent.Enrolled == 0 || !this._blEventSignup || !oEvent.EnrollListView || !oEvent.Signups))
+                    (oEvent.Enrolled == 0 || !_blEventSignup || !oEvent.EnrollListView || !oEvent.Signups))
                 {
-                    if (!this._blImages ||
-                        this._blImages && oEvent.ImageDisplay == oEventRecurMaster.ImageDisplay &&
+                    if (!_blImages ||
+                        _blImages && oEvent.ImageDisplay == oEventRecurMaster.ImageDisplay &&
                         oEvent.ImageURL == oEventRecurMaster.ImageURL)
                     {
                         continue;
                     }
                 }
                 vEvent.Append(
-                    this.CreatevEvent(oEvent, oEventRecurMaster.Dtstart, false, oEventRecurMaster.AllDayEvent));
+                    CreatevEvent(oEvent, oEventRecurMaster.Dtstart, false, oEventRecurMaster.AllDayEvent));
             }
 
             if (lstEvents.Count == 0)
@@ -656,14 +659,14 @@ namespace DotNetNuke.Modules.Events
             // Calculate timezone start/end dates
             var intDuration = 0;
             intDuration = int.Parse(oEventRecurMaster.Duration.Substring(0, oEventRecurMaster.Duration.Length - 1));
-            if (this._timeZoneStart == DateTime.MinValue || this._timeZoneStart > oEventRecurMaster.Dtstart)
+            if (_timeZoneStart == DateTime.MinValue || _timeZoneStart > oEventRecurMaster.Dtstart)
             {
-                this._timeZoneStart = oEventRecurMaster.Dtstart;
+                _timeZoneStart = oEventRecurMaster.Dtstart;
             }
-            if (this._timeZoneEnd == DateTime.MinValue || this._timeZoneEnd <
+            if (_timeZoneEnd == DateTime.MinValue || _timeZoneEnd <
                 DateAndTime.DateAdd(DateInterval.Minute, intDuration, oEventRecurMaster.Until))
             {
-                this._timeZoneEnd = DateAndTime.DateAdd(DateInterval.Minute, intDuration, oEventRecurMaster.Until);
+                _timeZoneEnd = DateAndTime.DateAdd(DateInterval.Minute, intDuration, oEventRecurMaster.Until);
             }
 
             // Build Item
@@ -689,13 +692,13 @@ namespace DotNetNuke.Modules.Events
             }
 
             var sEmail = "";
-            if (this._oContext.Request.IsAuthenticated && this._blOwnerEmail || this._blAnonOwnerEmail)
+            if (_oContext.Request.IsAuthenticated && _blOwnerEmail || _blAnonOwnerEmail)
             {
-                sEmail = this.FoldText("ORGANIZER;" + creatorname + creatoremail) + Environment.NewLine;
+                sEmail = FoldText("ORGANIZER;" + creatorname + creatoremail) + Environment.NewLine;
             }
             else
             {
-                sEmail = this.FoldText("ORGANIZER;" + creatorname + creatoranonemail) + Environment.NewLine;
+                sEmail = FoldText("ORGANIZER;" + creatorname + creatoranonemail) + Environment.NewLine;
             }
 
             var aTimes = default(ArrayList);
@@ -728,7 +731,7 @@ namespace DotNetNuke.Modules.Events
             var sLocation = "";
             if (oEventRecurMaster.Location > 0)
             {
-                if (objEventLocation.MapURL != "" && this._settings.IcalURLInLocation)
+                if (objEventLocation.MapURL != "" && _settings.IcalURLInLocation)
                 {
                     sLocation = objEventLocation.LocationName + " - " + objEventLocation.MapURL;
                 }
@@ -736,42 +739,42 @@ namespace DotNetNuke.Modules.Events
                 {
                     sLocation = objEventLocation.LocationName;
                 }
-                sLocation = this.FoldText("LOCATION:" + this.CreateText(sLocation)) + Environment.NewLine;
+                sLocation = FoldText("LOCATION:" + CreateText(sLocation)) + Environment.NewLine;
             }
-            var sDescription = this.CreateDescription(oEventRecurMaster.EventDesc);
-            var altDescription = this.CreateAltDescription(oEventRecurMaster.EventDesc);
+            var sDescription = CreateDescription(oEventRecurMaster.EventDesc);
+            var altDescription = CreateAltDescription(oEventRecurMaster.EventDesc);
 
             // ToDo: HIER!
             // Make up the LocalResourceFile value
             var templateSourceDirectory = Globals.ApplicationPath;
             var localResourceFile = templateSourceDirectory + "/DesktopModules/Events/" +
                                     Localization.LocalResourceDirectory + "/SharedResources.ascx.resx";
-            var tcc = new TokenReplaceControllerClass(this._moduleID, localResourceFile);
+            var tcc = new TokenReplaceControllerClass(_moduleID, localResourceFile);
 
-            var tmpSummary = this._settings.Templates.EventiCalSubject;
+            var tmpSummary = _settings.Templates.EventiCalSubject;
             //tmpSummary = tcc.TokenReplaceEvent(oEventRecurMaster, tmpSummary)
             //Dim sSummary As String = FoldText("SUMMARY:" & CreateText(oEventRecurMaster.EventName)) & Environment.NewLine
 
-            var sSummary = this.FoldText("SUMMARY-RM:" + this.CreateText(oEventRecurMaster.EventName)) +
+            var sSummary = FoldText("SUMMARY-RM:" + CreateText(oEventRecurMaster.EventName)) +
                            Environment.NewLine;
-            var sPriority = "PRIORITY:" + this.Priority((int) oEventRecurMaster.Importance) + Environment.NewLine;
+            var sPriority = "PRIORITY:" + Priority((int) oEventRecurMaster.Importance) + Environment.NewLine;
 
-            var sURL = this.FoldText("URL:" + this._objEventInfoHelper.DetailPageURL(oFirstEvent, false) +
-                                     this._iCalURLAppend) + Environment.NewLine;
+            var sURL = FoldText("URL:" + _objEventInfoHelper.DetailPageURL(oFirstEvent, false) +
+                                     _iCalURLAppend) + Environment.NewLine;
 
             vEvent.Append("BEGIN:VEVENT" + Environment.NewLine);
             var strUID = string.Format("{0:00000}", oEventRecurMaster.ModuleID) +
                          string.Format("{0:0000000}", oEventRecurMaster.RecurMasterID);
-            vEvent.Append("UID:DNNEvent" + strUID + "@" + this._domainName + Environment.NewLine);
+            vEvent.Append("UID:DNNEvent" + strUID + "@" + _domainName + Environment.NewLine);
             vEvent.Append(sSequence);
             if (oEventRecurMaster.RRULE != "")
             {
                 vEvent.Append("RRULE:" + oEventRecurMaster.RRULE + ";" + "UNTIL=" + Convert.ToString(aTimes[2]) +
                               Environment.NewLine);
             }
-            if (this._sExdate.ToString() != "")
+            if (_sExdate.ToString() != "")
             {
-                vEvent.Append(this._sExdate);
+                vEvent.Append(_sExdate);
             }
             vEvent.Append(sStartTime);
             vEvent.Append(sEndTime);
@@ -817,17 +820,17 @@ namespace DotNetNuke.Modules.Events
                 vEvent.Append("END:VALARM" + Environment.NewLine);
             }
 
-            if (this._blImages && oEventRecurMaster.ImageDisplay)
+            if (_blImages && oEventRecurMaster.ImageDisplay)
             {
                 vEvent.Append(
-                    this.FoldText(
-                        "ATTACH:" + this.GetImageUrl(oEventRecurMaster.ImageURL, oEventRecurMaster.PortalID)) +
+                    FoldText(
+                        "ATTACH:" + GetImageUrl(oEventRecurMaster.ImageURL, oEventRecurMaster.PortalID)) +
                     Environment.NewLine);
             }
-            else if (this._blImages && !string.IsNullOrEmpty(this._iCalDefaultImage))
+            else if (_blImages && !string.IsNullOrEmpty(_iCalDefaultImage))
             {
                 vEvent.Append(
-                    this.FoldText("ATTACH:" + this.GetImageUrl(this._iCalDefaultImage, oEventRecurMaster.PortalID)) +
+                    FoldText("ATTACH:" + GetImageUrl(_iCalDefaultImage, oEventRecurMaster.PortalID)) +
                     Environment.NewLine);
             }
 
@@ -840,22 +843,22 @@ namespace DotNetNuke.Modules.Events
 
         private string CreatevEvent(EventInfo oEvent, DateTime dtstart, bool blURLOnly, bool blAllDay)
         {
-            if (!this._vTimeZoneIds.Contains(oEvent.EventTimeZoneId))
+            if (!_vTimeZoneIds.Contains(oEvent.EventTimeZoneId))
             {
-                this._vTimeZoneIds.Add(oEvent.EventTimeZoneId);
+                _vTimeZoneIds.Add(oEvent.EventTimeZoneId);
             }
 
             oEvent.OriginalDateBegin = oEvent.OriginalDateBegin.Date + dtstart.TimeOfDay;
 
             // Calculate timezone start/end dates
-            if (this._timeZoneStart == DateTime.MinValue || this._timeZoneStart > oEvent.EventTimeBegin)
+            if (_timeZoneStart == DateTime.MinValue || _timeZoneStart > oEvent.EventTimeBegin)
             {
-                this._timeZoneStart = oEvent.EventTimeBegin;
+                _timeZoneStart = oEvent.EventTimeBegin;
             }
-            if (this._timeZoneEnd == DateTime.MinValue || this._timeZoneEnd <
+            if (_timeZoneEnd == DateTime.MinValue || _timeZoneEnd <
                 DateAndTime.DateAdd(DateInterval.Minute, oEvent.Duration, oEvent.EventTimeBegin))
             {
-                this._timeZoneEnd = DateAndTime.DateAdd(DateInterval.Minute, oEvent.Duration, oEvent.EventTimeBegin);
+                _timeZoneEnd = DateAndTime.DateAdd(DateInterval.Minute, oEvent.Duration, oEvent.EventTimeBegin);
             }
 
             // Build Item
@@ -883,13 +886,13 @@ namespace DotNetNuke.Modules.Events
             }
 
             var sEmail = "";
-            if (this._oContext.Request.IsAuthenticated && this._blOwnerEmail || this._blAnonOwnerEmail)
+            if (_oContext.Request.IsAuthenticated && _blOwnerEmail || _blAnonOwnerEmail)
             {
-                sEmail = this.FoldText("ORGANIZER;" + creatorname + creatoremail) + Environment.NewLine;
+                sEmail = FoldText("ORGANIZER;" + creatorname + creatoremail) + Environment.NewLine;
             }
             else
             {
-                sEmail = this.FoldText("ORGANIZER;" + creatorname + creatoranonemail) + Environment.NewLine;
+                sEmail = FoldText("ORGANIZER;" + creatorname + creatoranonemail) + Environment.NewLine;
             }
 
             var aTimes = default(ArrayList);
@@ -902,7 +905,7 @@ namespace DotNetNuke.Modules.Events
                                 dOriginal: oEvent.OriginalDateBegin);
             if (oEvent.Cancelled)
             {
-                this._sExdate.Append("EXDATE;" + Convert.ToString(aTimes[3]) + Environment.NewLine);
+                _sExdate.Append("EXDATE;" + Convert.ToString(aTimes[3]) + Environment.NewLine);
                 return "";
             }
 
@@ -919,7 +922,7 @@ namespace DotNetNuke.Modules.Events
                            AllDayEventDate(oEvent.EventTimeBegin.Date.AddMinutes(oEvent.Duration + 1)) +
                            Environment.NewLine;
             }
-            if (!this._blSeries)
+            if (!_blSeries)
             {
                 sDtStamp = "DTSTAMP:" +
                            CreateTZIDDate(DateTime.UtcNow, DateTime.UtcNow, true, false, oEvent.EventTimeZoneId) +
@@ -930,7 +933,7 @@ namespace DotNetNuke.Modules.Events
             var sLocation = "";
             if (oEvent.Location > 0)
             {
-                if (oEvent.MapURL != "" && this._settings.IcalURLInLocation)
+                if (oEvent.MapURL != "" && _settings.IcalURLInLocation)
                 {
                     sLocation = oEvent.LocationName + " - " + oEvent.MapURL;
                 }
@@ -938,38 +941,38 @@ namespace DotNetNuke.Modules.Events
                 {
                     sLocation = oEvent.LocationName;
                 }
-                sLocation = this.FoldText("LOCATION:" + this.CreateText(sLocation)) + Environment.NewLine;
+                sLocation = FoldText("LOCATION:" + CreateText(sLocation)) + Environment.NewLine;
             }
 
-            var sDescription = this.CreateDescription(oEvent.EventDesc);
-            var altDescription = this.CreateAltDescription(oEvent.EventDesc);
+            var sDescription = CreateDescription(oEvent.EventDesc);
+            var altDescription = CreateAltDescription(oEvent.EventDesc);
 
 
             //Create the templated version of the summary
             var templateSourceDirectory = Globals.ApplicationPath;
             var localResourceFile = templateSourceDirectory + "/DesktopModules/Events/" +
                                     Localization.LocalResourceDirectory + "/SharedResources.ascx.resx";
-            var tcc = new TokenReplaceControllerClass(this._moduleID, localResourceFile);
-            var tmpSummary = this._settings.Templates.EventiCalSubject;
+            var tcc = new TokenReplaceControllerClass(_moduleID, localResourceFile);
+            var tmpSummary = _settings.Templates.EventiCalSubject;
             tmpSummary = tcc.TokenReplaceEvent(oEvent, tmpSummary);
 
-            var sSummary = this.FoldText("SUMMARY:" + this.CreateText(tmpSummary)) + Environment.NewLine;
+            var sSummary = FoldText("SUMMARY:" + CreateText(tmpSummary)) + Environment.NewLine;
 
-            var sPriority = "PRIORITY:" + this.Priority((int) oEvent.Importance) + Environment.NewLine;
+            var sPriority = "PRIORITY:" + Priority((int) oEvent.Importance) + Environment.NewLine;
 
-            var sURL = this.FoldText("URL:" + this._objEventInfoHelper.DetailPageURL(oEvent, false) +
-                                     this._iCalURLAppend) + Environment.NewLine;
+            var sURL = FoldText("URL:" + _objEventInfoHelper.DetailPageURL(oEvent, false) +
+                                     _iCalURLAppend) + Environment.NewLine;
 
             vEvent.Append("BEGIN:VEVENT" + Environment.NewLine);
             var strUID = string.Format("{0:00000}", oEvent.ModuleID) +
                          string.Format("{0:0000000}", oEvent.RecurMasterID);
-            if (!this._blSeries)
+            if (!_blSeries)
             {
                 strUID += string.Format("{0:0000000}", oEvent.EventID);
             }
-            vEvent.Append("UID:DNNEvent" + strUID + "@" + this._domainName + Environment.NewLine);
+            vEvent.Append("UID:DNNEvent" + strUID + "@" + _domainName + Environment.NewLine);
             vEvent.Append(sSequence);
-            if (this._blSeries)
+            if (_blSeries)
             {
                 if (!blAllDay)
                 {
@@ -994,23 +997,23 @@ namespace DotNetNuke.Modules.Events
                 vEvent.Append(sPriority);
                 vEvent.Append(sLocation);
 
-                if (this._blEventSignup && oEvent.EnrollListView && oEvent.Signups && oEvent.Enrolled > 0)
+                if (_blEventSignup && oEvent.EnrollListView && oEvent.Signups && oEvent.Enrolled > 0)
                 {
-                    this._blEnrolleeEmail = false;
-                    if ((this.IsModerator() || (oEvent.CreatedByID == this._iUserid) |
-                         (oEvent.RmOwnerID == this._iUserid) | (oEvent.OwnerID == this._iUserid)) && this._blEditEmail)
+                    _blEnrolleeEmail = false;
+                    if ((IsModerator() || (oEvent.CreatedByID == _iUserid) |
+                         (oEvent.RmOwnerID == _iUserid) | (oEvent.OwnerID == _iUserid)) && _blEditEmail)
                     {
-                        this._blEnrolleeEmail = true;
+                        _blEnrolleeEmail = true;
                     }
-                    if (this._oContext.Request.IsAuthenticated && (this._blViewEmail || this._blAnonEmail))
+                    if (_oContext.Request.IsAuthenticated && (_blViewEmail || _blAnonEmail))
                     {
-                        this._blEnrolleeEmail = true;
+                        _blEnrolleeEmail = true;
                     }
-                    if (!this._oContext.Request.IsAuthenticated && this._blAnonEmail)
+                    if (!_oContext.Request.IsAuthenticated && _blAnonEmail)
                     {
-                        this._blEnrolleeEmail = true;
+                        _blEnrolleeEmail = true;
                     }
-                    vEvent.Append(this.CreateAttendee(oEvent));
+                    vEvent.Append(CreateAttendee(oEvent));
                 }
 
                 var iMinutes = 0;
@@ -1046,14 +1049,14 @@ namespace DotNetNuke.Modules.Events
                     vEvent.Append("END:VALARM" + Environment.NewLine);
                 }
 
-                if (this._blImages && oEvent.ImageDisplay)
+                if (_blImages && oEvent.ImageDisplay)
                 {
-                    vEvent.Append(this.FoldText("ATTACH:" + this.GetImageUrl(oEvent.ImageURL, oEvent.PortalID)) +
+                    vEvent.Append(FoldText("ATTACH:" + GetImageUrl(oEvent.ImageURL, oEvent.PortalID)) +
                                   Environment.NewLine);
                 }
-                else if (this._blImages && !string.IsNullOrEmpty(this._iCalDefaultImage))
+                else if (_blImages && !string.IsNullOrEmpty(_iCalDefaultImage))
                 {
-                    vEvent.Append(this.FoldText("ATTACH:" + this.GetImageUrl(this._iCalDefaultImage, oEvent.PortalID)) +
+                    vEvent.Append(FoldText("ATTACH:" + GetImageUrl(_iCalDefaultImage, oEvent.PortalID)) +
                                   Environment.NewLine);
                 }
             }
@@ -1098,7 +1101,7 @@ namespace DotNetNuke.Modules.Events
                     attendeename = "CN=\"Anonymous-" + oSignup.UserID + "\"";
                 }
                 var sAttendee = "";
-                if (this._blEnrolleeEmail)
+                if (_blEnrolleeEmail)
                 {
                     sAttendee = "ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=" + sPartStat + ";" + attendeename +
                                 attendeeemail + Environment.NewLine;
@@ -1212,7 +1215,7 @@ namespace DotNetNuke.Modules.Events
                                        .Replace(Environment.NewLine, "") + "\\n";
             altDescription += "</BODY>\\n";
             altDescription += "</HTML>";
-            altDescription = this.FoldText(altDescription) + Environment.NewLine;
+            altDescription = FoldText(altDescription) + Environment.NewLine;
 
             return altDescription;
         }
@@ -1221,9 +1224,9 @@ namespace DotNetNuke.Modules.Events
         {
             var sDescription = "DESCRIPTION:";
             const int descriptionLength = 1950;
-            var tmpDesc = this.CreateText(eventDesc);
+            var tmpDesc = CreateText(eventDesc);
             tmpDesc = HtmlUtils.Shorten(tmpDesc, descriptionLength, "...");
-            sDescription = this.FoldText(sDescription + tmpDesc + "\\n") + Environment.NewLine;
+            sDescription = FoldText(sDescription + tmpDesc + "\\n") + Environment.NewLine;
             return sDescription;
         }
 
@@ -1252,7 +1255,7 @@ namespace DotNetNuke.Modules.Events
 
         private bool IsModerator()
         {
-            return this._objEventInfoHelper.IsModerator(true);
+            return _objEventInfoHelper.IsModerator(true);
         }
 
         private string GetImageUrl(string imageURL, int portalID)
@@ -1270,7 +1273,7 @@ namespace DotNetNuke.Modules.Events
                     {
                         var pi = new PortalController();
                         imageSrc = Globals.AddHTTP(
-                            string.Format("{0}/{1}/{2}", this._portalurl, pi.GetPortal(portalID).HomeDirectory,
+                            string.Format("{0}/{1}/{2}", _portalurl, pi.GetPortal(portalID).HomeDirectory,
                                           imageSrc));
                     }
                 }
