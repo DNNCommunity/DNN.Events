@@ -33,19 +33,19 @@ namespace DotNetNuke.Modules.Events
     using System.Threading;
     using System.Web;
     using System.Web.UI.WebControls;
-    using DotNetNuke.Common.Utilities;
-    using DotNetNuke.Entities.Icons;
+    using Common.Utilities;
+    using Entities.Icons;
     using DotNetNuke.Entities.Modules;
-    using DotNetNuke.Entities.Portals;
-    using DotNetNuke.Entities.Users;
-    using DotNetNuke.Security;
-    using DotNetNuke.Security.Roles;
-    using DotNetNuke.Services.FileSystem;
-    using DotNetNuke.Services.Localization;
-    using DotNetNuke.Services.Tokens;
+    using Entities.Portals;
+    using Entities.Users;
+    using Security;
+    using Security.Roles;
+    using Services.FileSystem;
+    using Services.Localization;
+    using Services.Tokens;
     using global::Components;
     using Microsoft.VisualBasic;
-    using Globals = DotNetNuke.Common.Globals;
+    using Globals = Common.Globals;
 
     #region TokenReplaceController Class
 
@@ -58,8 +58,8 @@ namespace DotNetNuke.Modules.Events
 
         public TokenReplaceControllerClass(int moduleID, string localResourceFile)
         {
-            this.ModuleID = moduleID;
-            this.LocalResourceFile = localResourceFile;
+            ModuleID = moduleID;
+            LocalResourceFile = localResourceFile;
         }
 
         #endregion
@@ -83,23 +83,23 @@ namespace DotNetNuke.Modules.Events
         /// </summary>
         public string TokenReplaceEvent(EventInfo eventInfo, string sourceText)
         {
-            return this.TokenReplaceEvent(eventInfo, sourceText, null, false);
+            return TokenReplaceEvent(eventInfo, sourceText, null, false);
         }
 
         public string TokenReplaceEvent(EventInfo eventInfo, string sourceText, EventSignupsInfo eventSignupsInfo)
         {
-            return this.TokenReplaceEvent(eventInfo, sourceText, eventSignupsInfo, false);
+            return TokenReplaceEvent(eventInfo, sourceText, eventSignupsInfo, false);
         }
 
         public string TokenReplaceEvent(EventInfo eventInfo, string sourceText, bool addsubmodulename)
         {
-            return this.TokenReplaceEvent(eventInfo, sourceText, null, addsubmodulename);
+            return TokenReplaceEvent(eventInfo, sourceText, null, addsubmodulename);
         }
 
         public string TokenReplaceEvent(EventInfo eventInfo, string sourceText, EventSignupsInfo eventSignupsInfo,
                                         bool addsubmodulename)
         {
-            return this.TokenReplaceEvent(eventInfo, sourceText, eventSignupsInfo, addsubmodulename, false);
+            return TokenReplaceEvent(eventInfo, sourceText, eventSignupsInfo, addsubmodulename, false);
         }
 
         public string TokenReplaceEvent(EventInfo eventInfo, string sourceText, EventSignupsInfo eventSignupsInfo,
@@ -107,7 +107,7 @@ namespace DotNetNuke.Modules.Events
         {
             var dict = new Dictionary<string, object>();
 
-            var cacheKey = "EventsFolderName" + this.ModuleID;
+            var cacheKey = "EventsFolderName" + ModuleID;
             var folderName = Convert.ToString(DataCache.GetCache(cacheKey));
             if (string.IsNullOrEmpty(folderName))
             {
@@ -117,13 +117,13 @@ namespace DotNetNuke.Modules.Events
             }
 
             //Module settings
-            var settings = EventModuleSettings.GetEventModuleSettings(this.ModuleID, this.LocalResourceFile);
+            var settings = EventModuleSettings.GetEventModuleSettings(ModuleID, LocalResourceFile);
 
 
-            var trn = new TokenReplace(Scope.DefaultSettings, this.ModuleID);
+            var trn = new TokenReplace(Scope.DefaultSettings, ModuleID);
 
             //Parameter processing
-            sourceText = this.TokenParameters(sourceText, eventInfo, settings);
+            sourceText = TokenParameters(sourceText, eventInfo, settings);
 
             //title
             if (!dict.ContainsKey("title"))
@@ -141,26 +141,26 @@ namespace DotNetNuke.Modules.Events
             }
 
             //submodule name
-            if (eventInfo.ModuleTitle != null && this.ModuleID != eventInfo.ModuleID)
+            if (eventInfo.ModuleTitle != null && ModuleID != eventInfo.ModuleID)
             {
                 dict.Add("subcalendarname", string.Format("({0})", eventInfo.ModuleTitle.Trim()));
                 dict.Add("subcalendarnameclean", eventInfo.ModuleTitle.Trim());
             }
 
             //alldayeventtext
-            dict.Add("alldayeventtext", Localization.GetString("TokenAllDayEventText", this.LocalResourceFile));
+            dict.Add("alldayeventtext", Localization.GetString("TokenAllDayEventText", LocalResourceFile));
 
             //startdatelabel
-            dict.Add("startdatelabel", Localization.GetString("TokenStartdateLabel", this.LocalResourceFile));
+            dict.Add("startdatelabel", Localization.GetString("TokenStartdateLabel", LocalResourceFile));
 
             //startdate
-            sourceText = this.TokenReplaceDate(sourceText, "event", "startdate", eventInfo.EventTimeBegin);
+            sourceText = TokenReplaceDate(sourceText, "event", "startdate", eventInfo.EventTimeBegin);
 
             //enddatelabel
-            dict.Add("enddatelabel", Localization.GetString("TokenEnddateLabel", this.LocalResourceFile));
+            dict.Add("enddatelabel", Localization.GetString("TokenEnddateLabel", LocalResourceFile));
 
             //enddate
-            sourceText = this.TokenReplaceDate(sourceText, "event", "enddate", eventInfo.EventTimeEnd);
+            sourceText = TokenReplaceDate(sourceText, "event", "enddate", eventInfo.EventTimeEnd);
 
             //timezone
             // Added a try/catch since dnn core can failing getting timezone info
@@ -175,23 +175,23 @@ namespace DotNetNuke.Modules.Events
             }
 
             //Duration
-            dict.Add("durationdayslabel", Localization.GetString("TokenDurationDaysLabel", this.LocalResourceFile));
+            dict.Add("durationdayslabel", Localization.GetString("TokenDurationDaysLabel", LocalResourceFile));
             dict.Add("durationdays", Convert.ToInt32(Conversion.Int((double) eventInfo.Duration / 1440 + 1)));
 
             //descriptionlabel
-            dict.Add("descriptionlabel", Localization.GetString("TokenDescriptionLabel", this.LocalResourceFile));
+            dict.Add("descriptionlabel", Localization.GetString("TokenDescriptionLabel", LocalResourceFile));
 
             //description
             if (!dict.ContainsKey("description"))
             {
                 dict.Add("description", HttpUtility.HtmlDecode(eventInfo.EventDesc));
             }
-            sourceText = this.TokenLength(sourceText, "event", "description", dict);
+            sourceText = TokenLength(sourceText, "event", "description", dict);
 
             //categorylabel
             if (!string.IsNullOrEmpty(eventInfo.CategoryName))
             {
-                dict.Add("categorylabel", Localization.GetString("TokenCategoryLabel", this.LocalResourceFile));
+                dict.Add("categorylabel", Localization.GetString("TokenCategoryLabel", LocalResourceFile));
             }
             else
             {
@@ -224,7 +224,7 @@ namespace DotNetNuke.Modules.Events
             //locationlabel
             if (!string.IsNullOrEmpty(eventInfo.LocationName))
             {
-                dict.Add("locationlabel", Localization.GetString("TokenLocationLabel", this.LocalResourceFile));
+                dict.Add("locationlabel", Localization.GetString("TokenLocationLabel", LocalResourceFile));
             }
             else
             {
@@ -252,7 +252,7 @@ namespace DotNetNuke.Modules.Events
             if (eventLocation != null)
             {
                 dict.Add("locationaddresslabel",
-                         Localization.GetString("TokenLocationAddressLabel", this.LocalResourceFile));
+                         Localization.GetString("TokenLocationAddressLabel", LocalResourceFile));
                 dict.Add("locationstreet", eventLocation.Street);
                 dict.Add("locationpostalcode", eventLocation.PostalCode);
                 dict.Add("locationcity", eventLocation.City);
@@ -282,7 +282,7 @@ namespace DotNetNuke.Modules.Events
             //customfield1label
             if (settings.EventsCustomField1)
             {
-                dict.Add("customfield1label", Localization.GetString("TokenCustomField1Label", this.LocalResourceFile));
+                dict.Add("customfield1label", Localization.GetString("TokenCustomField1Label", LocalResourceFile));
             }
             else
             {
@@ -302,7 +302,7 @@ namespace DotNetNuke.Modules.Events
             //customfield2label
             if (settings.EventsCustomField2)
             {
-                dict.Add("customfield2label", Localization.GetString("TokenCustomField2Label", this.LocalResourceFile));
+                dict.Add("customfield2label", Localization.GetString("TokenCustomField2Label", LocalResourceFile));
             }
             else
             {
@@ -310,14 +310,14 @@ namespace DotNetNuke.Modules.Events
             }
 
             //descriptionlabel
-            dict.Add("summarylabel", Localization.GetString("TokenSummaryLabel", this.LocalResourceFile));
+            dict.Add("summarylabel", Localization.GetString("TokenSummaryLabel", LocalResourceFile));
 
             //description
             if (!dict.ContainsKey("summary"))
             {
                 dict.Add("summary", HttpUtility.HtmlDecode(eventInfo.Summary));
             }
-            sourceText = this.TokenLength(sourceText, "event", "summary", dict);
+            sourceText = TokenLength(sourceText, "event", "summary", dict);
 
             //eventid
             dict.Add("eventid", eventInfo.EventID);
@@ -328,45 +328,45 @@ namespace DotNetNuke.Modules.Events
 
             //Createddate
             //TokenCreatedOnLabel.Text   on
-            dict.Add("createddatelabel", Localization.GetString("TokenCreatedOnLabel", this.LocalResourceFile));
-            sourceText = this.TokenReplaceDate(sourceText, "event", "createddate", eventInfo.CreatedDate);
+            dict.Add("createddatelabel", Localization.GetString("TokenCreatedOnLabel", LocalResourceFile));
+            sourceText = TokenReplaceDate(sourceText, "event", "createddate", eventInfo.CreatedDate);
 
             //LastUpdateddate
             //TokenLastUpdatedOnLabel.Text   Last updated on
-            dict.Add("lastupdateddatelabel", Localization.GetString("TokenLastUpdatedOnLabel", this.LocalResourceFile));
-            sourceText = this.TokenReplaceDate(sourceText, "event", "lastupdateddate", eventInfo.LastUpdatedAt);
+            dict.Add("lastupdateddatelabel", Localization.GetString("TokenLastUpdatedOnLabel", LocalResourceFile));
+            sourceText = TokenReplaceDate(sourceText, "event", "lastupdateddate", eventInfo.LastUpdatedAt);
 
             if (settings.Eventsignup && eventInfo.Signups)
             {
                 //maxenrollmentslabel
                 //maxenrollments
                 dict.Add("maxenrollmentslabel",
-                         Localization.GetString("TokenMaxEnrollmentsLabel", this.LocalResourceFile));
+                         Localization.GetString("TokenMaxEnrollmentsLabel", LocalResourceFile));
                 if (eventInfo.MaxEnrollment > 0)
                 {
                     dict.Add("maxenrollments", eventInfo.MaxEnrollment.ToString());
                 }
                 else
                 {
-                    dict.Add("maxenrollments", Localization.GetString("Unlimited", this.LocalResourceFile));
+                    dict.Add("maxenrollments", Localization.GetString("Unlimited", LocalResourceFile));
                 }
 
                 //noenrollmentslabel
                 //noenrollments
                 dict.Add("noenrollmentslabel",
-                         Localization.GetString("TokenNoEnrollmentsLabel", this.LocalResourceFile));
+                         Localization.GetString("TokenNoEnrollmentsLabel", LocalResourceFile));
                 dict.Add("noenrollments", eventInfo.Enrolled.ToString());
 
                 //novacancieslabel
                 //novacancies
-                dict.Add("novacancieslabel", Localization.GetString("TokenNoVacanciesLabel", this.LocalResourceFile));
+                dict.Add("novacancieslabel", Localization.GetString("TokenNoVacanciesLabel", LocalResourceFile));
                 if (eventInfo.MaxEnrollment > 0)
                 {
                     dict.Add("novacancies", (eventInfo.MaxEnrollment - eventInfo.Enrolled).ToString());
                 }
                 else
                 {
-                    dict.Add("novacancies", Localization.GetString("Unlimited", this.LocalResourceFile));
+                    dict.Add("novacancies", Localization.GetString("Unlimited", LocalResourceFile));
                 }
             }
             else
@@ -384,7 +384,7 @@ namespace DotNetNuke.Modules.Events
                 var roleController = new RoleController();
                 var rolename = roleController.GetRole(eventInfo.SocialGroupId, eventInfo.PortalID).RoleName;
                 dict.Add("socialgrouprolenamelabel",
-                         Localization.GetString("TokenSocialGroupRoleNameLabel", this.LocalResourceFile));
+                         Localization.GetString("TokenSocialGroupRoleNameLabel", LocalResourceFile));
                 dict.Add("socialgrouprolename", rolename);
                 dict.Add("socialgrouproleid", eventInfo.SocialGroupId.ToString());
             }
@@ -394,7 +394,7 @@ namespace DotNetNuke.Modules.Events
                 //socialuserusernamelabel
                 //socialuserusername
                 dict.Add("socialuserusernamelabel",
-                         Localization.GetString("TokenSocialUserUserNameLabel", this.LocalResourceFile));
+                         Localization.GetString("TokenSocialUserUserNameLabel", LocalResourceFile));
                 dict.Add("socialuserusername", eventInfo.SocialUserUserName);
             }
 
@@ -403,7 +403,7 @@ namespace DotNetNuke.Modules.Events
                 //socialuserdisplaynamelabel
                 //socialuserdisplayname
                 dict.Add("socialuserdisplaynamelabel",
-                         Localization.GetString("TokenSocialUserDisplayNameLabel", this.LocalResourceFile));
+                         Localization.GetString("TokenSocialUserDisplayNameLabel", LocalResourceFile));
                 dict.Add("socialuserdisplayname", eventInfo.SocialUserDisplayName);
             }
 
@@ -446,14 +446,14 @@ namespace DotNetNuke.Modules.Events
                 }
 
                 //signupdatelabel
-                dict.Add("signupdatelabel", Localization.GetString("TokenSignupdateLabel", this.LocalResourceFile));
+                dict.Add("signupdatelabel", Localization.GetString("TokenSignupdateLabel", LocalResourceFile));
 
                 //signupdate
-                sourceText = this.TokenReplaceDate(sourceText, "event", "signupdate",
+                sourceText = TokenReplaceDate(sourceText, "event", "signupdate",
                                                    eventSignupsInfo.PayPalPaymentDate);
 
                 //noenroleeslabel
-                dict.Add("noenroleeslabel", Localization.GetString("TokenNoenroleesLabel", this.LocalResourceFile));
+                dict.Add("noenroleeslabel", Localization.GetString("TokenNoenroleesLabel", LocalResourceFile));
 
                 //noenrolees
                 dict.Add("noenrolees", eventSignupsInfo.NoEnrolees);
@@ -481,7 +481,7 @@ namespace DotNetNuke.Modules.Events
             if (!ReferenceEquals(ps, null))
             {
                 // add tokens for items that use PortalSettings
-                this.TokenReplacewithPortalSettings(ps, eventInfo, settings, dict, folderName, sourceText,
+                TokenReplacewithPortalSettings(ps, eventInfo, settings, dict, folderName, sourceText,
                                                     isEventEditor);
             }
 
@@ -491,14 +491,14 @@ namespace DotNetNuke.Modules.Events
         private string TokenLength(string sourceText, string customCaption, string customToken,
                                    Dictionary<string, object> dict)
         {
-            var trn = new TokenReplace(Scope.DefaultSettings, this.ModuleID);
+            var trn = new TokenReplace(Scope.DefaultSettings, ModuleID);
             var tokenText =
                 Convert.ToString(
                     trn.ReplaceEnvironmentTokens("[" + customCaption + ":" + customToken + "]", dict, customCaption));
             while (sourceText.IndexOf("[" + customCaption + ":" + customToken + "]") + 1 > 0 ||
                    sourceText.IndexOf("[" + customCaption + ":" + customToken + "|") + 1 > 0)
             {
-                var with_1 = this.GetTokenFormat(sourceText, customToken, customCaption);
+                var with_1 = GetTokenFormat(sourceText, customToken, customCaption);
                 if (with_1.Tokenfound)
                 {
                     if (!string.IsNullOrEmpty(with_1.Formatstring))
@@ -524,7 +524,7 @@ namespace DotNetNuke.Modules.Events
             while (sourceText.IndexOf("[" + customCaption + ":" + customToken + "]") + 1 > 0 ||
                    sourceText.IndexOf("[" + customCaption + ":" + customToken + "|") + 1 > 0)
             {
-                var with_1 = this.GetTokenFormat(sourceText, customToken, customCaption);
+                var with_1 = GetTokenFormat(sourceText, customToken, customCaption);
                 if (with_1.Tokenfound)
                 {
                     if (!string.IsNullOrEmpty(with_1.Formatstring))
@@ -549,21 +549,21 @@ namespace DotNetNuke.Modules.Events
         {
             if (eventInfo.AllDayEvent)
             {
-                sourceText = this.TokenOneParameter(sourceText, "ALLDAYEVENT", true);
-                sourceText = this.TokenOneParameter(sourceText, "NOTALLDAYEVENT", false);
+                sourceText = TokenOneParameter(sourceText, "ALLDAYEVENT", true);
+                sourceText = TokenOneParameter(sourceText, "NOTALLDAYEVENT", false);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "ALLDAYEVENT", false);
-                sourceText = this.TokenOneParameter(sourceText, "NOTALLDAYEVENT", true);
+                sourceText = TokenOneParameter(sourceText, "ALLDAYEVENT", false);
+                sourceText = TokenOneParameter(sourceText, "NOTALLDAYEVENT", true);
             }
             if (eventInfo.DisplayEndDate)
             {
-                sourceText = this.TokenOneParameter(sourceText, "DISPLAYENDDATE", true);
+                sourceText = TokenOneParameter(sourceText, "DISPLAYENDDATE", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "DISPLAYENDDATE", false);
+                sourceText = TokenOneParameter(sourceText, "DISPLAYENDDATE", false);
             }
 
             object eventimagesetting = settings.Eventimage;
@@ -571,126 +571,126 @@ namespace DotNetNuke.Modules.Events
             if (bool.TryParse(Convert.ToString(eventimagesetting), out eventimagebool) && eventimagebool &&
                 eventInfo.ImageDisplay)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASIMAGE", true);
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTHASIMAGE", false);
+                sourceText = TokenOneParameter(sourceText, "IFHASIMAGE", true);
+                sourceText = TokenOneParameter(sourceText, "IFNOTHASIMAGE", false);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASIMAGE", false);
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTHASIMAGE", true);
+                sourceText = TokenOneParameter(sourceText, "IFHASIMAGE", false);
+                sourceText = TokenOneParameter(sourceText, "IFNOTHASIMAGE", true);
             }
 
             if (eventInfo.Category > 0)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASCATEGORY", true);
+                sourceText = TokenOneParameter(sourceText, "IFHASCATEGORY", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASCATEGORY", false);
+                sourceText = TokenOneParameter(sourceText, "IFHASCATEGORY", false);
             }
             if (eventInfo.Location > 0)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASLOCATION", true);
+                sourceText = TokenOneParameter(sourceText, "IFHASLOCATION", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASLOCATION", false);
+                sourceText = TokenOneParameter(sourceText, "IFHASLOCATION", false);
             }
             if (eventInfo.MapURL != "")
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASLOCATIONURL", true);
+                sourceText = TokenOneParameter(sourceText, "IFHASLOCATIONURL", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASLOCATIONURL", false);
+                sourceText = TokenOneParameter(sourceText, "IFHASLOCATIONURL", false);
             }
             if (eventInfo.MapURL == "")
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTHASLOCATIONURL", true);
+                sourceText = TokenOneParameter(sourceText, "IFNOTHASLOCATIONURL", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTHASLOCATIONURL", false);
+                sourceText = TokenOneParameter(sourceText, "IFNOTHASLOCATIONURL", false);
             }
             if (settings.Eventsignup && eventInfo.Signups)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFALLOWSENROLLMENTS", true);
+                sourceText = TokenOneParameter(sourceText, "IFALLOWSENROLLMENTS", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFALLOWSENROLLMENTS", false);
+                sourceText = TokenOneParameter(sourceText, "IFALLOWSENROLLMENTS", false);
             }
             if (settings.EventsCustomField1)
             {
-                sourceText = this.TokenOneParameter(sourceText, "DISPLAYCUSTOMFIELD1", true);
+                sourceText = TokenOneParameter(sourceText, "DISPLAYCUSTOMFIELD1", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "DISPLAYCUSTOMFIELD1", false);
+                sourceText = TokenOneParameter(sourceText, "DISPLAYCUSTOMFIELD1", false);
             }
             if (settings.EventsCustomField2)
             {
-                sourceText = this.TokenOneParameter(sourceText, "DISPLAYCUSTOMFIELD2", true);
+                sourceText = TokenOneParameter(sourceText, "DISPLAYCUSTOMFIELD2", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "DISPLAYCUSTOMFIELD2", false);
+                sourceText = TokenOneParameter(sourceText, "DISPLAYCUSTOMFIELD2", false);
             }
             if (settings.DetailPageAllowed && eventInfo.DetailPage)
             {
-                sourceText = this.TokenOneParameter(sourceText, "CUSTOMDETAILPAGE", true);
+                sourceText = TokenOneParameter(sourceText, "CUSTOMDETAILPAGE", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "CUSTOMDETAILPAGE", false);
+                sourceText = TokenOneParameter(sourceText, "CUSTOMDETAILPAGE", false);
             }
             if (eventInfo.EventTimeBegin.Date == eventInfo.EventTimeEnd.Date) //one day event...
             {
-                sourceText = this.TokenOneParameter(sourceText, "ONEDAYEVENT", true);
-                sourceText = this.TokenOneParameter(sourceText, "NOTONEDAYEVENT", false);
+                sourceText = TokenOneParameter(sourceText, "ONEDAYEVENT", true);
+                sourceText = TokenOneParameter(sourceText, "NOTONEDAYEVENT", false);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "ONEDAYEVENT", false);
-                sourceText = this.TokenOneParameter(sourceText, "NOTONEDAYEVENT", true);
+                sourceText = TokenOneParameter(sourceText, "ONEDAYEVENT", false);
+                sourceText = TokenOneParameter(sourceText, "NOTONEDAYEVENT", true);
             }
             if (eventInfo.RRULE != "") //recurring event
             {
-                sourceText = this.TokenOneParameter(sourceText, "RECURRINGEVENT", true);
-                sourceText = this.TokenOneParameter(sourceText, "NOTRECURRINGEVENT", false);
+                sourceText = TokenOneParameter(sourceText, "RECURRINGEVENT", true);
+                sourceText = TokenOneParameter(sourceText, "NOTRECURRINGEVENT", false);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "RECURRINGEVENT", false);
-                sourceText = this.TokenOneParameter(sourceText, "NOTRECURRINGEVENT", true);
+                sourceText = TokenOneParameter(sourceText, "RECURRINGEVENT", false);
+                sourceText = TokenOneParameter(sourceText, "NOTRECURRINGEVENT", true);
             }
             if (eventInfo.IsPrivate) //Is private event
             {
-                sourceText = this.TokenOneParameter(sourceText, "PRIVATE", true);
-                sourceText = this.TokenOneParameter(sourceText, "NOTPRIVATE", false);
+                sourceText = TokenOneParameter(sourceText, "PRIVATE", true);
+                sourceText = TokenOneParameter(sourceText, "NOTPRIVATE", false);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "PRIVATE", false);
-                sourceText = this.TokenOneParameter(sourceText, "NOTPRIVATE", true);
+                sourceText = TokenOneParameter(sourceText, "PRIVATE", false);
+                sourceText = TokenOneParameter(sourceText, "NOTPRIVATE", true);
             }
             if (settings.Tzdisplay)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFTIMEZONEDISPLAY", true);
+                sourceText = TokenOneParameter(sourceText, "IFTIMEZONEDISPLAY", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFTIMEZONEDISPLAY", false);
+                sourceText = TokenOneParameter(sourceText, "IFTIMEZONEDISPLAY", false);
             }
             if (eventInfo.Duration > 1440)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFMULTIDAY", true);
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTMULTIDAY", false);
+                sourceText = TokenOneParameter(sourceText, "IFMULTIDAY", true);
+                sourceText = TokenOneParameter(sourceText, "IFNOTMULTIDAY", false);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFMULTIDAY", false);
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTMULTIDAY", true);
+                sourceText = TokenOneParameter(sourceText, "IFMULTIDAY", false);
+                sourceText = TokenOneParameter(sourceText, "IFNOTMULTIDAY", true);
             }
 
             if (sourceText.Contains("[HASROLE_") || sourceText.Contains("[HASNOTROLE_"))
@@ -714,28 +714,28 @@ namespace DotNetNuke.Modules.Events
                 foreach (RoleInfo tempLoopVar_role in roleController.GetPortalRoles(eventInfo.PortalID))
                 {
                     role = tempLoopVar_role;
-                    sourceText = this.TokenOneParameter(sourceText, "HASROLE_" + role.RoleName,
+                    sourceText = TokenOneParameter(sourceText, "HASROLE_" + role.RoleName,
                                                         userRoles.Contains(role.RoleName));
-                    sourceText = this.TokenOneParameter(sourceText, "HASNOTROLE_" + role.RoleName,
+                    sourceText = TokenOneParameter(sourceText, "HASNOTROLE_" + role.RoleName,
                                                         !userRoles.Contains(role.RoleName));
                 }
             }
 
             if (eventInfo.Summary != "")
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASSUMMARY", true);
+                sourceText = TokenOneParameter(sourceText, "IFHASSUMMARY", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFHASSUMMARY", false);
+                sourceText = TokenOneParameter(sourceText, "IFHASSUMMARY", false);
             }
             if (eventInfo.Summary == "")
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTHASSUMMARY", true);
+                sourceText = TokenOneParameter(sourceText, "IFNOTHASSUMMARY", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTHASSUMMARY", false);
+                sourceText = TokenOneParameter(sourceText, "IFNOTHASSUMMARY", false);
             }
 
             if (sourceText.Contains("[IFENROLED]") || sourceText.Contains("[IFNOTENROLED]"))
@@ -759,44 +759,44 @@ namespace DotNetNuke.Modules.Events
                         }
                     }
                 }
-                sourceText = this.TokenOneParameter(sourceText, "IFENROLED", blEnroled);
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTENROLED", blNotEnroled);
+                sourceText = TokenOneParameter(sourceText, "IFENROLED", blEnroled);
+                sourceText = TokenOneParameter(sourceText, "IFNOTENROLED", blNotEnroled);
             }
 
             if (eventInfo.SocialUserId > 0)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFISSOCIALUSER", true);
+                sourceText = TokenOneParameter(sourceText, "IFISSOCIALUSER", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFISSOCIALUSER", false);
+                sourceText = TokenOneParameter(sourceText, "IFISSOCIALUSER", false);
             }
 
             if (eventInfo.SocialGroupId > 0)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFISSOCIALGROUP", true);
+                sourceText = TokenOneParameter(sourceText, "IFISSOCIALGROUP", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFISSOCIALGROUP", false);
+                sourceText = TokenOneParameter(sourceText, "IFISSOCIALGROUP", false);
             }
 
             if (eventInfo.MaxEnrollment > 0 && eventInfo.Enrolled >= eventInfo.MaxEnrollment)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFISFULL", true);
+                sourceText = TokenOneParameter(sourceText, "IFISFULL", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFISFULL", false);
+                sourceText = TokenOneParameter(sourceText, "IFISFULL", false);
             }
             if (eventInfo.MaxEnrollment > 0 && eventInfo.Enrolled < eventInfo.MaxEnrollment ||
                 eventInfo.MaxEnrollment == 0)
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTISFULL", true);
+                sourceText = TokenOneParameter(sourceText, "IFNOTISFULL", true);
             }
             else
             {
-                sourceText = this.TokenOneParameter(sourceText, "IFNOTISFULL", false);
+                sourceText = TokenOneParameter(sourceText, "IFNOTISFULL", false);
             }
 
             return sourceText;
@@ -824,7 +824,7 @@ namespace DotNetNuke.Modules.Events
                                                     string folderName, string sourceText, bool isEventEditor)
         {
             //Build URL for event images
-            var eventInfoHelper = new EventInfoHelper(this.ModuleID, ps.ActiveTab.TabID, eventInfo.PortalID, settings);
+            var eventInfoHelper = new EventInfoHelper(ModuleID, ps.ActiveTab.TabID, eventInfo.PortalID, settings);
 
             // Dim portalurl As String = ps.PortalAlias.HTTPAlias
             // Dim domainurl As String = ps.PortalAlias.HTTPAlias
@@ -897,7 +897,7 @@ namespace DotNetNuke.Modules.Events
             }
 
             //importancelabel
-            dict.Add("importancelabel", Localization.GetString("TokenImporatanceLabel", this.LocalResourceFile));
+            dict.Add("importancelabel", Localization.GetString("TokenImporatanceLabel", LocalResourceFile));
 
             //importance, importanceicon
             var result = "<img src='{0}{1}' class=\"{4}\" alt='{2}' /> {3}";
@@ -906,32 +906,32 @@ namespace DotNetNuke.Modules.Events
                 case EventInfo.Priority.High:
                     dict.Add("importance",
                              string.Format(result, imagepath, "HighPrio.gif",
-                                           Localization.GetString("HighPrio", this.LocalResourceFile),
-                                           Localization.GetString("HighPrio", this.LocalResourceFile),
+                                           Localization.GetString("HighPrio", LocalResourceFile),
+                                           Localization.GetString("HighPrio", LocalResourceFile),
                                            "EventIconHigh"));
                     dict.Add("importanceicon",
                              string.Format(result, imagepath, "HighPrio.gif",
-                                           Localization.GetString("HighPrio", this.LocalResourceFile), "",
+                                           Localization.GetString("HighPrio", LocalResourceFile), "",
                                            "EventIconHigh"));
                     break;
                 case EventInfo.Priority.Low:
                     dict.Add("importance",
                              string.Format(result, imagepath, "LowPrio.gif",
-                                           Localization.GetString("LowPrio", this.LocalResourceFile),
-                                           Localization.GetString("LowPrio", this.LocalResourceFile), "EventIconLow"));
+                                           Localization.GetString("LowPrio", LocalResourceFile),
+                                           Localization.GetString("LowPrio", LocalResourceFile), "EventIconLow"));
                     dict.Add("importanceicon",
                              string.Format(result, imagepath, "LowPrio.gif",
-                                           Localization.GetString("HighPrio", this.LocalResourceFile), "",
+                                           Localization.GetString("HighPrio", LocalResourceFile), "",
                                            "EventIconLow"));
                     break;
                 case EventInfo.Priority.Medium:
-                    dict.Add("importance", Localization.GetString("NormPrio", this.LocalResourceFile));
+                    dict.Add("importance", Localization.GetString("NormPrio", LocalResourceFile));
                     dict.Add("importanceicon", "");
                     break;
             }
 
             //reminderlabel
-            dict.Add("reminderlabel", Localization.GetString("TokenReminderLabel", this.LocalResourceFile));
+            dict.Add("reminderlabel", Localization.GetString("TokenReminderLabel", LocalResourceFile));
 
             //reminder, remindericon
             var img = "";
@@ -947,21 +947,21 @@ namespace DotNetNuke.Modules.Events
                         var objEventNotificationController = new EventNotificationController();
                         notificationInfo =
                             objEventNotificationController.NotifyInfo(eventInfo.EventID, userEmail, eventInfo.ModuleID,
-                                                                      this.LocalResourceFile,
+                                                                      LocalResourceFile,
                                                                       eventInfo.EventTimeZoneId);
                     }
                     if (eventInfo.SendReminder && HttpContext.Current.Request.IsAuthenticated &&
                         !string.IsNullOrEmpty(notificationInfo))
                     {
                         img = string.Format("<img src='{0}bell.gif' class=\"{2}\" alt='{1}' />", imagepath,
-                                            Localization.GetString("ReminderEnabled", this.LocalResourceFile) + ": " +
+                                            Localization.GetString("ReminderEnabled", LocalResourceFile) + ": " +
                                             notificationInfo, "EventIconRem");
                     }
                     else if (eventInfo.SendReminder &&
                              (settings.Notifyanon || HttpContext.Current.Request.IsAuthenticated))
                     {
                         img = string.Format("<img src='{0}bell.gif' class=\"{2}\" alt='{1}' />", imagepath,
-                                            Localization.GetString("ReminderEnabled", this.LocalResourceFile),
+                                            Localization.GetString("ReminderEnabled", LocalResourceFile),
                                             "EventIconRem");
                     }
                     dict.Add("reminder", notificationInfo);
@@ -976,35 +976,35 @@ namespace DotNetNuke.Modules.Events
                 if ((eventInfo.MaxEnrollment == 0) | (eventInfo.Enrolled < eventInfo.MaxEnrollment))
                 {
                     img = string.Format("<img src='{0}enroll.gif' class=\"{2}\" alt='{1}' />", imagepath,
-                                        Localization.GetString("EnrollEnabled", this.LocalResourceFile),
+                                        Localization.GetString("EnrollEnabled", LocalResourceFile),
                                         "EventIconEnroll");
                 }
                 else
                 {
                     img = string.Format("<img src='{0}EnrollFull.gif' class=\"{2}\" alt='{1}' />", imagepath,
-                                        Localization.GetString("EnrollFull", this.LocalResourceFile),
+                                        Localization.GetString("EnrollFull", LocalResourceFile),
                                         "EventIconEnrollFull");
                 }
             }
             dict.Add("enrollicon", img);
 
             //recurringlabel
-            dict.Add("recurringlabel", Localization.GetString("TokenRecurranceLabel", this.LocalResourceFile));
+            dict.Add("recurringlabel", Localization.GetString("TokenRecurranceLabel", LocalResourceFile));
 
             //recurring, recurringicon
             var objEventRRULE = default(EventRRULEInfo);
             var objCtlEventRecurMaster = new EventRecurMasterController();
             objEventRRULE = objCtlEventRecurMaster.DecomposeRRULE(eventInfo.RRULE, eventInfo.EventTimeBegin);
-            result = objCtlEventRecurMaster.RecurrenceText(objEventRRULE, this.LocalResourceFile,
+            result = objCtlEventRecurMaster.RecurrenceText(objEventRRULE, LocalResourceFile,
                                                            Thread.CurrentThread.CurrentCulture,
                                                            eventInfo.EventTimeBegin);
             img = "";
             if (eventInfo.RRULE != "")
             {
                 img = string.Format("<img src='{0}rec.gif' class=\"{2}\" alt='{1}' />", imagepath,
-                                    Localization.GetString("RecurringEvent", this.LocalResourceFile), "EventIconRec");
+                                    Localization.GetString("RecurringEvent", LocalResourceFile), "EventIconRec");
                 result = img + " " + result + " " +
-                         objCtlEventRecurMaster.RecurrenceInfo(eventInfo, this.LocalResourceFile);
+                         objCtlEventRecurMaster.RecurrenceInfo(eventInfo, LocalResourceFile);
             }
             dict.Add("recurring", result);
             dict.Add("recurringicon", img);
@@ -1043,7 +1043,7 @@ namespace DotNetNuke.Modules.Events
                     img = string.Format("<a href='{0}'><img src='{1}' border=\"0\" alt=\"{2}\" title=\"{2}\" /></a>",
                                         eventInfoHelper.GetDetailPageRealURL(
                                             eventInfo.EventID, eventInfo.SocialGroupId, eventInfo.SocialUserId), imgurl,
-                                        Localization.GetString("ViewEvent", this.LocalResourceFile));
+                                        Localization.GetString("ViewEvent", LocalResourceFile));
                     dict.Add("viewicon", img);
                 }
             }
@@ -1056,8 +1056,8 @@ namespace DotNetNuke.Modules.Events
             //TokenCreatedByLabel.Text   Created by, Created by ID, Created by Link
             var objEventUser =
                 eventInfoHelper.UserDisplayNameProfile(eventInfo.CreatedByID, eventInfo.CreatedBy,
-                                                       this.LocalResourceFile);
-            dict.Add("createdbylabel", Localization.GetString("TokenCreatedByLabel", this.LocalResourceFile));
+                                                       LocalResourceFile);
+            dict.Add("createdbylabel", Localization.GetString("TokenCreatedByLabel", LocalResourceFile));
             dict.Add("createdby", objEventUser.DisplayName);
             dict.Add("createdbyid", objEventUser.UserID);
             dict.Add("createdbyurl", objEventUser.ProfileURL);
@@ -1066,8 +1066,8 @@ namespace DotNetNuke.Modules.Events
             //ownedby
             //TokenOwnedByLabel.Text   Owned by, OwnerID, Owned by Link
             objEventUser =
-                eventInfoHelper.UserDisplayNameProfile(eventInfo.OwnerID, eventInfo.OwnerName, this.LocalResourceFile);
-            dict.Add("ownedbylabel", Localization.GetString("TokenOwnedByLabel", this.LocalResourceFile));
+                eventInfoHelper.UserDisplayNameProfile(eventInfo.OwnerID, eventInfo.OwnerName, LocalResourceFile);
+            dict.Add("ownedbylabel", Localization.GetString("TokenOwnedByLabel", LocalResourceFile));
             dict.Add("ownedby", objEventUser.DisplayName);
             dict.Add("ownedbyid", objEventUser.UserID);
             dict.Add("ownedbyurl", objEventUser.ProfileURL);
@@ -1077,8 +1077,8 @@ namespace DotNetNuke.Modules.Events
             //TokenLastUpdatedByLabel.Text   Last updated by, Last updated ID, Last update by ID
             objEventUser =
                 eventInfoHelper.UserDisplayNameProfile(eventInfo.LastUpdatedID, eventInfo.LastUpdatedBy,
-                                                       this.LocalResourceFile);
-            dict.Add("lastupdatedbylabel", Localization.GetString("TokenLastUpdatedByLabel", this.LocalResourceFile));
+                                                       LocalResourceFile);
+            dict.Add("lastupdatedbylabel", Localization.GetString("TokenLastUpdatedByLabel", LocalResourceFile));
             dict.Add("lastupdatedby", objEventUser.DisplayName);
             dict.Add("lastupdatedbyid", objEventUser.UserID);
             dict.Add("lastupdatedbyurl", objEventUser.ProfileURL);
@@ -1088,16 +1088,16 @@ namespace DotNetNuke.Modules.Events
             {
                 //enrollfeelabel
                 //enrollfee
-                dict.Add("enrollfeelabel", Localization.GetString("TokenEnrollFeeLabel", this.LocalResourceFile));
+                dict.Add("enrollfeelabel", Localization.GetString("TokenEnrollFeeLabel", LocalResourceFile));
                 if (eventInfo.EnrollType == "PAID")
                 {
                     var tokenEnrollFeePaid = Localization
-                        .GetString("TokenEnrollFeePaid", this.LocalResourceFile).Replace("{0}", "{0:#0.00}");
+                        .GetString("TokenEnrollFeePaid", LocalResourceFile).Replace("{0}", "{0:#0.00}");
                     dict.Add("enrollfee", string.Format(tokenEnrollFeePaid, eventInfo.EnrollFee, ps.Currency));
                 }
                 else
                 {
-                    dict.Add("enrollfee", Localization.GetString("TokenEnrollFeeFree", this.LocalResourceFile));
+                    dict.Add("enrollfee", Localization.GetString("TokenEnrollFeeFree", LocalResourceFile));
                 }
             }
             else
@@ -1120,7 +1120,7 @@ namespace DotNetNuke.Modules.Events
             {
                 var imgurl = IconController.IconURL("Edit");
                 img = string.Format("<a href=\"{3}\"><img src='{0}' class=\"{2}\" alt='{1}' title='{1}' /></a>", imgurl,
-                                    Localization.GetString("EditEvent", this.LocalResourceFile), "EventIconEdit",
+                                    Localization.GetString("EditEvent", LocalResourceFile), "EventIconEdit",
                                     eventInfoHelper.GetEditURL(eventInfo.EventID, eventInfo.SocialGroupId,
                                                                eventInfo.SocialUserId));
                 dict.Add("editbutton", img);

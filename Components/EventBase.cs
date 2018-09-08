@@ -65,98 +65,98 @@ namespace Components
                     var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
                     var currDateInfo =
                         objEventTimeZoneUtilities.ConvertFromUTCToDisplayTimeZone(
-                            DateTime.UtcNow, this.GetDisplayTimeZoneId());
+                            DateTime.UtcNow, GetDisplayTimeZoneId());
                     try
                     {
-                        this._currculture = Thread.CurrentThread.CurrentCulture;
-                        if (this._selectedDate.Year == 1)
+                        _currculture = Thread.CurrentThread.CurrentCulture;
+                        if (_selectedDate.Year == 1)
                         {
-                            if (!(this.Request.Params["selecteddate"] == null))
+                            if (!(Request.Params["selecteddate"] == null))
                             {
-                                var strDate = this.Request.Params["selecteddate"];
+                                var strDate = Request.Params["selecteddate"];
                                 if (Information.IsDate(strDate))
                                 {
-                                    this._selectedDate = Convert.ToDateTime(strDate);
+                                    _selectedDate = Convert.ToDateTime(strDate);
                                 }
                                 else
                                 {
                                     var invCulture = CultureInfo.InvariantCulture;
                                     try
                                     {
-                                        this._selectedDate = DateTime.ParseExact(strDate, "yyyyMMdd", invCulture);
+                                        _selectedDate = DateTime.ParseExact(strDate, "yyyyMMdd", invCulture);
                                     }
                                     catch (Exception)
                                     {
-                                        this._selectedDate = currDateInfo.EventDate;
+                                        _selectedDate = currDateInfo.EventDate;
                                     }
                                 }
                             }
-                            else if (ReferenceEquals(this.Request.Cookies["DNNEvents"], null))
+                            else if (ReferenceEquals(Request.Cookies["DNNEvents"], null))
                             {
-                                this._selectedDate = currDateInfo.EventDate;
+                                _selectedDate = currDateInfo.EventDate;
                             }
                             else if (ReferenceEquals(
-                                this.Request.Cookies["DNNEvents"]
-                                    ["EventSelectedDate" + Convert.ToString(this.ModuleId)], null))
+                                Request.Cookies["DNNEvents"]
+                                    ["EventSelectedDate" + Convert.ToString(ModuleId)], null))
                             {
-                                this._selectedDate = currDateInfo.EventDate;
+                                _selectedDate = currDateInfo.EventDate;
                             }
                             else
                             {
                                 var cookieDate =
                                     Convert.ToString(
-                                        this.Request.Cookies["DNNEvents"][
-                                            "EventSelectedDate" + Convert.ToString(this.ModuleId)]);
+                                        Request.Cookies["DNNEvents"][
+                                            "EventSelectedDate" + Convert.ToString(ModuleId)]);
                                 Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
                                 if (Convert.ToDateTime(cookieDate).Year == 1)
                                 {
-                                    this._selectedDate = currDateInfo.EventDate;
+                                    _selectedDate = currDateInfo.EventDate;
                                 }
                                 else
                                 {
-                                    this._selectedDate = Convert.ToDateTime(cookieDate);
+                                    _selectedDate = Convert.ToDateTime(cookieDate);
                                 }
-                                Thread.CurrentThread.CurrentCulture = this._currculture;
+                                Thread.CurrentThread.CurrentCulture = _currculture;
                             }
                         }
-                        return this._selectedDate;
+                        return _selectedDate;
                     }
                     catch (Exception)
                     {
-                        Thread.CurrentThread.CurrentCulture = this._currculture;
-                        this._selectedDate = currDateInfo.EventDate;
-                        return this._selectedDate;
+                        Thread.CurrentThread.CurrentCulture = _currculture;
+                        _selectedDate = currDateInfo.EventDate;
+                        return _selectedDate;
                     }
                 }
             set
                 {
                     if (Information.IsDate(value))
                     {
-                        this._selectedDate = Convert.ToDateTime(value.ToShortDateString());
+                        _selectedDate = Convert.ToDateTime(value.ToShortDateString());
                     }
                     else
                     {
                         var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
-                        this._selectedDate = objEventTimeZoneUtilities
-                            .ConvertFromUTCToDisplayTimeZone(DateTime.UtcNow, this.GetDisplayTimeZoneId()).EventDate;
+                        _selectedDate = objEventTimeZoneUtilities
+                            .ConvertFromUTCToDisplayTimeZone(DateTime.UtcNow, GetDisplayTimeZoneId()).EventDate;
                     }
-                    if (this._selectedDate.Year == 1)
+                    if (_selectedDate.Year == 1)
                     {
                         var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
-                        this._selectedDate = objEventTimeZoneUtilities
-                            .ConvertFromUTCToDisplayTimeZone(DateTime.UtcNow, this.GetDisplayTimeZoneId()).EventDate;
+                        _selectedDate = objEventTimeZoneUtilities
+                            .ConvertFromUTCToDisplayTimeZone(DateTime.UtcNow, GetDisplayTimeZoneId()).EventDate;
                     }
-                    this._currculture = Thread.CurrentThread.CurrentCulture;
+                    _currculture = Thread.CurrentThread.CurrentCulture;
                     Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
-                    this.Response.Cookies["DNNEvents"]["EventSelectedDate" + Convert.ToString(this.ModuleId)] =
-                        this._selectedDate.ToShortDateString();
-                    this.Response.Cookies["DNNEvents"].Expires = DateTime.Now.AddMinutes(2);
-                    this.Response.Cookies["DNNEvents"].Path = "/";
-                    Thread.CurrentThread.CurrentCulture = this._currculture;
+                    Response.Cookies["DNNEvents"]["EventSelectedDate" + Convert.ToString(ModuleId)] =
+                        _selectedDate.ToShortDateString();
+                    Response.Cookies["DNNEvents"].Expires = DateTime.Now.AddMinutes(2);
+                    Response.Cookies["DNNEvents"].Path = "/";
+                    Thread.CurrentThread.CurrentCulture = _currculture;
                 }
         }
 
-        public CDefault BasePage => (CDefault) this.Page;
+        public CDefault BasePage => (CDefault) Page;
 
         #endregion
 
@@ -164,12 +164,12 @@ namespace Components
 
         public bool IsModerator()
         {
-            if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
+            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
             {
                 return true;
             }
-            var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
-            return objEventInfoHelper.IsModerator(this.Request.IsAuthenticated);
+            var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
+            return objEventInfoHelper.IsModerator(Request.IsAuthenticated);
         }
 
         public bool IsModuleEditor()
@@ -181,7 +181,7 @@ namespace Components
                 var objMod = default(ModuleInfo);
                 var mp = default(ModulePermissionCollection);
 
-                objMod = mc.GetModule(this.ModuleId, this.TabId, false);
+                objMod = mc.GetModule(ModuleId, TabId, false);
 
                 if (!ReferenceEquals(objMod, null))
                 {
@@ -199,17 +199,17 @@ namespace Components
             catch
             { }
             if (blHasBasePermissions &&
-                (this.Settings.SocialGroupModule == EventModuleSettings.SocialModule.SocialGroup) &
-                (this.Settings.SocialGroupSecurity != EventModuleSettings.SocialGroupPrivacy.OpenToAll))
+                (Settings.SocialGroupModule == EventModuleSettings.SocialModule.SocialGroup) &
+                (Settings.SocialGroupSecurity != EventModuleSettings.SocialGroupPrivacy.OpenToAll))
             {
-                var socialGroupID = this.GetUrlGroupId();
+                var socialGroupID = GetUrlGroupId();
                 if (socialGroupID > -1)
                 {
                     var objRoleCtl = new RoleController();
-                    var objRoleInfo = objRoleCtl.GetRole(socialGroupID, this.PortalSettings.PortalId);
+                    var objRoleInfo = objRoleCtl.GetRole(socialGroupID, PortalSettings.PortalId);
                     if (!ReferenceEquals(objRoleInfo, null))
                     {
-                        if (!this.PortalSettings.UserInfo.IsInRole(objRoleInfo.RoleName))
+                        if (!PortalSettings.UserInfo.IsInRole(objRoleInfo.RoleName))
                         {
                             return false;
                         }
@@ -223,11 +223,11 @@ namespace Components
         {
             try
             {
-                if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName) ||
-                    this.IsModuleEditor() && (objEvent.CreatedByID == this.UserId ||
-                                              objEvent.OwnerID == this.UserId && !blMasterOwner ||
-                                              objEvent.RmOwnerID == this.UserId) ||
-                    this.IsModerator())
+                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) ||
+                    IsModuleEditor() && (objEvent.CreatedByID == UserId ||
+                                              objEvent.OwnerID == UserId && !blMasterOwner ||
+                                              objEvent.RmOwnerID == UserId) ||
+                    IsModerator())
                 {
                     return true;
                 }
@@ -243,7 +243,7 @@ namespace Components
             get
                 {
                     var returnValue = false;
-                    if (this.Settings.PrivateMessage != "" && !this.IsModerator())
+                    if (Settings.PrivateMessage != "" && !IsModerator())
                     {
                         returnValue = true;
                     }
@@ -257,9 +257,9 @@ namespace Components
 
         public bool IsCategoryEditor()
         {
-            if (this.Request.IsAuthenticated)
+            if (Request.IsAuthenticated)
             {
-                if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
+                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
                 {
                     return true;
                 }
@@ -269,7 +269,7 @@ namespace Components
                     var objMod = default(ModuleInfo);
                     var mp = default(ModulePermissionCollection);
 
-                    objMod = mc.GetModule(this.ModuleId, this.TabId, false);
+                    objMod = mc.GetModule(ModuleId, TabId, false);
 
                     if (!ReferenceEquals(objMod, null))
                     {
@@ -286,9 +286,9 @@ namespace Components
 
         public bool IsLocationEditor()
         {
-            if (this.Request.IsAuthenticated)
+            if (Request.IsAuthenticated)
             {
-                if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
+                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
                 {
                     return true;
                 }
@@ -298,7 +298,7 @@ namespace Components
                     var objMod = default(ModuleInfo);
                     var mp = default(ModulePermissionCollection);
 
-                    objMod = mc.GetModule(this.ModuleId, this.TabId, false);
+                    objMod = mc.GetModule(ModuleId, TabId, false);
 
                     if (!ReferenceEquals(objMod, null))
                     {
@@ -315,9 +315,9 @@ namespace Components
 
         public bool IsSettingsEditor()
         {
-            if (this.Request.IsAuthenticated)
+            if (Request.IsAuthenticated)
             {
-                if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
+                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
                 {
                     return true;
                 }
@@ -327,7 +327,7 @@ namespace Components
                     var objMod = default(ModuleInfo);
                     var mp = default(ModulePermissionCollection);
 
-                    objMod = mc.GetModule(this.ModuleId, this.TabId, false);
+                    objMod = mc.GetModule(ModuleId, TabId, false);
 
                     if (!ReferenceEquals(objMod, null))
                     {
@@ -346,7 +346,7 @@ namespace Components
         {
             var moderators = new ArrayList();
             var objCollModulePermission = default(ModulePermissionCollection);
-            objCollModulePermission = ModulePermissionController.GetModulePermissions(this.ModuleId, this.TabId);
+            objCollModulePermission = ModulePermissionController.GetModulePermissions(ModuleId, TabId);
             var objModulePermission = default(ModulePermissionInfo);
 
             // To cope with host users or someone who is no longer an editor!!
@@ -359,9 +359,9 @@ namespace Components
                     if (objModulePermission.UserID < 0)
                     {
                         var objCtlRole = new RoleController();
-                        if (objModulePermission.RoleID != this.PortalSettings.AdministratorRoleId)
+                        if (objModulePermission.RoleID != PortalSettings.AdministratorRoleId)
                         {
-                            var lstUsers = objCtlRole.GetUsersByRoleName(this.PortalId, objModulePermission.RoleName);
+                            var lstUsers = objCtlRole.GetUsersByRoleName(PortalId, objModulePermission.RoleName);
                             var objUser = default(UserInfo);
                             foreach (UserInfo tempLoopVar_objUser in lstUsers)
                             {
@@ -376,7 +376,7 @@ namespace Components
                     else
                     {
                         var objUserCtl = new UserController();
-                        var objUser = objUserCtl.GetUser(this.PortalId, objModulePermission.UserID);
+                        var objUser = objUserCtl.GetUser(PortalId, objModulePermission.UserID);
                         if (!ReferenceEquals(objUser, null))
                         {
                             if (!moderators.Contains(objUser.Email))
@@ -418,14 +418,14 @@ namespace Components
         /// <remarks></remarks>
         public void SetTheme(Panel ctlPnlTheme)
         {
-            var themeSettings = this.GetThemeSettings();
+            var themeSettings = GetThemeSettings();
 
             var cssLink = new HtmlLink();
             cssLink.Href = themeSettings.ThemeFile;
             cssLink.Attributes.Add("rel", "stylesheet");
             cssLink.Attributes.Add("type", "text/css");
             var added = false;
-            foreach (var pagecontrol in this.Page.Header.Controls)
+            foreach (var pagecontrol in Page.Header.Controls)
             {
                 if (pagecontrol is PlaceHolder)
                 {
@@ -456,7 +456,7 @@ namespace Components
             }
             if (!added)
             {
-                this.Page.Header.Controls.Add(cssLink);
+                Page.Header.Controls.Add(cssLink);
             }
 
             ctlPnlTheme.CssClass = themeSettings.CssClass;
@@ -465,33 +465,33 @@ namespace Components
         public ThemeSetting GetThemeSettings()
         {
             var themeSettings = new ThemeSetting();
-            if (themeSettings.ValidateSetting(this.Settings.EventTheme) == false)
+            if (themeSettings.ValidateSetting(Settings.EventTheme) == false)
             {
-                themeSettings.ReadSetting(this.Settings.EventThemeDefault, this.PortalId);
+                themeSettings.ReadSetting(Settings.EventThemeDefault, PortalId);
             }
-            else if (this.Settings.EventTheme != "")
+            else if (Settings.EventTheme != "")
             {
-                themeSettings.ReadSetting(this.Settings.EventTheme, this.PortalId);
+                themeSettings.ReadSetting(Settings.EventTheme, PortalId);
             }
             return themeSettings;
         }
 
         public void AddFacebookMetaTags()
         {
-            if (this.Settings.FBAdmins != "")
+            if (Settings.FBAdmins != "")
             {
                 var fbMeta = new HtmlMeta();
                 fbMeta.Name = "fb:admins";
-                fbMeta.Content = this.Settings.FBAdmins;
-                this.Page.Header.Controls.Add(fbMeta);
+                fbMeta.Content = Settings.FBAdmins;
+                Page.Header.Controls.Add(fbMeta);
             }
 
-            if (this.Settings.FBAppID != "")
+            if (Settings.FBAppID != "")
             {
                 var fbMeta = new HtmlMeta();
                 fbMeta.Name = "fb:app_id";
-                fbMeta.Content = this.Settings.FBAppID;
-                this.Page.Header.Controls.Add(fbMeta);
+                fbMeta.Content = Settings.FBAppID;
+                Page.Header.Controls.Add(fbMeta);
             }
         }
 
@@ -509,15 +509,15 @@ namespace Components
                     imageSrc = objFile.Folder + objFile.FileName.Replace(" ", "%20");
                     if (imageSrc.IndexOf("://") + 1 == 0)
                     {
-                        imageSrc = this.PortalSettings.HomeDirectory + imageSrc;
+                        imageSrc = PortalSettings.HomeDirectory + imageSrc;
                     }
-                    imagestring = this.ConvertToThumb(imageSrc, imageWidth, imageHeight);
+                    imagestring = ConvertToThumb(imageSrc, imageWidth, imageHeight);
                 }
             }
             else if (imageUrl.StartsWith("http"))
             {
                 imageSrc = imageUrl;
-                imagestring = this.ConvertToThumb(imageSrc, imageWidth, imageHeight);
+                imagestring = ConvertToThumb(imageSrc, imageWidth, imageHeight);
             }
             return imagestring;
         }
@@ -529,15 +529,15 @@ namespace Components
             {
                 var thumbWidth = imageWidth;
                 var thumbHeight = imageHeight;
-                if (imageHeight > this.Settings.MaxThumbHeight)
+                if (imageHeight > Settings.MaxThumbHeight)
                 {
-                    thumbHeight = this.Settings.MaxThumbHeight;
-                    thumbWidth = Convert.ToInt32((double) imageWidth * this.Settings.MaxThumbHeight / imageHeight);
+                    thumbHeight = Settings.MaxThumbHeight;
+                    thumbWidth = Convert.ToInt32((double) imageWidth * Settings.MaxThumbHeight / imageHeight);
                 }
-                if (thumbWidth > this.Settings.MaxThumbWidth)
+                if (thumbWidth > Settings.MaxThumbWidth)
                 {
-                    thumbWidth = this.Settings.MaxThumbWidth;
-                    thumbHeight = Convert.ToInt32((double) imageHeight * this.Settings.MaxThumbWidth / imageWidth);
+                    thumbWidth = Settings.MaxThumbWidth;
+                    thumbHeight = Convert.ToInt32((double) imageHeight * Settings.MaxThumbWidth / imageWidth);
                 }
                 imagestring = "<img src=\"" + imageSrc + "\" border=\"0\" width=\"" + thumbWidth + "\" height=\"" +
                               thumbHeight + "\" align=\"middle\" alt=\"\" /><br />";
@@ -552,15 +552,15 @@ namespace Components
         public string DetailPageEdit(EventInfo objEvent)
         {
             var editString = "";
-            if (this.IsEventEditor(objEvent, false))
+            if (IsEventEditor(objEvent, false))
             {
-                var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
                 var imgurl = IconController.IconURL("View");
                 editString = "<a href='" +
                              objEventInfoHelper.GetDetailPageRealURL(objEvent.EventID, objEvent.SocialGroupId,
                                                                      objEvent.SocialUserId) + "'><img src=\"" + imgurl +
-                             "\" border=\"0\" alt=\"" + Localization.GetString("ViewEvent", this.LocalResourceFile) +
-                             "\" title=\"" + Localization.GetString("ViewEvent", this.LocalResourceFile) + "\" /></a>";
+                             "\" border=\"0\" alt=\"" + Localization.GetString("ViewEvent", LocalResourceFile) +
+                             "\" title=\"" + Localization.GetString("ViewEvent", LocalResourceFile) + "\" /></a>";
             }
             return editString;
         }
@@ -575,8 +575,8 @@ namespace Components
             }
             returnUrl = HttpUtility.UrlEncode(returnUrl);
 
-            this.Response.Redirect(
-                Globals.LoginURL(returnUrl, Convert.ToBoolean(this.Request.QueryString["override"] != null)),
+            Response.Redirect(
+                Globals.LoginURL(returnUrl, Convert.ToBoolean(Request.QueryString["override"] != null)),
                 true);
         }
 
@@ -584,9 +584,9 @@ namespace Components
         {
             eventIcons.Visible = false;
             eventIcons2.Visible = false;
-            eventIcons.ModuleConfiguration = this.ModuleConfiguration.Clone();
-            eventIcons2.ModuleConfiguration = this.ModuleConfiguration.Clone();
-            switch (this.Settings.IconBar)
+            eventIcons.ModuleConfiguration = ModuleConfiguration.Clone();
+            eventIcons2.ModuleConfiguration = ModuleConfiguration.Clone();
+            switch (Settings.IconBar)
             {
                 case "TOP":
                     eventIcons.Visible = true;
@@ -604,12 +604,12 @@ namespace Components
                 return;
             }
             var objEventEmailInfo = new EventEmailInfo();
-            var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
-                                                ((PageBase) this.Page).PageCulture.Name);
-            objEventEmailInfo.TxtEmailSubject = this.Settings.Templates.txtNewEventEmailSubject;
-            objEventEmailInfo.TxtEmailBody = this.Settings.Templates.txtNewEventEmailMessage;
-            objEventEmailInfo.TxtEmailFrom = this.Settings.StandardEmail;
-            switch (this.Settings.Neweventemails)
+            var objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile,
+                                                ((PageBase) Page).PageCulture.Name);
+            objEventEmailInfo.TxtEmailSubject = Settings.Templates.txtNewEventEmailSubject;
+            objEventEmailInfo.TxtEmailBody = Settings.Templates.txtNewEventEmailMessage;
+            objEventEmailInfo.TxtEmailFrom = Settings.StandardEmail;
+            switch (Settings.Neweventemails)
             {
                 case "Subscribe":
                     // Email Subscribed Users
@@ -617,14 +617,14 @@ namespace Components
                     var objEventSubscriptionController = new EventSubscriptionController();
                     var lstSubscriptions = default(ArrayList);
                     var objEventSubscription = default(EventSubscriptionInfo);
-                    lstSubscriptions = objEventSubscriptionController.EventsSubscriptionGetSubModule(this.ModuleId);
+                    lstSubscriptions = objEventSubscriptionController.EventsSubscriptionGetSubModule(ModuleId);
 
                     if (lstSubscriptions.Count == 0)
                     {
                         return;
                     }
 
-                    var objEventInfo = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, null);
+                    var objEventInfo = new EventInfoHelper(ModuleId, TabId, PortalId, null);
                     var lstusers = objEventInfo.GetEventModuleViewers();
 
                     foreach (EventSubscriptionInfo tempLoopVar_objEventSubscription in lstSubscriptions)
@@ -633,7 +633,7 @@ namespace Components
                         if (!lstusers.Contains(objEventSubscription.UserID))
                         {
                             var objCtlUser = new UserController();
-                            var objUser = objCtlUser.GetUser(this.PortalId, objEventSubscription.UserID);
+                            var objUser = objCtlUser.GetUser(PortalId, objEventSubscription.UserID);
                             if (!ReferenceEquals(objUser, null) && objUser.IsSuperUser)
                             {
                                 objEventEmailInfo.UserEmails.Add(objUser.Email);
@@ -649,7 +649,7 @@ namespace Components
                     break;
                 case "Role":
                     // Email users in role
-                    this.EventEmailAddRoleUsers(this.Settings.Neweventemailrole, objEventEmailInfo);
+                    EventEmailAddRoleUsers(Settings.Neweventemailrole, objEventEmailInfo);
                     break;
                 default:
                     return;
@@ -660,10 +660,10 @@ namespace Components
         public void EventEmailAddRoleUsers(int roleId, EventEmailInfo objEventEmailInfo)
         {
             var objRoleController = new RoleController();
-            var objRole = objRoleController.GetRole(roleId, this.PortalId);
+            var objRole = objRoleController.GetRole(roleId, PortalId);
             if (!ReferenceEquals(objRole, null))
             {
-                var lstUsers = objRoleController.GetUsersByRoleName(this.PortalId, objRole.RoleName);
+                var lstUsers = objRoleController.GetUsersByRoleName(PortalId, objRole.RoleName);
                 foreach (UserInfo objUser in lstUsers)
                 {
                     objEventEmailInfo.UserEmails.Add(objUser.Email);
@@ -675,7 +675,7 @@ namespace Components
 
         public void CreateNewEventJournal(EventInfo objEvent)
         {
-            if (!this.Settings.JournalIntegration)
+            if (!Settings.JournalIntegration)
             {
                 return;
             }
@@ -683,13 +683,13 @@ namespace Components
             if (objEvent.Approved)
             {
                 var cntJournal = new Journal();
-                var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
                 var url = objEventInfoHelper.DetailPageURL(objEvent);
                 string imageSrc = null;
-                if (this.Settings.Eventimage && objEvent.ImageDisplay)
+                if (Settings.Eventimage && objEvent.ImageDisplay)
                 {
                     var portalurl = objEventInfoHelper.GetDomainURL();
-                    if (this.PortalSettings.PortalAlias.HTTPAlias.IndexOf("/", StringComparison.Ordinal) > 0)
+                    if (PortalSettings.PortalAlias.HTTPAlias.IndexOf("/", StringComparison.Ordinal) > 0)
                     {
                         portalurl = portalurl + Globals.ApplicationPath;
                     }
@@ -712,12 +712,12 @@ namespace Components
                     }
                 }
 
-                cntJournal.NewEvent(objEvent, this.TabId, url, imageSrc);
+                cntJournal.NewEvent(objEvent, TabId, url, imageSrc);
 
                 // Update event to show it has an associated JournalItem
                 var cntEvent = new EventController();
                 objEvent.JournalItem = true;
-                cntEvent.EventsSave(objEvent, true, this.TabId, false);
+                cntEvent.EventsSave(objEvent, true, TabId, false);
             }
         }
 
@@ -731,7 +731,7 @@ namespace Components
 
             if (objEventSignup.Approved && objEventSignup.UserID > -1)
             {
-                var modTab = this.TabId;
+                var modTab = TabId;
                 if (modTab == -1)
                 {
                     var cntModule = new ModuleController();
@@ -742,7 +742,7 @@ namespace Components
                     new EventInfoHelper(objEvent.ModuleID, modTab, objEvent.PortalID, enrollSettings);
                 var url = objEventInfoHelper.DetailPageURL(objEvent);
 
-                var creatorUserid = this.UserId;
+                var creatorUserid = UserId;
                 if (creatorUserid == -1)
                 {
                     creatorUserid = objEventSignup.UserID;
@@ -755,7 +755,7 @@ namespace Components
 
         public EventSignupsInfo CreateEnrollment(EventSignupsInfo objEventSignup, EventInfo objEvent)
         {
-            return this.CreateEnrollment(objEventSignup, objEvent, this.Settings);
+            return CreateEnrollment(objEventSignup, objEvent, Settings);
         }
 
         public EventSignupsInfo CreateEnrollment(EventSignupsInfo objEventSignup, EventInfo objEvent,
@@ -770,7 +770,7 @@ namespace Components
             {
                 objCtlEventSignups.EventsSignupsSave(objEventSignup);
             }
-            this.CreateEnrollmentJournal(objEventSignup, objEvent, enrollSettings);
+            CreateEnrollmentJournal(objEventSignup, objEvent, enrollSettings);
             return objEventSignup;
         }
 
@@ -779,18 +779,18 @@ namespace Components
             var objCtlEventSignups = new EventSignupsController();
             objCtlEventSignups.EventsSignupsDelete(signupId, inModuleId);
             var cntJournal = new Journal();
-            cntJournal.DeleteEnrollment(inModuleId, eventId, signupId, this.PortalId);
+            cntJournal.DeleteEnrollment(inModuleId, eventId, signupId, PortalId);
         }
 
         public string ToolTipCreate(EventInfo objEvent, string templateTitle, string templateBody, bool isEvtEditor)
         {
-            var themeCss = this.GetThemeSettings().CssClass;
+            var themeCss = GetThemeSettings().CssClass;
 
-            var tr = new TokenReplaceControllerClass(this.ModuleId, this.LocalResourceFile);
+            var tr = new TokenReplaceControllerClass(ModuleId, LocalResourceFile);
 
             // Add sub module name if a sub-calendar
             var blAddSubModuleName = false;
-            if (objEvent.ModuleID != this.ModuleId && objEvent.ModuleTitle != null && this.Settings.Addsubmodulename)
+            if (objEvent.ModuleID != ModuleId && objEvent.ModuleTitle != null && Settings.Addsubmodulename)
             {
                 blAddSubModuleName = true;
             }
@@ -805,7 +805,7 @@ namespace Components
                     null, false, isEvtEditor);
 
             // Shorten to maximum length
-            var intTooltipLength = this.Settings.Eventtooltiplength;
+            var intTooltipLength = Settings.Eventtooltiplength;
             tooltipBody =
                 Convert.ToString(
                     HtmlUtils
@@ -821,29 +821,29 @@ namespace Components
         public string EnrolmentColumns(EventInfo eventInfo, bool enrollListView)
         {
             var txtColumns = "";
-            if (this.Settings.Eventsignup && enrollListView)
+            if (Settings.Eventsignup && enrollListView)
             {
-                if (this.IsEventEditor(eventInfo, false))
+                if (IsEventEditor(eventInfo, false))
                 {
-                    if (this.Settings.EnrollEditFields != "" || this.Settings.EnrollViewFields != "" ||
-                        this.Settings.EnrollAnonFields != "")
+                    if (Settings.EnrollEditFields != "" || Settings.EnrollViewFields != "" ||
+                        Settings.EnrollAnonFields != "")
                     {
-                        txtColumns = this.Settings.EnrollEditFields + ";" + this.Settings.EnrollViewFields + ";" +
-                                     this.Settings.EnrollAnonFields;
+                        txtColumns = Settings.EnrollEditFields + ";" + Settings.EnrollViewFields + ";" +
+                                     Settings.EnrollAnonFields;
                     }
                 }
-                else if (this.Request.IsAuthenticated)
+                else if (Request.IsAuthenticated)
                 {
-                    if (this.Settings.EnrollViewFields != "" || this.Settings.EnrollAnonFields != "")
+                    if (Settings.EnrollViewFields != "" || Settings.EnrollAnonFields != "")
                     {
-                        txtColumns = this.Settings.EnrollViewFields + ";" + this.Settings.EnrollAnonFields;
+                        txtColumns = Settings.EnrollViewFields + ";" + Settings.EnrollAnonFields;
                     }
                 }
                 else
                 {
-                    if (this.Settings.EnrollAnonFields != "")
+                    if (Settings.EnrollAnonFields != "")
                     {
-                        txtColumns = this.Settings.EnrollAnonFields;
+                        txtColumns = Settings.EnrollAnonFields;
                     }
                 }
             }
@@ -861,7 +861,7 @@ namespace Components
         {
             //Create theme folder if needed
             var pc = new PortalController();
-            var with_1 = pc.GetPortal(this.PortalId);
+            var with_1 = pc.GetPortal(PortalId);
             var eventSkinPath = string.Format("{0}\\DNNEvents\\Themes", with_1.HomeDirectoryMapPath);
             if (!Directory.Exists(eventSkinPath))
             {
@@ -871,9 +871,9 @@ namespace Components
 
         public bool HideFullEvent(EventInfo objevent)
         {
-            var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
-            return objEventInfoHelper.HideFullEvent(objevent, this.Settings.Eventhidefullenroll, this.UserId,
-                                                    this.Request.IsAuthenticated);
+            var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
+            return objEventInfoHelper.HideFullEvent(objevent, Settings.Eventhidefullenroll, UserId,
+                                                    Request.IsAuthenticated);
         }
 
         public string CreateIconString(EventInfo objEvent, bool iconPrio, bool iconRec, bool iconReminder,
@@ -886,77 +886,77 @@ namespace Components
                 switch (objEvent.Importance.ToString())
                 {
                     case "High":
-                        iconString = "<img src=\"" + this.ResolveUrl("Images/HighPrio.gif") +
+                        iconString = "<img src=\"" + ResolveUrl("Images/HighPrio.gif") +
                                      "\" class=\"EventIconHigh\" alt=\"" +
-                                     Localization.GetString("HighPrio", this.LocalResourceFile) + "\" title=\"" +
-                                     Localization.GetString("HighPrio", this.LocalResourceFile) + "\" /> ";
+                                     Localization.GetString("HighPrio", LocalResourceFile) + "\" title=\"" +
+                                     Localization.GetString("HighPrio", LocalResourceFile) + "\" /> ";
                         break;
                     case "Low":
-                        iconString = "<img src=\"" + this.ResolveUrl("Images/LowPrio.gif") +
+                        iconString = "<img src=\"" + ResolveUrl("Images/LowPrio.gif") +
                                      "\" class=\"EventIconLow\" alt=\"" +
-                                     Localization.GetString("LowPrio", this.LocalResourceFile) + "\" title=\"" +
-                                     Localization.GetString("LowPrio", this.LocalResourceFile) + "\" /> ";
+                                     Localization.GetString("LowPrio", LocalResourceFile) + "\" title=\"" +
+                                     Localization.GetString("LowPrio", LocalResourceFile) + "\" /> ";
                         break;
                 }
             }
             if (objEvent.RRULE != "" && iconRec)
             {
-                iconString = iconString + "<img src=\"" + this.ResolveUrl("Images/rec.gif") +
+                iconString = iconString + "<img src=\"" + ResolveUrl("Images/rec.gif") +
                              "\" class=\"EventIconRec\" alt=\"" +
-                             Localization.GetString("RecurringEvent", this.LocalResourceFile) + ": " +
-                             objCtlEventRecurMaster.RecurrenceInfo(objEvent, this.LocalResourceFile) + "\" title=\"" +
-                             Localization.GetString("RecurringEvent", this.LocalResourceFile) + ": " +
-                             objCtlEventRecurMaster.RecurrenceInfo(objEvent, this.LocalResourceFile) + "\" /> ";
+                             Localization.GetString("RecurringEvent", LocalResourceFile) + ": " +
+                             objCtlEventRecurMaster.RecurrenceInfo(objEvent, LocalResourceFile) + "\" title=\"" +
+                             Localization.GetString("RecurringEvent", LocalResourceFile) + ": " +
+                             objCtlEventRecurMaster.RecurrenceInfo(objEvent, LocalResourceFile) + "\" /> ";
             }
 
             var notificationInfo = "";
-            if (objEvent.SendReminder && iconReminder && this.Request.IsAuthenticated)
+            if (objEvent.SendReminder && iconReminder && Request.IsAuthenticated)
             {
                 var objEventNotificationController = new EventNotificationController();
                 notificationInfo =
-                    objEventNotificationController.NotifyInfo(objEvent.EventID, this.UserInfo.Email, objEvent.ModuleID,
-                                                              this.LocalResourceFile, this.GetDisplayTimeZoneId());
+                    objEventNotificationController.NotifyInfo(objEvent.EventID, UserInfo.Email, objEvent.ModuleID,
+                                                              LocalResourceFile, GetDisplayTimeZoneId());
             }
-            if (objEvent.SendReminder && iconReminder && this.Request.IsAuthenticated &&
+            if (objEvent.SendReminder && iconReminder && Request.IsAuthenticated &&
                 !string.IsNullOrEmpty(notificationInfo))
             {
-                iconString = iconString + "<img src=\"" + this.ResolveUrl("Images/bell.gif") +
+                iconString = iconString + "<img src=\"" + ResolveUrl("Images/bell.gif") +
                              "\" class=\"EventIconRem\" alt=\"" +
-                             Localization.GetString("ReminderEnabled", this.LocalResourceFile) + ": " +
+                             Localization.GetString("ReminderEnabled", LocalResourceFile) + ": " +
                              notificationInfo + "\" title=\"" +
-                             Localization.GetString("ReminderEnabled", this.LocalResourceFile) + ": " +
+                             Localization.GetString("ReminderEnabled", LocalResourceFile) + ": " +
                              notificationInfo + "\" /> ";
             }
             else if (objEvent.SendReminder && iconReminder &&
-                     (this.Settings.Notifyanon || this.Request.IsAuthenticated))
+                     (Settings.Notifyanon || Request.IsAuthenticated))
             {
-                iconString = iconString + "<img src=\"" + this.ResolveUrl("Images/bell.gif") +
+                iconString = iconString + "<img src=\"" + ResolveUrl("Images/bell.gif") +
                              "\" class=\"EventIconRem\" alt=\"" +
-                             Localization.GetString("ReminderEnabled", this.LocalResourceFile) + "\" title=\"" +
-                             Localization.GetString("ReminderEnabled", this.LocalResourceFile) + "\" /> ";
+                             Localization.GetString("ReminderEnabled", LocalResourceFile) + "\" title=\"" +
+                             Localization.GetString("ReminderEnabled", LocalResourceFile) + "\" /> ";
             }
 
             var objEventSignupsController = new EventSignupsController();
-            if (iconEnroll && objEventSignupsController.DisplayEnrollIcon(objEvent) && this.Settings.Eventsignup)
+            if (iconEnroll && objEventSignupsController.DisplayEnrollIcon(objEvent) && Settings.Eventsignup)
             {
                 if ((objEvent.MaxEnrollment == 0) | (objEvent.Enrolled < objEvent.MaxEnrollment))
                 {
-                    iconString = iconString + "<img src=\"" + this.ResolveUrl("Images/enroll.gif") +
+                    iconString = iconString + "<img src=\"" + ResolveUrl("Images/enroll.gif") +
                                  "\" class=\"EventIconEnroll\" alt=\"" +
-                                 Localization.GetString("EnrollEnabled", this.LocalResourceFile) + "\" title=\"" +
-                                 Localization.GetString("EnrollEnabled", this.LocalResourceFile) + "\" /> ";
+                                 Localization.GetString("EnrollEnabled", LocalResourceFile) + "\" title=\"" +
+                                 Localization.GetString("EnrollEnabled", LocalResourceFile) + "\" /> ";
                 }
                 else
                 {
-                    iconString = iconString + "<img src=\"" + this.ResolveUrl("Images/EnrollFull.gif") +
+                    iconString = iconString + "<img src=\"" + ResolveUrl("Images/EnrollFull.gif") +
                                  "\" class=\"EventIconEnrollFull\" alt=\"" +
-                                 Localization.GetString("EnrollFull", this.LocalResourceFile) + "\" title=\"" +
-                                 Localization.GetString("EnrollFull", this.LocalResourceFile) + "\" /> ";
+                                 Localization.GetString("EnrollFull", LocalResourceFile) + "\" title=\"" +
+                                 Localization.GetString("EnrollFull", LocalResourceFile) + "\" /> ";
                 }
             }
             if (objEvent.DetailPage)
             {
-                iconString = iconString + this.DetailPageEdit(objEvent);
+                iconString = iconString + DetailPageEdit(objEvent);
             }
             return iconString;
         }
@@ -965,32 +965,32 @@ namespace Components
                                       SelectLocation selectLocation, Panel pnlDateControls = null)
         {
             // Disable Top Navigation
-            if (!ReferenceEquals(pnlDateControls, null) && this.Settings.DisableEventnav)
+            if (!ReferenceEquals(pnlDateControls, null) && Settings.DisableEventnav)
             {
                 pnlDateControls.Visible = false;
             }
 
             // Setup Icon Bar for use
-            this.SetUpIconBar(eventIcons, eventIcons2);
+            SetUpIconBar(eventIcons, eventIcons2);
 
             // Category Configuration and Settings.
-            selectCategory.ModuleConfiguration = this.ModuleConfiguration.Clone();
+            selectCategory.ModuleConfiguration = ModuleConfiguration.Clone();
 
             // Disable Category Select
-            if ((this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay) |
-                (this.IsPrivateNotModerator &&
-                 !this.IsCategoryEditor()))
+            if ((Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay) |
+                (IsPrivateNotModerator &&
+                 !IsCategoryEditor()))
             {
                 selectCategory.Visible = false;
             }
 
             // Location Configuration and Settings.
-            selectLocation.ModuleConfiguration = this.ModuleConfiguration.Clone();
+            selectLocation.ModuleConfiguration = ModuleConfiguration.Clone();
 
             // Disable Location Select
-            if ((this.Settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay) |
-                (this.IsPrivateNotModerator &&
-                 !this.IsLocationEditor()))
+            if ((Settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay) |
+                (IsPrivateNotModerator &&
+                 !IsLocationEditor()))
             {
                 selectLocation.Visible = false;
             }
@@ -998,14 +998,14 @@ namespace Components
 
         public string CreateEventName(EventInfo objEvent, string template = null)
         {
-            var isEvtEditor = this.IsEventEditor(objEvent, false);
+            var isEvtEditor = IsEventEditor(objEvent, false);
 
             var blAddSubModuleName = false;
-            if (objEvent.ModuleID != this.ModuleId && objEvent.ModuleTitle != null && this.Settings.Addsubmodulename)
+            if (objEvent.ModuleID != ModuleId && objEvent.ModuleTitle != null && Settings.Addsubmodulename)
             {
                 blAddSubModuleName = true;
             }
-            var tcc = new TokenReplaceControllerClass(this.ModuleId, this.LocalResourceFile);
+            var tcc = new TokenReplaceControllerClass(ModuleId, LocalResourceFile);
             return tcc.TokenReplaceEvent(objEvent, template, null, blAddSubModuleName, isEvtEditor);
         }
 
@@ -1020,52 +1020,52 @@ namespace Components
             // Set Date Range
             var moduleDate = default(DateTime);
             var displayDate = default(DateTime);
-            if (this.Settings.ListViewUseTime)
+            if (Settings.ListViewUseTime)
             {
-                moduleDate = this.ModuleNow();
-                displayDate = this.DisplayNow();
+                moduleDate = ModuleNow();
+                displayDate = DisplayNow();
             }
             else
             {
-                moduleDate = this.ModuleNow().Date;
-                displayDate = this.DisplayNow().Date;
+                moduleDate = ModuleNow().Date;
+                displayDate = DisplayNow().Date;
             }
-            var numDays = this.Settings.EventsListEventDays;
-            if (this.Settings.EventsListSelectType == "DAYS")
+            var numDays = Settings.EventsListEventDays;
+            if (Settings.EventsListSelectType == "DAYS")
             {
                 //****DO NOT CHANGE THE NEXT SECTION FOR ML CODING ****
                 // Used Only to select view dates on Event Month View..
-                moduleStartDate = moduleDate.AddDays((this.Settings.EventsListBeforeDays + 1) * -1);
-                moduleEndDate = moduleDate.AddDays((this.Settings.EventsListAfterDays + 1) * 1);
-                displayStartDate = displayDate.AddDays(this.Settings.EventsListBeforeDays * -1);
-                displayEndDate = displayDate.AddDays(this.Settings.EventsListAfterDays * 1);
+                moduleStartDate = moduleDate.AddDays((Settings.EventsListBeforeDays + 1) * -1);
+                moduleEndDate = moduleDate.AddDays((Settings.EventsListAfterDays + 1) * 1);
+                displayStartDate = displayDate.AddDays(Settings.EventsListBeforeDays * -1);
+                displayEndDate = displayDate.AddDays(Settings.EventsListAfterDays * 1);
             }
             else
             {
-                noEvents = this.Settings.EventsListNumEvents;
+                noEvents = Settings.EventsListNumEvents;
                 moduleStartDate = moduleDate.AddDays(-1);
                 moduleEndDate = moduleDate.AddDays(numDays + 1);
                 displayStartDate = displayDate;
                 displayEndDate = displayDate.AddDays(numDays);
             }
 
-            var getSubEvents = this.Settings.MasterEvent;
+            var getSubEvents = Settings.MasterEvent;
 
             var objEvent = default(EventInfo);
             var lstEvent = default(EventInfo);
-            var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+            var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
             var lstEvents = default(ArrayList);
             var selectedEvents = new ArrayList();
             lstEvents = objEventInfoHelper.GetEvents(moduleStartDate, moduleEndDate, getSubEvents, categoryIDs,
-                                                     locationIDs, this.GetUrlGroupId(), this.GetUrlUserId());
+                                                     locationIDs, GetUrlGroupId(), GetUrlUserId());
 
-            lstEvents = objEventInfoHelper.ConvertEventListToDisplayTimeZone(lstEvents, this.GetDisplayTimeZoneId());
+            lstEvents = objEventInfoHelper.ConvertEventListToDisplayTimeZone(lstEvents, GetDisplayTimeZoneId());
 
             foreach (EventInfo tempLoopVar_objEvent in lstEvents)
             {
                 objEvent = tempLoopVar_objEvent;
                 // If full enrollments should be hidden, ignore
-                if (this.HideFullEvent(objEvent))
+                if (HideFullEvent(objEvent))
                 {
                     continue;
                 }
@@ -1076,7 +1076,7 @@ namespace Components
                 }
 
                 var blAddEvent = true;
-                if (this.Settings.Collapserecurring)
+                if (Settings.Collapserecurring)
                 {
                     foreach (EventInfo tempLoopVar_lstEvent in selectedEvents)
                     {
@@ -1092,7 +1092,7 @@ namespace Components
                     selectedEvents.Add(objEvent);
                 }
 
-                if (this.Settings.EventsListSelectType == "EVENTS" &&
+                if (Settings.EventsListSelectType == "EVENTS" &&
                     selectedEvents.Count >= noEvents)
                 {
                     break;
@@ -1104,24 +1104,24 @@ namespace Components
         public DateTime ModuleNow()
         {
             var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
-            return objEventTimeZoneUtilities.ConvertFromUTCToModuleTimeZone(DateTime.UtcNow, this.Settings.TimeZoneId);
+            return objEventTimeZoneUtilities.ConvertFromUTCToModuleTimeZone(DateTime.UtcNow, Settings.TimeZoneId);
         }
 
         public DateTime DisplayNow()
         {
             var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
             return objEventTimeZoneUtilities
-                .ConvertFromUTCToDisplayTimeZone(DateTime.UtcNow, this.GetDisplayTimeZoneId()).EventDate;
+                .ConvertFromUTCToDisplayTimeZone(DateTime.UtcNow, GetDisplayTimeZoneId()).EventDate;
         }
 
         public string GetDisplayTimeZoneId()
         {
-            return this.GetDisplayTimeZoneId(this.Settings, this.PortalId);
+            return GetDisplayTimeZoneId(Settings, PortalId);
         }
 
         public string GetDisplayTimeZoneId(EventModuleSettings modSettings, int modPortalid)
         {
-            return this.GetDisplayTimeZoneId(modSettings, modPortalid, null);
+            return GetDisplayTimeZoneId(modSettings, modPortalid, null);
         }
 
         public string GetDisplayTimeZoneId(EventModuleSettings modSettings, int modPortalid, string userTimeZoneId)
@@ -1137,16 +1137,16 @@ namespace Components
                 }
                 else
                 {
-                    displayTimeToneId = this.GetUserTimeZoneId();
+                    displayTimeToneId = GetUserTimeZoneId();
                 }
             }
             else if (modSettings.PrimaryTimeZone == EventModuleSettings.TimeZones.ModuleTZ)
             {
-                displayTimeToneId = this.GetModuleTimeZoneId(modSettings);
+                displayTimeToneId = GetModuleTimeZoneId(modSettings);
             }
             else if (modSettings.PrimaryTimeZone == EventModuleSettings.TimeZones.PortalTZ)
             {
-                displayTimeToneId = this.GetPortalTimeZoneId();
+                displayTimeToneId = GetPortalTimeZoneId();
             }
 
             // Try Secondary
@@ -1160,23 +1160,23 @@ namespace Components
                     }
                     else
                     {
-                        displayTimeToneId = this.GetUserTimeZoneId();
+                        displayTimeToneId = GetUserTimeZoneId();
                     }
                 }
                 else if (modSettings.SecondaryTimeZone == EventModuleSettings.TimeZones.ModuleTZ)
                 {
-                    displayTimeToneId = this.GetModuleTimeZoneId(modSettings);
+                    displayTimeToneId = GetModuleTimeZoneId(modSettings);
                 }
                 else if (modSettings.SecondaryTimeZone == EventModuleSettings.TimeZones.PortalTZ)
                 {
-                    displayTimeToneId = this.GetPortalTimeZoneId();
+                    displayTimeToneId = GetPortalTimeZoneId();
                 }
             }
 
             // If all else fails use Portal
             if (string.IsNullOrEmpty(displayTimeToneId))
             {
-                displayTimeToneId = this.GetPortalTimeZoneId();
+                displayTimeToneId = GetPortalTimeZoneId();
             }
 
             return displayTimeToneId;
@@ -1251,7 +1251,7 @@ namespace Components
         public int GetUrlGroupId()
         {
             var socialGroupId = -1;
-            if (!(HttpContext.Current.Request.QueryString["groupid"] == "") && this.Settings.SocialGroupModule ==
+            if (!(HttpContext.Current.Request.QueryString["groupid"] == "") && Settings.SocialGroupModule ==
                 EventModuleSettings.SocialModule.SocialGroup)
             {
                 socialGroupId = Convert.ToInt32(HttpContext.Current.Request.QueryString["groupid"]);
@@ -1262,7 +1262,7 @@ namespace Components
         public int GetUrlUserId()
         {
             var socialUserId = -1;
-            if (!(HttpContext.Current.Request.QueryString["userid"] == "") && this.Settings.SocialGroupModule ==
+            if (!(HttpContext.Current.Request.QueryString["userid"] == "") && Settings.SocialGroupModule ==
                 EventModuleSettings.SocialModule.UserProfile)
             {
                 socialUserId = Convert.ToInt32(HttpContext.Current.Request.QueryString["Userid"]);
@@ -1272,32 +1272,32 @@ namespace Components
 
         public void StorePrevPageInViewState()
         {
-            if (!ReferenceEquals(this.Request.UrlReferrer, null))
+            if (!ReferenceEquals(Request.UrlReferrer, null))
             {
-                this.ViewState["prevPage"] = this.Request.UrlReferrer.ToString();
+                ViewState["prevPage"] = Request.UrlReferrer.ToString();
             }
             else
             {
-                this.ViewState["prevPage"] = this.GetSocialNavigateUrl();
+                ViewState["prevPage"] = GetSocialNavigateUrl();
             }
         }
 
         public string GetStoredPrevPage()
         {
-            return this.ViewState["prevPage"].ToString();
+            return ViewState["prevPage"].ToString();
         }
 
         public string GetSocialNavigateUrl()
         {
-            var socialGroupId = this.GetUrlGroupId();
-            var socialUserId = this.GetUrlUserId();
+            var socialGroupId = GetUrlGroupId();
+            var socialUserId = GetUrlUserId();
             if (socialGroupId > 0)
             {
-                return Globals.NavigateURL(this.TabId, "", "groupid=" + socialGroupId);
+                return Globals.NavigateURL(TabId, "", "groupid=" + socialGroupId);
             }
             if (socialUserId > 0)
             {
-                return Globals.NavigateURL(this.TabId, "", "userid=" + socialUserId);
+                return Globals.NavigateURL(TabId, "", "userid=" + socialUserId);
             }
             return Globals.NavigateURL();
         }
@@ -1331,7 +1331,7 @@ namespace Components
             var portalTimeZoneId = "";
             if (ReferenceEquals(HttpContext.Current, null))
             {
-                portalTimeZoneId = PortalController.GetPortalSetting("TimeZone", this.PortalId, string.Empty);
+                portalTimeZoneId = PortalController.GetPortalSetting("TimeZone", PortalId, string.Empty);
             }
             else
             {
@@ -1356,12 +1356,12 @@ namespace Components
         {
             get
                 {
-                    if (ReferenceEquals(this._settings, null))
+                    if (ReferenceEquals(_settings, null))
                     {
-                        this._settings =
-                            EventModuleSettings.GetEventModuleSettings(this.ModuleId, this.LocalResourceFile);
+                        _settings =
+                            EventModuleSettings.GetEventModuleSettings(ModuleId, LocalResourceFile);
                     }
-                    return this._settings;
+                    return _settings;
                 }
         }
 

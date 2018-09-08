@@ -70,7 +70,7 @@ namespace Components
         /// <returns>Cloned Eventsinfo object</returns>
         public EventInfo Clone()
         {
-            return (EventInfo) this.MemberwiseClone();
+            return (EventInfo) MemberwiseClone();
         }
 
         #endregion
@@ -133,7 +133,7 @@ namespace Components
         ///     Gets the event time end.
         /// </summary>
         /// <value>The event time end.</value>
-        public DateTime EventTimeEnd => this.EventTimeBegin.AddMinutes(this.Duration);
+        public DateTime EventTimeEnd => EventTimeBegin.AddMinutes(Duration);
 
         /// <summary>
         ///     Gets or sets the duration of an event.
@@ -159,8 +159,8 @@ namespace Components
         /// <value>The importance of an event.</value>
         public Priority Importance
         {
-            get { return (Priority) this._importance; }
-            set { this._importance = (int) value; }
+            get { return (Priority) _importance; }
+            set { _importance = (int) value; }
         }
 
         /// <summary>
@@ -234,13 +234,13 @@ namespace Components
         {
             get
                 {
-                    if (this._enrolled < 0)
+                    if (_enrolled < 0)
                     {
                         return 0;
                     }
-                    return this._enrolled;
+                    return _enrolled;
                 }
-            set { this._enrolled = value; }
+            set { _enrolled = value; }
         }
 
         /// <summary>
@@ -521,14 +521,14 @@ namespace Components
         {
             get
                 {
-                    if (string.IsNullOrEmpty(this._eventTimeZoneId))
+                    if (string.IsNullOrEmpty(_eventTimeZoneId))
                     {
-                        var modSettings = EventModuleSettings.GetEventModuleSettings(this.ModuleID, null);
-                        this._eventTimeZoneId = modSettings.TimeZoneId;
+                        var modSettings = EventModuleSettings.GetEventModuleSettings(ModuleID, null);
+                        _eventTimeZoneId = modSettings.TimeZoneId;
                     }
-                    return this._eventTimeZoneId;
+                    return _eventTimeZoneId;
                 }
-            set { this._eventTimeZoneId = value; }
+            set { _eventTimeZoneId = value; }
         }
 
         /// <summary>
@@ -539,13 +539,13 @@ namespace Components
         {
             get
                 {
-                    if (string.IsNullOrEmpty(this._otherTimeZoneId))
+                    if (string.IsNullOrEmpty(_otherTimeZoneId))
                     {
-                        this._otherTimeZoneId = "UTC";
+                        _otherTimeZoneId = "UTC";
                     }
-                    return this._otherTimeZoneId;
+                    return _otherTimeZoneId;
                 }
-            set { this._otherTimeZoneId = value; }
+            set { _otherTimeZoneId = value; }
         }
 
         /// <summary>
@@ -700,52 +700,52 @@ namespace Components
         public int CompareTo(object obj)
         {
             var o = (EventInfo) obj;
-            var xCompare = this.EventName + Strings.Format(this.EventID, "00000000");
+            var xCompare = EventName + Strings.Format(EventID, "00000000");
             var yCompare = o.EventName + Strings.Format(o.EventID, "00000000");
             if (SortExpression == SortFilter.CategoryName)
             {
-                xCompare = this.CategoryName + Strings.Format(this.EventID, "00000000");
+                xCompare = CategoryName + Strings.Format(EventID, "00000000");
                 yCompare = o.CategoryName + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.CustomField1)
             {
-                xCompare = this.CustomField1 + Strings.Format(this.EventID, "00000000");
+                xCompare = CustomField1 + Strings.Format(EventID, "00000000");
                 yCompare = o.CustomField1 + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.CustomField2)
             {
-                xCompare = this.CustomField2 + Strings.Format(this.EventID, "00000000");
+                xCompare = CustomField2 + Strings.Format(EventID, "00000000");
                 yCompare = o.CustomField2 + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.Description)
             {
-                xCompare = this.EventDesc + Strings.Format(this.EventID, "00000000");
+                xCompare = EventDesc + Strings.Format(EventID, "00000000");
                 yCompare = o.EventDesc + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.Duration)
             {
-                xCompare = Convert.ToString(Strings.Format(this.Duration, "000000") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(Duration, "000000") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(
                     Strings.Format(o.Duration, "000000") + Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.EventDateBegin)
             {
-                xCompare = Convert.ToString(Strings.Format(this.EventTimeBegin, "yyyyMMddHHmm") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(EventTimeBegin, "yyyyMMddHHmm") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(Strings.Format(o.EventTimeBegin, "yyyyMMddHHmm") +
                                             Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.EventDateEnd)
             {
-                xCompare = Convert.ToString(Strings.Format(this.EventTimeEnd, "yyyyMMddHHmm") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(EventTimeEnd, "yyyyMMddHHmm") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(Strings.Format(o.EventTimeEnd, "yyyyMMddHHmm") +
                                             Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.LocationName)
             {
-                xCompare = this.LocationName + Strings.Format(this.EventID, "00000000");
+                xCompare = LocationName + Strings.Format(EventID, "00000000");
                 yCompare = o.LocationName + Strings.Format(o.EventID, "00000000");
             }
             if (SortDirection == SortDirection.Ascending)
@@ -888,7 +888,7 @@ namespace Components
         ///     Gets the event date begin.
         /// </summary>
         /// <value>The event date begin.</value>
-        public DateTime EventDateBegin => this.EventTimeBegin.Date;
+        public DateTime EventDateBegin => EventTimeBegin.Date;
 
         /// <summary>
         ///     Gets or sets the event time begin.
@@ -920,8 +920,8 @@ namespace Components
         /// <value>The importance.</value>
         public Priority Importance
         {
-            get { return (Priority) this._importance; }
-            set { this._importance = (int) value; }
+            get { return (Priority) _importance; }
+            set { _importance = (int) value; }
         }
 
         /// <summary>
@@ -1173,7 +1173,7 @@ namespace Components
         public EventSignupsInfo Clone()
         {
             // create the object
-            return (EventSignupsInfo) this.MemberwiseClone();
+            return (EventSignupsInfo) MemberwiseClone();
         }
 
         #endregion
@@ -1252,32 +1252,32 @@ namespace Components
         public int CompareTo(object obj)
         {
             var o = (EventSignupsInfo) obj;
-            var xCompare = this.EventName + Strings.Format(this.EventID, "00000000");
+            var xCompare = EventName + Strings.Format(EventID, "00000000");
             var yCompare = o.EventName + Strings.Format(o.EventID, "00000000");
             if (SortExpression == SortFilter.Duration)
             {
-                xCompare = Convert.ToString(Strings.Format(this.Duration, "000000") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(Duration, "000000") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(
                     Strings.Format(o.Duration, "000000") + Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.EventTimeBegin)
             {
-                xCompare = Convert.ToString(Strings.Format(this.EventTimeBegin, "yyyyMMddHHmm") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(EventTimeBegin, "yyyyMMddHHmm") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(Strings.Format(o.EventTimeBegin, "yyyyMMddHHmm") +
                                             Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.EventTimeEnd)
             {
-                xCompare = Convert.ToString(Strings.Format(this.EventTimeEnd, "yyyyMMddHHmm") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(EventTimeEnd, "yyyyMMddHHmm") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(Strings.Format(o.EventTimeEnd, "yyyyMMddHHmm") +
                                             Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.Approved)
             {
-                xCompare = this.Approved + Strings.Format(this.EventID, "00000000");
+                xCompare = Approved + Strings.Format(EventID, "00000000");
                 yCompare = o.Approved + Strings.Format(o.EventID, "00000000");
             }
             if (SortDirection == SortDirection.Ascending)
@@ -1713,8 +1713,8 @@ namespace Components
         /// <value>The importance.</value>
         public Priority Importance
         {
-            get { return (Priority) this._importance; }
-            set { this._importance = (int) value; }
+            get { return (Priority) _importance; }
+            set { _importance = (int) value; }
         }
 
         /// <summary>
@@ -1749,13 +1749,13 @@ namespace Components
         {
             get
                 {
-                    if (this._enrolled < 0)
+                    if (_enrolled < 0)
                     {
                         return 0;
                     }
-                    return this._enrolled;
+                    return _enrolled;
                 }
-            set { this._enrolled = value; }
+            set { _enrolled = value; }
         }
 
         /// <summary>
@@ -1952,14 +1952,14 @@ namespace Components
         {
             get
                 {
-                    if (string.IsNullOrEmpty(this._eventTimeZoneId))
+                    if (string.IsNullOrEmpty(_eventTimeZoneId))
                     {
-                        var modSettings = EventModuleSettings.GetEventModuleSettings(this.ModuleID, null);
-                        this._eventTimeZoneId = modSettings.TimeZoneId;
+                        var modSettings = EventModuleSettings.GetEventModuleSettings(ModuleID, null);
+                        _eventTimeZoneId = modSettings.TimeZoneId;
                     }
-                    return this._eventTimeZoneId;
+                    return _eventTimeZoneId;
                 }
-            set { this._eventTimeZoneId = value; }
+            set { _eventTimeZoneId = value; }
         }
 
         /// <summary>
@@ -2148,16 +2148,16 @@ namespace Components
         public EventEmailInfo()
         {
             var newUserEmails = new ArrayList();
-            this.UserEmails = newUserEmails;
+            UserEmails = newUserEmails;
 
             var newUserIDs = new ArrayList();
-            this.UserIDs = newUserIDs;
+            UserIDs = newUserIDs;
 
             var newUserLocales = new ArrayList();
-            this.UserLocales = newUserLocales;
+            UserLocales = newUserLocales;
 
             var newUserTimeZoneIds = new ArrayList();
-            this.UserTimeZoneIds = newUserTimeZoneIds;
+            UserTimeZoneIds = newUserTimeZoneIds;
         }
 
         /// <summary>
@@ -2523,57 +2523,57 @@ namespace Components
         public int CompareTo(object obj)
         {
             var o = (EventListObject) obj;
-            var xCompare = this.EventName + Strings.Format(this.EventID, "00000000");
+            var xCompare = EventName + Strings.Format(EventID, "00000000");
             var yCompare = o.EventName + Strings.Format(o.EventID, "00000000");
             if (SortExpression == SortFilter.CategoryName)
             {
-                xCompare = this.CategoryName + Strings.Format(this.EventID, "00000000");
+                xCompare = CategoryName + Strings.Format(EventID, "00000000");
                 yCompare = o.CategoryName + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.CustomField1)
             {
-                xCompare = this.CustomField1 + Strings.Format(this.EventID, "00000000");
+                xCompare = CustomField1 + Strings.Format(EventID, "00000000");
                 yCompare = o.CustomField1 + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.CustomField2)
             {
-                xCompare = this.CustomField2 + Strings.Format(this.EventID, "00000000");
+                xCompare = CustomField2 + Strings.Format(EventID, "00000000");
                 yCompare = o.CustomField2 + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.Description)
             {
-                xCompare = this.EventDesc + Strings.Format(this.EventID, "00000000");
+                xCompare = EventDesc + Strings.Format(EventID, "00000000");
                 yCompare = o.EventDesc + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.Duration)
             {
-                xCompare = Convert.ToString(Strings.Format(this.Duration, "000000") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(Duration, "000000") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(
                     Strings.Format(o.Duration, "000000") + Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.EventDateBegin)
             {
-                xCompare = Convert.ToString(Strings.Format(this.EventDateBegin, "yyyyMMddHHmm") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(EventDateBegin, "yyyyMMddHHmm") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(Strings.Format(o.EventDateBegin, "yyyyMMddHHmm") +
                                             Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.EventDateEnd)
             {
-                xCompare = Convert.ToString(Strings.Format(this.EventDateEnd, "yyyyMMddHHmm") +
-                                            Strings.Format(this.EventID, "00000000"));
+                xCompare = Convert.ToString(Strings.Format(EventDateEnd, "yyyyMMddHHmm") +
+                                            Strings.Format(EventID, "00000000"));
                 yCompare = Convert.ToString(Strings.Format(o.EventDateEnd, "yyyyMMddHHmm") +
                                             Strings.Format(o.EventID, "00000000"));
             }
             else if (SortExpression == SortFilter.LocationName)
             {
-                xCompare = this.LocationName + Strings.Format(this.EventID, "00000000");
+                xCompare = LocationName + Strings.Format(EventID, "00000000");
                 yCompare = o.LocationName + Strings.Format(o.EventID, "00000000");
             }
             else if (SortExpression == SortFilter.EventID)
             {
-                xCompare = Strings.Format(this.EventID, "00000000");
+                xCompare = Strings.Format(EventID, "00000000");
                 yCompare = Strings.Format(o.EventID, "00000000");
             }
             if (SortDirection == SortDirection.Ascending)

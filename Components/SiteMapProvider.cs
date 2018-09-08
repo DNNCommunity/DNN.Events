@@ -30,8 +30,8 @@ namespace DotNetNuke.Modules.Events.Providers
     using System.Collections;
     using System.Collections.Generic;
     using DotNetNuke.Entities.Modules;
-    using DotNetNuke.Entities.Portals;
-    using DotNetNuke.Security.Permissions;
+    using Entities.Portals;
+    using Security.Permissions;
     using DotNetNuke.Services.Sitemap;
     using global::Components;
     using Microsoft.VisualBasic;
