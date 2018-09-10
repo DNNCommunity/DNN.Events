@@ -41,7 +41,7 @@ namespace Components
 
         public EventTemplates(int moduleID, Hashtable allsettings, string localResourceFile)
         {
-            var t = this.GetType();
+            var t = GetType();
             var p = default(PropertyInfo);
             foreach (var tempLoopVar_p in t.GetProperties())
             {
@@ -66,7 +66,7 @@ namespace Components
                         pv = Localization.GetString(pn, localResourceFile);
                         if (moduleID > 0)
                         {
-                            this.SaveTemplate(moduleID, pn, pv);
+                            SaveTemplate(moduleID, pn, pv);
                         }
                     }
                 }
@@ -137,7 +137,7 @@ namespace Components
 
         public string GetTemplate(string templateName)
         {
-            var t = this.GetType();
+            var t = GetType();
             var p = default(PropertyInfo);
             foreach (var tempLoopVar_p in t.GetProperties())
             {
@@ -152,7 +152,7 @@ namespace Components
 
         public void SaveTemplate(int moduleID, string templateName, string templateValue)
         {
-            var t = this.GetType();
+            var t = GetType();
             var p = default(PropertyInfo);
             foreach (var tempLoopVar_p in t.GetProperties())
             {
@@ -181,7 +181,7 @@ namespace Components
         public void ResetTemplate(int moduleID, string templateName, string localResourceFile)
         {
             var templateValue = Localization.GetString(templateName, localResourceFile);
-            this.SaveTemplate(moduleID, templateName, templateValue);
+            SaveTemplate(moduleID, templateName, templateValue);
         }
 
         #endregion
@@ -195,290 +195,290 @@ namespace Components
         // ReSharper disable InconsistentNaming
         public string EventDetailsTemplate
         {
-            get { return this._EventDetailsTemplate; }
-            set { this._EventDetailsTemplate = value; }
+            get { return _EventDetailsTemplate; }
+            set { _EventDetailsTemplate = value; }
         }
 
         public string NewEventTemplate
         {
-            get { return this._NewEventTemplate; }
-            set { this._NewEventTemplate = value; }
+            get { return _NewEventTemplate; }
+            set { _NewEventTemplate = value; }
         }
 
         public string txtTooltipTemplateTitleNT
         {
-            get { return this._txtToolTipTemplateTitleNT; }
-            set { this._txtToolTipTemplateTitleNT = value; }
+            get { return _txtToolTipTemplateTitleNT; }
+            set { _txtToolTipTemplateTitleNT = value; }
         }
 
         public string txtTooltipTemplateBodyNT
         {
-            get { return this._txtToolTipTemplateBodyNT; }
-            set { this._txtToolTipTemplateBodyNT = value; }
+            get { return _txtToolTipTemplateBodyNT; }
+            set { _txtToolTipTemplateBodyNT = value; }
         }
 
         public string txtTooltipTemplateTitle
         {
-            get { return this._txtToolTipTemplateTitle; }
-            set { this._txtToolTipTemplateTitle = value; }
+            get { return _txtToolTipTemplateTitle; }
+            set { _txtToolTipTemplateTitle = value; }
         }
 
         public string txtTooltipTemplateBody
         {
-            get { return this._txtToolTipTemplateBody; }
-            set { this._txtToolTipTemplateBody = value; }
+            get { return _txtToolTipTemplateBody; }
+            set { _txtToolTipTemplateBody = value; }
         }
 
         public string moderateemailsubject
         {
-            get { return this._moderateemailsubject; }
-            set { this._moderateemailsubject = value; }
+            get { return _moderateemailsubject; }
+            set { _moderateemailsubject = value; }
         }
 
         public string moderateemailmessage
         {
-            get { return this._moderateemailmessage; }
-            set { this._moderateemailmessage = value; }
+            get { return _moderateemailmessage; }
+            set { _moderateemailmessage = value; }
         }
 
         public string txtEmailSubject
         {
-            get { return this._txtEmailSubject; }
-            set { this._txtEmailSubject = value; }
+            get { return _txtEmailSubject; }
+            set { _txtEmailSubject = value; }
         }
 
         public string txtEmailMessage
         {
-            get { return this._txtEmailMessage; }
-            set { this._txtEmailMessage = value; }
+            get { return _txtEmailMessage; }
+            set { _txtEmailMessage = value; }
         }
 
         public string txtEnrollMessageSubject
         {
-            get { return this._txtEnrollMessageSubject; }
-            set { this._txtEnrollMessageSubject = value; }
+            get { return _txtEnrollMessageSubject; }
+            set { _txtEnrollMessageSubject = value; }
         }
 
         public string txtEnrollMessageApproved
         {
-            get { return this._txtEnrollMessageApproved; }
-            set { this._txtEnrollMessageApproved = value; }
+            get { return _txtEnrollMessageApproved; }
+            set { _txtEnrollMessageApproved = value; }
         }
 
         public string txtEnrollMessageWaiting
         {
-            get { return this._txtEnrollMessageWaiting; }
-            set { this._txtEnrollMessageWaiting = value; }
+            get { return _txtEnrollMessageWaiting; }
+            set { _txtEnrollMessageWaiting = value; }
         }
 
         public string txtEnrollMessageDenied
         {
-            get { return this._txtEnrollMessageDenied; }
-            set { this._txtEnrollMessageDenied = value; }
+            get { return _txtEnrollMessageDenied; }
+            set { _txtEnrollMessageDenied = value; }
         }
 
         public string txtEnrollMessageAdded
         {
-            get { return this._txtEnrollMessageAdded; }
-            set { this._txtEnrollMessageAdded = value; }
+            get { return _txtEnrollMessageAdded; }
+            set { _txtEnrollMessageAdded = value; }
         }
 
         public string txtEnrollMessageDeleted
         {
-            get { return this._txtEnrollMessageDeleted; }
-            set { this._txtEnrollMessageDeleted = value; }
+            get { return _txtEnrollMessageDeleted; }
+            set { _txtEnrollMessageDeleted = value; }
         }
 
         public string txtEnrollMessagePaying
         {
-            get { return this._txtEnrollMessagePaying; }
-            set { this._txtEnrollMessagePaying = value; }
+            get { return _txtEnrollMessagePaying; }
+            set { _txtEnrollMessagePaying = value; }
         }
 
         public string txtEnrollMessagePending
         {
-            get { return this._txtEnrollMessagePending; }
-            set { this._txtEnrollMessagePending = value; }
+            get { return _txtEnrollMessagePending; }
+            set { _txtEnrollMessagePending = value; }
         }
 
         public string txtEnrollMessagePaid
         {
-            get { return this._txtEnrollMessagePaid; }
-            set { this._txtEnrollMessagePaid = value; }
+            get { return _txtEnrollMessagePaid; }
+            set { _txtEnrollMessagePaid = value; }
         }
 
         public string txtEnrollMessageIncorrect
         {
-            get { return this._txtEnrollMessageIncorrect; }
-            set { this._txtEnrollMessageIncorrect = value; }
+            get { return _txtEnrollMessageIncorrect; }
+            set { _txtEnrollMessageIncorrect = value; }
         }
 
         public string txtEnrollMessageCancelled
         {
-            get { return this._txtEnrollMessageCancelled; }
-            set { this._txtEnrollMessageCancelled = value; }
+            get { return _txtEnrollMessageCancelled; }
+            set { _txtEnrollMessageCancelled = value; }
         }
 
         public string txtEditViewEmailSubject
         {
-            get { return this._txtEditViewEmailSubject; }
-            set { this._txtEditViewEmailSubject = value; }
+            get { return _txtEditViewEmailSubject; }
+            set { _txtEditViewEmailSubject = value; }
         }
 
         public string txtEditViewEmailBody
         {
-            get { return this._txtEditViewEmailBody; }
-            set { this._txtEditViewEmailBody = value; }
+            get { return _txtEditViewEmailBody; }
+            set { _txtEditViewEmailBody = value; }
         }
 
         public string txtSubject
         {
-            get { return this._txtSubject; }
-            set { this._txtSubject = value; }
+            get { return _txtSubject; }
+            set { _txtSubject = value; }
         }
 
         public string txtMessage
         {
-            get { return this._txtMessage; }
-            set { this._txtMessage = value; }
+            get { return _txtMessage; }
+            set { _txtMessage = value; }
         }
 
         public string txtNewEventEmailSubject
         {
-            get { return this._txtNewEventEmailSubject; }
-            set { this._txtNewEventEmailSubject = value; }
+            get { return _txtNewEventEmailSubject; }
+            set { _txtNewEventEmailSubject = value; }
         }
 
         public string txtNewEventEmailMessage
         {
-            get { return this._txtNewEventEmailMessage; }
-            set { this._txtNewEventEmailMessage = value; }
+            get { return _txtNewEventEmailMessage; }
+            set { _txtNewEventEmailMessage = value; }
         }
 
         public string txtListEventTimeBegin
         {
-            get { return this._txtListEventTimeBegin; }
-            set { this._txtListEventTimeBegin = value; }
+            get { return _txtListEventTimeBegin; }
+            set { _txtListEventTimeBegin = value; }
         }
 
         public string txtListEventTimeEnd
         {
-            get { return this._txtListEventTimeEnd; }
-            set { this._txtListEventTimeEnd = value; }
+            get { return _txtListEventTimeEnd; }
+            set { _txtListEventTimeEnd = value; }
         }
 
         public string txtListLocation
         {
-            get { return this._txtListLocation; }
-            set { this._txtListLocation = value; }
+            get { return _txtListLocation; }
+            set { _txtListLocation = value; }
         }
 
         public string txtListEventDescription
         {
-            get { return this._txtListEventDescription; }
-            set { this._txtListEventDescription = value; }
+            get { return _txtListEventDescription; }
+            set { _txtListEventDescription = value; }
         }
 
         public string txtListRptHeader
         {
-            get { return this._txtListRptHeader; }
-            set { this._txtListRptHeader = value; }
+            get { return _txtListRptHeader; }
+            set { _txtListRptHeader = value; }
         }
 
         public string txtListRptBody
         {
-            get { return this._txtListRptBody; }
-            set { this._txtListRptBody = value; }
+            get { return _txtListRptBody; }
+            set { _txtListRptBody = value; }
         }
 
         public string txtListRptFooter
         {
-            get { return this._txtListRptFooter; }
-            set { this._txtListRptFooter = value; }
+            get { return _txtListRptFooter; }
+            set { _txtListRptFooter = value; }
         }
 
         public string txtDayEventTimeBegin
         {
-            get { return this._txtDayEventTimeBegin; }
-            set { this._txtDayEventTimeBegin = value; }
+            get { return _txtDayEventTimeBegin; }
+            set { _txtDayEventTimeBegin = value; }
         }
 
         public string txtDayEventTimeEnd
         {
-            get { return this._txtDayEventTimeEnd; }
-            set { this._txtDayEventTimeEnd = value; }
+            get { return _txtDayEventTimeEnd; }
+            set { _txtDayEventTimeEnd = value; }
         }
 
         public string txtDayLocation
         {
-            get { return this._txtDayLocation; }
-            set { this._txtDayLocation = value; }
+            get { return _txtDayLocation; }
+            set { _txtDayLocation = value; }
         }
 
         public string txtDayEventDescription
         {
-            get { return this._txtDayEventDescription; }
-            set { this._txtDayEventDescription = value; }
+            get { return _txtDayEventDescription; }
+            set { _txtDayEventDescription = value; }
         }
 
         public string txtWeekEventText
         {
-            get { return this._txtWeekEventText; }
-            set { this._txtWeekEventText = value; }
+            get { return _txtWeekEventText; }
+            set { _txtWeekEventText = value; }
         }
 
         public string txtWeekTitleDate
         {
-            get { return this._txtWeekTitleDate; }
-            set { this._txtWeekTitleDate = value; }
+            get { return _txtWeekTitleDate; }
+            set { _txtWeekTitleDate = value; }
         }
 
         public string txtMonthEventText
         {
-            get { return this._txtMonthEventText; }
-            set { this._txtMonthEventText = value; }
+            get { return _txtMonthEventText; }
+            set { _txtMonthEventText = value; }
         }
 
         public string txtMonthDayEventCount
         {
-            get { return this._txtMonthDayEventCount; }
-            set { this._txtMonthDayEventCount = value; }
+            get { return _txtMonthDayEventCount; }
+            set { _txtMonthDayEventCount = value; }
         }
 
         public string txtRSSTitle
         {
-            get { return this._txtRSSTitle; }
-            set { this._txtRSSTitle = value; }
+            get { return _txtRSSTitle; }
+            set { _txtRSSTitle = value; }
         }
 
         public string txtRSSDescription
         {
-            get { return this._txtRSSDescription; }
-            set { this._txtRSSDescription = value; }
+            get { return _txtRSSDescription; }
+            set { _txtRSSDescription = value; }
         }
 
         public string txtSEOPageTitle
         {
-            get { return this._txtSEOPageTitle; }
-            set { this._txtSEOPageTitle = value; }
+            get { return _txtSEOPageTitle; }
+            set { _txtSEOPageTitle = value; }
         }
 
         public string txtSEOPageDescription
         {
-            get { return this._txtSEOPageDescription; }
-            set { this._txtSEOPageDescription = value; }
+            get { return _txtSEOPageDescription; }
+            set { _txtSEOPageDescription = value; }
         }
 
         public string EventiCalSubject
         {
-            get { return this._EventiCalSubject; }
-            set { this._EventiCalSubject = value; }
+            get { return _EventiCalSubject; }
+            set { _EventiCalSubject = value; }
         }
 
         public string EventiCalBody
         {
-            get { return this._EventiCalBody; }
-            set { this._EventiCalBody = value; }
+            get { return _EventiCalBody; }
+            set { _EventiCalBody = value; }
         }
         // ReSharper restore InconsistentNaming
 

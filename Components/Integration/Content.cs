@@ -28,7 +28,7 @@ namespace DotNetNuke.Modules.Events.Components.Integration
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using DotNetNuke.Common.Utilities;
+    using Common.Utilities;
     using DotNetNuke.Entities.Content;
     using DotNetNuke.Entities.Content.Common;
     using global::Components;

@@ -31,16 +31,16 @@ namespace DotNetNuke.Modules.Events
     using System.IO;
     using System.Web;
     using System.Web.Hosting;
-    using DotNetNuke.Common.Utilities;
+    using Common.Utilities;
     using DotNetNuke.Entities.Modules;
-    using DotNetNuke.Entities.Portals;
-    using DotNetNuke.Entities.Tabs;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
-    using DotNetNuke.Services.Scheduling;
+    using Entities.Portals;
+    using Entities.Tabs;
+    using Services.Exceptions;
+    using Services.Localization;
+    using Services.Scheduling;
     using global::Components;
     using Microsoft.VisualBasic;
-    using Globals = DotNetNuke.Common.Globals;
+    using Globals = Common.Globals;
 
     public class EventNotification : SchedulerClient
     {
@@ -48,7 +48,7 @@ namespace DotNetNuke.Modules.Events
 
         public EventNotification(ScheduleHistoryItem objScheduleHistoryItem)
         {
-            this.ScheduleHistoryItem = objScheduleHistoryItem;
+            ScheduleHistoryItem = objScheduleHistoryItem;
         }
 
         #endregion
@@ -60,28 +60,28 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 //notification that the event is progressing
-                this.Progressing(); //OPTIONAL
+                Progressing(); //OPTIONAL
 
                 var returnStrCleanup = "";
-                returnStrCleanup = this.CleanupExpired();
+                returnStrCleanup = CleanupExpired();
                 if (!string.IsNullOrEmpty(returnStrCleanup))
                 {
-                    this.ScheduleHistoryItem.AddLogNote("<br />" + returnStrCleanup + "<br />");
+                    ScheduleHistoryItem.AddLogNote("<br />" + returnStrCleanup + "<br />");
                 }
 
                 var returnStr = "";
-                returnStr = this.SendEventNotifications();
-                this.ScheduleHistoryItem.AddLogNote(returnStr);
+                returnStr = SendEventNotifications();
+                ScheduleHistoryItem.AddLogNote(returnStr);
 
-                this.ScheduleHistoryItem.Succeeded = true; //REQUIRED
+                ScheduleHistoryItem.Succeeded = true; //REQUIRED
             }
             catch (Exception exc) //REQUIRED
             {
-                this.ScheduleHistoryItem.Succeeded = false; //REQUIRED
-                this.ScheduleHistoryItem.AddLogNote("Event Notification failed." + exc +
+                ScheduleHistoryItem.Succeeded = false; //REQUIRED
+                ScheduleHistoryItem.AddLogNote("Event Notification failed." + exc +
                                                     (int) Globals.Status); //OPTIONAL
                 //notification that we have errored
-                this.Errored(ref exc); //REQUIRED
+                Errored(ref exc); //REQUIRED
                 //log the exception
                 Exceptions.LogException(exc); //OPTIONAL
             }
@@ -95,7 +95,7 @@ namespace DotNetNuke.Modules.Events
             var notifyEvents = default(ArrayList);
             var returnStr = "Event Notification completed.";
 
-            this.Status = "Sending Event Notifications";
+            Status = "Sending Event Notifications";
 
             //***  All Event Notifications are stored in UTC internally.
             notifyEvents = objEventNotifications.EventsNotificationsToSend(DateTime.UtcNow);
@@ -109,7 +109,7 @@ namespace DotNetNuke.Modules.Events
                 {
                     // Setup PortalSettings
                     var portalSettings =
-                        this.CreatePortalSettings(objNotification.PortalAliasID, objNotification.TabID);
+                        CreatePortalSettings(objNotification.PortalAliasID, objNotification.TabID);
                     var folderName = DesktopModuleController
                         .GetDesktopModuleByModuleName("DNN_Events", objEvent.PortalID).FolderName;
 
@@ -150,8 +150,8 @@ namespace DotNetNuke.Modules.Events
             var endDate = DateTime.UtcNow.AddDays(-30);
             objEventNotifications.EventsNotificationDelete(endDate);
 
-            this.Status = "Event Notifications Sent Successfully";
-            this.ScheduleHistoryItem.Succeeded = true;
+            Status = "Event Notifications Sent Successfully";
+            ScheduleHistoryItem.Succeeded = true;
             return returnStr;
         }
 
@@ -160,7 +160,7 @@ namespace DotNetNuke.Modules.Events
             var returnStr = "Event Cleanup completed.";
             var noDeletedEvents = 0;
 
-            this.Status = "Performing Event Cleanup";
+            Status = "Performing Event Cleanup";
 
             var objDesktopModule = default(DesktopModuleInfo);
             objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", 0);
@@ -170,8 +170,8 @@ namespace DotNetNuke.Modules.Events
                 return "Module Definition 'DNN_Events' not found. Cleanup cannot be performed.";
             }
 
-            this.Status = "Performing Event Cleanup: Dummy";
-            this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName;
+            Status = "Performing Event Cleanup: Dummy";
+            Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName;
 
             var objPortals = new PortalController();
             var objPortal = default(PortalInfo);
@@ -182,8 +182,8 @@ namespace DotNetNuke.Modules.Events
             foreach (PortalInfo tempLoopVar_objPortal in lstportals)
             {
                 objPortal = tempLoopVar_objPortal;
-                this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID: Dummy";
-                this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" +
+                Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID: Dummy";
+                Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" +
                               objPortal.PortalID;
 
                 var lstModules = objModules.GetModulesByDefinition(objPortal.PortalID, objDesktopModule.FriendlyName);
@@ -195,15 +195,15 @@ namespace DotNetNuke.Modules.Events
                     {
                         continue;
                     }
-                    this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" +
+                    Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" +
                                   objPortal.PortalID + " ModuleID: Dummy";
-                    this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" +
+                    Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" +
                                   objPortal.PortalID + " ModuleID:" + objModule.ModuleID;
 
                     var settings = EventModuleSettings.GetEventModuleSettings(objModule.ModuleID, null);
                     if (settings.Expireevents != "")
                     {
-                        this.Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" +
+                        Status = "Performing Event Cleanup:" + objDesktopModule.FriendlyName + " PortalID:" +
                                       objPortal.PortalID + " ModuleID:" + objModule.ModuleID + " IN PROGRESS";
 
                         var objEventCtl = new EventController();
@@ -238,7 +238,7 @@ namespace DotNetNuke.Modules.Events
                     }
                 }
             }
-            this.Status = "Cleanup complete";
+            Status = "Cleanup complete";
             return returnStr;
         }
 
