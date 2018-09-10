@@ -57,6 +57,14 @@ namespace DotNetNuke.Modules.Events
 
         #endregion
 
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            // Add the click event
+            cmdUpdateTemplate.Click += cmdUpdateTemplate_Click;
+            cmdResetTemplate.Click += cmdResetTemplate_Click;
+        }
+
         #region  Web Form Designer Generated Code
 
         //This call is required by the Web Form Designer.
