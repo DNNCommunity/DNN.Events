@@ -1252,8 +1252,8 @@
                 </asp:TextBox>
             </div>
             <div>
-                <dnn:CommandButton ID="cmdUpdateTemplate" IconKey="Save" ResourceKey="cmdUpdateTemplate" runat="server" CssClass="CommandButton" EnableViewState="False" OnClick="cmdUpdateTemplate_Click"/>&nbsp;
-                <dnn:CommandButton ID="cmdResetTemplate" IconKey="Restore" ResourceKey="cmdResetTemplate" runat="server" CssClass="CommandButton" EnableViewState="False" OnClick="cmdResetTemplate_Click"/>&nbsp;
+                <dnn:CommandButton ID="cmdUpdateTemplate" IconKey="Save" ResourceKey="cmdUpdateTemplate" runat="server" CssClass="CommandButton" EnableViewState="False" />&nbsp;
+                <dnn:CommandButton ID="cmdResetTemplate" IconKey="Restore" ResourceKey="cmdResetTemplate" runat="server" CssClass="CommandButton" EnableViewState="False" />&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:Label ID="lblTemplateUpdated" runat="server" CssClass="SubHead" Visible="false">Template Updated</asp:Label>
             </div>
