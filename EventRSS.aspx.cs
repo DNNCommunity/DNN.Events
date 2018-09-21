@@ -35,13 +35,13 @@ namespace DotNetNuke.Modules.Events
     using System.Web;
     using System.Web.UI;
     using System.Xml;
-    using DotNetNuke.Entities.Portals;
-    using DotNetNuke.Entities.Users;
-    using DotNetNuke.Security;
-    using DotNetNuke.Services.Localization;
+    using Entities.Portals;
+    using Entities.Users;
+    using Security;
+    using Services.Localization;
     using global::Components;
     using Microsoft.VisualBasic;
-    using Globals = DotNetNuke.Common.Globals;
+    using Globals = Common.Globals;
 
     public partial class EventRSS : Page
     {
@@ -53,7 +53,7 @@ namespace DotNetNuke.Modules.Events
         private EventModuleSettings _settings;
         private UserInfo _userinfo;
         private const string NsPre = "e";
-        private const string NsFull = "http://www.dnnsoftware.com/dnnevents";
+        private const string NsFull = "https://www.dnnsoftware.com/dnnevents";
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
@@ -91,79 +91,93 @@ namespace DotNetNuke.Modules.Events
             var iLocationName = "";
             var iOwnerName = "";
             var txtPriority = "";
-            if (!(HttpContext.Current.Request.QueryString["Mid"] == ""))
+
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["mid"]))
             {
-                this._moduleID = Convert.ToInt32(HttpContext.Current.Request.QueryString["mid"]);
+                _moduleID = Convert.ToInt32(HttpContext.Current.Request.QueryString["mid"]);
             }
             else
             {
-                this.Response.Redirect(Globals.NavigateURL(), true);
-            }
-            if (!(HttpContext.Current.Request.QueryString["tabid"] == ""))
-            {
-                this._tabID = Convert.ToInt32(HttpContext.Current.Request.QueryString["tabid"]);
-            }
-            else
-            {
-                this.Response.Redirect(Globals.NavigateURL(), true);
+                Response.Redirect(Globals.NavigateURL(), true);
             }
 
-            var localResourceFile = this.TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory +
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["tabid"])) 
+            {
+                _tabID = Convert.ToInt32(HttpContext.Current.Request.QueryString["tabid"]);
+            }
+            else
+            {
+                Response.Redirect(Globals.NavigateURL(), true);
+            }
+
+            var localResourceFile = TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory +
                                     "/EventRSS.aspx.resx";
 
-            if (!(HttpContext.Current.Request.QueryString["CategoryName"] == ""))
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["CategoryName"]))
             {
                 iCategoryName = HttpContext.Current.Request.QueryString["CategoryName"];
                 var objSecurity = new PortalSecurity();
                 iCategoryName = objSecurity.InputFilter(iCategoryName, PortalSecurity.FilterFlag.NoSQL);
             }
-            if (!(HttpContext.Current.Request.QueryString["CategoryID"] == ""))
+
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["CategoryID"])) 
             {
                 categoryIDs.Add(Convert.ToInt32(HttpContext.Current.Request.QueryString["CategoryID"]));
             }
-            if (!(HttpContext.Current.Request.QueryString["LocationName"] == ""))
+
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["LocationName"]))
             {
                 iLocationName = HttpContext.Current.Request.QueryString["LocationName"];
                 var objSecurity = new PortalSecurity();
                 iLocationName = objSecurity.InputFilter(iLocationName, PortalSecurity.FilterFlag.NoSQL);
             }
-            if (!(HttpContext.Current.Request.QueryString["LocationID"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["LocationID"]))
             {
                 locationIDs.Add(Convert.ToInt32(HttpContext.Current.Request.QueryString["LocationID"]));
             }
-            if (!(HttpContext.Current.Request.QueryString["groupid"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["groupid"]))
             {
                 iGroupId = Convert.ToInt32(HttpContext.Current.Request.QueryString["groupid"]);
             }
-            if (!(HttpContext.Current.Request.QueryString["DaysBefore"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["DaysBefore"]))
             {
                 iDaysBefore = Convert.ToInt32(HttpContext.Current.Request.QueryString["DaysBefore"]);
             }
-            if (!(HttpContext.Current.Request.QueryString["DaysAfter"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["DaysAfter"]))
             {
                 iDaysAfter = Convert.ToInt32(HttpContext.Current.Request.QueryString["DaysAfter"]);
             }
-            if (!(HttpContext.Current.Request.QueryString["MaxNumber"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["MaxNumber"]))
             {
                 iMax = Convert.ToInt32(HttpContext.Current.Request.QueryString["MaxNumber"]);
             }
-            if (!(HttpContext.Current.Request.QueryString["OwnerName"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["OwnerName"]))
             {
                 iOwnerName = HttpContext.Current.Request.QueryString["OwnerName"];
             }
-            if (!(HttpContext.Current.Request.QueryString["OwnerID"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["OwnerID"]))
             {
                 iOwnerID = Convert.ToInt32(HttpContext.Current.Request.QueryString["OwnerID"]);
             }
-            if (!(HttpContext.Current.Request.QueryString["LocationName"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["LocationName"]))
             {
                 iLocationName = HttpContext.Current.Request.QueryString["LocationName"];
             }
-            if (!(HttpContext.Current.Request.QueryString["LocationID"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["LocationID"]))
             {
                 iLocationID = Convert.ToInt32(HttpContext.Current.Request.QueryString["LocationID"]);
             }
-            if (!(HttpContext.Current.Request.QueryString["Priority"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["Priority"]))
             {
                 var iPriority = "";
                 iPriority = HttpContext.Current.Request.QueryString["Priority"];
@@ -200,79 +214,85 @@ namespace DotNetNuke.Modules.Events
                     txtPriority = "Low";
                 }
             }
-            if (!(HttpContext.Current.Request.QueryString["Importance"] == ""))
+            
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["Importance"]))
             {
                 iImportance = Convert.ToInt32(HttpContext.Current.Request.QueryString["Importance"]);
             }
 
             var portalSettings = (PortalSettings) HttpContext.Current.Items["PortalSettings"];
-            this._portalID = portalSettings.PortalId;
-            this._userinfo = (UserInfo) HttpContext.Current.Items["UserInfo"];
-            if (portalSettings.DefaultLanguage != "")
+            _portalID = portalSettings.PortalId;
+            _userinfo = (UserInfo) HttpContext.Current.Items["UserInfo"];
+            
+            if (!string.IsNullOrEmpty(portalSettings.DefaultLanguage))
             {
                 var userculture = new CultureInfo(portalSettings.DefaultLanguage, false);
                 Thread.CurrentThread.CurrentCulture = userculture;
             }
-            if (this._userinfo.UserID > 0)
+            
+            if (_userinfo.UserID > 0)
             {
-                if (this._userinfo.Profile.PreferredLocale != "")
+                if ( !string.IsNullOrEmpty(_userinfo.Profile.PreferredLocale) )
                 {
-                    var userculture = new CultureInfo(this._userinfo.Profile.PreferredLocale, false);
+                    var userculture = new CultureInfo(_userinfo.Profile.PreferredLocale, false);
                     Thread.CurrentThread.CurrentCulture = userculture;
                 }
             }
 
-            this._settings = EventModuleSettings.GetEventModuleSettings(this._moduleID, localResourceFile);
+            _settings = EventModuleSettings.GetEventModuleSettings(_moduleID, localResourceFile);
 
-            if (this._settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay)
+            if (_settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay)
             {
-                categoryIDs = this._settings.ModuleCategoryIDs;
+                categoryIDs = _settings.ModuleCategoryIDs;
                 iCategoryName = "";
             }
+            
             if (!string.IsNullOrEmpty(iCategoryName))
             {
                 var oCntrlEventCategory = new EventCategoryController();
-                var oEventCategory = oCntrlEventCategory.EventCategoryGetByName(iCategoryName, this._portalID);
+                var oEventCategory = oCntrlEventCategory.EventCategoryGetByName(iCategoryName, _portalID);
                 if (!ReferenceEquals(oEventCategory, null))
                 {
                     categoryIDs.Add(oEventCategory.Category);
                 }
             }
-            if (this._settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay)
+            
+            if (_settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay)
             {
-                locationIDs = this._settings.ModuleLocationIDs;
+                locationIDs = _settings.ModuleLocationIDs;
                 iLocationName = "";
             }
+            
             if (!string.IsNullOrEmpty(iLocationName))
             {
                 var oCntrlEventLocation = new EventLocationController();
-                var oEventLocation = oCntrlEventLocation.EventsLocationGetByName(iLocationName, this._portalID);
+                var oEventLocation = oCntrlEventLocation.EventsLocationGetByName(iLocationName, _portalID);
                 if (!ReferenceEquals(oEventLocation, null))
                 {
                     locationIDs.Add(oEventLocation.Location);
                 }
             }
 
-            if (!this._settings.RSSEnable)
+            if (!_settings.RSSEnable)
             {
-                this.Response.Redirect(Globals.NavigateURL(), true);
+                Response.Redirect(Globals.NavigateURL(), true);
             }
 
-            if (this._settings.SocialGroupModule == EventModuleSettings.SocialModule.UserProfile)
+            if (_settings.SocialGroupModule == EventModuleSettings.SocialModule.UserProfile)
             {
-                iUserId = this._userinfo.UserID;
+                iUserId = _userinfo.UserID;
             }
-            var getSubEvents = this._settings.MasterEvent;
+            var getSubEvents = _settings.MasterEvent;
 
+            // Define the range of dates that we have to select
             var dtEndDate = default(DateTime);
-            if (HttpContext.Current.Request.QueryString["DaysAfter"] == "" &&
-                HttpContext.Current.Request.QueryString["DaysBefore"] == "")
+            if (iDaysBefore == 0 && iDaysAfter == 0)
             {
-                iDaysAfter = this._settings.RSSDays;
+                iDaysAfter = _settings.RSSDays;
             }
+            
             var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
-            var currDate =
-                objEventTimeZoneUtilities.ConvertFromUTCToModuleTimeZone(DateTime.UtcNow, this._settings.TimeZoneId);
+            var currDate = objEventTimeZoneUtilities.ConvertFromUTCToModuleTimeZone(DateTime.UtcNow, _settings.TimeZoneId);
 
             dtEndDate = DateAndTime.DateAdd(DateInterval.Day, iDaysAfter, currDate).Date;
 
@@ -282,12 +302,13 @@ namespace DotNetNuke.Modules.Events
             var txtFeedRootTitle = "";
             var txtFeedRootDescription = "";
             var txtRSSDateField = "";
-            txtFeedRootTitle = this._settings.RSSTitle;
-            txtFeedRootDescription = this._settings.RSSDesc;
-            txtRSSDateField = this._settings.RSSDateField;
+            txtFeedRootTitle = _settings.RSSTitle;
+            txtFeedRootDescription = _settings.RSSDesc;
+            txtRSSDateField = _settings.RSSDateField;
 
-            this.Response.ContentType = "text/xml";
-            this.Response.ContentEncoding = Encoding.UTF8;
+            // Get ready for the RSS feed
+            Response.ContentType = "text/xml";
+            Response.ContentEncoding = Encoding.UTF8;
 
 
             using (var sw = new StringWriter())
@@ -332,11 +353,11 @@ namespace DotNetNuke.Modules.Events
                     writer.WriteElementString("ttl", "60");
 
                     var objEventInfoHelper =
-                        new EventInfoHelper(this._moduleID, this._tabID, this._portalID, this._settings);
+                        new EventInfoHelper(_moduleID, _tabID, _portalID, _settings);
                     var lstEvents = default(ArrayList);
-                    var tcc = new TokenReplaceControllerClass(this._moduleID, localResourceFile);
-                    var tmpTitle = this._settings.Templates.txtRSSTitle;
-                    var tmpDescription = this._settings.Templates.txtRSSDescription;
+                    var tcc = new TokenReplaceControllerClass(_moduleID, localResourceFile);
+                    var tmpTitle = _settings.Templates.txtRSSTitle;
+                    var tmpDescription = _settings.Templates.txtRSSDescription;
                     if (categoryIDs.Count == 0)
                     {
                         categoryIDs.Add("-1");
@@ -350,7 +371,7 @@ namespace DotNetNuke.Modules.Events
                                                              locationIDs, iGroupId, iUserId);
 
                     var objEventBase = new EventBase();
-                    var displayTimeZoneId = objEventBase.GetDisplayTimeZoneId(this._settings, this._portalID);
+                    var displayTimeZoneId = objEventBase.GetDisplayTimeZoneId(_settings, _portalID);
 
                     var rssCount = 0;
                     foreach (EventInfo eventInfo in lstEvents)
@@ -393,7 +414,7 @@ namespace DotNetNuke.Modules.Events
                         }
 
                         // If full enrollments should be hidden, ignore
-                        if (this.HideFullEvent(objEvent))
+                        if (HideFullEvent(objEvent))
                         {
                             continue;
                         }
@@ -478,16 +499,16 @@ namespace DotNetNuke.Modules.Events
                     writer.WriteEndElement();
                     writer.WriteEndElement();
 
-                    this.Response.Write(sw.ToString());
+                    Response.Write(sw.ToString());
                 }
             }
         }
 
         private bool HideFullEvent(EventInfo objevent)
         {
-            var objEventInfoHelper = new EventInfoHelper(this._moduleID, this._tabID, this._portalID, this._settings);
-            return objEventInfoHelper.HideFullEvent(objevent, this._settings.Eventhidefullenroll, this._userinfo.UserID,
-                                                    this.Request.IsAuthenticated);
+            var objEventInfoHelper = new EventInfoHelper(_moduleID, _tabID, _portalID, _settings);
+            return objEventInfoHelper.HideFullEvent(objevent, _settings.Eventhidefullenroll, _userinfo.UserID,
+                                                    Request.IsAuthenticated);
         }
 
         private static string GetRFC822Date(DateTime date, string inTimeZoneId)

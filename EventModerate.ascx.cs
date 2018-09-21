@@ -159,15 +159,9 @@ namespace DotNetNuke.Modules.Events
                         {
                             objSignup.UserName = objSignup.AnonName;
                             objSignup.Email = objSignup.AnonEmail;
-                        }
-                        if (objSignup.Email == "")
-                        {
-                            objSignup.EmailVisible = false;
-                        }
-                        else
-                        {
-                            objSignup.EmailVisible = true;
-                        }
+                        }                        
+                        objSignup.EmailVisible = objSignup.Email != string.Empty;
+
                         objSignup.EventTimeBegin = objEventTimeZoneUtilities
                             .ConvertToDisplayTimeZone(objSignup.EventTimeBegin, objSignup.EventTimeZoneId,
                                                       this.PortalId, this.GetDisplayTimeZoneId()).EventDate;

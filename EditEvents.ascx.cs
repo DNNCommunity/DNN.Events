@@ -1494,7 +1494,7 @@ namespace DotNetNuke.Modules.Events
                     this.valBadFee.Visible = true;
                     return;
                 }
-                if (this.txtPayPalAccount.Text.Trim() == "")
+                if (this.txtPayPalAccount.Text.Trim() == string.Empty)
                 {
                     this.valPayPalAccount.IsValid = false;
                     this.valPayPalAccount.Visible = true;
@@ -1717,7 +1717,7 @@ namespace DotNetNuke.Modules.Events
                     {
                         var fileId = int.Parse(Convert.ToString(this.ctlURL.Url.Substring(7)));
                         var objFileInfo = FileManager.Instance.GetFile(fileId);
-                        if (this.txtWidth.Text == "" || this.txtWidth.Text == 0.ToString())
+                        if (this.txtWidth.Text == string.Empty || this.txtWidth.Text == 0.ToString())
                         {
                             this.txtWidth.Text = Convert.ToString(objFileInfo.Width.ToString());
                         }
@@ -1735,22 +1735,9 @@ namespace DotNetNuke.Modules.Events
                 objEventRecurMaster.ImageDisplay = false;
             }
 
-            if (this.txtWidth.Text == "")
-            {
-                objEventRecurMaster.ImageWidth = 0;
-            }
-            else
-            {
-                objEventRecurMaster.ImageWidth = int.Parse(this.txtWidth.Text);
-            }
-            if (this.txtHeight.Text == "")
-            {
-                objEventRecurMaster.ImageHeight = 0;
-            }
-            else
-            {
-                objEventRecurMaster.ImageHeight = int.Parse(this.txtHeight.Text);
-            }
+            objEventRecurMaster.ImageWidth = this.txtWidth.Text == "" ? 0 : int.Parse(this.txtWidth.Text);
+
+            objEventRecurMaster.ImageHeight = this.txtHeight.Text == "" ? 0 : int.Parse(this.txtHeight.Text);
 
             objEventRecurMaster.Category = int.Parse(this.cmbCategory.SelectedValue);
             objEventRecurMaster.Location = int.Parse(this.cmbLocation.SelectedValue);
@@ -1797,7 +1784,7 @@ namespace DotNetNuke.Modules.Events
 
             // If new Event or Recurring event then check for new instances
             if (processItem < 0 ||
-                objEventRMSave.RRULE == "" && objEventRecurMaster.RRULE != "" && !this._editRecur || this._editRecur)
+                string.IsNullOrEmpty(objEventRMSave.RRULE) && objEventRecurMaster.RRULE != "" && !this._editRecur || this._editRecur)
             {
                 var lstEventsNew = default(ArrayList);
                 lstEventsNew =
@@ -1853,6 +1840,7 @@ namespace DotNetNuke.Modules.Events
                     {
                         objEvent.EventName = objEventRecurMaster.EventName;
                     }
+
                     if (this._editRecur && objEvent.EventDesc == objEventRMSave.EventDesc || !this._editRecur)
                     {
                         objEvent.EventDesc = objEventRecurMaster.EventDesc;
@@ -1863,35 +1851,43 @@ namespace DotNetNuke.Modules.Events
                     {
                         objEvent.Importance = (EventInfo.Priority) objEventRecurMaster.Importance;
                     }
+
                     if (this._editRecur && objEvent.Signups == objEventRMSave.Signups || !this._editRecur)
                     {
                         objEvent.Signups = objEventRecurMaster.Signups;
                     }
+
                     if (this._editRecur && objEvent.JournalItem == objEventRMSave.JournalItem || !this._editRecur)
                     {
                         objEvent.JournalItem = objEventRecurMaster.JournalItem;
                     }
+
                     if (this._editRecur && objEvent.AllowAnonEnroll == objEventRMSave.AllowAnonEnroll ||
                         !this._editRecur)
                     {
                         objEvent.AllowAnonEnroll = objEventRecurMaster.AllowAnonEnroll;
                     }
+
                     if (this._editRecur && objEvent.EnrollType == objEventRMSave.EnrollType || !this._editRecur)
                     {
                         objEvent.EnrollType = objEventRecurMaster.EnrollType;
                     }
+
                     if (this._editRecur && objEvent.PayPalAccount == objEventRMSave.PayPalAccount || !this._editRecur)
                     {
                         objEvent.PayPalAccount = objEventRecurMaster.PayPalAccount;
                     }
+
                     if (this._editRecur && objEvent.EnrollFee == objEventRMSave.EnrollFee || !this._editRecur)
                     {
                         objEvent.EnrollFee = objEventRecurMaster.EnrollFee;
                     }
+
                     if (this._editRecur && objEvent.MaxEnrollment == objEventRMSave.MaxEnrollment || !this._editRecur)
                     {
                         objEvent.MaxEnrollment = objEventRecurMaster.MaxEnrollment;
                     }
+
                     if (this._editRecur && objEvent.EnrollRoleID == objEventRMSave.EnrollRoleID || !this._editRecur)
                     {
                         objEvent.EnrollRoleID = objEventRecurMaster.EnrollRoleID;
@@ -1923,14 +1919,17 @@ namespace DotNetNuke.Modules.Events
                     {
                         objEvent.ImageURL = objEventRecurMaster.ImageURL;
                     }
+
                     if (this._editRecur && objEvent.ImageWidth == objEventRMSave.ImageWidth || !this._editRecur)
                     {
                         objEvent.ImageWidth = objEventRecurMaster.ImageWidth;
                     }
+
                     if (this._editRecur && objEvent.ImageHeight == objEventRMSave.ImageHeight || !this._editRecur)
                     {
                         objEvent.ImageHeight = objEventRecurMaster.ImageHeight;
                     }
+
                     if (this._editRecur && objEvent.Category == objEventRMSave.Category || !this._editRecur)
                     {
                         objEvent.Category = objEventRecurMaster.Category;
@@ -1945,27 +1944,33 @@ namespace DotNetNuke.Modules.Events
                     {
                         objEvent.SendReminder = objEventRecurMaster.SendReminder;
                     }
+
                     if (this._editRecur && objEvent.Reminder == objEventRMSave.Reminder || !this._editRecur)
                     {
                         objEvent.Reminder = objEventRecurMaster.Reminder;
                     }
+
                     if (this._editRecur && objEvent.Notify == objEventRMSave.Notify || !this._editRecur)
                     {
                         objEvent.Notify = objEventRecurMaster.Notify;
                     }
+
                     if (this._editRecur && objEvent.ReminderTime == objEventRMSave.ReminderTime || !this._editRecur)
                     {
                         objEvent.ReminderTime = objEventRecurMaster.ReminderTime;
                     }
+
                     if (this._editRecur && objEvent.ReminderTimeMeasurement == objEventRMSave.ReminderTimeMeasurement ||
                         !this._editRecur)
                     {
                         objEvent.ReminderTimeMeasurement = objEventRecurMaster.ReminderTimeMeasurement;
                     }
+
                     if (this._editRecur && objEvent.ReminderFrom == objEventRMSave.ReminderFrom || !this._editRecur)
                     {
                         objEvent.ReminderFrom = objEventRecurMaster.ReminderFrom;
                     }
+
                     if (this._editRecur && objEvent.OwnerID == objEventRMSave.OwnerID || !this._editRecur)
                     {
                         objEvent.OwnerID = objEventRecurMaster.OwnerID;
@@ -1978,18 +1983,22 @@ namespace DotNetNuke.Modules.Events
                     {
                         objEvent.CustomField1 = objEventRecurMaster.CustomField1;
                     }
+
                     if (this._editRecur && objEvent.CustomField2 == objEventRMSave.CustomField2 || !this._editRecur)
                     {
                         objEvent.CustomField2 = objEventRecurMaster.CustomField2;
                     }
+
                     if (this._editRecur && objEvent.EnrollListView == objEventRMSave.EnrollListView || !this._editRecur)
                     {
                         objEvent.EnrollListView = objEventRecurMaster.EnrollListView;
                     }
+
                     if (this._editRecur && objEvent.DisplayEndDate == objEventRMSave.DisplayEndDate || !this._editRecur)
                     {
                         objEvent.DisplayEndDate = objEventRecurMaster.DisplayEndDate;
                     }
+
                     if (this._editRecur && objEvent.AllDayEvent == objEventRMSave.AllDayEvent || !this._editRecur)
                     {
                         objEvent.AllDayEvent = objEventRecurMaster.AllDayEvent;
@@ -2087,7 +2096,7 @@ namespace DotNetNuke.Modules.Events
             }
 
             if (objEventRecurMaster.RecurMasterID == -1 ||
-                objEventRMSave.RRULE == "" && !this._editRecur || this._editRecur)
+                objEventRMSave.RRULE == string.Empty && !this._editRecur || this._editRecur)
             {
                 objEventRecurMaster =
                     this._objCtlEventRecurMaster.EventsRecurMasterSave(objEventRecurMaster, this.TabId, true);

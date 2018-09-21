@@ -204,7 +204,8 @@ namespace DotNetNuke.Modules.Events
             {
                 return myURL;
             }
-            if (myURL.Trim() == "")
+
+            if (myURL.Trim() == string.Empty)
             {
                 return "";
             }

@@ -367,7 +367,8 @@ namespace DotNetNuke.Modules.Events
                             Localization.GetString("ConfirmEventSeriesDelete", this.LocalResourceFile) + "');");
                     }
                 }
-                if (this._eventInfo.RRULE == "")
+
+                if (_eventInfo.RRULE == "")
                 {
                     this.cmdvEventSeries.Visible = false;
                 }

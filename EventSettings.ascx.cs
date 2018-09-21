@@ -1617,7 +1617,7 @@ namespace DotNetNuke.Modules.Events
             var objCtlTab = new TabController();
             var objTabInfo = objCtlTab.GetTab(this.TabId, this.PortalId, false);
             string skinSrc = null;
-            if (!(objTabInfo.SkinSrc == ""))
+            if (!(objTabInfo.SkinSrc == string.Empty))
             {
                 skinSrc = objTabInfo.SkinSrc;
                 if (skinSrc.Substring(skinSrc.Length - 5, 5) == ".ascx")
@@ -1630,11 +1630,11 @@ namespace DotNetNuke.Modules.Events
             string containerSrc = null;
             if (objModuleInfo.DisplayTitle)
             {
-                if (!(objModuleInfo.ContainerSrc == ""))
+                if (!(objModuleInfo.ContainerSrc == string.Empty))
                 {
                     containerSrc = objModuleInfo.ContainerSrc;
                 }
-                else if (!(objTabInfo.ContainerSrc == ""))
+                else if (!(objTabInfo.ContainerSrc == string.Empty))
                 {
                     containerSrc = objTabInfo.ContainerSrc;
                 }

@@ -604,7 +604,7 @@ namespace DotNetNuke.Modules.Events
             {
                 sourceText = TokenOneParameter(sourceText, "IFHASLOCATIONURL", false);
             }
-            if (eventInfo.MapURL == "")
+            if (string.IsNullOrEmpty(eventInfo.MapURL))
             {
                 sourceText = TokenOneParameter(sourceText, "IFNOTHASLOCATIONURL", true);
             }
@@ -721,15 +721,16 @@ namespace DotNetNuke.Modules.Events
                 }
             }
 
-            if (eventInfo.Summary != "")
-            {
-                sourceText = TokenOneParameter(sourceText, "IFHASSUMMARY", true);
-            }
-            else
+            if (string.IsNullOrEmpty(eventInfo.Summary))
             {
                 sourceText = TokenOneParameter(sourceText, "IFHASSUMMARY", false);
             }
-            if (eventInfo.Summary == "")
+            else
+            {
+                sourceText = TokenOneParameter(sourceText, "IFHASSUMMARY", true);
+            }
+
+            if (string.IsNullOrEmpty(eventInfo.Summary))
             {
                 sourceText = TokenOneParameter(sourceText, "IFNOTHASSUMMARY", true);
             }

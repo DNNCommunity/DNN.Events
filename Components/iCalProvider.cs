@@ -116,20 +116,20 @@ namespace DotNetNuke.Modules.Events
 
             // Get the scope information
             _oContext = inContext;
-            if (iItemID == 0 && _oContext.Request.QueryString["itemID"] == "")
+            if (iItemID == 0 && string.IsNullOrEmpty(_oContext.Request.QueryString["itemID"]))
             {
                 return;
             }
-            if (!(_oContext.Request.QueryString["itemID"] == ""))
+            if (!string.IsNullOrEmpty(_oContext.Request.QueryString["itemID"]))
             {
                 iItemID = Convert.ToInt64(_oContext.Request.QueryString["itemID"]);
             }
 
-            if (iModuleID == 0 && _oContext.Request.QueryString["Mid"] == "")
+            if (iModuleID == 0 && string.IsNullOrEmpty(_oContext.Request.QueryString["Mid"]))
             {
                 return;
             }
-            if (!(_oContext.Request.QueryString["Mid"] == ""))
+            if (!string.IsNullOrEmpty(_oContext.Request.QueryString["Mid"]))
             {
                 iModuleID = Convert.ToInt32(_oContext.Request.QueryString["Mid"]);
             }
@@ -137,42 +137,42 @@ namespace DotNetNuke.Modules.Events
             //Save this in the private property value
             _moduleID = iModuleID;
 
-            if (iTabID == 0 && _oContext.Request.QueryString["TabId"] == "")
+            if (iTabID == 0 && string.IsNullOrEmpty(_oContext.Request.QueryString["TabId"] ))
             {
                 return;
             }
-            if (!(_oContext.Request.QueryString["TabId"] == ""))
+            if (!string.IsNullOrEmpty(_oContext.Request.QueryString["TabId"]))
             {
                 iTabID = Convert.ToInt32(_oContext.Request.QueryString["TabId"]);
             }
 
-            if (iItemID > 0 && _oContext.Request.QueryString["Series"] == "")
+            if (iItemID > 0 && string.IsNullOrEmpty(_oContext.Request.QueryString["Series"]))
             {
                 return;
             }
             _blSeries = false;
-            if (!(_oContext.Request.QueryString["Series"] == ""))
+            if (!string.IsNullOrEmpty(_oContext.Request.QueryString["Series"] ))
             {
                 _blSeries = Convert.ToBoolean(_oContext.Request.QueryString["series"]);
             }
 
-            if (!(_oContext.Request.QueryString["CategoryName"] == ""))
+            if (!string.IsNullOrEmpty(_oContext.Request.QueryString["CategoryName"]))
             {
                 iCategoryName = _oContext.Request.QueryString["CategoryName"];
                 var objSecurity = new PortalSecurity();
                 iCategoryName = objSecurity.InputFilter(iCategoryName, PortalSecurity.FilterFlag.NoSQL);
             }
-            if (!(HttpContext.Current.Request.QueryString["CategoryID"] == ""))
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["CategoryID"]))
             {
                 iCategoryID = Convert.ToInt32(_oContext.Request.QueryString["CategoryID"]);
             }
 
-            if (!(_oContext.Request.QueryString["groupid"] == ""))
+            if (!string.IsNullOrEmpty(_oContext.Request.QueryString["groupid"]))
             {
                 iSocialGroupId = Convert.ToInt32(_oContext.Request.QueryString["groupid"]);
             }
 
-            if (!(HttpContext.Current.Request.QueryString["Calname"] == ""))
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["Calname"]))
             {
                 calname = _oContext.Request.QueryString["Calname"];
             }
@@ -202,6 +202,7 @@ namespace DotNetNuke.Modules.Events
             var portalSettings = (PortalSettings) HttpContext.Current.Items["PortalSettings"];
             _objEventInfoHelper = new EventInfoHelper(iModuleID, iTabID, portalSettings.PortalId, _settings);
             _portalurl = _objEventInfoHelper.GetDomainURL();
+
             if (portalSettings.PortalAlias.HTTPAlias.IndexOf("/", StringComparison.Ordinal) > 0)
             {
                 _portalurl = _portalurl + Globals.ApplicationPath;
@@ -212,15 +213,18 @@ namespace DotNetNuke.Modules.Events
             {
                 _blAnonOwnerEmail = _settings.Exportanonowneremail;
             }
+
             _blEventSignup = _settings.Eventsignup;
             if (_settings.EnrollAnonFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
                 _blAnonEmail = true;
             }
+
             if (_settings.EnrollViewFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
                 _blViewEmail = true;
             }
+
             if (_settings.EnrollEditFields.LastIndexOf("03", StringComparison.Ordinal) > -1)
             {
                 _blEditEmail = true;
@@ -237,17 +241,20 @@ namespace DotNetNuke.Modules.Events
             _domainName = portalSettings.PortalAlias.HTTPAlias;
             var iCalDaysBefore = _settings.IcalDaysBefore;
             var iCalDaysAfter = _settings.IcalDaysAfter;
-            if (!(HttpContext.Current.Request.QueryString["DaysBefore"] == ""))
+
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["DaysBefore"]))
             {
                 iCalDaysBefore = Convert.ToInt32(HttpContext.Current.Request.QueryString["DaysBefore"]);
             }
-            if (!(HttpContext.Current.Request.QueryString["DaysAfter"] == ""))
+
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["DaysAfter"]))
             {
                 iCalDaysAfter = Convert.ToInt32(HttpContext.Current.Request.QueryString["DaysAfter"]);
             }
 
 
             _iCalURLAppend = _settings.IcalURLAppend;
+
             if (_settings.IcalDefaultImage.Length >= 6)
             {
                 _iCalDefaultImage = _settings.IcalDefaultImage.Substring(6);

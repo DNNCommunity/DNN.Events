@@ -197,7 +197,7 @@ namespace DotNetNuke.Modules.Events
                 string skinSrc = null;
                 if (!ReferenceEquals(objTabInfo, null))
                 {
-                    if (!(objTabInfo.SkinSrc == ""))
+                    if (!string.IsNullOrEmpty(objTabInfo.SkinSrc ))
                     {
                         skinSrc = objTabInfo.SkinSrc;
                         if (skinSrc.Substring(skinSrc.Length - 5, 5) == ".ascx")
@@ -213,11 +213,11 @@ namespace DotNetNuke.Modules.Events
                 {
                     if (objModuleInfo.DisplayTitle)
                     {
-                        if (!(objModuleInfo.ContainerSrc == ""))
+                        if (!string.IsNullOrEmpty(objModuleInfo.ContainerSrc))
                         {
                             containerSrc = objModuleInfo.ContainerSrc;
                         }
-                        else if (!(objTabInfo.ContainerSrc == ""))
+                        else if (!string.IsNullOrEmpty(objTabInfo.ContainerSrc))
                         {
                             containerSrc = objTabInfo.ContainerSrc;
                         }
@@ -511,10 +511,10 @@ namespace DotNetNuke.Modules.Events
 
             var categoryIDs = "";
             // ReSharper disable LoopCanBeConvertedToQuery
-            foreach (string category in restrictedCategories)
+            foreach (var category in restrictedCategories)
             {
                 // ReSharper restore LoopCanBeConvertedToQuery
-                categoryIDs = categoryIDs + "," + category;
+                categoryIDs = categoryIDs + "," + Convert.ToString(category);
             }
             categoryIDs = categoryIDs.Substring(1);
 
@@ -557,10 +557,10 @@ namespace DotNetNuke.Modules.Events
 
             var locationIDs = "";
             // ReSharper disable LoopCanBeConvertedToQuery
-            foreach (string location in restrictedLocations)
+            foreach (var location in restrictedLocations)
             {
                 // ReSharper restore LoopCanBeConvertedToQuery
-                locationIDs = locationIDs + "," + location;
+                locationIDs = locationIDs + "," + Convert.ToString(location);
             }
             locationIDs = locationIDs.Substring(1);
 
@@ -915,9 +915,10 @@ namespace DotNetNuke.Modules.Events
         public ArrayList EventsGetByRange(string moduleIDs, DateTime beginDate, DateTime endDate, string categoryIDs,
                                           string locationIDs, int socialGroupId, int socialUserId)
         {
-            return CBO.FillCollection(
-                DataProvider.Instance().EventsGetByRange(moduleIDs, beginDate, endDate, categoryIDs, locationIDs,
-                                                         socialGroupId, socialUserId), typeof(EventInfo));
+
+            var retValue = (ArrayList) CBO.FillCollection(
+                DataProvider.Instance().EventsGetByRange(moduleIDs, beginDate, endDate, categoryIDs, locationIDs,socialGroupId, socialUserId), typeof(EventInfo));
+            return retValue;
         }
 
 
@@ -1344,13 +1345,16 @@ namespace DotNetNuke.Modules.Events
                 objEventRecurMaster.SocialGroupID = 0;
                 objEventRecurMaster.SocialUserID = 0;
                 objEventRecurMaster.Summary = null;
+
                 var objCtlUsers = new UserController();
                 var objUserInfo = objCtlUsers.GetUser(objEvent.PortalID, objEvent.CreatedByID);
+
                 if (!ReferenceEquals(objUserInfo, null))
                 {
                     objEventRecurMaster.CultureName = objUserInfo.Profile.PreferredLocale;
                 }
-                if (ReferenceEquals(objUserInfo, null) || objEventRecurMaster.CultureName == "")
+
+                if (ReferenceEquals(objUserInfo, null) || string.IsNullOrEmpty(objEventRecurMaster.CultureName))
                 {
                     var objCtlPortal = new PortalController();
                     var objPortalinfo = objCtlPortal.GetPortal(objEvent.PortalID);
@@ -1360,9 +1364,7 @@ namespace DotNetNuke.Modules.Events
                 objEventRecurMaster.RRULE = CreateRRULE(objEvent, objEventRecurMaster.CultureName);
                 var lstEventsNew = default(ArrayList);
 
-                lstEventsNew =
-                    objCtlEventRecurMaster.CreateEventRecurrences(objEventRecurMaster, objEvent.Duration,
-                                                                  maxRecurrences);
+                lstEventsNew = objCtlEventRecurMaster.CreateEventRecurrences(objEventRecurMaster, objEvent.Duration,maxRecurrences);
                 objEventRecurMaster = objCtlEventRecurMaster.EventsRecurMasterSave(objEventRecurMaster);
 
                 // If no events generated, mark original as cancelled and link to new recurmaster - Non Destructive

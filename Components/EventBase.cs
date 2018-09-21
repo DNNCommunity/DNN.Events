@@ -1251,7 +1251,7 @@ namespace Components
         public int GetUrlGroupId()
         {
             var socialGroupId = -1;
-            if (!(HttpContext.Current.Request.QueryString["groupid"] == "") && Settings.SocialGroupModule ==
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["groupid"]) && Settings.SocialGroupModule ==
                 EventModuleSettings.SocialModule.SocialGroup)
             {
                 socialGroupId = Convert.ToInt32(HttpContext.Current.Request.QueryString["groupid"]);
@@ -1262,7 +1262,7 @@ namespace Components
         public int GetUrlUserId()
         {
             var socialUserId = -1;
-            if (!(HttpContext.Current.Request.QueryString["userid"] == "") && Settings.SocialGroupModule ==
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["userid"]) && Settings.SocialGroupModule ==
                 EventModuleSettings.SocialModule.UserProfile)
             {
                 socialUserId = Convert.ToInt32(HttpContext.Current.Request.QueryString["Userid"]);
