@@ -166,15 +166,18 @@ namespace DotNetNuke.Modules.Events
         {
             // Dim domainurl As String = ps.PortalAlias.HTTPAlias
             var domainurl = HttpContext.Current.Request.ServerVariables["HTTP_HOST"];
+            
             if (string.IsNullOrEmpty(domainurl))
             {
                 var ps = (PortalSettings) HttpContext.Current.Items["PortalSettings"];
                 domainurl = ps.PortalAlias.HTTPAlias;
             }
+
             if (domainurl.IndexOf("/", StringComparison.Ordinal) > 0)
             {
                 domainurl = domainurl.Substring(0, domainurl.IndexOf("/", StringComparison.Ordinal));
             }
+            
             return domainurl;
         }
 

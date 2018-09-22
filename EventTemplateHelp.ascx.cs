@@ -23,20 +23,21 @@
 #endregion
 
 
+using System;
+using Components;
+using DNNtc;
+
 namespace DotNetNuke.Modules.Events
 {
-    using System;
-    using global::Components;
-
-    [DNNtc.ModuleControlProperties("TemplateHelp", "Event Template Help", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", true, true)]
+    [ModuleControlProperties("TemplateHelp", "Event Template Help", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventTemplateHelp : EventBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             // Set the selected theme
-            this.SetTheme(this.pnlEventsModuleTHelp);
+            SetTheme(pnlEventsModuleTHelp);
 
-            this.ModuleConfiguration.DisplayPrint = true;
+            ModuleConfiguration.DisplayPrint = true;
         }
     }
 }

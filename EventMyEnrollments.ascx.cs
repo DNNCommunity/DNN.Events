@@ -23,19 +23,19 @@
 #endregion
 
 
+using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Web.UI.WebControls;
+using Components;
+using DotNetNuke.Framework;
+using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
+using Microsoft.VisualBasic;
+using Globals = DotNetNuke.Common.Globals;
+
 namespace DotNetNuke.Modules.Events
 {
-    using System;
-    using System.Collections;
-    using System.Diagnostics;
-    using System.Web.UI.WebControls;
-    using DotNetNuke.Framework;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
-    using global::Components;
-    using Microsoft.VisualBasic;
-    using Globals = DotNetNuke.Common.Globals;
-
     public partial class EventMyEnrollments : EventBase
     {
         #region Event Handlers
@@ -45,24 +45,24 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 //EVT-4499 if not login, redirect user to login page
-                if (!this.Request.IsAuthenticated)
+                if (!Request.IsAuthenticated)
                 {
-                    this.RedirectToLogin();
+                    RedirectToLogin();
                 }
 
-                this.LocalizeAll();
+                LocalizeAll();
 
                 // Setup Icon Bar for use
-                this.SetUpIconBar(this.EventIcons, this.EventIcons2);
+                SetUpIconBar(EventIcons, EventIcons2);
 
-                this.lnkSelectedDelete.Attributes.Add(
+                lnkSelectedDelete.Attributes.Add(
                     "onclick",
                     "javascript:return confirm('" +
-                    Localization.GetString("ConfirmDeleteSelected", this.LocalResourceFile) + "');");
+                    Localization.GetString("ConfirmDeleteSelected", LocalResourceFile) + "');");
 
-                if (this.Page.IsPostBack == false)
+                if (Page.IsPostBack == false)
                 {
-                    this.BindData();
+                    BindData();
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -84,7 +84,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
@@ -100,42 +100,42 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 var moduleStartDate = DateAndTime.DateAdd(DateInterval.Day,
-                                                          Convert.ToDouble(-this.Settings.EnrolListDaysBefore),
-                                                          this.ModuleNow());
+                                                          Convert.ToDouble(-Settings.EnrolListDaysBefore),
+                                                          ModuleNow());
                 var moduleEndDate =
-                    DateAndTime.DateAdd(DateInterval.Day, this.Settings.EnrolListDaysAfter, this.ModuleNow());
+                    DateAndTime.DateAdd(DateInterval.Day, Settings.EnrolListDaysAfter, ModuleNow());
                 var displayStartDate = DateAndTime.DateAdd(DateInterval.Day,
-                                                           Convert.ToDouble(-this.Settings.EnrolListDaysBefore),
-                                                           this.DisplayNow());
+                                                           Convert.ToDouble(-Settings.EnrolListDaysBefore),
+                                                           DisplayNow());
                 var displayEndDate =
-                    DateAndTime.DateAdd(DateInterval.Day, this.Settings.EnrolListDaysAfter, this.DisplayNow());
+                    DateAndTime.DateAdd(DateInterval.Day, Settings.EnrolListDaysAfter, DisplayNow());
 
                 //Default sort from settings
-                var sortDirection = this.Settings.EnrolListSortDirection;
-                var sortExpression = this.GetSignupsSortExpression("EventTimeBegin");
+                var sortDirection = Settings.EnrolListSortDirection;
+                var sortExpression = GetSignupsSortExpression("EventTimeBegin");
 
                 var inCategoryIDs = new ArrayList();
                 inCategoryIDs.Add("-1");
-                var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
                 var categoryIDs = objEventInfoHelper.CreateCategoryFilter(inCategoryIDs);
 
                 var eventSignups = default(ArrayList);
                 var objCtlEventSignups = new EventSignupsController();
 
                 eventSignups =
-                    objCtlEventSignups.EventsSignupsMyEnrollments(this.ModuleId, this.UserId, this.GetUrlGroupId(),
+                    objCtlEventSignups.EventsSignupsMyEnrollments(ModuleId, UserId, GetUrlGroupId(),
                                                                   categoryIDs, moduleStartDate, moduleEndDate);
 
                 var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
                 var displayEventSignups = new ArrayList();
                 foreach (EventSignupsInfo eventSignup in eventSignups)
                 {
-                    var displayTimeZoneId = this.GetDisplayTimeZoneId();
+                    var displayTimeZoneId = GetDisplayTimeZoneId();
                     eventSignup.EventTimeBegin = objEventTimeZoneUtilities
                         .ConvertToDisplayTimeZone(eventSignup.EventTimeBegin, eventSignup.EventTimeZoneId,
-                                                  this.PortalId, displayTimeZoneId).EventDate;
+                                                  PortalId, displayTimeZoneId).EventDate;
                     eventSignup.EventTimeEnd = objEventTimeZoneUtilities
-                        .ConvertToDisplayTimeZone(eventSignup.EventTimeEnd, eventSignup.EventTimeZoneId, this.PortalId,
+                        .ConvertToDisplayTimeZone(eventSignup.EventTimeEnd, eventSignup.EventTimeZoneId, PortalId,
                                                   displayTimeZoneId).EventDate;
                     if (eventSignup.EventTimeBegin > displayEndDate || eventSignup.EventTimeEnd < displayStartDate)
                     {
@@ -149,32 +149,32 @@ namespace DotNetNuke.Modules.Events
                 displayEventSignups.Sort();
 
                 //Get data for selected date and fill grid
-                this.grdEnrollment.DataSource = displayEventSignups;
-                this.grdEnrollment.DataBind();
+                grdEnrollment.DataSource = displayEventSignups;
+                grdEnrollment.DataBind();
                 if (eventSignups.Count < 1)
                 {
-                    this.divMessage.Visible = true;
-                    this.grdEnrollment.Visible = false;
+                    divMessage.Visible = true;
+                    grdEnrollment.Visible = false;
                     //"No Events/Enrollments found..."
-                    this.lblMessage.Text = Localization.GetString("MsgNoMyEventsOrEnrollment", this.LocalResourceFile);
+                    lblMessage.Text = Localization.GetString("MsgNoMyEventsOrEnrollment", LocalResourceFile);
                 }
                 else
                 {
                     for (var i = 0; i <= eventSignups.Count - 1; i++)
                     {
-                        var decTotal = Convert.ToDecimal(this.grdEnrollment.Items[i].Cells[7].Text) /
-                                       Convert.ToDecimal(this.grdEnrollment.Items[i].Cells[8].Text);
-                        var dtStartTime = Convert.ToDateTime(this.grdEnrollment.Items[i].Cells[1].Text);
+                        var decTotal = Convert.ToDecimal(grdEnrollment.Items[i].Cells[7].Text) /
+                                       Convert.ToDecimal(grdEnrollment.Items[i].Cells[8].Text);
+                        var dtStartTime = Convert.ToDateTime(grdEnrollment.Items[i].Cells[1].Text);
                         // ReSharper disable LocalizableElement
-                        ((Label) this.grdEnrollment.Items[i].FindControl("lblAmount")).Text =
-                            string.Format("{0:F2}", decTotal) + " " + this.PortalSettings.Currency;
-                        ((Label) this.grdEnrollment.Items[i].FindControl("lblTotal")).Text =
-                            string.Format("{0:F2}", Convert.ToDecimal(this.grdEnrollment.Items[i].Cells[7].Text)) +
-                            " " + this.PortalSettings.Currency;
+                        ((Label) grdEnrollment.Items[i].FindControl("lblAmount")).Text =
+                            string.Format("{0:F2}", decTotal) + " " + PortalSettings.Currency;
+                        ((Label) grdEnrollment.Items[i].FindControl("lblTotal")).Text =
+                            string.Format("{0:F2}", Convert.ToDecimal(grdEnrollment.Items[i].Cells[7].Text)) +
+                            " " + PortalSettings.Currency;
                         // ReSharper restore LocalizableElement
-                        if (decTotal > 0 || dtStartTime < this.ModuleNow().AddDays(this.Settings.Enrolcanceldays))
+                        if (decTotal > 0 || dtStartTime < ModuleNow().AddDays(Settings.Enrolcanceldays))
                         {
-                            ((CheckBox) this.grdEnrollment.Items[i].FindControl("chkSelect")).Enabled = false;
+                            ((CheckBox) grdEnrollment.Items[i].FindControl("chkSelect")).Enabled = false;
                         }
                     }
                 }
@@ -187,17 +187,17 @@ namespace DotNetNuke.Modules.Events
 
         private void LocalizeAll()
         {
-            this.grdEnrollment.Columns[0].HeaderText = Localization.GetString("plSelect", this.LocalResourceFile);
-            this.grdEnrollment.Columns[1].HeaderText = Localization.GetString("plDate", this.LocalResourceFile);
-            this.grdEnrollment.Columns[2].HeaderText = Localization.GetString("plTime", this.LocalResourceFile);
-            this.grdEnrollment.Columns[3].HeaderText = Localization.GetString("plEvent", this.LocalResourceFile);
-            this.grdEnrollment.Columns[4].HeaderText = Localization.GetString("plApproved", this.LocalResourceFile);
-            this.grdEnrollment.Columns[6].HeaderText = Localization.GetString("plAmount", this.LocalResourceFile);
-            this.grdEnrollment.Columns[8].HeaderText = Localization.GetString("plNoEnrolees", this.LocalResourceFile);
-            this.grdEnrollment.Columns[9].HeaderText = Localization.GetString("plTotal", this.LocalResourceFile);
-            this.lnkSelectedDelete.ToolTip =
-                string.Format(Localization.GetString("CancelEnrolments", this.LocalResourceFile),
-                              this.Settings.Enrolcanceldays);
+            grdEnrollment.Columns[0].HeaderText = Localization.GetString("plSelect", LocalResourceFile);
+            grdEnrollment.Columns[1].HeaderText = Localization.GetString("plDate", LocalResourceFile);
+            grdEnrollment.Columns[2].HeaderText = Localization.GetString("plTime", LocalResourceFile);
+            grdEnrollment.Columns[3].HeaderText = Localization.GetString("plEvent", LocalResourceFile);
+            grdEnrollment.Columns[4].HeaderText = Localization.GetString("plApproved", LocalResourceFile);
+            grdEnrollment.Columns[6].HeaderText = Localization.GetString("plAmount", LocalResourceFile);
+            grdEnrollment.Columns[8].HeaderText = Localization.GetString("plNoEnrolees", LocalResourceFile);
+            grdEnrollment.Columns[9].HeaderText = Localization.GetString("plTotal", LocalResourceFile);
+            lnkSelectedDelete.ToolTip =
+                string.Format(Localization.GetString("CancelEnrolments", LocalResourceFile),
+                              Settings.Enrolcanceldays);
         }
 
         #endregion
@@ -214,14 +214,14 @@ namespace DotNetNuke.Modules.Events
                         var objEnroll = default(EventSignupsInfo);
                         var objCtlEventSignups = new EventSignupsController();
                         objEnroll = objCtlEventSignups.EventsSignupsGet(
-                            Convert.ToInt32(this.grdEnrollment.DataKeys[e.Item.ItemIndex]), this.ModuleId, false);
+                            Convert.ToInt32(grdEnrollment.DataKeys[e.Item.ItemIndex]), ModuleId, false);
                         var iItemID = objEnroll.EventID;
 
                         var objEventInfoHelper =
-                            new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
-                        this.Response.Redirect(
+                            new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
+                        Response.Redirect(
                             objEventInfoHelper.GetDetailPageRealURL(
-                                iItemID, this.GetUrlGroupId(), this.GetUrlUserId()));
+                                iItemID, GetUrlGroupId(), GetUrlUserId()));
                         break;
                 }
             }
@@ -229,7 +229,7 @@ namespace DotNetNuke.Modules.Events
             {
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
-            this.BindData();
+            BindData();
         }
 
         protected void lnkSelectedDelete_Click(object sender, EventArgs e)
@@ -241,35 +241,35 @@ namespace DotNetNuke.Modules.Events
             var objCtlEvent = new EventController();
             var eventID = 0;
 
-            foreach (DataGridItem tempLoopVar_item in this.grdEnrollment.Items)
+            foreach (DataGridItem tempLoopVar_item in grdEnrollment.Items)
             {
                 item = tempLoopVar_item;
                 if (((CheckBox) item.FindControl("chkSelect")).Checked)
                 {
                     objEnroll = objCtlEventSignups.EventsSignupsGet(
-                        Convert.ToInt32(this.grdEnrollment.DataKeys[item.ItemIndex]), this.ModuleId, false);
+                        Convert.ToInt32(grdEnrollment.DataKeys[item.ItemIndex]), ModuleId, false);
                     if (eventID != objEnroll.EventID)
                     {
-                        objEvent = objCtlEvent.EventsGet(objEnroll.EventID, this.ModuleId);
+                        objEvent = objCtlEvent.EventsGet(objEnroll.EventID, ModuleId);
                     }
                     eventID = objEnroll.EventID;
 
                     // Delete Selected Enrollee
-                    this.DeleteEnrollment(Convert.ToInt32(this.grdEnrollment.DataKeys[item.ItemIndex]),
+                    DeleteEnrollment(Convert.ToInt32(grdEnrollment.DataKeys[item.ItemIndex]),
                                           objEvent.ModuleID, objEvent.EventID);
 
                     // Mail users
-                    if (this.Settings.SendEnrollMessageDeleted)
+                    if (Settings.SendEnrollMessageDeleted)
                     {
                         var objEventEmailInfo = new EventEmailInfo();
-                        var objEventEmail = new EventEmails(this.PortalId, this.ModuleId, this.LocalResourceFile,
-                                                            ((PageBase) this.Page).PageCulture.Name);
-                        objEventEmailInfo.TxtEmailSubject = this.Settings.Templates.txtEnrollMessageSubject;
-                        objEventEmailInfo.TxtEmailBody = this.Settings.Templates.txtEnrollMessageDeleted;
-                        objEventEmailInfo.TxtEmailFrom = this.Settings.StandardEmail;
-                        objEventEmailInfo.UserEmails.Add(this.PortalSettings.UserInfo.Email);
-                        objEventEmailInfo.UserLocales.Add(this.PortalSettings.UserInfo.Profile.PreferredLocale);
-                        objEventEmailInfo.UserTimeZoneIds.Add(this.PortalSettings.UserInfo.Profile.PreferredTimeZone
+                        var objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile,
+                                                            ((PageBase) Page).PageCulture.Name);
+                        objEventEmailInfo.TxtEmailSubject = Settings.Templates.txtEnrollMessageSubject;
+                        objEventEmailInfo.TxtEmailBody = Settings.Templates.txtEnrollMessageDeleted;
+                        objEventEmailInfo.TxtEmailFrom = Settings.StandardEmail;
+                        objEventEmailInfo.UserEmails.Add(PortalSettings.UserInfo.Email);
+                        objEventEmailInfo.UserLocales.Add(PortalSettings.UserInfo.Profile.PreferredLocale);
+                        objEventEmailInfo.UserTimeZoneIds.Add(PortalSettings.UserInfo.Profile.PreferredTimeZone
                                                                   .Id);
                         objEventEmailInfo.UserIDs.Add(objEvent.OwnerID);
                         objEventEmail.SendEmails(objEventEmailInfo, objEvent, objEnroll);
@@ -277,22 +277,22 @@ namespace DotNetNuke.Modules.Events
                 }
             }
 
-            this.BindData();
+            BindData();
         }
 
         protected void returnButton_Click(object sender, EventArgs e)
         {
-            var cntrl = this.Settings.DefaultView.Split('.');
-            var socialGroupId = this.GetUrlGroupId();
+            var cntrl = Settings.DefaultView.Split('.');
+            var socialGroupId = GetUrlGroupId();
             if (socialGroupId > 0)
             {
-                this.Response.Redirect(Globals.NavigateURL(this.TabId, "", "mctl=" + cntrl[0],
-                                                           "ModuleID=" + this.ModuleId, "groupid=" + socialGroupId));
+                Response.Redirect(Globals.NavigateURL(TabId, "", "mctl=" + cntrl[0],
+                                                           "ModuleID=" + ModuleId, "groupid=" + socialGroupId));
             }
             else
             {
-                this.Response.Redirect(Globals.NavigateURL(this.TabId, "", "mctl=" + cntrl[0],
-                                                           "ModuleID=" + this.ModuleId));
+                Response.Redirect(Globals.NavigateURL(TabId, "", "mctl=" + cntrl[0],
+                                                           "ModuleID=" + ModuleId));
             }
         }
 

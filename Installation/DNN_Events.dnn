@@ -247,7 +247,7 @@
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Edit Events</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey>Day</controlKey>
@@ -256,7 +256,7 @@
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Events Day</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey>Details</controlKey>
@@ -265,7 +265,7 @@
                     <supportsPopUps>false</supportsPopUps>
                     <controlTitle>Events Details</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey>Categories</controlKey>
@@ -274,25 +274,7 @@
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Edit Event Categories</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
-                  </moduleControl>
-                  <moduleControl>
-                    <controlKey>Locations</controlKey>
-                    <controlSrc>DesktopModules/Events/EventEditLocations.ascx</controlSrc>
-                    <supportsPartialRendering>true</supportsPartialRendering>
-                    <supportsPopUps>true</supportsPopUps>
-                    <controlTitle>Edit Event Locations</controlTitle>
-                    <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
-                  </moduleControl>
-                  <moduleControl>
-                    <controlKey>Moderate</controlKey>
-                    <controlSrc>DesktopModules/Events/EventModerate.ascx</controlSrc>
-                    <supportsPartialRendering>true</supportsPartialRendering>
-                    <supportsPopUps>true</supportsPopUps>
-                    <controlTitle>Moderate Events and Enrollment</controlTitle>
-                    <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey>PPEnroll</controlKey>
@@ -301,7 +283,7 @@
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event PayPal Enrollment</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey></controlKey>
@@ -310,25 +292,7 @@
                     <supportsPopUps>false</supportsPopUps>
                     <controlTitle>Events Container</controlTitle>
                     <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
-                  </moduleControl>
-                  <moduleControl>
-                    <controlKey>EventSettings</controlKey>
-                    <controlSrc>DesktopModules/Events/EventSettings.ascx</controlSrc>
-                    <supportsPartialRendering>true</supportsPartialRendering>
-                    <supportsPopUps>true</supportsPopUps>
-                    <controlTitle>Event Settings</controlTitle>
-                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
-                  </moduleControl>
-                  <moduleControl>
-                    <controlKey>TemplateHelp</controlKey>
-                    <controlSrc>DesktopModules/Events/EventTemplateHelp.ascx</controlSrc>
-                    <supportsPartialRendering>true</supportsPartialRendering>
-                    <supportsPopUps>true</supportsPopUps>
-                    <controlTitle>Event Template Help</controlTitle>
-                    <controlType>View</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
                   </moduleControl>
                   <moduleControl>
                     <controlKey>Settings</controlKey>
@@ -337,7 +301,7 @@
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event Settings</controlTitle>
                     <controlType>Admin</controlType>
-                    <helpUrl>https://dnnevents.codeplex.com/documentation</helpUrl>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                 </moduleControls>
                 <permissions>

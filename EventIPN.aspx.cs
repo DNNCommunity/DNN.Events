@@ -23,20 +23,20 @@
 #endregion
 
 
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using Components;
+using DotNetNuke.Entities.Portals;
+using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
+
 namespace DotNetNuke.Modules.Events
 {
-    using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Net;
-    using System.Text;
-    using System.Web;
-    using System.Web.UI;
-    using DotNetNuke.Entities.Portals;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
-    using global::Components;
-
     public partial class EventIPN : Page
     {
         #region Event Handlers
@@ -45,84 +45,84 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                this._localResourceFile = this.TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory +
+                _localResourceFile = TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory +
                                           "/EventIPN.resx";
 
                 var sPpnMessages = ""; //  Payment message
                 // assign posted variables to local variables
-                this._receiverEmail = this.Request.Params["receiver_email"];
-                this._itemName = this.Request.Params["item_name"];
-                this._itemNumber = this.Request.Params["item_number"];
-                this._quantity = this.Request.Params["quantity"];
-                this._invoice = this.Request.Params["invoice"];
-                this._custom = this.Request.Params["custom"];
-                this._paymentStatus = this.Request.Params["payment_status"];
-                this._currency = this.Request.Params["mc_currency"];
-                this._pendingReason = this.Request.Params["pending_reason"];
-                this._paymentDate = this.Request.Params["payment_date"];
-                this._paymentFee = this.Request.Params["mc_fee"];
-                this._paymentGross = this.Request.Params["mc_gross"];
-                this._txnID = this.Request.Params["txn_id"];
-                this._txnType = this.Request.Params["txn_type"];
-                this._firstName = this.Request.Params["first_name"];
-                this._lastName = this.Request.Params["last_name"];
-                this._addressStreet = this.Request.Params["address_street"];
-                this._addressCity = this.Request.Params["address_city"];
-                this._addressState = this.Request.Params["address_state"];
-                this._addressZip = this.Request.Params["address_zip"];
-                this._addressCountry = this.Request.Params["address_country"];
-                this._addressStatus = this.Request.Params["address_status"];
-                this._payerEmail = this.Request.Params["payer_email"];
-                this._payerStatus = this.Request.Params["payer_status"];
-                this._paymentType = this.Request.Params["payment_type"];
-                this._notifyVersion = this.Request.Params["notify_version"];
-                this._verifySign = this.Request.Params["verify_sign"];
-                this._subscrDate =
-                    this.Request.Params
+                _receiverEmail = Request.Params["receiver_email"];
+                _itemName = Request.Params["item_name"];
+                _itemNumber = Request.Params["item_number"];
+                _quantity = Request.Params["quantity"];
+                _invoice = Request.Params["invoice"];
+                _custom = Request.Params["custom"];
+                _paymentStatus = Request.Params["payment_status"];
+                _currency = Request.Params["mc_currency"];
+                _pendingReason = Request.Params["pending_reason"];
+                _paymentDate = Request.Params["payment_date"];
+                _paymentFee = Request.Params["mc_fee"];
+                _paymentGross = Request.Params["mc_gross"];
+                _txnID = Request.Params["txn_id"];
+                _txnType = Request.Params["txn_type"];
+                _firstName = Request.Params["first_name"];
+                _lastName = Request.Params["last_name"];
+                _addressStreet = Request.Params["address_street"];
+                _addressCity = Request.Params["address_city"];
+                _addressState = Request.Params["address_state"];
+                _addressZip = Request.Params["address_zip"];
+                _addressCountry = Request.Params["address_country"];
+                _addressStatus = Request.Params["address_status"];
+                _payerEmail = Request.Params["payer_email"];
+                _payerStatus = Request.Params["payer_status"];
+                _paymentType = Request.Params["payment_type"];
+                _notifyVersion = Request.Params["notify_version"];
+                _verifySign = Request.Params["verify_sign"];
+                _subscrDate =
+                    Request.Params
                         ["subscr_date"]; //Start date or cancellation date depending on whether transaction is "subscr_signup" or "subscr_cancel"
-                this._period1 =
-                    this.Request.Params
+                _period1 =
+                    Request.Params
                         ["period1"]; //(optional) Trial subscription interval in days, weeks, months, years (example: a 4 day interval is "period1: 4 d")
-                this._period2 =
-                    this.Request.Params
+                _period2 =
+                    Request.Params
                         ["period2"]; //(optional) Trial subscription interval in days, weeks, months, years
-                this._period3 =
-                    this.Request.Params["period3"]; //Regular subscription interval in days, weeks, months, years
-                this._amount1 = this.Request.Params["amount1"]; //(optional) Amount of payment for trial period1
-                this._amount2 = this.Request.Params["amount2"]; //(optional) Amount of payment for trial period2
-                this._amount3 = this.Request.Params["amount3"]; //Amount of payment for regular period3
-                this._recurring =
-                    this.Request.Params["recurring"]; //Indicates whether regular rate recurs (1 is yes, 0 is no)
-                this._reattempt =
-                    this.Request.Params
+                _period3 =
+                    Request.Params["period3"]; //Regular subscription interval in days, weeks, months, years
+                _amount1 = Request.Params["amount1"]; //(optional) Amount of payment for trial period1
+                _amount2 = Request.Params["amount2"]; //(optional) Amount of payment for trial period2
+                _amount3 = Request.Params["amount3"]; //Amount of payment for regular period3
+                _recurring =
+                    Request.Params["recurring"]; //Indicates whether regular rate recurs (1 is yes, 0 is no)
+                _reattempt =
+                    Request.Params
                         ["reattempt"]; //Indicates whether reattempts should occur upon payment failures (1 is yes, 0 is no)
-                this._retryAt = this.Request.Params["retry_at"]; //Date we will retry failed subscription payment
-                this._recurTimes =
-                    this.Request.Params["recur_times"]; //How many payment installments will occur at the regular rate
-                this._username =
-                    this.Request.Params
+                _retryAt = Request.Params["retry_at"]; //Date we will retry failed subscription payment
+                _recurTimes =
+                    Request.Params["recur_times"]; //How many payment installments will occur at the regular rate
+                _username =
+                    Request.Params
                         ["username"]; //(optional) Username generated by PayPal and given to subscriber to access the subscription
-                this._password =
-                    this.Request.Params
+                _password =
+                    Request.Params
                         ["password"]; //(optional) Password generated by PayPal and given to subscriber to access the subscription (password will be hashed).
-                this._subscrID =
-                    this.Request.Params["subscr_id"]; //(optional) ID generated by PayPal for the subscriber
-                this._strToSend = this.Request.Form.ToString();
+                _subscrID =
+                    Request.Params["subscr_id"]; //(optional) ID generated by PayPal for the subscriber
+                _strToSend = Request.Form.ToString();
 
                 // Create the string to post back to PayPal system to validate
-                this._strToSend += "&cmd=_notify-validate";
+                _strToSend += "&cmd=_notify-validate";
 
                 // Get the Event Signup
-                this._objEventSignups =
-                    this._objCtlEventSignups.EventsSignupsGet(Convert.ToInt32(this._itemNumber), 0, true);
+                _objEventSignups =
+                    _objCtlEventSignups.EventsSignupsGet(Convert.ToInt32(_itemNumber), 0, true);
 
                 // Get Module Settings
-                this._moduleID = this._objEventSignups.ModuleID;
-                this._settings = EventModuleSettings.GetEventModuleSettings(this._moduleID, this._localResourceFile);
+                _moduleID = _objEventSignups.ModuleID;
+                _settings = EventModuleSettings.GetEventModuleSettings(_moduleID, _localResourceFile);
 
                 //Initialize the WebRequest.
                 var webURL = "";
-                webURL = this._settings.Paypalurl + "/cgi-bin/webscr";
+                webURL = _settings.Paypalurl + "/cgi-bin/webscr";
 
                 //Send PayPal Verification Response
                 var myRequest = (HttpWebRequest) WebRequest.Create(webURL);
@@ -132,7 +132,7 @@ namespace DotNetNuke.Modules.Events
 
                 //Create post stream
                 var requestStream = myRequest.GetRequestStream();
-                var someBytes = Encoding.UTF8.GetBytes(this._strToSend);
+                var someBytes = Encoding.UTF8.GetBytes(_strToSend);
                 requestStream.Write(someBytes, 0, someBytes.Length);
                 requestStream.Close();
 
@@ -151,15 +151,15 @@ namespace DotNetNuke.Modules.Events
                     var result = readStream.ReadLine();
                     if (result == "INVALID")
                     {
-                        this.MailUsTheOrder("PPIPN: Status came back as INVALID!", false);
+                        MailUsTheOrder("PPIPN: Status came back as INVALID!", false);
                     }
                     else if (result == "VERIFIED")
                     {
-                        switch (this._paymentStatus)
+                        switch (_paymentStatus)
                         {
                             case "Completed"
                             : //The payment has been completed and the funds are successfully in your account balance
-                                switch (this._txnType)
+                                switch (_txnType)
                                 {
                                     case "web_accept":
                                     case "cart":
@@ -200,14 +200,14 @@ namespace DotNetNuke.Modules.Events
                                             sPpnMessages + "PPIPN:  Subscription end of term." + Environment.NewLine;
                                         break;
                                 }
-                                switch (this._addressStatus)
+                                switch (_addressStatus)
                                 {
                                     case "confirmed": //Customer provided a Confirmed Address
                                         break;
                                     case "unconfirmed": //Customer provided an Unconfirmed Address
                                         break;
                                 }
-                                switch (this._payerStatus)
+                                switch (_payerStatus)
                                 {
                                     case "verified": //Customer has a Verified U.S. PayPal account
                                         break;
@@ -218,7 +218,7 @@ namespace DotNetNuke.Modules.Events
                                     case "intl_unverified": //Customer has an Unverified International PayPal account
                                         break;
                                 }
-                                switch (this._paymentType)
+                                switch (_paymentType)
                                 {
                                     case "echeck": //This payment was funded with an eCheck
                                         sPpnMessages =
@@ -233,11 +233,11 @@ namespace DotNetNuke.Modules.Events
                                             Environment.NewLine;
                                         break;
                                 }
-                                this.MailUsTheOrder(sPpnMessages, true);
+                                MailUsTheOrder(sPpnMessages, true);
                                 break;
                             case "Pending"
                             : //The payment is pending - see the "pending reason" variable below for more information. Watch: You will receive another instant payment notification when the payment becomes "completed", "failed", or "denied"
-                                switch (this._pendingReason)
+                                switch (_pendingReason)
                                 {
                                     case "echeck"
                                     : //The payment is pending because it was made by an eCheck, which has not yet cleared
@@ -261,16 +261,16 @@ namespace DotNetNuke.Modules.Events
                                     : //The payment is pending for an "other" reason. For more information, contact customer service
                                         break;
                                 }
-                                this.MailUsTheOrder("PPIPN: Order is waiting to be processed.");
+                                MailUsTheOrder("PPIPN: Order is waiting to be processed.");
                                 break;
                             case "Failed"
                             : //The payment has failed. This will only happen if the payment was made from your customer's bank account
-                                this.MailUsTheOrder(
+                                MailUsTheOrder(
                                     "PPIPN: This only happens if the payment was made from our customer's bank account.");
                                 break;
                             case "Denied"
                             : //You, the merchant, denied the payment. This will only happen if the payment was previously pending due to one of the "pending reasons"
-                                this.MailUsTheOrder("PPIPN: We denied this payment.");
+                                MailUsTheOrder("PPIPN: We denied this payment.");
                                 break;
                         }
                     }
@@ -355,7 +355,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
@@ -370,92 +370,92 @@ namespace DotNetNuke.Modules.Events
             var sMessage = "";
             var sEmail = "";
             var strNewLine = Environment.NewLine;
-            if (this._settings.HTMLEmail == "html")
+            if (_settings.HTMLEmail == "html")
             {
                 strNewLine = "<br />";
             }
             sMessage = tagMsg + strNewLine
-                       + "Transaction ID:   " + this._txnID + strNewLine
-                       + "Transaction Type: " + this._txnType + strNewLine
-                       + "Payment Type:     " + this._paymentType + strNewLine
-                       + "Payment Status:   " + this._paymentStatus + strNewLine
-                       + "Pending Reason:   " + this._pendingReason + strNewLine
-                       + "Payment Date:     " + this._paymentDate + strNewLine
-                       + "Receiver Email:   " + this._receiverEmail + strNewLine
-                       + "Invoice:          " + this._invoice + strNewLine
-                       + "Item Number:      " + this._itemNumber + strNewLine
-                       + "Item Name:        " + this._itemName + strNewLine
-                       + "Quantity:         " + this._quantity + strNewLine
-                       + "Custom:           " + this._custom + strNewLine
-                       + "Payment Currency: " + this._currency + strNewLine
-                       + "Payment Gross:    " + this._paymentGross + strNewLine
-                       + "Payment Fee:      " + this._paymentFee + strNewLine
-                       + "Payer Email:      " + this._payerEmail + strNewLine
-                       + "First Name:       " + this._firstName + strNewLine
-                       + "Last Name:        " + this._lastName + strNewLine
-                       + "Street Address:   " + this._addressStreet + strNewLine
-                       + "City:             " + this._addressCity + strNewLine
-                       + "State:            " + this._addressState + strNewLine
-                       + "Zip Code:         " + this._addressZip + strNewLine
-                       + "Country:          " + this._addressCountry + strNewLine
-                       + "Address Status:   " + this._addressStatus + strNewLine
-                       + "Payer Status:     " + this._payerStatus + strNewLine
-                       + "Verify Sign:      " + this._verifySign + strNewLine
-                       + "Subscriber Date:  " + this._subscrDate + strNewLine
-                       + "Period 1:         " + this._period1 + strNewLine
-                       + "Period 2:         " + this._period2 + strNewLine
-                       + "Period 3:         " + this._period3 + strNewLine
-                       + "Amount 1:         " + this._amount1 + strNewLine
-                       + "Amount 2:         " + this._amount2 + strNewLine
-                       + "Amount 3:         " + this._amount3 + strNewLine
-                       + "Recurring:        " + this._recurring + strNewLine
-                       + "Reattempt:        " + this._reattempt + strNewLine
-                       + "Retry At:         " + this._retryAt + strNewLine
-                       + "Recur Times:      " + this._recurTimes + strNewLine
-                       + "UserName:         " + this._username + strNewLine
-                       + "Password:         " + this._password + strNewLine
-                       + "Subscriber ID:    " + this._subscrID + strNewLine
+                       + "Transaction ID:   " + _txnID + strNewLine
+                       + "Transaction Type: " + _txnType + strNewLine
+                       + "Payment Type:     " + _paymentType + strNewLine
+                       + "Payment Status:   " + _paymentStatus + strNewLine
+                       + "Pending Reason:   " + _pendingReason + strNewLine
+                       + "Payment Date:     " + _paymentDate + strNewLine
+                       + "Receiver Email:   " + _receiverEmail + strNewLine
+                       + "Invoice:          " + _invoice + strNewLine
+                       + "Item Number:      " + _itemNumber + strNewLine
+                       + "Item Name:        " + _itemName + strNewLine
+                       + "Quantity:         " + _quantity + strNewLine
+                       + "Custom:           " + _custom + strNewLine
+                       + "Payment Currency: " + _currency + strNewLine
+                       + "Payment Gross:    " + _paymentGross + strNewLine
+                       + "Payment Fee:      " + _paymentFee + strNewLine
+                       + "Payer Email:      " + _payerEmail + strNewLine
+                       + "First Name:       " + _firstName + strNewLine
+                       + "Last Name:        " + _lastName + strNewLine
+                       + "Street Address:   " + _addressStreet + strNewLine
+                       + "City:             " + _addressCity + strNewLine
+                       + "State:            " + _addressState + strNewLine
+                       + "Zip Code:         " + _addressZip + strNewLine
+                       + "Country:          " + _addressCountry + strNewLine
+                       + "Address Status:   " + _addressStatus + strNewLine
+                       + "Payer Status:     " + _payerStatus + strNewLine
+                       + "Verify Sign:      " + _verifySign + strNewLine
+                       + "Subscriber Date:  " + _subscrDate + strNewLine
+                       + "Period 1:         " + _period1 + strNewLine
+                       + "Period 2:         " + _period2 + strNewLine
+                       + "Period 3:         " + _period3 + strNewLine
+                       + "Amount 1:         " + _amount1 + strNewLine
+                       + "Amount 2:         " + _amount2 + strNewLine
+                       + "Amount 3:         " + _amount3 + strNewLine
+                       + "Recurring:        " + _recurring + strNewLine
+                       + "Reattempt:        " + _reattempt + strNewLine
+                       + "Retry At:         " + _retryAt + strNewLine
+                       + "Recur Times:      " + _recurTimes + strNewLine
+                       + "UserName:         " + _username + strNewLine
+                       + "Password:         " + _password + strNewLine
+                       + "Subscriber ID:    " + _subscrID + strNewLine
                        + "Notify Version:   "
-                       + this._notifyVersion + strNewLine;
+                       + _notifyVersion + strNewLine;
 
 
             var portalSettings = (PortalSettings) HttpContext.Current.Items["PortalSettings"];
-            sEmail = this._settings.StandardEmail.Trim();
+            sEmail = _settings.StandardEmail.Trim();
             sMessage = sMessage;
             try
             {
-                var sSystemPrice = Convert.ToDecimal(this._paymentGross);
+                var sSystemPrice = Convert.ToDecimal(_paymentGross);
 
                 // Also verify that Gross Payment is what we logged as the Fee ("payment_gross" field )
-                this._objEventSignups =
-                    this._objCtlEventSignups.EventsSignupsGet(Convert.ToInt32(this._itemNumber), 0, true);
-                this._objEvent =
-                    this._objCtlEventEvent.EventsGet(this._objEventSignups.EventID, this._objEventSignups.ModuleID);
-                var sPPPrice = this._objEvent.EnrollFee * this._objEventSignups.NoEnrolees;
+                _objEventSignups =
+                    _objCtlEventSignups.EventsSignupsGet(Convert.ToInt32(_itemNumber), 0, true);
+                _objEvent =
+                    _objCtlEventEvent.EventsGet(_objEventSignups.EventID, _objEventSignups.ModuleID);
+                var sPPPrice = _objEvent.EnrollFee * _objEventSignups.NoEnrolees;
 
 
                 var objEventEmailInfo = new EventEmailInfo();
-                var objEventEmail = new EventEmails(this._objEvent.PortalID, this._objEventSignups.ModuleID,
-                                                    this._localResourceFile);
-                objEventEmailInfo.TxtEmailSubject = this._settings.Templates.txtEnrollMessageSubject;
+                var objEventEmail = new EventEmails(_objEvent.PortalID, _objEventSignups.ModuleID,
+                                                    _localResourceFile);
+                objEventEmailInfo.TxtEmailSubject = _settings.Templates.txtEnrollMessageSubject;
                 objEventEmailInfo.TxtEmailFrom = sEmail;
                 if (sendToUser)
                 {
-                    if (this._objEventSignups.UserID > -1)
+                    if (_objEventSignups.UserID > -1)
                     {
-                        objEventEmailInfo.UserIDs.Add(this._objEventSignups.UserID);
+                        objEventEmailInfo.UserIDs.Add(_objEventSignups.UserID);
                     }
                     else
                     {
-                        objEventEmailInfo.UserEmails.Add(this._objEventSignups.AnonEmail);
-                        objEventEmailInfo.UserLocales.Add(this._objEventSignups.AnonCulture);
-                        objEventEmailInfo.UserTimeZoneIds.Add(this._objEventSignups.AnonTimeZoneId);
+                        objEventEmailInfo.UserEmails.Add(_objEventSignups.AnonEmail);
+                        objEventEmailInfo.UserLocales.Add(_objEventSignups.AnonCulture);
+                        objEventEmailInfo.UserTimeZoneIds.Add(_objEventSignups.AnonTimeZoneId);
                     }
                 }
-                objEventEmailInfo.UserIDs.Add(this._objEvent.OwnerID);
+                objEventEmailInfo.UserIDs.Add(_objEvent.OwnerID);
                 var objEventEmailInfo2 = new EventEmailInfo();
                 objEventEmailInfo2.TxtEmailFrom = sEmail;
-                objEventEmailInfo2.UserEmails.Add(this._objEvent.PayPalAccount);
+                objEventEmailInfo2.UserEmails.Add(_objEvent.PayPalAccount);
                 objEventEmailInfo2.UserLocales.Add("");
                 objEventEmailInfo2.UserTimeZoneIds.Add("");
 
@@ -463,141 +463,141 @@ namespace DotNetNuke.Modules.Events
                 {
                     //we're ok
                     objEventEmailInfo2.TxtEmailSubject =
-                        "Sale of: " + this._itemName + " from " + portalSettings.PortalName;
+                        "Sale of: " + _itemName + " from " + portalSettings.PortalName;
                     objEventEmailInfo2.TxtEmailBody = sMessage;
-                    if (this._paymentStatus.ToUpper() == "COMPLETED")
+                    if (_paymentStatus.ToUpper() == "COMPLETED")
                     {
-                        this.SavePayPalInfo(true, this._objEvent);
+                        SavePayPalInfo(true, _objEvent);
 
                         // Mail users
-                        if (this._settings.SendEnrollMessagePaid)
+                        if (_settings.SendEnrollMessagePaid)
                         {
-                            objEventEmailInfo.TxtEmailBody = this._settings.Templates.txtEnrollMessagePaid;
-                            objEventEmail.SendEmails(objEventEmailInfo, this._objEvent, this._objEventSignups, true);
+                            objEventEmailInfo.TxtEmailBody = _settings.Templates.txtEnrollMessagePaid;
+                            objEventEmail.SendEmails(objEventEmailInfo, _objEvent, _objEventSignups, true);
                         }
                     }
                     else
                     {
-                        this.SavePayPalInfo(false, this._objEvent);
+                        SavePayPalInfo(false, _objEvent);
 
                         // Mail users
-                        if (this._settings.SendEnrollMessagePending)
+                        if (_settings.SendEnrollMessagePending)
                         {
-                            objEventEmailInfo.TxtEmailBody = this._settings.Templates.txtEnrollMessagePending;
-                            objEventEmail.SendEmails(objEventEmailInfo, this._objEvent, this._objEventSignups, true);
+                            objEventEmailInfo.TxtEmailBody = _settings.Templates.txtEnrollMessagePending;
+                            objEventEmail.SendEmails(objEventEmailInfo, _objEvent, _objEventSignups, true);
                         }
                     }
                 }
                 else
                 {
                     //someone is trying to rip us off.
-                    objEventEmailInfo2.TxtEmailSubject = "Failed Price Matchup Check: " + this._itemName + " from " +
+                    objEventEmailInfo2.TxtEmailSubject = "Failed Price Matchup Check: " + _itemName + " from " +
                                                          portalSettings.PortalName;
                     objEventEmailInfo2.TxtEmailBody =
                         "There was an incorrect match between actual price and price paid. The following transaction information is provided below:" +
                         strNewLine +
-                        strNewLine + "The purchasing email is: " + this._payerEmail + strNewLine +
-                        "User ID: " + this._custom + strNewLine +
-                        "Transaction Type: " + this._txnType + strNewLine +
-                        "Transaction ID: " + this._txnID + strNewLine +
-                        "Item Number: " + this._itemNumber + strNewLine +
+                        strNewLine + "The purchasing email is: " + _payerEmail + strNewLine +
+                        "User ID: " + _custom + strNewLine +
+                        "Transaction Type: " + _txnType + strNewLine +
+                        "Transaction ID: " + _txnID + strNewLine +
+                        "Item Number: " + _itemNumber + strNewLine +
                         "PayPal Paid: " + sSystemPrice + strNewLine +
                         "Actual Price: " + sPPPrice + strNewLine +
                         strNewLine + "TRANSACTION DETAILS: " + strNewLine + strNewLine + sMessage;
 
-                    this.SavePayPalErrorLogInfo();
+                    SavePayPalErrorLogInfo();
 
                     // Mail users
-                    if (this._settings.SendEnrollMessageIncorrect)
+                    if (_settings.SendEnrollMessageIncorrect)
                     {
-                        objEventEmailInfo.TxtEmailBody = this._settings.Templates.txtEnrollMessageIncorrect;
-                        objEventEmail.SendEmails(objEventEmailInfo, this._objEvent, this._objEventSignups, true);
+                        objEventEmailInfo.TxtEmailBody = _settings.Templates.txtEnrollMessageIncorrect;
+                        objEventEmail.SendEmails(objEventEmailInfo, _objEvent, _objEventSignups, true);
                     }
                 }
-                objEventEmail.SendEmails(objEventEmailInfo2, this._objEvent, this._objEventSignups, true);
+                objEventEmail.SendEmails(objEventEmailInfo2, _objEvent, _objEventSignups, true);
             }
             catch (Exception exc)
             {
                 Exceptions.LogException(
                     new ModuleLoadException("EventIPN, Paypal Exception: " + exc.Message + " at: " + exc.Source));
                 Exceptions.ProcessModuleLoadException(this, exc);
-                var localResourceFile = this.TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory +
+                var localResourceFile = TemplateSourceDirectory + "/" + Localization.LocalResourceDirectory +
                                         "/EventIPN.resx";
                 var objEventEmailInfo = new EventEmailInfo();
-                var objEventEmail = new EventEmails(this._objEvent.PortalID, this._objEventSignups.ModuleID,
+                var objEventEmail = new EventEmails(_objEvent.PortalID, _objEventSignups.ModuleID,
                                                     localResourceFile);
-                objEventEmailInfo.TxtEmailSubject = "Sale of: " + this._itemName + " from " + portalSettings.PortalName;
-                objEventEmailInfo.TxtEmailFrom = this._settings.StandardEmail.Trim();
-                objEventEmailInfo.UserEmails.Add(this._objEvent.PayPalAccount);
+                objEventEmailInfo.TxtEmailSubject = "Sale of: " + _itemName + " from " + portalSettings.PortalName;
+                objEventEmailInfo.TxtEmailFrom = _settings.StandardEmail.Trim();
+                objEventEmailInfo.UserEmails.Add(_objEvent.PayPalAccount);
                 objEventEmailInfo.UserLocales.Add("");
                 objEventEmailInfo.UserTimeZoneIds.Add("");
 
                 objEventEmailInfo.TxtEmailBody =
                     "There was a failure of the item purchase module. The following transaction information is provided below:" +
                     strNewLine +
-                    strNewLine + "The purchasing email is: " + this._payerEmail + strNewLine +
-                    strNewLine + "User ID: " + this._custom + strNewLine +
-                    strNewLine + "Transaction Type: " + this._txnType + strNewLine +
-                    strNewLine + "Transaction ID: " + this._txnID + strNewLine +
+                    strNewLine + "The purchasing email is: " + _payerEmail + strNewLine +
+                    strNewLine + "User ID: " + _custom + strNewLine +
+                    strNewLine + "Transaction Type: " + _txnType + strNewLine +
+                    strNewLine + "Transaction ID: " + _txnID + strNewLine +
                     strNewLine + "Error Code: " + exc.Message + strNewLine + exc.Source;
 
-                objEventEmail.SendEmails(objEventEmailInfo, this._objEvent, this._objEventSignups, true);
+                objEventEmail.SendEmails(objEventEmailInfo, _objEvent, _objEventSignups, true);
             }
         }
 
         private void SavePayPalInfo(bool approved, EventInfo objEvent)
         {
-            this._objEventSignups = this._objCtlEventSignups.EventsSignupsGet(int.Parse(this._itemNumber), 0, true);
-            this._objEventSignups.Approved = approved;
-            this._objEventSignups.PayPalAddress = this._addressStreet;
-            this._objEventSignups.PayPalCity = this._addressCity;
-            this._objEventSignups.PayPalCountry = this._addressCountry;
-            this._objEventSignups.PayPalAmount = Convert.ToDecimal(this._paymentGross);
-            this._objEventSignups.PayPalCurrency = this._currency;
-            this._objEventSignups.PayPalFee = Convert.ToDecimal(this._paymentFee);
-            this._objEventSignups.PayPalFirstName = this._firstName;
-            this._objEventSignups.PayPalLastName = this._lastName;
-            this._objEventSignups.PayPalPayerEmail = this._payerEmail;
-            this._objEventSignups.PayPalPayerID = this._subscrID;
-            this._objEventSignups.PayPalPayerStatus = this._payerStatus;
-            this._objEventSignups.PayPalPaymentDate = DateTime.UtcNow;
-            this._objEventSignups.PayPalReason = this._pendingReason;
-            this._objEventSignups.PayPalRecieverEmail = this._receiverEmail;
-            this._objEventSignups.PayPalState = this._addressState;
-            this._objEventSignups.PayPalStatus = this._paymentStatus.ToLower();
-            this._objEventSignups.PayPalTransID = this._txnID;
+            _objEventSignups = _objCtlEventSignups.EventsSignupsGet(int.Parse(_itemNumber), 0, true);
+            _objEventSignups.Approved = approved;
+            _objEventSignups.PayPalAddress = _addressStreet;
+            _objEventSignups.PayPalCity = _addressCity;
+            _objEventSignups.PayPalCountry = _addressCountry;
+            _objEventSignups.PayPalAmount = Convert.ToDecimal(_paymentGross);
+            _objEventSignups.PayPalCurrency = _currency;
+            _objEventSignups.PayPalFee = Convert.ToDecimal(_paymentFee);
+            _objEventSignups.PayPalFirstName = _firstName;
+            _objEventSignups.PayPalLastName = _lastName;
+            _objEventSignups.PayPalPayerEmail = _payerEmail;
+            _objEventSignups.PayPalPayerID = _subscrID;
+            _objEventSignups.PayPalPayerStatus = _payerStatus;
+            _objEventSignups.PayPalPaymentDate = DateTime.UtcNow;
+            _objEventSignups.PayPalReason = _pendingReason;
+            _objEventSignups.PayPalRecieverEmail = _receiverEmail;
+            _objEventSignups.PayPalState = _addressState;
+            _objEventSignups.PayPalStatus = _paymentStatus.ToLower();
+            _objEventSignups.PayPalTransID = _txnID;
             //objEventSignups.PayPalUserEmail = pay.IPNUserEmail
-            this._objEventSignups.PayPalZip = this._addressZip;
+            _objEventSignups.PayPalZip = _addressZip;
             var eventsBase = new EventBase();
-            eventsBase.CreateEnrollment(this._objEventSignups, objEvent, this._settings);
+            eventsBase.CreateEnrollment(_objEventSignups, objEvent, _settings);
         }
 
         private void SavePayPalErrorLogInfo()
         {
-            this._objEventPpErrorLog = new EventPpErrorLogInfo();
-            this._objEventPpErrorLog.SignupID = Convert.ToInt32(this._itemNumber);
+            _objEventPpErrorLog = new EventPpErrorLogInfo();
+            _objEventPpErrorLog.SignupID = Convert.ToInt32(_itemNumber);
             //objEventPPErrorLog.Approved = False
-            this._objEventPpErrorLog.PayPalAddress = this._addressStreet;
-            this._objEventPpErrorLog.PayPalCity = this._addressCity;
-            this._objEventPpErrorLog.PayPalCountry = this._addressCountry;
-            this._objEventPpErrorLog.PayPalAmount = Convert.ToDouble(this._paymentGross);
-            this._objEventPpErrorLog.PayPalCurrency = this._currency;
-            this._objEventPpErrorLog.PayPalFee = Convert.ToDouble(this._paymentFee);
-            this._objEventPpErrorLog.PayPalFirstName = this._firstName;
-            this._objEventPpErrorLog.PayPalLastName = this._lastName;
-            this._objEventPpErrorLog.PayPalPayerEmail = this._payerEmail;
-            this._objEventPpErrorLog.PayPalPayerID = this._subscrID;
-            this._objEventPpErrorLog.PayPalPayerStatus = this._payerStatus;
+            _objEventPpErrorLog.PayPalAddress = _addressStreet;
+            _objEventPpErrorLog.PayPalCity = _addressCity;
+            _objEventPpErrorLog.PayPalCountry = _addressCountry;
+            _objEventPpErrorLog.PayPalAmount = Convert.ToDouble(_paymentGross);
+            _objEventPpErrorLog.PayPalCurrency = _currency;
+            _objEventPpErrorLog.PayPalFee = Convert.ToDouble(_paymentFee);
+            _objEventPpErrorLog.PayPalFirstName = _firstName;
+            _objEventPpErrorLog.PayPalLastName = _lastName;
+            _objEventPpErrorLog.PayPalPayerEmail = _payerEmail;
+            _objEventPpErrorLog.PayPalPayerID = _subscrID;
+            _objEventPpErrorLog.PayPalPayerStatus = _payerStatus;
             //objEventPPErrorLog.PayPalPaymentDate = CType(Payment_date, Date)
-            this._objEventPpErrorLog.PayPalPaymentDate = DateTime.Now;
-            this._objEventPpErrorLog.PayPalReason = this._pendingReason;
-            this._objEventPpErrorLog.PayPalRecieverEmail = this._receiverEmail;
-            this._objEventPpErrorLog.PayPalState = this._addressState;
-            this._objEventPpErrorLog.PayPalStatus = this._paymentStatus.ToLower();
-            this._objEventPpErrorLog.PayPalTransID = this._txnID;
+            _objEventPpErrorLog.PayPalPaymentDate = DateTime.Now;
+            _objEventPpErrorLog.PayPalReason = _pendingReason;
+            _objEventPpErrorLog.PayPalRecieverEmail = _receiverEmail;
+            _objEventPpErrorLog.PayPalState = _addressState;
+            _objEventPpErrorLog.PayPalStatus = _paymentStatus.ToLower();
+            _objEventPpErrorLog.PayPalTransID = _txnID;
             //objEventPPErrorLog.PayPalUserEmail = pay.IPNUserEmail
-            this._objEventPpErrorLog.PayPalZip = this._addressZip;
-            this._objEventPpErrorLog = this._objCtlEventPpErrorLog.EventsPpErrorLogAdd(this._objEventPpErrorLog);
+            _objEventPpErrorLog.PayPalZip = _addressZip;
+            _objEventPpErrorLog = _objCtlEventPpErrorLog.EventsPpErrorLogAdd(_objEventPpErrorLog);
         }
 
         #endregion

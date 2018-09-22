@@ -23,23 +23,23 @@
 #endregion
 
 
+using System;
+using System.Collections;
+using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.Threading;
+using System.Web.UI.WebControls;
+using Components;
+using DotNetNuke.Modules.Events.ScheduleControl;
+using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
+using Microsoft.VisualBasic;
+using Telerik.Web.UI.Calendar;
+using FirstDayOfWeek = System.Web.UI.WebControls.FirstDayOfWeek;
+
 namespace DotNetNuke.Modules.Events
 {
-    using System;
-    using System.Collections;
-    using System.Data;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Threading;
-    using System.Web.UI.WebControls;
-    using DotNetNuke.Modules.Events.ScheduleControl;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
-    using global::Components;
-    using Microsoft.VisualBasic;
-    using Telerik.Web.UI.Calendar;
-    using FirstDayOfWeek = System.Web.UI.WebControls.FirstDayOfWeek;
-
     public partial class EventWeek : EventBase
     {
         #region Page Events
@@ -48,42 +48,31 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                this.LocalizeAll();
+                LocalizeAll();
 
-                this.SetupViewControls(this.EventIcons, this.EventIcons2, this.SelectCategory, this.SelectLocation,
-                                       this.pnlDateControls);
-                var initDate = this.SelectedDate.Date;
-                this.dpGoToDate.SelectedDate = initDate;
-                this.dpGoToDate.Calendar.FirstDayOfWeek = this.Settings.WeekStart;
+                SetupViewControls(EventIcons, EventIcons2, SelectCategory, SelectLocation,
+                                       pnlDateControls);
+                var initDate = SelectedDate.Date;
+                dpGoToDate.SelectedDate = initDate;
+                dpGoToDate.Calendar.FirstDayOfWeek = Settings.WeekStart;
 
-                if (!this.IsPostBack)
+                if (!IsPostBack)
                 {
-                    this.schWeek.StartDay = this._culture.DateTimeFormat.FirstDayOfWeek;
-                    if (this.Settings.WeekStart != FirstDayOfWeek.Default)
+                    schWeek.StartDay = _culture.DateTimeFormat.FirstDayOfWeek;
+                    if (Settings.WeekStart != FirstDayOfWeek.Default)
                     {
-                        this.schWeek.StartDay = (DayOfWeek) this.Settings.WeekStart;
+                        schWeek.StartDay = (DayOfWeek) Settings.WeekStart;
                     }
-                    if (this.Settings.Fulltimescale)
+
+                    if (Settings.Fulltimescale)
                     {
-                        this.schWeek.FullTimeScale = true;
+                        schWeek.FullTimeScale = true;
                     }
-                    if (this.Settings.Includeendvalue)
-                    {
-                        this.schWeek.IncludeEndValue = true;
-                    }
-                    else
-                    {
-                        this.schWeek.IncludeEndValue = false;
-                    }
-                    if (this.Settings.Showvaluemarks)
-                    {
-                        this.schWeek.ShowValueMarks = true;
-                    }
-                    else
-                    {
-                        this.schWeek.ShowValueMarks = false;
-                    }
-                    this.BindPage(initDate);
+
+                    schWeek.IncludeEndValue = Settings.Includeendvalue;
+                    schWeek.ShowValueMarks = Settings.Showvaluemarks;
+
+                    BindPage(initDate);
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -106,7 +95,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
@@ -123,9 +112,9 @@ namespace DotNetNuke.Modules.Events
 
         private void LocalizeAll()
         {
-            this.lnkToday.Text = Localization.GetString("lnkToday", this.LocalResourceFile);
-            this.dpGoToDate.DatePopupButton.ToolTip =
-                Localization.GetString("DatePickerTooltip", this.LocalResourceFile);
+            lnkToday.Text = Localization.GetString("lnkToday", LocalResourceFile);
+            dpGoToDate.DatePopupButton.ToolTip =
+                Localization.GetString("DatePickerTooltip", LocalResourceFile);
         }
 
         private void BindPage(DateTime dDate)
@@ -134,49 +123,51 @@ namespace DotNetNuke.Modules.Events
             var dEnd = default(DateTime);
             var sBegin = default(DateTime);
             var sEnd = default(DateTime);
-            var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+            var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
 
             try
             {
                 // Set Date Range
-                if (this.Settings.WeekStart != FirstDayOfWeek.Default)
+                if (Settings.WeekStart != FirstDayOfWeek.Default)
                 {
-                    this._dWeekStart =
-                        dDate.AddDays(Convert.ToDouble(-(int) dDate.DayOfWeek + this.Settings.WeekStart));
+                    _dWeekStart =
+                        dDate.AddDays(Convert.ToDouble(-(int) dDate.DayOfWeek + Settings.WeekStart));
                 }
                 else
                 {
-                    this._dWeekStart = dDate.AddDays(Convert.ToDouble(-(int) dDate.DayOfWeek));
+                    _dWeekStart = dDate.AddDays(Convert.ToDouble(-(int) dDate.DayOfWeek));
                 }
-                if (((int) dDate.DayOfWeek < (int) this.Settings.WeekStart) &
-                    (this.Settings.WeekStart != FirstDayOfWeek.Default))
+
+                if (((int) dDate.DayOfWeek < (int) Settings.WeekStart) &
+                    (Settings.WeekStart != FirstDayOfWeek.Default))
                 {
-                    this._dWeekStart = this._dWeekStart.AddDays(-7);
+                    _dWeekStart = _dWeekStart.AddDays(-7);
                 }
-                this.lblWeekOf.Text = string.Format(Localization.GetString("capWeekEvent", this.LocalResourceFile),
+
+                lblWeekOf.Text = string.Format(Localization.GetString("capWeekEvent", LocalResourceFile),
                                                     DateAndTime.DatePart(
-                                                        DateInterval.WeekOfYear, this._dWeekStart,
+                                                        DateInterval.WeekOfYear, _dWeekStart,
                                                         FirstWeekOfYearValue: FirstWeekOfYear.FirstFourDays),
-                                                    this._dWeekStart.ToLongDateString());
-                this.ViewState[this.ModuleId + "WeekOf"] = this._dWeekStart.ToShortDateString();
+                                                    _dWeekStart.ToLongDateString());
+                ViewState[ModuleId + "WeekOf"] = _dWeekStart.ToShortDateString();
 
                 // Allow 7 days for events that might start before beginning of week
-                sBegin = this._dWeekStart;
-                dBegin = DateAndTime.DateAdd(DateInterval.Day, -7, this._dWeekStart);
-                sEnd = DateAndTime.DateAdd(DateInterval.Day, Convert.ToDouble(+7), this._dWeekStart);
+                sBegin = _dWeekStart;
+                dBegin = DateAndTime.DateAdd(DateInterval.Day, -7, _dWeekStart);
+                sEnd = DateAndTime.DateAdd(DateInterval.Day, Convert.ToDouble(+7), _dWeekStart);
                 dEnd = sEnd;
 
                 // Get Events/Sub-Calendar Events
 
-                var getSubEvents = this.Settings.MasterEvent;
-                this._selectedEvents =
-                    objEventInfoHelper.GetEvents(dBegin, dEnd, getSubEvents, this.SelectCategory.SelectedCategory,
-                                                 this.SelectLocation.SelectedLocation, this.GetUrlGroupId(),
-                                                 this.GetUrlUserId());
+                var getSubEvents = Settings.MasterEvent;
+                _selectedEvents =
+                    objEventInfoHelper.GetEvents(dBegin, dEnd, getSubEvents, SelectCategory.SelectedCategory,
+                                                 SelectLocation.SelectedLocation, GetUrlGroupId(),
+                                                 GetUrlUserId());
 
-                this._selectedEvents =
+                _selectedEvents =
                     objEventInfoHelper.ConvertEventListToDisplayTimeZone(
-                        this._selectedEvents, this.GetDisplayTimeZoneId());
+                        _selectedEvents, GetDisplayTimeZoneId());
 
                 // Setup ScheduleGeneral
                 // Create DataView
@@ -196,18 +187,20 @@ namespace DotNetNuke.Modules.Events
                 eventTable.Columns.Add("Tooltip", Type.GetType("System.String"));
                 eventTable.Columns.Add("BackColor", Type.GetType("System.String"));
 
-                if (this.Settings.Eventtooltipweek)
+                if (Settings.Eventtooltipweek)
                 {
-                    this.toolTipManager.TargetControls.Clear();
+                    toolTipManager.TargetControls.Clear();
                 }
 
                 var dgRow = default(DataRow);
                 var objEvent = default(EventInfo);
-                foreach (EventInfo tempLoopVar_objEvent in this._selectedEvents)
+
+                foreach (EventInfo tempLoopVar_objEvent in _selectedEvents)
                 {
                     objEvent = tempLoopVar_objEvent;
+
                     // If full enrollments should be hidden, ignore
-                    if (this.HideFullEvent(objEvent))
+                    if (HideFullEvent(objEvent))
                     {
                         continue;
                     }
@@ -230,18 +223,18 @@ namespace DotNetNuke.Modules.Events
                         }
                         //**** Add ModuleName if SubCalendar
                         var imagestring = "";
-                        if (this.Settings.Eventimage && this.Settings.EventImageWeek
+                        if (Settings.Eventimage && Settings.EventImageWeek
                             && objEvent.ImageURL != null && objEvent.ImageDisplay)
                         {
-                            imagestring = this.ImageInfo(objEvent.ImageURL, objEvent.ImageHeight, objEvent.ImageWidth);
+                            imagestring = ImageInfo(objEvent.ImageURL, objEvent.ImageHeight, objEvent.ImageWidth);
                         }
 
                         dgRow["BackColor"] = "";
                         var iconString = "";
 
-                        var eventtext = this.CreateEventName(objEvent, this.Settings.Templates.txtWeekEventText);
+                        var eventtext = CreateEventName(objEvent, Settings.Templates.txtWeekEventText);
 
-                        if (!this.IsPrivateNotModerator || this.UserId == objEvent.OwnerID)
+                        if (!IsPrivateNotModerator || UserId == objEvent.OwnerID)
                         {
                             var forecolorstr = "";
                             var backcolorstr = "";
@@ -260,8 +253,8 @@ namespace DotNetNuke.Modules.Events
                                             blankstr + eventtext + blankstr + "</span>";
 
                             iconString =
-                                this.CreateIconString(objEvent, this.Settings.IconWeekPrio, this.Settings.IconWeekRec,
-                                                      this.Settings.IconWeekReminder, this.Settings.IconWeekEnroll);
+                                CreateIconString(objEvent, Settings.IconWeekPrio, Settings.IconWeekRec,
+                                                      Settings.IconWeekReminder, Settings.IconWeekEnroll);
 
                             // Get detail page url
                             dgRow["URL"] = objEventInfoHelper.DetailPageURL(objEvent);
@@ -279,12 +272,12 @@ namespace DotNetNuke.Modules.Events
                         dgRow["Description"] = objEvent.EventDesc;
                         dgRow["StartDateTime"] = objEvent.EventTimeBegin;
                         dgRow["Duration"] = objEvent.Duration;
-                        if (this.Settings.Eventtooltipweek)
+                        if (Settings.Eventtooltipweek)
                         {
-                            var isEvtEditor = this.IsEventEditor(objEvent, false);
+                            var isEvtEditor = IsEventEditor(objEvent, false);
                             dgRow["Tooltip"] =
-                                this.ToolTipCreate(objEvent, this.Settings.Templates.txtTooltipTemplateTitle,
-                                                   this.Settings.Templates.txtTooltipTemplateBody, isEvtEditor);
+                                ToolTipCreate(objEvent, Settings.Templates.txtTooltipTemplateTitle,
+                                                   Settings.Templates.txtTooltipTemplateBody, isEvtEditor);
                         }
 
 
@@ -293,11 +286,11 @@ namespace DotNetNuke.Modules.Events
                 }
                 var dvEvent = new DataView(eventTable);
 
-                this.schWeek.StartDate = this._dWeekStart;
-                this.schWeek.DateFormatString = this.Settings.Templates.txtWeekTitleDate;
-                this.schWeek.Weeks = 1;
-                this.schWeek.DataSource = dvEvent;
-                this.schWeek.DataBind();
+                schWeek.StartDate = _dWeekStart;
+                schWeek.DateFormatString = Settings.Templates.txtWeekTitleDate;
+                schWeek.Weeks = 1;
+                schWeek.DataSource = dvEvent;
+                schWeek.DataBind();
             }
             catch
             { }
@@ -309,22 +302,22 @@ namespace DotNetNuke.Modules.Events
 
         protected void lnkNext_Click(object sender, EventArgs e)
         {
-            var dDate = Convert.ToDateTime(Convert.ToDateTime(this.ViewState[this.ModuleId + "WeekOf"]).AddDays(7));
-            this.SelectedDate = dDate.Date;
-            this.dpGoToDate.SelectedDate = dDate.Date;
-            this.SelectCategory.StoreCategories();
-            this.SelectLocation.StoreLocations();
-            this.BindPage(dDate);
+            var dDate = Convert.ToDateTime(Convert.ToDateTime(ViewState[ModuleId + "WeekOf"]).AddDays(7));
+            SelectedDate = dDate.Date;
+            dpGoToDate.SelectedDate = dDate.Date;
+            SelectCategory.StoreCategories();
+            SelectLocation.StoreLocations();
+            BindPage(dDate);
         }
 
         protected void lnkPrev_Click(object sender, EventArgs e)
         {
-            var dDate = Convert.ToDateTime(Convert.ToDateTime(this.ViewState[this.ModuleId + "WeekOf"]).AddDays(-7));
-            this.SelectedDate = dDate.Date;
-            this.dpGoToDate.SelectedDate = dDate.Date;
-            this.SelectCategory.StoreCategories();
-            this.SelectLocation.StoreLocations();
-            this.BindPage(dDate);
+            var dDate = Convert.ToDateTime(Convert.ToDateTime(ViewState[ModuleId + "WeekOf"]).AddDays(-7));
+            SelectedDate = dDate.Date;
+            dpGoToDate.SelectedDate = dDate.Date;
+            SelectCategory.StoreCategories();
+            SelectLocation.StoreLocations();
+            BindPage(dDate);
         }
 
         protected void schWeek_ItemDataBound(object sender, ScheduleItemEventArgs e)
@@ -333,22 +326,24 @@ namespace DotNetNuke.Modules.Events
             {
                 var row = (DataRowView) e.Item.DataItem;
                 var itemCell = (TableCell) e.Item.Parent;
-                if (this.Settings.Eventtooltipweek)
+                if (Settings.Eventtooltipweek)
                 {
                     var tooltip = Convert.ToString(row["Tooltip"]);
                     itemCell.Attributes.Add("title", tooltip);
-                    this.toolTipManager.TargetControls.Add(itemCell.ClientID, true);
+                    toolTipManager.TargetControls.Add(itemCell.ClientID, true);
                 }
-                if (this.IsPrivateNotModerator && !(this.UserId == Convert.ToInt32(row["OwnerID"])))
+
+                if (IsPrivateNotModerator && !(UserId == Convert.ToInt32(row["OwnerID"])))
                 {
                     itemCell.Style.Add("cursor", "text");
                     itemCell.Style.Add("text-decoration", "none");
                     itemCell.Attributes.Add("onclick", "javascript:return false;");
                 }
+
                 var backColor = Convert.ToString(row["BackColor"]);
                 if (!string.IsNullOrEmpty(backColor))
                 {
-                    itemCell.BackColor = this.GetColor(backColor);
+                    itemCell.BackColor = GetColor(backColor);
                 }
             }
         }
@@ -356,34 +351,34 @@ namespace DotNetNuke.Modules.Events
         protected void SelectCategory_CategorySelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            this.SelectLocation.StoreLocations();
-            var dDate = Convert.ToDateTime(this.ViewState[this.ModuleId + "WeekOf"]);
-            this.BindPage(dDate);
+            SelectLocation.StoreLocations();
+            var dDate = Convert.ToDateTime(ViewState[ModuleId + "WeekOf"]);
+            BindPage(dDate);
         }
 
         protected void SelectLocation_LocationSelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            this.SelectCategory.StoreCategories();
-            var dDate = Convert.ToDateTime(this.ViewState[this.ModuleId + "WeekOf"]);
-            this.BindPage(dDate);
+            SelectCategory.StoreCategories();
+            var dDate = Convert.ToDateTime(ViewState[ModuleId + "WeekOf"]);
+            BindPage(dDate);
         }
 
         protected void lnkToday_Click(object sender, EventArgs e)
         {
             var dDate = DateTime.Now.Date;
-            this.SelectedDate = dDate;
-            this.dpGoToDate.SelectedDate = dDate;
-            this.SelectCategory.StoreCategories();
-            this.SelectLocation.StoreLocations();
-            this.BindPage(dDate);
+            SelectedDate = dDate;
+            dpGoToDate.SelectedDate = dDate;
+            SelectCategory.StoreCategories();
+            SelectLocation.StoreLocations();
+            BindPage(dDate);
         }
 
         protected void dpGoToDate_SelectedDateChanged(object sender, SelectedDateChangedEventArgs e)
         {
-            var dDate = Convert.ToDateTime(this.dpGoToDate.SelectedDate);
-            this.SelectedDate = dDate;
-            this.BindPage(dDate);
+            var dDate = Convert.ToDateTime(dpGoToDate.SelectedDate);
+            SelectedDate = dDate;
+            BindPage(dDate);
         }
 
         #endregion

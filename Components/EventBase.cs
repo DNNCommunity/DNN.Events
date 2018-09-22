@@ -71,7 +71,8 @@ namespace Components
                         _currculture = Thread.CurrentThread.CurrentCulture;
                         if (_selectedDate.Year == 1)
                         {
-                            if (!(Request.Params["selecteddate"] == null))
+                            // Do we have a value we need to use?
+                            if (!string.IsNullOrEmpty((Request.Params["selecteddate"])))
                             {
                                 var strDate = Request.Params["selecteddate"];
                                 if (Information.IsDate(strDate))
@@ -95,18 +96,14 @@ namespace Components
                             {
                                 _selectedDate = currDateInfo.EventDate;
                             }
-                            else if (ReferenceEquals(
-                                Request.Cookies["DNNEvents"]
+                            else if (ReferenceEquals(Request.Cookies["DNNEvents"] 
                                     ["EventSelectedDate" + Convert.ToString(ModuleId)], null))
                             {
                                 _selectedDate = currDateInfo.EventDate;
                             }
                             else
                             {
-                                var cookieDate =
-                                    Convert.ToString(
-                                        Request.Cookies["DNNEvents"][
-                                            "EventSelectedDate" + Convert.ToString(ModuleId)]);
+                                var cookieDate = Convert.ToString(Request.Cookies["DNNEvents"]["EventSelectedDate" + Convert.ToString(ModuleId)]);
                                 Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
                                 if (Convert.ToDateTime(cookieDate).Year == 1)
                                 {
@@ -359,10 +356,12 @@ namespace Components
                     if (objModulePermission.UserID < 0)
                     {
                         var objCtlRole = new RoleController();
+
                         if (objModulePermission.RoleID != PortalSettings.AdministratorRoleId)
                         {
                             var lstUsers = objCtlRole.GetUsersByRoleName(PortalId, objModulePermission.RoleName);
                             var objUser = default(UserInfo);
+
                             foreach (UserInfo tempLoopVar_objUser in lstUsers)
                             {
                                 objUser = tempLoopVar_objUser;
@@ -377,8 +376,10 @@ namespace Components
                     {
                         var objUserCtl = new UserController();
                         var objUser = objUserCtl.GetUser(PortalId, objModulePermission.UserID);
+                        
                         if (!ReferenceEquals(objUser, null))
                         {
+                        
                             if (!moderators.Contains(objUser.Email))
                             {
                                 moderators.Add(objUser.Email);
@@ -433,11 +434,14 @@ namespace Components
                     if (placeholder.ID == "CSS")
                     {
                         var insertat = 1;
+                        
                         foreach (var placeholdercontrol in placeholder.Controls)
                         {
+                        
                             if (placeholdercontrol is HtmlLink)
                             {
                                 var htmllink = (HtmlLink) placeholdercontrol;
+                            
                                 if (htmllink.Href.ToLower().Contains("desktopmodules/events/module.css"))
                                 {
                                     placeholder.Controls.AddAt(insertat, cssLink);
@@ -447,6 +451,7 @@ namespace Components
                             }
                             insertat++;
                         }
+
                         if (added)
                         {
                             break;
@@ -454,6 +459,7 @@ namespace Components
                     }
                 }
             }
+
             if (!added)
             {
                 Page.Header.Controls.Add(cssLink);
@@ -465,11 +471,12 @@ namespace Components
         public ThemeSetting GetThemeSettings()
         {
             var themeSettings = new ThemeSetting();
+            
             if (themeSettings.ValidateSetting(Settings.EventTheme) == false)
             {
                 themeSettings.ReadSetting(Settings.EventThemeDefault, PortalId);
             }
-            else if (Settings.EventTheme != "")
+            else if (!string.IsNullOrEmpty(Settings.EventTheme ))
             {
                 themeSettings.ReadSetting(Settings.EventTheme, PortalId);
             }
@@ -504,6 +511,7 @@ namespace Components
                 var objFile = default(IFileInfo);
                 var fileId = int.Parse(imageUrl.Substring(7));
                 objFile = FileManager.Instance.GetFile(fileId);
+
                 if (!ReferenceEquals(objFile, null))
                 {
                     imageSrc = objFile.Folder + objFile.FileName.Replace(" ", "%20");
@@ -529,16 +537,19 @@ namespace Components
             {
                 var thumbWidth = imageWidth;
                 var thumbHeight = imageHeight;
+                
                 if (imageHeight > Settings.MaxThumbHeight)
                 {
                     thumbHeight = Settings.MaxThumbHeight;
                     thumbWidth = Convert.ToInt32((double) imageWidth * Settings.MaxThumbHeight / imageHeight);
                 }
+                
                 if (thumbWidth > Settings.MaxThumbWidth)
                 {
                     thumbWidth = Settings.MaxThumbWidth;
                     thumbHeight = Convert.ToInt32((double) imageHeight * Settings.MaxThumbWidth / imageWidth);
                 }
+                
                 imagestring = "<img src=\"" + imageSrc + "\" border=\"0\" width=\"" + thumbWidth + "\" height=\"" +
                               thumbHeight + "\" align=\"middle\" alt=\"\" /><br />";
             }
@@ -552,6 +563,7 @@ namespace Components
         public string DetailPageEdit(EventInfo objEvent)
         {
             var editString = "";
+            
             if (IsEventEditor(objEvent, false))
             {
                 var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
@@ -569,10 +581,12 @@ namespace Components
         public void RedirectToLogin()
         {
             var returnUrl = HttpContext.Current.Request.RawUrl;
+            
             if (returnUrl.IndexOf("?returnurl=", StringComparison.Ordinal) != -1)
             {
                 returnUrl = returnUrl.Substring(0, returnUrl.IndexOf("?returnurl=", StringComparison.Ordinal));
             }
+            
             returnUrl = HttpUtility.UrlEncode(returnUrl);
 
             Response.Redirect(
@@ -586,6 +600,7 @@ namespace Components
             eventIcons2.Visible = false;
             eventIcons.ModuleConfiguration = ModuleConfiguration.Clone();
             eventIcons2.ModuleConfiguration = ModuleConfiguration.Clone();
+            
             switch (Settings.IconBar)
             {
                 case "TOP":
@@ -603,12 +618,14 @@ namespace Components
             {
                 return;
             }
+            
             var objEventEmailInfo = new EventEmailInfo();
             var objEventEmail = new EventEmails(PortalId, ModuleId, LocalResourceFile,
                                                 ((PageBase) Page).PageCulture.Name);
             objEventEmailInfo.TxtEmailSubject = Settings.Templates.txtNewEventEmailSubject;
             objEventEmailInfo.TxtEmailBody = Settings.Templates.txtNewEventEmailMessage;
             objEventEmailInfo.TxtEmailFrom = Settings.StandardEmail;
+            
             switch (Settings.Neweventemails)
             {
                 case "Subscribe":
