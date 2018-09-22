@@ -23,22 +23,23 @@
 #endregion
 
 
+using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Drawing;
+using System.Threading;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Components;
+using DNNtc;
+using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
+using Microsoft.VisualBasic;
+
 namespace DotNetNuke.Modules.Events
 {
-    using System;
-    using System.Collections;
-    using System.Diagnostics;
-    using System.Drawing;
-    using System.Threading;
-    using System.Web;
-    using System.Web.UI;
-    using System.Web.UI.WebControls;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
-    using global::Components;
-    using Microsoft.VisualBasic;
-
-    [DNNtc.ModuleControlProperties("Day", "Events Day", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", true, true)]
+    [ModuleControlProperties("Day", "Events Day", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventDay : EventBase
     {
         #region Helper Functions
@@ -49,55 +50,55 @@ namespace DotNetNuke.Modules.Events
             var startDate = default(DateTime); // Start View Date Events Range
             var endDate = default(DateTime); // End View Date Events Range
             var objEvent = default(EventInfo);
-            var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+            var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
             var editButtonVisible = false;
 
             // Set Date Range
-            var dDate = this.SelectedDate.Date;
+            var dDate = SelectedDate.Date;
             startDate = dDate.AddDays(-1);
             endDate = dDate.AddDays(1);
 
             // Get Events/Sub-Calendar Events
-            var getSubEvents = this.Settings.MasterEvent;
-            this._selectedEvents =
-                objEventInfoHelper.GetEvents(startDate, endDate, getSubEvents, this.SelectCategory.SelectedCategory,
-                                             this.SelectLocation.SelectedLocation, this.GetUrlGroupId(),
-                                             this.GetUrlUserId());
+            var getSubEvents = Settings.MasterEvent;
+            _selectedEvents =
+                objEventInfoHelper.GetEvents(startDate, endDate, getSubEvents, SelectCategory.SelectedCategory,
+                                             SelectLocation.SelectedLocation, GetUrlGroupId(),
+                                             GetUrlUserId());
 
-            this._selectedEvents =
-                objEventInfoHelper.ConvertEventListToDisplayTimeZone(this._selectedEvents, this.GetDisplayTimeZoneId());
+            _selectedEvents =
+                objEventInfoHelper.ConvertEventListToDisplayTimeZone(_selectedEvents, GetDisplayTimeZoneId());
 
-            if (this._selectedEvents.Count == 0)
+            if (_selectedEvents.Count == 0)
             {
-                this.lstEvents.Visible = false;
-                this.divMessage.Visible = true;
+                lstEvents.Visible = false;
+                divMessage.Visible = true;
                 return;
             }
-            this.lstEvents.Visible = true;
-            this.divMessage.Visible = false;
+            lstEvents.Visible = true;
+            divMessage.Visible = false;
 
             // Get Date Events (used for Multiday event)
             var dayEvents = default(ArrayList);
-            dayEvents = objEventInfoHelper.GetDateEvents(this._selectedEvents, dDate);
+            dayEvents = objEventInfoHelper.GetDateEvents(_selectedEvents, dDate);
 
-            var fmtEventTimeBegin = this.Settings.Templates.txtDayEventTimeBegin;
+            var fmtEventTimeBegin = Settings.Templates.txtDayEventTimeBegin;
             if (string.IsNullOrEmpty(fmtEventTimeBegin))
             {
                 fmtEventTimeBegin = "g";
             }
 
-            var fmtEventTimeEnd = this.Settings.Templates.txtDayEventTimeEnd;
+            var fmtEventTimeEnd = Settings.Templates.txtDayEventTimeEnd;
             if (string.IsNullOrEmpty(fmtEventTimeEnd))
             {
                 fmtEventTimeEnd = "g";
             }
 
-            var tmpDayDescription = this.Settings.Templates.txtDayEventDescription;
-            var tmpDayLocation = this.Settings.Templates.txtDayLocation;
+            var tmpDayDescription = Settings.Templates.txtDayEventDescription;
+            var tmpDayLocation = Settings.Templates.txtDayLocation;
 
-            if (this.Settings.Eventtooltipday)
+            if (Settings.Eventtooltipday)
             {
-                this.toolTipManager.TargetControls.Clear();
+                toolTipManager.TargetControls.Clear();
             }
 
             var colEvents = new ArrayList();
@@ -106,13 +107,13 @@ namespace DotNetNuke.Modules.Events
             {
                 objEvent = tempLoopVar_objEvent;
                 // If full enrollments should be hidden, ignore
-                if (this.HideFullEvent(objEvent))
+                if (HideFullEvent(objEvent))
                 {
                     continue;
                 }
 
                 var blAddEvent = true;
-                if (this.Settings.Collapserecurring)
+                if (Settings.Collapserecurring)
                 {
                     foreach (EventListObject tempLoopVar_lstEvent in colEvents)
                     {
@@ -126,11 +127,11 @@ namespace DotNetNuke.Modules.Events
                 if (blAddEvent)
                 {
                     var objCtlEventRecurMaster = new EventRecurMasterController();
-                    var tcc = new TokenReplaceControllerClass(this.ModuleId, this.LocalResourceFile);
+                    var tcc = new TokenReplaceControllerClass(ModuleId, LocalResourceFile);
                     var fmtRowEnd = "";
                     var fmtRowBegin = "";
-                    fmtRowEnd = tcc.TokenParameters(fmtEventTimeEnd, objEvent, this.Settings);
-                    fmtRowBegin = tcc.TokenParameters(fmtEventTimeBegin, objEvent, this.Settings);
+                    fmtRowEnd = tcc.TokenParameters(fmtEventTimeEnd, objEvent, Settings);
+                    fmtRowBegin = tcc.TokenParameters(fmtEventTimeBegin, objEvent, Settings);
 
                     lstEvent = new EventListObject();
                     lstEvent.EventID = objEvent.EventID;
@@ -150,23 +151,23 @@ namespace DotNetNuke.Modules.Events
                     lstEvent.TxtEventTimeBegin = string.Format("{0:" + fmtRowBegin + "}", lstEvent.EventTimeBegin);
                     lstEvent.Duration = objEvent.Duration;
 
-                    var isEvtEditor = this.IsEventEditor(objEvent, false);
+                    var isEvtEditor = IsEventEditor(objEvent, false);
 
                     var templatedescr = "";
                     var iconString = "";
 
-                    if (!this.IsPrivateNotModerator || this.UserId == objEvent.OwnerID)
+                    if (!IsPrivateNotModerator || UserId == objEvent.OwnerID)
                     {
                         templatedescr = tcc.TokenReplaceEvent(objEvent, tmpDayDescription, null, false, isEvtEditor);
-                        lstEvent.CategoryColor = this.GetColor(objEvent.Color);
-                        lstEvent.CategoryFontColor = this.GetColor(objEvent.FontColor);
+                        lstEvent.CategoryColor = GetColor(objEvent.Color);
+                        lstEvent.CategoryFontColor = GetColor(objEvent.FontColor);
 
-                        iconString = this.CreateIconString(objEvent, this.Settings.IconListPrio,
-                                                           this.Settings.IconListRec, this.Settings.IconListReminder,
-                                                           this.Settings.IconListEnroll);
+                        iconString = CreateIconString(objEvent, Settings.IconListPrio,
+                                                           Settings.IconListRec, Settings.IconListReminder,
+                                                           Settings.IconListEnroll);
                     }
 
-                    lstEvent.EventName = this.CreateEventName(objEvent, "[event:title]");
+                    lstEvent.EventName = CreateEventName(objEvent, "[event:title]");
                     lstEvent.EventDesc = objEvent.EventDesc;
                     // RWJS - not sure why replace ' with \' - lstEvent.DecodedDesc = System.Web.HttpUtility.HtmlDecode(objEvent.EventDesc).Replace(Environment.NewLine, "").Trim.Replace("'", "\'")
                     lstEvent.DecodedDesc =
@@ -177,7 +178,7 @@ namespace DotNetNuke.Modules.Events
                     var objEventRRULE = default(EventRRULEInfo);
                     objEventRRULE = objCtlEventRecurMaster.DecomposeRRULE(objEvent.RRULE, objEvent.EventTimeBegin);
                     lstEvent.RecurText =
-                        objCtlEventRecurMaster.RecurrenceText(objEventRRULE, this.LocalResourceFile, culture,
+                        objCtlEventRecurMaster.RecurrenceText(objEventRRULE, LocalResourceFile, culture,
                                                               objEvent.EventTimeBegin);
                     if (objEvent.RRULE != "")
                     {
@@ -191,10 +192,10 @@ namespace DotNetNuke.Modules.Events
                     lstEvent.ModuleID = objEvent.ModuleID;
 
                     lstEvent.ImageURL = "";
-                    if (this.Settings.Eventimage && objEvent.ImageURL != null && objEvent.ImageDisplay)
+                    if (Settings.Eventimage && objEvent.ImageURL != null && objEvent.ImageDisplay)
                     {
                         lstEvent.ImageURL =
-                            this.ImageInfo(objEvent.ImageURL, objEvent.ImageHeight, objEvent.ImageWidth);
+                            ImageInfo(objEvent.ImageURL, objEvent.ImageHeight, objEvent.ImageWidth);
                     }
 
                     // Get detail page url
@@ -212,11 +213,11 @@ namespace DotNetNuke.Modules.Events
                     lstEvent.CustomField2 = objEvent.CustomField2;
                     lstEvent.RecurMasterID = objEvent.RecurMasterID;
 
-                    if (this.Settings.Eventtooltipday)
+                    if (Settings.Eventtooltipday)
                     {
                         lstEvent.Tooltip =
-                            this.ToolTipCreate(objEvent, this.Settings.Templates.txtTooltipTemplateTitle,
-                                               this.Settings.Templates.txtTooltipTemplateBody, isEvtEditor);
+                            ToolTipCreate(objEvent, Settings.Templates.txtTooltipTemplateTitle,
+                                               Settings.Templates.txtTooltipTemplateBody, isEvtEditor);
                     }
 
                     lstEvent.EditVisibility = false;
@@ -231,88 +232,88 @@ namespace DotNetNuke.Modules.Events
             }
 
             //Determine which fields get displayed
-            if (!this.IsPrivateNotModerator)
+            if (!IsPrivateNotModerator)
             {
-                if (this.Settings.EventsListFields.LastIndexOf("EB", StringComparison.Ordinal) < 0 ||
+                if (Settings.EventsListFields.LastIndexOf("EB", StringComparison.Ordinal) < 0 ||
                     editButtonVisible == false)
                 {
-                    this.lstEvents.Columns[0].Visible = false;
+                    lstEvents.Columns[0].Visible = false;
                 }
                 else
                 {
-                    this.lstEvents.Columns[0].Visible = true;
+                    lstEvents.Columns[0].Visible = true;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("BD", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("BD", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[1].Visible = false;
+                    lstEvents.Columns[1].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("ED", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("ED", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[2].Visible = false;
+                    lstEvents.Columns[2].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("EN", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("EN", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[3].Visible = false;
+                    lstEvents.Columns[3].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("IM", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("IM", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[4].Visible = false;
+                    lstEvents.Columns[4].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("DU", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("DU", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[5].Visible = false;
+                    lstEvents.Columns[5].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("CA", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("CA", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[6].Visible = false;
+                    lstEvents.Columns[6].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("LO", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("LO", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[7].Visible = false;
+                    lstEvents.Columns[7].Visible = false;
                 }
-                if (!this.Settings.EventsCustomField1 ||
-                    this.Settings.EventsListFields.LastIndexOf("C1", StringComparison.Ordinal) < 0)
+                if (!Settings.EventsCustomField1 ||
+                    Settings.EventsListFields.LastIndexOf("C1", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[8].Visible = false;
+                    lstEvents.Columns[8].Visible = false;
                 }
-                if (!this.Settings.EventsCustomField2 ||
-                    this.Settings.EventsListFields.LastIndexOf("C2", StringComparison.Ordinal) < 0)
+                if (!Settings.EventsCustomField2 ||
+                    Settings.EventsListFields.LastIndexOf("C2", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[9].Visible = false;
+                    lstEvents.Columns[9].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("DE", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("DE", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[10].Visible = false;
+                    lstEvents.Columns[10].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("RT", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("RT", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[11].Visible = false;
+                    lstEvents.Columns[11].Visible = false;
                 }
-                if (this.Settings.EventsListFields.LastIndexOf("RU", StringComparison.Ordinal) < 0)
+                if (Settings.EventsListFields.LastIndexOf("RU", StringComparison.Ordinal) < 0)
                 {
-                    this.lstEvents.Columns[12].Visible = false;
+                    lstEvents.Columns[12].Visible = false;
                 }
             }
             else
             {
                 // Set Defaults
-                this.lstEvents.Columns[0].Visible = false; // Edit Buttom
-                this.lstEvents.Columns[1].Visible = true; // Begin Date
-                this.lstEvents.Columns[2].Visible = true; // End Date
-                this.lstEvents.Columns[3].Visible = true; // Title
-                this.lstEvents.Columns[4].Visible = false; // Image
-                this.lstEvents.Columns[5].Visible = false; // Duration
-                this.lstEvents.Columns[6].Visible = false; // Category
-                this.lstEvents.Columns[7].Visible = false; // Location
-                this.lstEvents.Columns[8].Visible = false; // Custom Field 1
-                this.lstEvents.Columns[9].Visible = false; // Custom Field 2
-                this.lstEvents.Columns[10].Visible = false; // Description
-                this.lstEvents.Columns[11].Visible = false; // Recurrence Pattern
-                this.lstEvents.Columns[12].Visible = false; // Recur Until
+                lstEvents.Columns[0].Visible = false; // Edit Buttom
+                lstEvents.Columns[1].Visible = true; // Begin Date
+                lstEvents.Columns[2].Visible = true; // End Date
+                lstEvents.Columns[3].Visible = true; // Title
+                lstEvents.Columns[4].Visible = false; // Image
+                lstEvents.Columns[5].Visible = false; // Duration
+                lstEvents.Columns[6].Visible = false; // Category
+                lstEvents.Columns[7].Visible = false; // Location
+                lstEvents.Columns[8].Visible = false; // Custom Field 1
+                lstEvents.Columns[9].Visible = false; // Custom Field 2
+                lstEvents.Columns[10].Visible = false; // Description
+                lstEvents.Columns[11].Visible = false; // Recurrence Pattern
+                lstEvents.Columns[12].Visible = false; // Recur Until
             }
 
-            this.lstEvents.DataSource = colEvents;
-            this.lstEvents.DataBind();
+            lstEvents.DataSource = colEvents;
+            lstEvents.DataBind();
         }
 
         #endregion
@@ -325,32 +326,32 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                this.SetupViewControls(this.EventIcons, this.EventIcons2, this.SelectCategory, this.SelectLocation);
+                SetupViewControls(EventIcons, EventIcons2, SelectCategory, SelectLocation);
 
-                if (this.Settings.Eventdaynewpage)
+                if (Settings.Eventdaynewpage)
                 {
-                    this.SetTheme(this.pnlEventsModuleDay);
-                    this.AddFacebookMetaTags();
+                    SetTheme(pnlEventsModuleDay);
+                    AddFacebookMetaTags();
                 }
 
                 //Show header - or not
-                if (this.Settings.EventsListShowHeader == "Yes")
+                if (Settings.EventsListShowHeader == "Yes")
                 {
-                    this.lstEvents.ShowHeader = true;
+                    lstEvents.ShowHeader = true;
                 }
                 else
                 {
-                    this.lstEvents.ShowHeader = false;
+                    lstEvents.ShowHeader = false;
                 }
 
-                if (this.Page.IsPostBack == false)
+                if (Page.IsPostBack == false)
                 {
-                    if (this.Settings.EventsListShowHeader != "No")
+                    if (Settings.EventsListShowHeader != "No")
                     {
-                        this.lstEvents.ShowHeader = true;
-                        Localization.LocalizeDataGrid(ref this.lstEvents, this.LocalResourceFile);
+                        lstEvents.ShowHeader = true;
+                        Localization.LocalizeDataGrid(ref lstEvents, LocalResourceFile);
                     }
-                    this.BindDataGrid();
+                    BindDataGrid();
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -368,25 +369,25 @@ namespace DotNetNuke.Modules.Events
             if ((e.Item.ItemType == ListItemType.Item) | (e.Item.ItemType == ListItemType.AlternatingItem))
             {
                 var lnkevent = (HyperLink) e.Item.FindControl("lnkEvent");
-                if (this.Settings.Eventtooltipday)
+                if (Settings.Eventtooltipday)
                 {
                     var tooltip = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Tooltip"));
                     e.Item.Attributes.Add("title", tooltip);
-                    this.toolTipManager.TargetControls.Add(e.Item.ClientID, true);
+                    toolTipManager.TargetControls.Add(e.Item.ClientID, true);
                 }
                 var backColor = (Color) DataBinder.Eval(e.Item.DataItem, "CategoryColor");
                 if (backColor.Name != "0")
                 {
                     for (var i = 0; i <= e.Item.Cells.Count - 1; i++)
                     {
-                        if (e.Item.Cells[i].Visible && !(this.lstEvents.Columns[i].SortExpression == "Description"))
+                        if (e.Item.Cells[i].Visible && !(lstEvents.Columns[i].SortExpression == "Description"))
                         {
                             e.Item.Cells[i].BackColor = backColor;
                         }
                     }
                 }
-                if (this.IsPrivateNotModerator &&
-                    !(this.UserId == Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "OwnerID"))))
+                if (IsPrivateNotModerator &&
+                    !(UserId == Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "OwnerID"))))
                 {
                     lnkevent.Style.Add("cursor", "text");
                     lnkevent.Style.Add("text-decoration", "none");
@@ -405,9 +406,9 @@ namespace DotNetNuke.Modules.Events
                         //set selected row editable
                         var iItemID = Convert.ToInt32(e.CommandArgument);
                         var objEventInfoHelper =
-                            new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
-                        this.Response.Redirect(
-                            objEventInfoHelper.GetEditURL(iItemID, this.GetUrlGroupId(), this.GetUrlUserId()));
+                            new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
+                        Response.Redirect(
+                            objEventInfoHelper.GetEditURL(iItemID, GetUrlGroupId(), GetUrlUserId()));
                         break;
                 }
             }
@@ -420,20 +421,20 @@ namespace DotNetNuke.Modules.Events
         protected void SelectCategory_CategorySelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            this.SelectLocation.StoreLocations();
-            this.BindDataGrid();
+            SelectLocation.StoreLocations();
+            BindDataGrid();
         }
 
         protected void SelectLocation_LocationSelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            this.SelectCategory.StoreCategories();
-            this.BindDataGrid();
+            SelectCategory.StoreCategories();
+            BindDataGrid();
         }
 
         protected void returnButton_Click(object sender, EventArgs e)
         {
-            this.Response.Redirect(this.GetSocialNavigateUrl(), true);
+            Response.Redirect(GetSocialNavigateUrl(), true);
         }
 
         #endregion
@@ -449,7 +450,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

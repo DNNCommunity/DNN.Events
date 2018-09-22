@@ -23,43 +23,44 @@
 #endregion
 
 
+using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Drawing;
+using System.Reflection;
+using System.Web.UI.WebControls;
+using Components;
+using DNNtc;
+using DotNetNuke.Entities.Modules;
+using DotNetNuke.Security;
+using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
+
 namespace DotNetNuke.Modules.Events
 {
-    using System;
-    using System.Collections;
-    using System.Diagnostics;
-    using System.Drawing;
-    using System.Reflection;
-    using System.Web.UI.WebControls;
-    using DotNetNuke.Entities.Modules;
-    using DotNetNuke.Security;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
-    using global::Components;
-
-    [DNNtc.ModuleControlProperties("Categories", "Edit Event Categories", DNNtc.ControlType.View, "https://dnnevents.codeplex.com/documentation", false, true)]
+    [ModuleControlProperties("Categories", "Edit Event Categories", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", false, true)]
     public partial class EventEditCategories : EventBase
     {
         #region Event Handler
 
         private void Page_Load(object sender, EventArgs e)
         {
-            this.LocalizeAll();
+            LocalizeAll();
 
-            if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName) || this.IsCategoryEditor())
+            if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) || IsCategoryEditor())
             { }
             else
             {
-                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
+                Response.Redirect(GetSocialNavigateUrl(), true);
             }
 
             // Set the selected theme
-            this.SetTheme(this.pnlEventsModuleCategories);
+            SetTheme(pnlEventsModuleCategories);
 
-            if (!this.Page.IsPostBack)
+            if (!Page.IsPostBack)
             {
-                this.SetDefaultValues();
-                this.BindData();
+                SetDefaultValues();
+                BindData();
             }
         }
 
@@ -70,13 +71,13 @@ namespace DotNetNuke.Modules.Events
         private void SetDefaultValues()
         {
             //Back to normal (add) mode
-            this.txtCategoryName.Text = "";
-            this.txtCategoryColor.Text = "";
-            this.txtCategoryFontColor.Text = "";
-            this.ViewState.Remove("Category");
-            this.cmdUpdate.Visible = false;
-            this.cpBackColor.SelectedColor = ColorTranslator.FromHtml(DefaultBackColor);
-            this.cpForeColor.SelectedColor = ColorTranslator.FromHtml(DefaultFontColor);
+            txtCategoryName.Text = "";
+            txtCategoryColor.Text = "";
+            txtCategoryFontColor.Text = "";
+            ViewState.Remove("Category");
+            cmdUpdate.Visible = false;
+            cpBackColor.SelectedColor = ColorTranslator.FromHtml(DefaultBackColor);
+            cpForeColor.SelectedColor = ColorTranslator.FromHtml(DefaultFontColor);
         }
 
         #endregion
@@ -92,53 +93,53 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
 
             //Add the external Validation.js to the Page
             const string csname = "ExtValidationScriptFile";
             var cstype = MethodBase.GetCurrentMethod().GetType();
-            var cstext = "<script src=\"" + this.ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
+            var cstext = "<script src=\"" + ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
                          "\" type=\"text/javascript\"></script>";
-            if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname))
+            if (!Page.ClientScript.IsClientScriptBlockRegistered(csname))
             {
-                this.Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
+                Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
             }
 
             const string csname2 = "LoadPreview";
             var cstype2 = MethodBase.GetCurrentMethod().GetType();
-            var cstext2 = "<script type=\"text/javascript\">byid('" + this.lblPreviewCat.ClientID +
-                          "').innerHTML = byid('" + this.txtCategoryName.ClientID + "').value;byid('" +
-                          this.lblPreviewCat.ClientID + "').style.color = byid('" + this.txtCategoryFontColor.ClientID +
-                          "').value;byid('" + this.previewpane.ClientID + "').style.backgroundColor = byid('" +
-                          this.txtCategoryColor.ClientID + "').value;</script>";
-            this.Page.ClientScript.RegisterStartupScript(cstype2, csname2, cstext2, false);
+            var cstext2 = "<script type=\"text/javascript\">byid('" + lblPreviewCat.ClientID +
+                          "').innerHTML = byid('" + txtCategoryName.ClientID + "').value;byid('" +
+                          lblPreviewCat.ClientID + "').style.color = byid('" + txtCategoryFontColor.ClientID +
+                          "').value;byid('" + previewpane.ClientID + "').style.backgroundColor = byid('" +
+                          txtCategoryColor.ClientID + "').value;</script>";
+            Page.ClientScript.RegisterStartupScript(cstype2, csname2, cstext2, false);
 
             var previewScript = "";
-            previewScript = "CategoryPreviewPane('" + this.cpBackColor.ClientID + "','" + this.cpForeColor.ClientID +
-                            "','" + this.previewpane.ClientID + "','" + this.lblPreviewCat.ClientID + "','" +
-                            this.txtCategoryFontColor.ClientID + "','" + this.txtCategoryColor.ClientID + "','" +
-                            this.txtCategoryName.ClientID + "','" +
-                            Localization.GetString("InvalidColor", this.LocalResourceFile) + "');";
+            previewScript = "CategoryPreviewPane('" + cpBackColor.ClientID + "','" + cpForeColor.ClientID +
+                            "','" + previewpane.ClientID + "','" + lblPreviewCat.ClientID + "','" +
+                            txtCategoryFontColor.ClientID + "','" + txtCategoryColor.ClientID + "','" +
+                            txtCategoryName.ClientID + "','" +
+                            Localization.GetString("InvalidColor", LocalResourceFile) + "');";
 
             const string csname3 = "ColorPicker";
             var cstype3 = MethodBase.GetCurrentMethod().GetType();
             var cstext3 = "<script type=\"text/javascript\">";
-            cstext3 += " function HandleColorChange(sender,eventargs) { $get(\"" + this.txtCategoryColor.ClientID +
+            cstext3 += " function HandleColorChange(sender,eventargs) { $get(\"" + txtCategoryColor.ClientID +
                        "\").value = sender.get_selectedColor(); " + previewScript + "}";
             cstext3 += " function HandleColorFontChange(sender,eventargs) { $get(\"" +
-                       this.txtCategoryFontColor.ClientID + "\").value = sender.get_selectedColor(); " + previewScript +
+                       txtCategoryFontColor.ClientID + "\").value = sender.get_selectedColor(); " + previewScript +
                        "}";
             cstext3 += "  </script>";
-            if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname3))
+            if (!Page.ClientScript.IsClientScriptBlockRegistered(csname3))
             {
-                this.Page.ClientScript.RegisterClientScriptBlock(cstype3, csname3, cstext3, false);
+                Page.ClientScript.RegisterClientScriptBlock(cstype3, csname3, cstext3, false);
             }
 
-            this.txtCategoryName.Attributes.Add(
-                "onchange", "byid('" + this.lblPreviewCat.ClientID + "').innerHTML = this.value;");
+            txtCategoryName.Attributes.Add(
+                "onchange", "byid('" + lblPreviewCat.ClientID + "').innerHTML = this.value;");
 
-            this.txtCategoryFontColor.Attributes.Add("onchange", previewScript);
-            this.txtCategoryColor.Attributes.Add("onchange", previewScript);
+            txtCategoryFontColor.Attributes.Add("onchange", previewScript);
+            txtCategoryColor.Attributes.Add("onchange", previewScript);
 
 
             //ColorPicker Icons
@@ -162,28 +163,27 @@ namespace DotNetNuke.Modules.Events
 
         private void LocalizeAll()
         {
-            this.GrdCategories.Columns[3].HeaderText = Localization.GetString("plCategoryName", this.LocalResourceFile);
+            GrdCategories.Columns[3].HeaderText = Localization.GetString("plCategoryName", LocalResourceFile);
         }
 
         private void BindData()
         {
             var i = 0;
 
-            this._colCategories = this._objCtlCategory.EventsCategoryList(this.PortalId);
-            this.GrdCategories.DataSource = this._colCategories;
-            this.GrdCategories.DataBind();
-            if (this.GrdCategories.Items.Count > 0)
+            _colCategories = _objCtlCategory.EventsCategoryList(PortalId);
+            GrdCategories.DataSource = _colCategories;
+            GrdCategories.DataBind();
+            if (GrdCategories.Items.Count > 0)
             {
-                this.GrdCategories.Visible = true;
-                for (i = 0; i <= this.GrdCategories.Items.Count - 1; i++)
+                GrdCategories.Visible = true;
+                for (i = 0; i <= GrdCategories.Items.Count - 1; i++)
                 {
-                    ((ImageButton) this.GrdCategories.Items[i].FindControl("DeleteButton")).Attributes.Add(
+                    ((ImageButton) GrdCategories.Items[i].FindControl("DeleteButton")).Attributes.Add(
                         "onclick",
                         "javascript:return confirm('" +
                         Localization.GetString(
                             "AreYouSureYouWishToDelete.Text",
-                            this
-                                .LocalResourceFile) +
+                            LocalResourceFile) +
                         "');");
                 }
             }
@@ -198,35 +198,35 @@ namespace DotNetNuke.Modules.Events
             switch (e.CommandName)
             {
                 case "Select":
-                    int category = Convert.ToInt16(this.GrdCategories.DataKeys[e.Item.ItemIndex]);
-                    this._objCategory = this._objCtlCategory.EventCategoryGet(category, this.PortalId);
-                    this.txtCategoryName.Text = this._objCategory.CategoryName;
-                    if (this._objCategory.Color != "")
+                    int category = Convert.ToInt16(GrdCategories.DataKeys[e.Item.ItemIndex]);
+                    _objCategory = _objCtlCategory.EventCategoryGet(category, PortalId);
+                    txtCategoryName.Text = _objCategory.CategoryName;
+                    if (_objCategory.Color != "")
                     {
-                        this.txtCategoryColor.Text = this._objCategory.Color;
-                        this.cpBackColor.SelectedColor = ColorTranslator.FromHtml(this.txtCategoryColor.Text);
+                        txtCategoryColor.Text = _objCategory.Color;
+                        cpBackColor.SelectedColor = ColorTranslator.FromHtml(txtCategoryColor.Text);
                     }
                     else
                     {
-                        this.txtCategoryColor.Text = "";
-                        this.cpBackColor.SelectedColor = ColorTranslator.FromHtml(DefaultBackColor);
+                        txtCategoryColor.Text = "";
+                        cpBackColor.SelectedColor = ColorTranslator.FromHtml(DefaultBackColor);
                     }
-                    if (this._objCategory.FontColor != "")
+                    if (_objCategory.FontColor != "")
                     {
-                        this.txtCategoryFontColor.Text = this._objCategory.FontColor;
-                        this.cpForeColor.SelectedColor = ColorTranslator.FromHtml(this.txtCategoryFontColor.Text);
+                        txtCategoryFontColor.Text = _objCategory.FontColor;
+                        cpForeColor.SelectedColor = ColorTranslator.FromHtml(txtCategoryFontColor.Text);
                     }
                     else
                     {
-                        this.txtCategoryFontColor.Text = "";
-                        this.cpForeColor.SelectedColor = ColorTranslator.FromHtml(DefaultFontColor);
+                        txtCategoryFontColor.Text = "";
+                        cpForeColor.SelectedColor = ColorTranslator.FromHtml(DefaultFontColor);
                     }
 
                     //Remember that we might use update
-                    this.ViewState.Add("Category", this._objCategory.Category.ToString());
-                    this.cmdUpdate.Visible = true;
+                    ViewState.Add("Category", _objCategory.Category.ToString());
+                    cmdUpdate.Visible = true;
 
-                    this.BindData();
+                    BindData();
                     break;
             }
         }
@@ -234,40 +234,40 @@ namespace DotNetNuke.Modules.Events
         protected void GrdCategories_DeleteCommand(object source, DataGridCommandEventArgs e)
         {
             var category = 0;
-            category = Convert.ToInt32(this.GrdCategories.DataKeys[e.Item.ItemIndex]);
-            this.divDeleteError.Visible = false;
+            category = Convert.ToInt32(GrdCategories.DataKeys[e.Item.ItemIndex]);
+            divDeleteError.Visible = false;
 
             var objDesktopModule = default(DesktopModuleInfo);
             var objModules = new ModuleController();
-            objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", this.PortalId);
-            var lstModules = objModules.GetModulesByDefinition(this.PortalId, objDesktopModule.FriendlyName);
+            objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", PortalId);
+            var lstModules = objModules.GetModulesByDefinition(PortalId, objDesktopModule.FriendlyName);
             foreach (ModuleInfo objModule in lstModules)
             {
-                var categories = this.Settings.ModuleCategoryIDs;
+                var categories = Settings.ModuleCategoryIDs;
                 //EventModuleSettings ems = new EventModuleSettings();
                 //ArrayList categories = ems.GetEventModuleSettings(objModule.ModuleID, null).ModuleCategoryIDs;
                 if (categories.Contains(category))
                 {
-                    this.lblDeleteError.Text =
-                        string.Format(Localization.GetString("lblDeleteError", this.LocalResourceFile),
+                    lblDeleteError.Text =
+                        string.Format(Localization.GetString("lblDeleteError", LocalResourceFile),
                                       objModule.ModuleTitle);
-                    this.divDeleteError.Visible = true;
+                    divDeleteError.Visible = true;
                     return;
                 }
             }
 
 
-            this._objCtlCategory.EventsCategoryDelete(category, this.PortalId);
-            this.BindData();
+            _objCtlCategory.EventsCategoryDelete(category, PortalId);
+            BindData();
 
             //Be sure we cannot update any more
-            this.txtCategoryName.Text = "";
-            this.txtCategoryColor.Text = "";
-            this.txtCategoryFontColor.Text = "";
-            this.ViewState.Remove("Category");
-            this.cmdUpdate.Visible = false;
-            this.cpBackColor.SelectedColor = ColorTranslator.FromHtml(DefaultBackColor);
-            this.cpForeColor.SelectedColor = ColorTranslator.FromHtml(DefaultFontColor);
+            txtCategoryName.Text = "";
+            txtCategoryColor.Text = "";
+            txtCategoryFontColor.Text = "";
+            ViewState.Remove("Category");
+            cmdUpdate.Visible = false;
+            cpBackColor.SelectedColor = ColorTranslator.FromHtml(DefaultBackColor);
+            cpForeColor.SelectedColor = ColorTranslator.FromHtml(DefaultFontColor);
         }
 
         protected void cmdUpdate_Click(object sender, EventArgs e)
@@ -275,33 +275,33 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 // Only Update if the Entered Data is Valid
-                if (this.Page.IsValid && !string.IsNullOrEmpty(this.txtCategoryName.Text))
+                if (Page.IsValid && !string.IsNullOrEmpty(txtCategoryName.Text))
                 {
                     var objCategory = new EventCategoryInfo();
                     var objSecurity = new PortalSecurity();
                     var categoryName = "";
 
                     // Filter text for non-admins
-                    if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
+                    if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
                     {
-                        categoryName = this.txtCategoryName.Text;
+                        categoryName = txtCategoryName.Text;
                     }
                     else
                     {
                         categoryName =
-                            objSecurity.InputFilter(this.txtCategoryName.Text, PortalSecurity.FilterFlag.NoScripting);
+                            objSecurity.InputFilter(txtCategoryName.Text, PortalSecurity.FilterFlag.NoScripting);
                     }
 
                     //bind text values to object
 
-                    objCategory.Category = Convert.ToInt32(this.ViewState["Category"]);
-                    objCategory.PortalID = this.PortalId;
+                    objCategory.Category = Convert.ToInt32(ViewState["Category"]);
+                    objCategory.PortalID = PortalId;
                     objCategory.CategoryName = categoryName;
-                    objCategory.Color = this.txtCategoryColor.Text;
-                    objCategory.FontColor = this.txtCategoryFontColor.Text;
-                    this._objCtlCategory.EventsCategorySave(objCategory);
+                    objCategory.Color = txtCategoryColor.Text;
+                    objCategory.FontColor = txtCategoryFontColor.Text;
+                    _objCtlCategory.EventsCategorySave(objCategory);
 
-                    this.SetDefaultValues();
+                    SetDefaultValues();
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -309,7 +309,7 @@ namespace DotNetNuke.Modules.Events
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
 
-            this.BindData();
+            BindData();
         }
 
         protected void cmdAdd_Click(object sender, EventArgs e)
@@ -317,33 +317,33 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 // Only Update if the Entered Data is Valid
-                if (this.Page.IsValid && !string.IsNullOrEmpty(this.txtCategoryName.Text))
+                if (Page.IsValid && !string.IsNullOrEmpty(txtCategoryName.Text))
                 {
                     var objCategory = new EventCategoryInfo();
                     var objSecurity = new PortalSecurity();
                     var categoryName = "";
 
                     // Filter text for non-admins
-                    if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
+                    if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
                     {
-                        categoryName = this.txtCategoryName.Text;
+                        categoryName = txtCategoryName.Text;
                     }
                     else
                     {
                         categoryName =
-                            objSecurity.InputFilter(this.txtCategoryName.Text, PortalSecurity.FilterFlag.NoScripting);
+                            objSecurity.InputFilter(txtCategoryName.Text, PortalSecurity.FilterFlag.NoScripting);
                     }
 
                     //bind text values to object
 
                     objCategory.Category = 0;
-                    objCategory.PortalID = this.PortalId;
+                    objCategory.PortalID = PortalId;
                     objCategory.CategoryName = categoryName;
-                    objCategory.Color = this.txtCategoryColor.Text;
-                    objCategory.FontColor = this.txtCategoryFontColor.Text;
-                    this._objCtlCategory.EventsCategorySave(objCategory);
+                    objCategory.Color = txtCategoryColor.Text;
+                    objCategory.FontColor = txtCategoryFontColor.Text;
+                    _objCtlCategory.EventsCategorySave(objCategory);
 
-                    this.SetDefaultValues();
+                    SetDefaultValues();
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -351,14 +351,14 @@ namespace DotNetNuke.Modules.Events
                 Exceptions.ProcessModuleLoadException(this, exc);
             }
 
-            this.BindData();
+            BindData();
         }
 
         protected void returnButton_Click(object sender, EventArgs e)
         {
             try
             {
-                this.Response.Redirect(this.GetSocialNavigateUrl(), true);
+                Response.Redirect(GetSocialNavigateUrl(), true);
             }
             catch (Exception exc) //Module failed to load
             {

@@ -53,14 +53,17 @@ namespace DotNetNuke.Modules.Events.Providers
             var moduleIds = new ArrayList();
             var visibleModuleIds = new ArrayList();
             var visibleTabModuleIds = new ArrayList();
+
             foreach (ModuleInfo tempLoopVar_objModule in lstModules)
             {
                 objModule = tempLoopVar_objModule;
                 var objTabPermissions = TabPermissionController.GetTabPermissions(objModule.TabID, portalID);
                 var objTabPermission = default(TabPermissionInfo);
+
                 foreach (TabPermissionInfo tempLoopVar_objTabPermission in objTabPermissions)
                 {
                     objTabPermission = tempLoopVar_objTabPermission;
+
                     if (objTabPermission.PermissionKey == "VIEW" && objTabPermission.RoleName != "" &&
                         objTabPermission.AllowAccess && (objTabPermission.RoleID == -1) |
                         (objTabPermission.RoleID == -3))
@@ -71,6 +74,7 @@ namespace DotNetNuke.Modules.Events.Providers
                             visibleModuleIds.Add(objModule.ModuleID);
                             break;
                         }
+
                         var objModulePermission = default(ModulePermissionInfo);
                         // ReSharper disable LoopCanBeConvertedToQuery
                         foreach (ModulePermissionInfo tempLoopVar_objModulePermission in objModule.ModulePermissions)
@@ -85,6 +89,7 @@ namespace DotNetNuke.Modules.Events.Providers
                                 visibleModuleIds.Add(objModule.ModuleID);
                                 break;
                             }
+
                         }
                     }
                 }
@@ -92,30 +97,35 @@ namespace DotNetNuke.Modules.Events.Providers
             foreach (ModuleInfo tempLoopVar_objModule in lstModules)
             {
                 objModule = tempLoopVar_objModule;
+                
                 // This check for objModule = Nothing because of error in DNN 5.0.0 in GetModulesByDefinition
                 if (ReferenceEquals(objModule, null))
                 {
                     continue;
                 }
+                
                 if (objModule.IsDeleted)
                 {
                     continue;
                 }
+                
                 if (moduleIds.Contains(objModule.ModuleID))
                 {
                     continue;
                 }
+                
                 if (!visibleTabModuleIds.Contains("Tab" + objModule.TabID + "Mod" + objModule.ModuleID))
                 {
                     continue;
                 }
+                
                 moduleIds.Add(objModule.ModuleID);
-
                 var settings = EventModuleSettings.GetEventModuleSettings(objModule.ModuleID, null);
                 if (!settings.EnableSitemap)
                 {
                     continue;
                 }
+
                 if (settings.SocialGroupModule == EventModuleSettings.SocialModule.UserProfile)
                 {
                     continue;
@@ -130,6 +140,7 @@ namespace DotNetNuke.Modules.Events.Providers
                 {
                     iCategoryIDs.Add("-1");
                 }
+
                 var ilocationIDs = new ArrayList();
                 if (settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay)
                 {
@@ -141,18 +152,17 @@ namespace DotNetNuke.Modules.Events.Providers
                 }
 
                 var objEventTimeZoneUtilities = new EventTimeZoneUtilities();
-                var currDate =
-                    objEventTimeZoneUtilities.ConvertFromUTCToModuleTimeZone(DateTime.UtcNow, settings.TimeZoneId);
-                var dtStartDate = DateAndTime.DateAdd(DateInterval.Day, Convert.ToDouble(-settings.SiteMapDaysBefore),
-                                                      currDate);
+                var currDate = objEventTimeZoneUtilities.ConvertFromUTCToModuleTimeZone(DateTime.UtcNow, settings.TimeZoneId);
+                var dtStartDate = DateAndTime.DateAdd(DateInterval.Day, Convert.ToDouble(-settings.SiteMapDaysBefore),currDate);
                 var dtEndDate = DateAndTime.DateAdd(DateInterval.Day, settings.SiteMapDaysAfter, currDate);
-
+                
                 var objEventInfoHelper = new EventInfoHelper(objModule.ModuleID, objModule.TabID, portalID, settings);
+
                 var lstevents = default(ArrayList);
-                lstevents = objEventInfoHelper.GetEvents(dtStartDate, dtEndDate, settings.MasterEvent, iCategoryIDs,
-                                                         ilocationIDs, -1, -1);
+                lstevents = objEventInfoHelper.GetEvents(dtStartDate, dtEndDate, settings.MasterEvent, iCategoryIDs,ilocationIDs, -1, -1);
 
                 var objEvent = default(EventInfo);
+                
                 foreach (EventInfo tempLoopVar_objEvent in lstevents)
                 {
                     objEvent = tempLoopVar_objEvent;

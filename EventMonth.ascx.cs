@@ -23,28 +23,28 @@
 #endregion
 
 
+using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Components;
+using DotNetNuke.Framework.JavaScriptLibraries;
+using DotNetNuke.Modules.Events.ScheduleControl.MonthControl;
+using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
+using Microsoft.VisualBasic;
+using Telerik.Web.UI.Calendar;
+using DayRenderEventArgs = System.Web.UI.WebControls.DayRenderEventArgs;
+using FirstDayOfWeek = System.Web.UI.WebControls.FirstDayOfWeek;
+using Globals = DotNetNuke.Common.Globals;
+
 namespace DotNetNuke.Modules.Events
 {
-    using System;
-    using System.Collections;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
-    using System.Web;
-    using System.Web.UI;
-    using System.Web.UI.WebControls;
-    using DotNetNuke.Framework.JavaScriptLibraries;
-    using DotNetNuke.Modules.Events.ScheduleControl.MonthControl;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
-    using global::Components;
-    using Microsoft.VisualBasic;
-    using Telerik.Web.UI.Calendar;
-    using DayRenderEventArgs = System.Web.UI.WebControls.DayRenderEventArgs;
-    using FirstDayOfWeek = System.Web.UI.WebControls.FirstDayOfWeek;
-    using Globals = DotNetNuke.Common.Globals;
-
     public partial class EventMonth : EventBase
     {
         #region Private Variables
@@ -61,9 +61,9 @@ namespace DotNetNuke.Modules.Events
         private void Page_PreRender(object sender, EventArgs e)
         {
             // This handles the case where the same cell date is selected twice
-            if (!this._pageBound)
+            if (!_pageBound)
             {
-                this.BindDataGrid();
+                BindDataGrid();
             }
         }
 
@@ -74,37 +74,37 @@ namespace DotNetNuke.Modules.Events
                 // Be sure to load the required scripts always
                 JavaScript.RequestRegistration(CommonJs.DnnPlugins);
 
-                this.LocalizeAll();
+                LocalizeAll();
 
-                this.SetupViewControls(this.EventIcons, this.EventIcons2, this.SelectCategory, this.SelectLocation,
-                                       this.pnlDateControls);
+                SetupViewControls(EventIcons, EventIcons2, SelectCategory, SelectLocation,
+                                       pnlDateControls);
 
-                this.dpGoToDate.SelectedDate = this.SelectedDate.Date;
-                this.dpGoToDate.Calendar.FirstDayOfWeek = this.Settings.WeekStart;
+                dpGoToDate.SelectedDate = SelectedDate.Date;
+                dpGoToDate.Calendar.FirstDayOfWeek = Settings.WeekStart;
 
                 // Set Weekend Display
-                if (this.Settings.Fridayweekend)
+                if (Settings.Fridayweekend)
                 {
-                    this.EventCalendar.WeekEndDays = MyDayOfWeek.Friday | MyDayOfWeek.Saturday;
+                    EventCalendar.WeekEndDays = MyDayOfWeek.Friday | MyDayOfWeek.Saturday;
                 }
 
                 // Set 1st Day of Week
-                this.EventCalendar.FirstDayOfWeek = (FirstDayOfWeek) this._culture.DateTimeFormat.FirstDayOfWeek;
+                EventCalendar.FirstDayOfWeek = (FirstDayOfWeek) _culture.DateTimeFormat.FirstDayOfWeek;
 
-                if (this.Settings.WeekStart != FirstDayOfWeek.Default)
+                if (Settings.WeekStart != FirstDayOfWeek.Default)
                 {
-                    this.EventCalendar.FirstDayOfWeek = this.Settings.WeekStart;
+                    EventCalendar.FirstDayOfWeek = Settings.WeekStart;
                 }
 
                 // if 1st time on page...
-                if (!this.Page.IsPostBack)
+                if (!Page.IsPostBack)
                 {
-                    this.EventCalendar.VisibleDate = Convert.ToDateTime(this.dpGoToDate.SelectedDate);
-                    if (!this.Settings.Monthcellnoevents)
+                    EventCalendar.VisibleDate = Convert.ToDateTime(dpGoToDate.SelectedDate);
+                    if (!Settings.Monthcellnoevents)
                     {
-                        this.EventCalendar.SelectedDate = this.EventCalendar.VisibleDate;
+                        EventCalendar.SelectedDate = EventCalendar.VisibleDate;
                     }
-                    this.BindDataGrid();
+                    BindDataGrid();
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -126,7 +126,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
@@ -135,21 +135,21 @@ namespace DotNetNuke.Modules.Events
 
         private void LocalizeAll()
         {
-            this.lnkToday.Text = Localization.GetString("lnkToday", this.LocalResourceFile);
-            this.dpGoToDate.DatePopupButton.ToolTip =
-                Localization.GetString("DatePickerTooltip", this.LocalResourceFile);
+            lnkToday.Text = Localization.GetString("lnkToday", LocalResourceFile);
+            dpGoToDate.DatePopupButton.ToolTip =
+                Localization.GetString("DatePickerTooltip", LocalResourceFile);
         }
 
         private void BindDataGrid()
         {
             var startDate = default(DateTime); // Start View Date Events Range
             var endDate = default(DateTime); // End View Date Events Range
-            var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+            var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
 
-            this._pageBound = true;
+            _pageBound = true;
             //****DO NOT CHANGE THE NEXT SECTION FOR ML CODING ****
             // Used Only to select view dates on Event Month View...
-            var useDate = Convert.ToDateTime(this.dpGoToDate.SelectedDate);
+            var useDate = Convert.ToDateTime(dpGoToDate.SelectedDate);
             var initDate = new DateTime(useDate.Year, useDate.Month, 1);
             startDate = initDate.AddDays(-10); // Allow for Prev Month days in View
             // Load 2 months of events.  This used to load only the events for the current month,
@@ -157,42 +157,42 @@ namespace DotNetNuke.Modules.Events
             // the Event displays some days for the next month.
             endDate = Convert.ToDateTime(initDate.AddMonths(1).AddDays(10));
 
-            var getSubEvents = this.Settings.MasterEvent;
-            this._selectedEvents =
-                objEventInfoHelper.GetEvents(startDate, endDate, getSubEvents, this.SelectCategory.SelectedCategory,
-                                             this.SelectLocation.SelectedLocation, this.GetUrlGroupId(),
-                                             this.GetUrlUserId());
+            var getSubEvents = Settings.MasterEvent;
+            _selectedEvents =
+                objEventInfoHelper.GetEvents(startDate, endDate, getSubEvents, SelectCategory.SelectedCategory,
+                                             SelectLocation.SelectedLocation, GetUrlGroupId(),
+                                             GetUrlUserId());
 
-            this._selectedEvents =
-                objEventInfoHelper.ConvertEventListToDisplayTimeZone(this._selectedEvents, this.GetDisplayTimeZoneId());
+            _selectedEvents =
+                objEventInfoHelper.ConvertEventListToDisplayTimeZone(_selectedEvents, GetDisplayTimeZoneId());
 
             //Write current date to UI
-            this.SelectedDate = Convert.ToDateTime(this.EventCalendar.VisibleDate);
+            SelectedDate = Convert.ToDateTime(EventCalendar.VisibleDate);
 
             // Setup the Tooltip TargetControls because it doesn't work in DayRender!
-            if (this.Settings.Eventtooltipmonth)
+            if (Settings.Eventtooltipmonth)
             {
-                this.toolTipManager.TargetControls.Clear();
-                if (this.Settings.Monthcellnoevents)
+                toolTipManager.TargetControls.Clear();
+                if (Settings.Monthcellnoevents)
                 {
                     var calcDate = startDate;
                     while (calcDate <= endDate)
                     {
-                        this.toolTipManager.TargetControls.Add(
-                            "ctlEvents_Mod_" + this.ModuleId + "_EventDate_" + calcDate.Date.ToString("yyyyMMMdd"),
+                        toolTipManager.TargetControls.Add(
+                            "ctlEvents_Mod_" + ModuleId + "_EventDate_" + calcDate.Date.ToString("yyyyMMMdd"),
                             true);
                         calcDate = calcDate.AddDays(1);
                     }
                 }
                 else
                 {
-                    foreach (EventInfo objEvent in this._selectedEvents)
+                    foreach (EventInfo objEvent in _selectedEvents)
                     {
                         var calcDate = objEvent.EventTimeBegin.Date;
                         while (calcDate <= objEvent.EventTimeEnd.Date)
                         {
-                            this.toolTipManager.TargetControls.Add(
-                                "ctlEvents_Mod_" + this.ModuleId + "_EventID_" + objEvent.EventID + "_EventDate_" +
+                            toolTipManager.TargetControls.Add(
+                                "ctlEvents_Mod_" + ModuleId + "_EventID_" + objEvent.EventID + "_EventDate_" +
                                 calcDate.Date.ToString("yyyyMMMdd"), true);
                             calcDate = calcDate.AddDays(1);
                         }
@@ -212,29 +212,29 @@ namespace DotNetNuke.Modules.Events
         {
             var objEvent = default(EventInfo);
             var cellcontrol = new LiteralControl();
-            this._objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+            _objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
 
             // Get Events/Sub-Calendar Events
             var dayEvents = new ArrayList();
             var allDayEvents = default(ArrayList);
-            allDayEvents = this._objEventInfoHelper.GetDateEvents(this._selectedEvents, e.Day.Date);
+            allDayEvents = _objEventInfoHelper.GetDateEvents(_selectedEvents, e.Day.Date);
             allDayEvents.Sort(new EventInfoHelper.EventDateSort());
 
             foreach (EventInfo tempLoopVar_objEvent in allDayEvents)
             {
                 objEvent = tempLoopVar_objEvent;
                 //if day not in current (selected) Event month OR full enrollments should be hidden, ignore
-                if ((this.Settings.ShowEventsAlways || e.Day.Date.Month == this.SelectedDate.Month)
-                    && !this.HideFullEvent(objEvent))
+                if ((Settings.ShowEventsAlways || e.Day.Date.Month == SelectedDate.Month)
+                    && !HideFullEvent(objEvent))
                 {
                     dayEvents.Add(objEvent);
                 }
             }
 
             // If No Cell Event Display...
-            if (this.Settings.Monthcellnoevents)
+            if (Settings.Monthcellnoevents)
             {
-                if (this.Settings.ShowEventsAlways == false && e.Day.IsOtherMonth)
+                if (Settings.ShowEventsAlways == false && e.Day.IsOtherMonth)
                 {
                     e.Cell.Text = "";
                     return;
@@ -244,7 +244,7 @@ namespace DotNetNuke.Modules.Events
                 {
                     e.Day.IsSelectable = true;
 
-                    if (e.Day.Date == this.SelectedDate)
+                    if (e.Day.Date == SelectedDate)
                     {
                         e.Cell.CssClass = "EventSelectedDay";
                     }
@@ -260,11 +260,11 @@ namespace DotNetNuke.Modules.Events
                         }
                     }
 
-                    if (this.Settings.Eventtooltipmonth)
+                    if (Settings.Eventtooltipmonth)
                     {
-                        var themeCss = this.GetThemeSettings().CssClass;
+                        var themeCss = GetThemeSettings().CssClass;
 
-                        var tmpToolTipTitle = this.Settings.Templates.txtTooltipTemplateTitleNT;
+                        var tmpToolTipTitle = Settings.Templates.txtTooltipTemplateTitleNT;
                         if (tmpToolTipTitle.IndexOf("{0}") + 1 > 0)
                         {
                             tmpToolTipTitle = tmpToolTipTitle.Replace("{0}", "{0:d}");
@@ -284,9 +284,9 @@ namespace DotNetNuke.Modules.Events
                             }
 
                             cellToolTip +=
-                                this.CreateEventName(
+                                CreateEventName(
                                     objEvent,
-                                    Convert.ToString(this.Settings.Templates.txtTooltipTemplateBodyNT
+                                    Convert.ToString(Settings.Templates.txtTooltipTemplateBodyNT
                                                          .Replace(Constants.vbLf, "").Replace(Constants.vbCr, "")));
                         }
                         e.Cell.Attributes.Add(
@@ -294,22 +294,22 @@ namespace DotNetNuke.Modules.Events
                             "<table class=\"" + themeCss + " Eventtooltiptable\"><tr><td class=\"" + themeCss +
                             " Eventtooltipheader\">" + tooltipTitle + "</td></tr><tr><td class=\"" + themeCss +
                             " Eventtooltipbody\">" + cellToolTip + "</td></tr></table>");
-                        e.Cell.ID = "ctlEvents_Mod_" + this.ModuleId + "_EventDate_" + e.Day.Date.ToString("yyyyMMMdd");
+                        e.Cell.ID = "ctlEvents_Mod_" + ModuleId + "_EventDate_" + e.Day.Date.ToString("yyyyMMMdd");
                     }
 
                     var dailyLink = new HyperLink();
-                    dailyLink.Text = string.Format(this.Settings.Templates.txtMonthDayEventCount, dayEvents.Count);
-                    var socialGroupId = this.GetUrlGroupId();
-                    var socialUserId = this.GetUrlUserId();
+                    dailyLink.Text = string.Format(Settings.Templates.txtMonthDayEventCount, dayEvents.Count);
+                    var socialGroupId = GetUrlGroupId();
+                    var socialUserId = GetUrlUserId();
                     if (dayEvents.Count > 1)
                     {
-                        if (this.Settings.Eventdaynewpage)
+                        if (Settings.Eventdaynewpage)
                         {
                             if (socialGroupId > 0)
                             {
                                 dailyLink.NavigateUrl =
-                                    this._objEventInfoHelper.AddSkinContainerControls(
-                                        Globals.NavigateURL(this.TabId, "Day", "Mid=" + this.ModuleId,
+                                    _objEventInfoHelper.AddSkinContainerControls(
+                                        Globals.NavigateURL(TabId, "Day", "Mid=" + ModuleId,
                                                             "selecteddate=" +
                                                             Strings.Format(e.Day.Date, "yyyyMMdd"),
                                                             "groupid=" + socialGroupId), "?");
@@ -317,8 +317,8 @@ namespace DotNetNuke.Modules.Events
                             else if (socialUserId > 0)
                             {
                                 dailyLink.NavigateUrl =
-                                    this._objEventInfoHelper.AddSkinContainerControls(
-                                        Globals.NavigateURL(this.TabId, "Day", "Mid=" + this.ModuleId,
+                                    _objEventInfoHelper.AddSkinContainerControls(
+                                        Globals.NavigateURL(TabId, "Day", "Mid=" + ModuleId,
                                                             "selecteddate=" +
                                                             Strings.Format(e.Day.Date, "yyyyMMdd"),
                                                             "userid=" + socialUserId), "?");
@@ -326,8 +326,8 @@ namespace DotNetNuke.Modules.Events
                             else
                             {
                                 dailyLink.NavigateUrl =
-                                    this._objEventInfoHelper.AddSkinContainerControls(
-                                        Globals.NavigateURL(this.TabId, "Day", "Mid=" + this.ModuleId,
+                                    _objEventInfoHelper.AddSkinContainerControls(
+                                        Globals.NavigateURL(TabId, "Day", "Mid=" + ModuleId,
                                                             "selecteddate=" +
                                                             Strings.Format(e.Day.Date, "yyyyMMdd")), "?");
                             }
@@ -337,21 +337,21 @@ namespace DotNetNuke.Modules.Events
                             if (socialGroupId > 0)
                             {
                                 dailyLink.NavigateUrl =
-                                    Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId, "mctl=EventDay",
+                                    Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId, "mctl=EventDay",
                                                         "selecteddate=" + Strings.Format(e.Day.Date, "yyyyMMdd"),
                                                         "groupid=" + socialGroupId);
                             }
                             else if (socialUserId > 0)
                             {
                                 dailyLink.NavigateUrl =
-                                    Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId, "mctl=EventDay",
+                                    Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId, "mctl=EventDay",
                                                         "selecteddate=" + Strings.Format(e.Day.Date, "yyyyMMdd"),
                                                         "userid=" + socialUserId);
                             }
                             else
                             {
                                 dailyLink.NavigateUrl =
-                                    Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId, "mctl=EventDay",
+                                    Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId, "mctl=EventDay",
                                                         "selecteddate=" + Strings.Format(e.Day.Date, "yyyyMMdd"));
                             }
                         }
@@ -359,7 +359,7 @@ namespace DotNetNuke.Modules.Events
                     else
                     {
                         // Get detail page url
-                        dailyLink = this.GetDetailPageUrl((EventInfo) dayEvents[0], dailyLink);
+                        dailyLink = GetDetailPageUrl((EventInfo) dayEvents[0], dailyLink);
                     }
                     using (var stringWrite = new StringWriter())
                     {
@@ -379,7 +379,7 @@ namespace DotNetNuke.Modules.Events
             }
 
             //Make day unselectable
-            if (!this.Settings.Monthdayselect)
+            if (!Settings.Monthdayselect)
             {
                 e.Day.IsSelectable = false;
             }
@@ -394,29 +394,29 @@ namespace DotNetNuke.Modules.Events
                 var iconString = "";
 
                 // See if an Image is to be displayed for the Event
-                if (this.Settings.Eventimage && this.Settings.EventImageMonth && objEvent.ImageURL != null &&
+                if (Settings.Eventimage && Settings.EventImageMonth && objEvent.ImageURL != null &&
                     objEvent.ImageDisplay)
                 {
-                    dailyLink.Text = this.ImageInfo(objEvent.ImageURL, objEvent.ImageHeight, objEvent.ImageWidth);
+                    dailyLink.Text = ImageInfo(objEvent.ImageURL, objEvent.ImageHeight, objEvent.ImageWidth);
                 }
 
-                if (this.Settings.Timeintitle)
+                if (Settings.Timeintitle)
                 {
                     dailyLink.Text = dailyLink.Text + objEvent.EventTimeBegin.ToString("t") + " - ";
                 }
 
-                var eventtext = this.CreateEventName(objEvent, this.Settings.Templates.txtMonthEventText);
+                var eventtext = CreateEventName(objEvent, Settings.Templates.txtMonthEventText);
                 dailyLink.Text = dailyLink.Text + eventtext.Trim();
 
-                if (!this.IsPrivateNotModerator || this.UserId == objEvent.OwnerID)
+                if (!IsPrivateNotModerator || UserId == objEvent.OwnerID)
                 {
-                    dailyLink.ForeColor = this.GetColor(objEvent.FontColor);
-                    iconString = this.CreateIconString(objEvent, this.Settings.IconMonthPrio,
-                                                       this.Settings.IconMonthRec, this.Settings.IconMonthReminder,
-                                                       this.Settings.IconMonthEnroll);
+                    dailyLink.ForeColor = GetColor(objEvent.FontColor);
+                    iconString = CreateIconString(objEvent, Settings.IconMonthPrio,
+                                                       Settings.IconMonthRec, Settings.IconMonthReminder,
+                                                       Settings.IconMonthEnroll);
 
                     // Get detail page url
-                    dailyLink = this.GetDetailPageUrl(objEvent, dailyLink);
+                    dailyLink = GetDetailPageUrl(objEvent, dailyLink);
                 }
                 else
                 {
@@ -426,13 +426,13 @@ namespace DotNetNuke.Modules.Events
                 }
 
                 // See If Description Tooltip to be added
-                if (this.Settings.Eventtooltipmonth)
+                if (Settings.Eventtooltipmonth)
                 {
-                    var isEvtEditor = this.IsEventEditor(objEvent, false);
+                    var isEvtEditor = IsEventEditor(objEvent, false);
                     dailyLink.Attributes.Add(
                         "title",
-                        this.ToolTipCreate(objEvent, this.Settings.Templates.txtTooltipTemplateTitle,
-                                           this.Settings.Templates.txtTooltipTemplateBody, isEvtEditor));
+                        ToolTipCreate(objEvent, Settings.Templates.txtTooltipTemplateTitle,
+                                           Settings.Templates.txtTooltipTemplateBody, isEvtEditor));
                 }
 
                 // Capture Control Info & save
@@ -440,10 +440,10 @@ namespace DotNetNuke.Modules.Events
                 {
                     using (var eventoutput = new HtmlTextWriter(stringWrite))
                     {
-                        dailyLink.ID = "ctlEvents_Mod_" + this.ModuleId + "_EventID_" + objEvent.EventID +
+                        dailyLink.ID = "ctlEvents_Mod_" + ModuleId + "_EventID_" + objEvent.EventID +
                                        "_EventDate_" + e.Day.Date.ToString("yyyyMMMdd");
                         dailyLink.RenderControl(eventoutput);
-                        if (objEvent.Color != null && (!this.IsPrivateNotModerator || this.UserId == objEvent.OwnerID))
+                        if (objEvent.Color != null && (!IsPrivateNotModerator || UserId == objEvent.OwnerID))
                         {
                             celldata = celldata + "<div style=\"background-color: " + objEvent.Color + ";\">" +
                                        iconString + stringWrite + "</div>";
@@ -464,28 +464,28 @@ namespace DotNetNuke.Modules.Events
 
         protected void EventCalendar_SelectionChanged(object sender, EventArgs e)
         {
-            this.EventCalendar.VisibleDate = this.EventCalendar.SelectedDate;
-            this.SelectedDate = Convert.ToDateTime(this.EventCalendar.SelectedDate.Date);
-            var urlDate = Convert.ToString(this.EventCalendar.SelectedDate.Date.ToShortDateString());
-            this.dpGoToDate.SelectedDate = this.SelectedDate.Date;
-            if (this.Settings.Monthcellnoevents)
+            EventCalendar.VisibleDate = EventCalendar.SelectedDate;
+            SelectedDate = Convert.ToDateTime(EventCalendar.SelectedDate.Date);
+            var urlDate = Convert.ToString(EventCalendar.SelectedDate.Date.ToShortDateString());
+            dpGoToDate.SelectedDate = SelectedDate.Date;
+            if (Settings.Monthcellnoevents)
             {
                 try
                 {
-                    this.EventCalendar.SelectedDate = new DateTime();
-                    if (this.Settings.Eventdaynewpage)
+                    EventCalendar.SelectedDate = new DateTime();
+                    if (Settings.Eventdaynewpage)
                     {
                         var objEventInfoHelper =
-                            new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
-                        this.Response.Redirect(
+                            new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
+                        Response.Redirect(
                             objEventInfoHelper.AddSkinContainerControls(
-                                Globals.NavigateURL(this.TabId, "Day", "Mid=" + this.ModuleId,
+                                Globals.NavigateURL(TabId, "Day", "Mid=" + ModuleId,
                                                     "selecteddate=" + urlDate), "&"));
                     }
                     else
                     {
-                        this.Response.Redirect(
-                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId, "mctl=EventDay",
+                        Response.Redirect(
+                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId, "mctl=EventDay",
                                                 "selecteddate=" + urlDate));
                     }
                 }
@@ -495,29 +495,29 @@ namespace DotNetNuke.Modules.Events
             else
             {
                 //fill grid with current selection's data
-                this.BindDataGrid();
+                BindDataGrid();
             }
         }
 
         protected void EventCalendar_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
         {
             //set selected date to first of month
-            this.SelectedDate = e.NewDate;
-            this.dpGoToDate.SelectedDate = e.NewDate.Date;
-            if (!this.Settings.Monthcellnoevents)
+            SelectedDate = e.NewDate;
+            dpGoToDate.SelectedDate = e.NewDate.Date;
+            if (!Settings.Monthcellnoevents)
             {
-                this.EventCalendar.SelectedDate = e.NewDate;
+                EventCalendar.SelectedDate = e.NewDate;
             }
-            this.SelectCategory.StoreCategories();
-            this.SelectLocation.StoreLocations();
+            SelectCategory.StoreCategories();
+            SelectLocation.StoreLocations();
             //bind datagrid
-            this.BindDataGrid();
+            BindDataGrid();
         }
 
         private HyperLink GetDetailPageUrl(EventInfo objevent, HyperLink dailyLink)
         {
             // Get detail page url
-            dailyLink.NavigateUrl = this._objEventInfoHelper.DetailPageURL(objevent);
+            dailyLink.NavigateUrl = _objEventInfoHelper.DetailPageURL(objevent);
             if (objevent.DetailPage && objevent.DetailNewWin)
             {
                 dailyLink.Attributes.Add("target", "_blank");
@@ -532,44 +532,44 @@ namespace DotNetNuke.Modules.Events
         protected void lnkToday_Click(object sender, EventArgs e)
         {
             //set grid uneditable
-            this.SelectedDate = DateTime.Now.Date;
-            this.EventCalendar.VisibleDate = this.SelectedDate;
-            this.dpGoToDate.SelectedDate = this.SelectedDate.Date;
-            if (!this.Settings.Monthcellnoevents)
+            SelectedDate = DateTime.Now.Date;
+            EventCalendar.VisibleDate = SelectedDate;
+            dpGoToDate.SelectedDate = SelectedDate.Date;
+            if (!Settings.Monthcellnoevents)
             {
-                this.EventCalendar.SelectedDate = this.SelectedDate;
+                EventCalendar.SelectedDate = SelectedDate;
             }
-            this.SelectCategory.StoreCategories();
-            this.SelectLocation.StoreLocations();
+            SelectCategory.StoreCategories();
+            SelectLocation.StoreLocations();
             //fill grid with current selection's data
-            this.BindDataGrid();
+            BindDataGrid();
         }
 
         protected void SelectCategoryChanged(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            this.SelectLocation.StoreLocations();
-            this.BindDataGrid();
+            SelectLocation.StoreLocations();
+            BindDataGrid();
         }
 
         protected void SelectLocationChanged(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            this.SelectCategory.StoreCategories();
-            this.BindDataGrid();
+            SelectCategory.StoreCategories();
+            BindDataGrid();
         }
 
         protected void dpGoToDate_SelectedDateChanged(object sender, SelectedDateChangedEventArgs e)
         {
-            var dDate = Convert.ToDateTime(this.dpGoToDate.SelectedDate);
-            this.SelectedDate = dDate;
-            this.EventCalendar.VisibleDate = dDate;
-            if (!this.Settings.Monthcellnoevents)
+            var dDate = Convert.ToDateTime(dpGoToDate.SelectedDate);
+            SelectedDate = dDate;
+            EventCalendar.VisibleDate = dDate;
+            if (!Settings.Monthcellnoevents)
             {
-                this.EventCalendar.SelectedDate = dDate;
+                EventCalendar.SelectedDate = dDate;
             }
             //fill grid with current selection's data
-            this.BindDataGrid();
+            BindDataGrid();
         }
 
         #endregion

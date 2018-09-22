@@ -23,19 +23,19 @@
 #endregion
 
 
+using System;
+using System.Collections;
+using System.Data;
+using System.Diagnostics;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Components;
+using DotNetNuke.Services.Exceptions;
+using DotNetNuke.Services.Localization;
+
 namespace DotNetNuke.Modules.Events
 {
-    using System;
-    using System.Collections;
-    using System.Data;
-    using System.Diagnostics;
-    using System.Web;
-    using System.Web.UI;
-    using System.Web.UI.WebControls;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
-    using global::Components;
-
     public partial class EventRpt : EventBase
     {
         #region Event Handlers
@@ -47,11 +47,11 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                this.SetupViewControls(this.EventIcons, this.EventIcons2, this.SelectCategory, this.SelectLocation);
+                SetupViewControls(EventIcons, EventIcons2, SelectCategory, SelectLocation);
 
-                if (this.Page.IsPostBack == false)
+                if (Page.IsPostBack == false)
                 {
-                    this.BindDataGrid();
+                    BindDataGrid();
                 }
             }
             catch (Exception exc) //Module failed to load
@@ -70,20 +70,20 @@ namespace DotNetNuke.Modules.Events
         {
             get
                 {
-                    if (!ReferenceEquals(this.ViewState["PageNumber"], null))
+                    if (!ReferenceEquals(ViewState["PageNumber"], null))
                     {
-                        return Convert.ToInt32(this.ViewState["PageNumber"]);
+                        return Convert.ToInt32(ViewState["PageNumber"]);
                     }
                     return 0;
                 }
-            set { this.ViewState["PageNumber"] = value; }
+            set { ViewState["PageNumber"] = value; }
         }
 
         private void BindDataGrid()
         {
             //Default sort from settings
             var sortDirection = default(SortDirection);
-            if (this.Settings.EventsListSortDirection == "ASC")
+            if (Settings.EventsListSortDirection == "ASC")
             {
                 sortDirection = SortDirection.Ascending;
             }
@@ -92,50 +92,50 @@ namespace DotNetNuke.Modules.Events
                 sortDirection = SortDirection.Descending;
             }
 
-            var sortExpression = (EventInfo.SortFilter) this.GetListSortExpression(this.Settings.EventsListSortColumn);
+            var sortExpression = (EventInfo.SortFilter) GetListSortExpression(Settings.EventsListSortColumn);
 
             // Get Events/Sub-Calendar Events
-            this._selectedEvents = this.Get_ListView_Events(this.SelectCategory.SelectedCategory,
-                                                            this.SelectLocation.SelectedLocation);
+            _selectedEvents = Get_ListView_Events(SelectCategory.SelectedCategory,
+                                                            SelectLocation.SelectedLocation);
 
             EventInfo.SortExpression = sortExpression;
             EventInfo.SortDirection = sortDirection;
-            this._selectedEvents.Sort();
+            _selectedEvents.Sort();
 
-            var tcc = new TokenReplaceControllerClass(this.ModuleId, this.LocalResourceFile);
+            var tcc = new TokenReplaceControllerClass(ModuleId, LocalResourceFile);
             var eventTable = new DataTable("Events");
             eventTable.Columns.Add("EventText", Type.GetType("System.String"));
             eventTable.Columns.Add("Tooltip", Type.GetType("System.String"));
 
-            if (this.Settings.Eventtooltiplist)
+            if (Settings.Eventtooltiplist)
             {
-                this.toolTipManager.TargetControls.Clear();
+                toolTipManager.TargetControls.Clear();
             }
 
             var dgRow = default(DataRow);
             var clientIdCount = 1;
-            foreach (EventInfo objEvent in this._selectedEvents)
+            foreach (EventInfo objEvent in _selectedEvents)
             {
                 dgRow = eventTable.NewRow();
                 var blAddSubModuleName = false;
-                if (objEvent.ModuleID != this.ModuleId && objEvent.ModuleTitle != null &&
-                    this.Settings.Addsubmodulename)
+                if (objEvent.ModuleID != ModuleId && objEvent.ModuleTitle != null &&
+                    Settings.Addsubmodulename)
                 {
                     blAddSubModuleName = true;
                 }
-                var isEvtEditor = this.IsEventEditor(objEvent, false);
-                var tmpText = this.Settings.Templates.txtListRptBody;
+                var isEvtEditor = IsEventEditor(objEvent, false);
+                var tmpText = Settings.Templates.txtListRptBody;
                 var tmpTooltip = "";
-                if (this.Settings.Eventtooltiplist)
+                if (Settings.Eventtooltiplist)
                 {
-                    tmpTooltip = this.ToolTipCreate(objEvent, this.Settings.Templates.txtTooltipTemplateTitle,
-                                                    this.Settings.Templates.txtTooltipTemplateBody, isEvtEditor);
+                    tmpTooltip = ToolTipCreate(objEvent, Settings.Templates.txtTooltipTemplateTitle,
+                                                    Settings.Templates.txtTooltipTemplateBody, isEvtEditor);
                     dgRow["Tooltip"] = tmpTooltip;
                 }
-                if (!this.Settings.ListViewTable)
+                if (!Settings.ListViewTable)
                 {
                     var tooltip = HttpUtility.HtmlEncode(tmpTooltip);
-                    tmpText = this.AddTooltip(clientIdCount, tooltip, tmpText);
+                    tmpText = AddTooltip(clientIdCount, tooltip, tmpText);
                     clientIdCount++;
                 }
 
@@ -148,35 +148,35 @@ namespace DotNetNuke.Modules.Events
             var dvEvents = new DataView(eventTable);
             pgEvents.DataSource = dvEvents;
             pgEvents.AllowPaging = true;
-            pgEvents.PageSize = this.Settings.RptColumns * this.Settings.RptRows;
-            pgEvents.CurrentPageIndex = this.PageNumber;
+            pgEvents.PageSize = Settings.RptColumns * Settings.RptRows;
+            pgEvents.CurrentPageIndex = PageNumber;
             if (pgEvents.PageCount > 1)
             {
-                this.rptTRPager.Visible = true;
+                rptTRPager.Visible = true;
                 var pages = new ArrayList();
                 for (var i = 0; i <= pgEvents.PageCount - 1; i++)
                 {
                     pages.Add(i + 1);
                 }
-                this.rptPager.DataSource = pages;
-                this.rptPager.DataBind();
+                rptPager.DataSource = pages;
+                rptPager.DataBind();
             }
             else
             {
-                this.rptTRPager.Visible = false;
+                rptTRPager.Visible = false;
             }
 
             if (pgEvents.CurrentPageIndex + 1 < pgEvents.PageCount)
             {
-                this._rptItemCount = pgEvents.PageSize;
+                _rptItemCount = pgEvents.PageSize;
             }
             else
             {
-                this._rptItemCount = eventTable.Rows.Count - pgEvents.CurrentPageIndex * pgEvents.PageSize;
+                _rptItemCount = eventTable.Rows.Count - pgEvents.CurrentPageIndex * pgEvents.PageSize;
             }
 
-            this.rptEvents.DataSource = pgEvents;
-            this.rptEvents.DataBind();
+            rptEvents.DataSource = pgEvents;
+            rptEvents.DataBind();
         }
 
         #endregion
@@ -186,15 +186,15 @@ namespace DotNetNuke.Modules.Events
         protected void SelectCategory_CategorySelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            this.SelectLocation.StoreLocations();
-            this.BindDataGrid();
+            SelectLocation.StoreLocations();
+            BindDataGrid();
         }
 
         protected void SelectLocation_LocationSelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            this.SelectCategory.StoreCategories();
-            this.BindDataGrid();
+            SelectCategory.StoreCategories();
+            BindDataGrid();
         }
 
         private int _rptCurrentItemCount;
@@ -202,26 +202,26 @@ namespace DotNetNuke.Modules.Events
 
         protected void rptEvents_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            var rptColumns = this.Settings.RptColumns;
-            var columnWidth = "\"" + Convert.ToInt32((double) 100 / this.Settings.RptColumns) + "%\"";
+            var rptColumns = Settings.RptColumns;
+            var columnWidth = "\"" + Convert.ToInt32((double) 100 / Settings.RptColumns) + "%\"";
             switch (e.Item.ItemType)
             {
                 case ListItemType.Header:
                     const string rptHeaderTable = "<table class=\"RptRepeater\">";
                     var rptHeaderStart =
                         "<tr id=\"rptTRHeader\" ><th id=\"rptTDHeader\" class=\"RptHeader\" colspan=\"" +
-                        this.Settings.RptColumns + "\">";
+                        Settings.RptColumns + "\">";
                     const string rptHeaderEnd = "</th></tr>";
 
                     var rptHeaderBody =
-                        this.Settings.Templates.txtListRptHeader.Replace(
+                        Settings.Templates.txtListRptHeader.Replace(
                             "[event:repeaterheadertext]",
-                            Localization.GetString("TokenListRptHeader", this.LocalResourceFile));
+                            Localization.GetString("TokenListRptHeader", LocalResourceFile));
                     rptHeaderBody = rptHeaderBody.Replace("[event:repeaterzeroeventstext]",
                                                           Localization.GetString(
-                                                              "TokenListRptHeaderZeroEvents", this.LocalResourceFile));
-                    var tcc = new TokenReplaceControllerClass(this.ModuleId, this.LocalResourceFile);
-                    if (this._rptItemCount == 0)
+                                                              "TokenListRptHeaderZeroEvents", LocalResourceFile));
+                    var tcc = new TokenReplaceControllerClass(ModuleId, LocalResourceFile);
+                    if (_rptItemCount == 0)
                     {
                         rptHeaderBody = tcc.TokenOneParameter(rptHeaderBody, "IFZEROEVENTS", true);
                     }
@@ -231,7 +231,7 @@ namespace DotNetNuke.Modules.Events
                     }
 
                     var rptHeader = (Literal) e.Item.FindControl("rptHeader");
-                    if (this.Settings.ListViewTable)
+                    if (Settings.ListViewTable)
                     {
                         rptHeader.Text = rptHeaderTable;
                         if (!string.IsNullOrEmpty(rptHeaderBody))
@@ -247,15 +247,15 @@ namespace DotNetNuke.Modules.Events
                 case ListItemType.Footer:
                     var rptFooterStart =
                         "<tr id=\"rptTRFooter\"><td id=\"rptTDFooter\" class=\"RptFooter\" colspan=\"" +
-                        this.Settings.RptColumns + "\">";
+                        Settings.RptColumns + "\">";
                     const string rptFooterEnd = "</td></tr>";
                     const string rptFooterTable = "</table>";
                     var rptFooterBody =
-                        this.Settings.Templates.txtListRptFooter.Replace(
+                        Settings.Templates.txtListRptFooter.Replace(
                             "[event:repeaterfootertext]",
-                            Localization.GetString("TokenListRptFooter", this.LocalResourceFile));
+                            Localization.GetString("TokenListRptFooter", LocalResourceFile));
                     var rptFooter = (Literal) e.Item.FindControl("rptFooter");
-                    if (this.Settings.ListViewTable)
+                    if (Settings.ListViewTable)
                     {
                         if (!string.IsNullOrEmpty(rptFooterBody))
                         {
@@ -271,18 +271,18 @@ namespace DotNetNuke.Modules.Events
                 default:
                     var rptBody = (Literal) e.Item.FindControl("rptBody");
                     var rptRowBody = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "EventText"));
-                    this._rptCurrentItemCount++;
-                    if (this.Settings.ListViewTable)
+                    _rptCurrentItemCount++;
+                    if (Settings.ListViewTable)
                     {
                         var rptBodyStart = "<td [event:repeatertooltip] width=" + columnWidth + ">";
 
                         const string rptBodyEnd = "</td>";
                         var rptRowStart = "";
-                        if ((this._rptCurrentItemCount - 1) % rptColumns == 0)
+                        if ((_rptCurrentItemCount - 1) % rptColumns == 0)
                         {
-                            this._rptAlternate = !this._rptAlternate;
+                            _rptAlternate = !_rptAlternate;
                             var rptCellClass = "RptNormal";
-                            if (this._rptAlternate)
+                            if (_rptAlternate)
                             {
                                 rptCellClass = "RptAlternate";
                             }
@@ -294,14 +294,14 @@ namespace DotNetNuke.Modules.Events
                         }
 
                         var rptRowEnd = "";
-                        if (this._rptCurrentItemCount % rptColumns == 0)
+                        if (_rptCurrentItemCount % rptColumns == 0)
                         {
                             rptRowEnd = rptBodyEnd + "</tr>";
                         }
-                        else if (this._rptItemCount == this._rptCurrentItemCount)
+                        else if (_rptItemCount == _rptCurrentItemCount)
                         {
                             // ReSharper disable RedundantAssignment
-                            for (var i = 1; i <= rptColumns - this._rptCurrentItemCount % rptColumns; i++)
+                            for (var i = 1; i <= rptColumns - _rptCurrentItemCount % rptColumns; i++)
                             {
                                 // ReSharper restore RedundantAssignment
                                 rptRowEnd += "<td width=" + columnWidth + " ></td>";
@@ -313,12 +313,12 @@ namespace DotNetNuke.Modules.Events
                             rptRowEnd = rptBodyEnd;
                         }
                         var tooltip = "";
-                        if (this.Settings.Eventtooltiplist)
+                        if (Settings.Eventtooltiplist)
                         {
                             tooltip = HttpUtility.HtmlEncode(
                                 Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Tooltip")));
                         }
-                        rptBody.Text = this.AddTooltip(this._rptCurrentItemCount, tooltip, rptRowStart) + rptRowBody +
+                        rptBody.Text = AddTooltip(_rptCurrentItemCount, tooltip, rptRowStart) + rptRowBody +
                                        rptRowEnd;
                     }
                     else
@@ -332,11 +332,11 @@ namespace DotNetNuke.Modules.Events
         private string AddTooltip(int itemCount, string toolTip, string body)
         {
             var fullTooltip = "";
-            if (this.Settings.Eventtooltiplist)
+            if (Settings.Eventtooltiplist)
             {
-                var ttClientId = "ctlEvents_Mod_" + this.ModuleId + "_RptRowBody_" + itemCount;
+                var ttClientId = "ctlEvents_Mod_" + ModuleId + "_RptRowBody_" + itemCount;
                 fullTooltip = "ID=\"" + ttClientId + "\" title=\"" + toolTip + "\"";
-                this.toolTipManager.TargetControls.Add(this.ClientID, true);
+                toolTipManager.TargetControls.Add(ClientID, true);
             }
             return body.Replace("[event:repeatertooltip]", fullTooltip);
         }
@@ -351,7 +351,7 @@ namespace DotNetNuke.Modules.Events
                     break;
                 default:
                     var lnkPage = (LinkButton) e.Item.FindControl("cmdPage");
-                    if (int.Parse(lnkPage.CommandArgument) == this.PageNumber + 1)
+                    if (int.Parse(lnkPage.CommandArgument) == PageNumber + 1)
                     {
                         lnkPage.Style.Add("cursor", "text");
                         lnkPage.Style.Add("text-decoration", "none");
@@ -364,8 +364,8 @@ namespace DotNetNuke.Modules.Events
 
         protected void rptPages_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            this.PageNumber = Convert.ToInt32(e.CommandArgument) - 1;
-            this.BindDataGrid();
+            PageNumber = Convert.ToInt32(e.CommandArgument) - 1;
+            BindDataGrid();
         }
 
         #endregion
@@ -381,7 +381,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -36,7 +36,7 @@ namespace DotNetNuke.Modules.Events
     using DotNetNuke.Services.Exceptions;
     using global::Components;
 
-    [DNNtc.ModuleControlProperties("Settings", "Event Settings", DNNtc.ControlType.Admin, "https://dnnevents.codeplex.com/documentation", true, true)]
+    [DNNtc.ModuleControlProperties("Settings", "Event Settings", DNNtc.ControlType.Admin, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class Settings : ModuleSettingsBase
     {
         #region Links, Buttons and Events
