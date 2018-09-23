@@ -21,6 +21,9 @@ The Events module is part of the standard core modules of DNN, the web content m
   * Add bugs or feature requests to the [Issue Tracker](https://github.com/dnncommunity/dnn.events/issues). Help us shape the Events module with your feedback!  
   * Read more about the Events module on our [Blog](http://www.dnnsoftware.com/community-blog/articletype/authorview/authorid/13953) on dnnsoftware.com.  
 
+# Contributions
+If you would like to contribute to this repository, please read the [CONTRIBUTING.md](https://github.com/DNNCommunity/DNN.Events/blob/master/.github/CONTRIBUTING.md)
+
 # An overview of functions and possibilities of the Events module  
 
 ## Various views  
