@@ -5,4 +5,6 @@
 <ul>
 	<li>Several casting errors due to the VB.net/C# conversion fixed</li>
 	<li>Several none functioning buttons and links fixed that were due to the VB.net/C# conversion</li>
+	<li>Some V6 settings were not carried forward to the new version due to case mismatch in the name of the setting</li>
+	<li>Templates save/update did not work</li>
 </ul>
