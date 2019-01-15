@@ -241,6 +241,60 @@
                 <defaultCacheTime>-1</defaultCacheTime>
                 <moduleControls>
                   <moduleControl>
+                    <controlKey>Edit</controlKey>
+                    <controlSrc>DesktopModules/Events/EditEvents.ascx</controlSrc>
+                    <supportsPartialRendering>false</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Edit Events</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Day</controlKey>
+                    <controlSrc>DesktopModules/Events/EventDay.ascx</controlSrc>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Events Day</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Details</controlKey>
+                    <controlSrc>DesktopModules/Events/EventDetails.ascx</controlSrc>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>false</supportsPopUps>
+                    <controlTitle>Events Details</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Categories</controlKey>
+                    <controlSrc>DesktopModules/Events/EventEditCategories.ascx</controlSrc>
+                    <supportsPartialRendering>false</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Edit Event Categories</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Locations</controlKey>
+                    <controlSrc>DesktopModules/Events/EventEditLocations.ascx</controlSrc>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Edit Event Locations</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Moderate</controlKey>
+                    <controlSrc>DesktopModules/Events/EventModerate.ascx</controlSrc>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Moderate Events and Enrollment</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
                     <controlKey>PPEnroll</controlKey>
                     <controlSrc>DesktopModules/Events/EventPPEnroll.ascx</controlSrc>
                     <supportsPartialRendering>false</supportsPartialRendering>
@@ -255,6 +309,15 @@
                     <supportsPartialRendering>true</supportsPartialRendering>
                     <supportsPopUps>false</supportsPopUps>
                     <controlTitle>Events Container</controlTitle>
+                    <controlType>View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>EventSettings</controlKey>
+                    <controlSrc>DesktopModules/Events/EventSettings.ascx</controlSrc>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Event Settings</controlTitle>
                     <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
