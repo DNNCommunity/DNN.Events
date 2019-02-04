@@ -53,7 +53,7 @@ using EventInfo = Components.EventInfo;
 
 namespace DotNetNuke.Modules.Events
 {
-    [DNNtc.ModuleControlProperties("Details", "Events Details", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, false)]
+    [DNNtc.ModuleControlProperties("Details", "Events Details", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, false)]
     public partial class EventDetails : EventBase
     {
         #region Event Handlers

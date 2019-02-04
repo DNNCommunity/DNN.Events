@@ -29,7 +29,7 @@ using DNNtc;
 
 namespace DotNetNuke.Modules.Events
 {
-    [DNNtc.ModuleControlProperties("TemplateHelp", "Event Template Help", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
+    [DNNtc.ModuleControlProperties("TemplateHelp", "Event Template Help", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventTemplateHelp : EventBase
     {
         protected void Page_Load(object sender, EventArgs e)

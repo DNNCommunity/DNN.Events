@@ -246,7 +246,7 @@
                     <supportsPartialRendering>false</supportsPartialRendering>
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Edit Events</controlTitle>
-                    <controlType>ControlType.View</controlType>
+                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
@@ -255,7 +255,7 @@
                     <supportsPartialRendering>true</supportsPartialRendering>
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Events Day</controlTitle>
-                    <controlType>ControlType.View</controlType>
+                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
@@ -264,7 +264,7 @@
                     <supportsPartialRendering>true</supportsPartialRendering>
                     <supportsPopUps>false</supportsPopUps>
                     <controlTitle>Events Details</controlTitle>
-                    <controlType>ControlType.View</controlType>
+                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
@@ -273,7 +273,7 @@
                     <supportsPartialRendering>false</supportsPartialRendering>
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Edit Event Categories</controlTitle>
-                    <controlType>ControlType.View</controlType>
+                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
@@ -282,7 +282,7 @@
                     <supportsPartialRendering>true</supportsPartialRendering>
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Edit Event Locations</controlTitle>
-                    <controlType>ControlType.View</controlType>
+                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
@@ -291,7 +291,7 @@
                     <supportsPartialRendering>true</supportsPartialRendering>
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Moderate Events and Enrollment</controlTitle>
-                    <controlType>ControlType.View</controlType>
+                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
@@ -318,7 +318,7 @@
                     <supportsPartialRendering>true</supportsPartialRendering>
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event Settings</controlTitle>
-                    <controlType>ControlType.View</controlType>
+                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
@@ -327,7 +327,7 @@
                     <supportsPartialRendering>true</supportsPartialRendering>
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event Template Help</controlTitle>
-                    <controlType>ControlType.View</controlType>
+                    <controlType>View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
