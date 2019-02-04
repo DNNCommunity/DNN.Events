@@ -48,7 +48,7 @@ using Globals = DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.Events
 {
-    [ModuleControlProperties("Edit", "Edit Events", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", false, true)]
+    [DNNtc.ModuleControlProperties("Edit", "Edit Events", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", false, true)]
     public partial class EditEvents : EventBase
     {
         #region Private Area

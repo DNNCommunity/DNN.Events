@@ -29,8 +29,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web.UI.WebControls;
-using Components;
 using DNNtc;
+using Components;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Lists;
 using DotNetNuke.Security;
@@ -39,7 +39,7 @@ using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.Events
 {
-    [ModuleControlProperties("Locations", "Edit Event Locations", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
+    [DNNtc.ModuleControlProperties("Locations", "Edit Event Locations", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventEditLocations : EventBase
     {
         #region Event Handlers
