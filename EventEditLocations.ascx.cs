@@ -39,7 +39,7 @@ using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.Events
 {
-    [ModuleControlProperties("Locations", "Edit Event Locations", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
+    [DNNtc.ModuleControlProperties("Locations", "Edit Event Locations", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventEditLocations : EventBase
     {
         #region Event Handlers

@@ -37,7 +37,7 @@ using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.Events
 {
-    [ModuleControlProperties("Moderate", "Moderate Events and Enrollment", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
+    [DNNtc.ModuleControlProperties("Moderate", "Moderate Events and Enrollment", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventModerate : EventBase
     {
         #region Event Handlers
