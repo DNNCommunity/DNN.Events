@@ -49,7 +49,7 @@ using Globals = DotNetNuke.Common.Globals;
 
 namespace DotNetNuke.Modules.Events
 {
-    [ModuleControlProperties("EventSettings", "Event Settings", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
+    [DNNtc.ModuleControlProperties("EventSettings", "Event Settings", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventSettings : EventBase
     {
         #region Private Data

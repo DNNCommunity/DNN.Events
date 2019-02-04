@@ -39,8 +39,8 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using System.Xml.Xsl;
-using Components;
 using DNNtc;
+using Components;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
@@ -53,7 +53,7 @@ using EventInfo = Components.EventInfo;
 
 namespace DotNetNuke.Modules.Events
 {
-    [ModuleControlProperties("Details", "Events Details", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, false)]
+    [DNNtc.ModuleControlProperties("Details", "Events Details", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, false)]
     public partial class EventDetails : EventBase
     {
         #region Event Handlers
