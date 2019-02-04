@@ -38,7 +38,7 @@ using DotNetNuke.Services.Localization;
 
 namespace DotNetNuke.Modules.Events
 {
-    [DNNtc.ModuleControlProperties("Categories", "Edit Event Categories", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", false, true)]
+    [DNNtc.ModuleControlProperties("Categories", "Edit Event Categories", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", false, true)]
     public partial class EventEditCategories : EventBase
     {
         #region Event Handler

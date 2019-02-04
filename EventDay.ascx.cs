@@ -39,7 +39,7 @@ using Microsoft.VisualBasic;
 
 namespace DotNetNuke.Modules.Events
 {
-    [DNNtc.ModuleControlProperties("Day", "Events Day", ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
+    [DNNtc.ModuleControlProperties("Day", "Events Day", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
     public partial class EventDay : EventBase
     {
         #region Helper Functions
