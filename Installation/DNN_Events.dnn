@@ -250,6 +250,15 @@
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
                   <moduleControl>
+                    <controlKey>Day</controlKey>
+                    <controlSrc>DesktopModules/Events/EventDay.ascx</controlSrc>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Events Day</controlTitle>
+                    <controlType>ControlType.View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
                     <controlKey>Details</controlKey>
                     <controlSrc>DesktopModules/Events/EventDetails.ascx</controlSrc>
                     <supportsPartialRendering>true</supportsPartialRendering>
@@ -309,6 +318,15 @@
                     <supportsPartialRendering>true</supportsPartialRendering>
                     <supportsPopUps>true</supportsPopUps>
                     <controlTitle>Event Settings</controlTitle>
+                    <controlType>ControlType.View</controlType>
+                    <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>TemplateHelp</controlKey>
+                    <controlSrc>DesktopModules/Events/EventTemplateHelp.ascx</controlSrc>
+                    <supportsPartialRendering>true</supportsPartialRendering>
+                    <supportsPopUps>true</supportsPopUps>
+                    <controlTitle>Event Template Help</controlTitle>
                     <controlType>ControlType.View</controlType>
                     <helpUrl>https://github.com/DNNCommunity/DNN.Events/wiki</helpUrl>
                   </moduleControl>
