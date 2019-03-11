@@ -57,6 +57,12 @@ namespace DotNetNuke.Modules.Events
         #endregion
 
         #region Event Handlers
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            // Add the click event
+            EventCalendar.SelectionChanged += EventCalendar_SelectionChanged;
+        }
 
         private void Page_PreRender(object sender, EventArgs e)
         {

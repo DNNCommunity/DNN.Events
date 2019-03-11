@@ -1,0 +1,10 @@
+﻿<h2>Release notes DNN.Events 07.00.04</h2>
+<p>DNN.Events 07.00.04 will work for any DNN version <strong>8.0.1</strong> and up to the latest release of DNNPlatform. Full details on the changes can be found in great detail at <a href="https://github.com/DNNCommunity/DNN.Events/releases" target="_blank">the repository on GitHub</a>.</p>
+<p>This is a bug fix release of the DNN.Events module.</p>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Several casting errors due to the VB.net/C# conversion fixed</li>
+	<li>Several none functioning buttons and links fixed that were due to the VB.net/C# conversion</li>
+	<li>Some V6 settings were not carried forward to the new version due to case mismatch in the name of the setting</li>
+	<li>Select date did not work</li>
+</ul>
