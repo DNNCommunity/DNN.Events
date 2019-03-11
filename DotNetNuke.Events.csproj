@@ -370,6 +370,9 @@
     <Content Include="Installation\CleanUp\Cleanup.06.03.01.txt" />
     <Content Include="Installation\CleanUp\Cleanup.07.00.00.txt" />
     <Content Include="Installation\CleanUp\Cleanup.06.03.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.07.00.02.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.07.00.03.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.07.00.04.txt" />
     <Content Include="Installation\DNN_Events.png" />
     <Content Include="Installation\ReleaseNotes\Release.06.01.05.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.02.00.txt" />
@@ -392,6 +395,8 @@
     <Content Include="Installation\ReleaseNotes\Release.06.03.02.txt" />
     <Content Include="Installation\ReleaseNotes\Release.07.00.02.txt" />
     <Content Include="Installation\ReleaseNotes\Release.07.00.01.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.07.00.03.txt" />
+    <Content Include="Installation\ReleaseNotes\Release.07.00.04.txt" />
     <Content Include="Styles\jquery-ui.min.css" />
     <Content Include="SubControls\SelectLocation.ascx" />
     <Content Include="SubControls\EventIcons.ascx" />
@@ -575,6 +580,7 @@
     <Content Include="Installation\06.02.00.SqlDataProvider" />
     <Content Include="Installation\06.02.02.SqlDataProvider" />
     <Content Include="Installation\06.03.02.SqlDataProvider" />
+    <Content Include="Installation\07.00.04.SqlDataProvider" />
     <None Include="Installation\Install.05.02.04.SqlDataProvider" />
     <None Include="Installation\Project.targets">
       <SubType>Designer</SubType>
