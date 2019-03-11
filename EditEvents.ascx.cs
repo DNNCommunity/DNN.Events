@@ -1083,7 +1083,7 @@ namespace DotNetNuke.Modules.Events
             oDropDown = (DropDownList) FindControl(cmbDropDown);
             for (iIndex = 0; iIndex <= oDropDown.Items.Count - 1; iIndex++)
             {
-                if (oDropDown.Items[iIndex].Value == Convert.ToString(value))
+                if (oDropDown.Items[iIndex].Text == Convert.ToString(value))
                 {
                     return iIndex;
                 }
