@@ -34,8 +34,8 @@ namespace Components
     using DotNetNuke.Entities.Portals;
     using DotNetNuke.Modules.Events;
     using DotNetNuke.Services.Localization;
-
-    [Serializable]
+    
+        [Serializable]
     public class EventModuleSettings
     {
         public enum CategoriesSelected
@@ -274,17 +274,17 @@ namespace Components
         public string StandardEmail
         {
             get
+            {
+                if (string.IsNullOrEmpty(_standardEmail))
                 {
-                    if (string.IsNullOrEmpty(_standardEmail))
+                    var portalsettings = PortalController.GetCurrentPortalSettings();
+                    if (!ReferenceEquals(portalsettings, null))
                     {
-                        var portalsettings = PortalController.GetCurrentPortalSettings();
-                        if (!ReferenceEquals(portalsettings, null))
-                        {
-                            _standardEmail = portalsettings.Email;
-                        }
+                        _standardEmail = portalsettings.Email;
                     }
-                    return _standardEmail;
                 }
+                return _standardEmail;
+            }
             set { _standardEmail = value; }
         }
 
@@ -295,7 +295,7 @@ namespace Components
         public bool IcalEmailEnable { get; set; }
 
         [ModuleSetting(ParameterName = "iCalURLinLocation")]
-		public bool IcalURLInLocation { get; set; } = true;
+        public bool IcalURLInLocation { get; set; } = true;
 
         [ModuleSetting(ParameterName = "iCalOnIconBar")]
         public bool IcalOnIconBar { get; set; }
@@ -357,15 +357,15 @@ namespace Components
         public ArrayList ModuleCategoryIDs
         {
             get
+            {
+                if (ReferenceEquals(_moduleCategoryIDs, null))
                 {
-                    if (ReferenceEquals(_moduleCategoryIDs, null))
-                    {
-                        var arCat = new ArrayList();
-                        arCat.Add(ModuleCategoryID);
-                        _moduleCategoryIDs = arCat;
-                    }
-                    return _moduleCategoryIDs;
+                    var arCat = new ArrayList();
+                    arCat.Add(ModuleCategoryID);
+                    _moduleCategoryIDs = arCat;
                 }
+                return _moduleCategoryIDs;
+            }
             set { _moduleCategoryIDs = value; }
         }
 
@@ -375,27 +375,30 @@ namespace Components
             get { return string.Join(";", ModuleCategoryIDs ?? new ArrayList()); }
 
             set
-                {
-                    ModuleCategoryIDs = !string.IsNullOrWhiteSpace(value)
-                                                 ? new ArrayList(
-                                                     value.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
-                                                          .Select(arg => arg)
-                                                          .ToArray())
-                                                 : new ArrayList();
-                }
+            {
+                ModuleCategoryIDs = !string.IsNullOrWhiteSpace(value)
+                                             ? new ArrayList(
+                                                 value.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
+                                                      .Select(arg => arg)
+                                                      .ToArray())
+                                             : new ArrayList();
+            }
         }
 
 
         public CategoriesSelected ModuleCategoriesSelected
         {
             get
+            {
+                int moduleCatAll = 0;
+                if (ModuleCategoryIDs.Count == 0)
                 {
-                int moduleCatAll = int.TryParse(ModuleCategoryIDs[0] as string, out moduleCatAll) ? moduleCatAll : -1;
-                    if (ModuleCategoryIDs.Count == 0)
-                    {
-                        _moduleCategoriesSelected = CategoriesSelected.None;
-                    }
-                    else if (moduleCatAll == -1)
+                    _moduleCategoriesSelected = CategoriesSelected.None;
+                }
+                else
+                {
+                    moduleCatAll = int.TryParse(ModuleCategoryIDs[0] as string, out moduleCatAll) ? moduleCatAll : -1;
+                    if (moduleCatAll == -1)
                     {
                         _moduleCategoriesSelected = CategoriesSelected.All;
                     }
@@ -403,8 +406,9 @@ namespace Components
                     {
                         _moduleCategoriesSelected = CategoriesSelected.Some;
                     }
-                    return _moduleCategoriesSelected;
                 }
+                return _moduleCategoriesSelected;
+            }
             set { _moduleCategoriesSelected = value; }
         }
 
@@ -412,36 +416,36 @@ namespace Components
         public ArrayList ModuleLocationIDs
         {
             get
+            {
+                if (ReferenceEquals(_moduleLocationIDs, null))
                 {
-                    if (ReferenceEquals(_moduleLocationIDs, null))
-                    {
-                        var arLoc = new ArrayList();
-                        arLoc.Add(ModuleLocationID);
-                        _moduleLocationIDs = arLoc;
-                    }
-                    return _moduleLocationIDs;
+                    var arLoc = new ArrayList();
+                    arLoc.Add(ModuleLocationID);
+                    _moduleLocationIDs = arLoc;
                 }
+                return _moduleLocationIDs;
+            }
             set { _moduleLocationIDs = value; }
         }
 
         public LocationsSelected ModuleLocationsSelected
         {
             get
+            {
+                if (ModuleLocationIDs.Count == 0)
                 {
-                    if (ModuleLocationIDs.Count == 0)
-                    {
-                        _moduleLocationsSelected = LocationsSelected.None;
-                    }
-                    else if (Convert.ToInt32(ModuleLocationIDs[0]) == -1)
-                    {
-                        _moduleLocationsSelected = LocationsSelected.All;
-                    }
-                    else
-                    {
-                        _moduleLocationsSelected = LocationsSelected.Some;
-                    }
-                    return _moduleLocationsSelected;
+                    _moduleLocationsSelected = LocationsSelected.None;
                 }
+                else if (Convert.ToInt32(ModuleLocationIDs[0]) == -1)
+                {
+                    _moduleLocationsSelected = LocationsSelected.All;
+                }
+                else
+                {
+                    _moduleLocationsSelected = LocationsSelected.Some;
+                }
+                return _moduleLocationsSelected;
+            }
             set { _moduleLocationsSelected = value; }
         }
 
@@ -467,13 +471,13 @@ namespace Components
         public string EventTheme
         {
             get
+            {
+                if (string.IsNullOrEmpty(_eventTheme))
                 {
-                    if (string.IsNullOrEmpty(_eventTheme))
-                    {
-                        _eventTheme = _eventThemeDefault;
-                    }
-                    return _eventTheme;
+                    _eventTheme = _eventThemeDefault;
                 }
+                return _eventTheme;
+            }
             set { _eventTheme = value; }
         }
 
@@ -580,13 +584,13 @@ namespace Components
         public string RSSDesc
         {
             get
+            {
+                if (string.IsNullOrEmpty(_rssDesc) && !string.IsNullOrEmpty(_localresourcefile))
                 {
-                    if (string.IsNullOrEmpty(_rssDesc) && !string.IsNullOrEmpty(_localresourcefile))
-                    {
-                        _rssDesc = Localization.GetString("RSSFeedDescDefault", _localresourcefile);
-                    }
-                    return _rssDesc;
+                    _rssDesc = Localization.GetString("RSSFeedDescDefault", _localresourcefile);
                 }
+                return _rssDesc;
+            }
             set { _rssDesc = value; }
         }
 
@@ -594,13 +598,13 @@ namespace Components
         public string RSSTitle
         {
             get
+            {
+                if (string.IsNullOrEmpty(_rssTitle) && !string.IsNullOrEmpty(_localresourcefile))
                 {
-                    if (string.IsNullOrEmpty(_rssTitle) && !string.IsNullOrEmpty(_localresourcefile))
-                    {
-                        _rssTitle = Localization.GetString("RSSFeedTitleDefault", _localresourcefile);
-                    }
-                    return _rssTitle;
+                    _rssTitle = Localization.GetString("RSSFeedTitleDefault", _localresourcefile);
                 }
+                return _rssTitle;
+            }
             set { _rssTitle = value; }
         }
 
@@ -632,17 +636,17 @@ namespace Components
         public string Reminderfrom
         {
             get
+            {
+                if (string.IsNullOrEmpty(_reminderfrom))
                 {
-                    if (string.IsNullOrEmpty(_reminderfrom))
+                    var portalsettings = PortalController.GetCurrentPortalSettings();
+                    if (!ReferenceEquals(portalsettings, null))
                     {
-                        var portalsettings = PortalController.GetCurrentPortalSettings();
-                        if (!ReferenceEquals(portalsettings, null))
-                        {
-                            _reminderfrom = portalsettings.Email;
-                        }
+                        _reminderfrom = portalsettings.Email;
                     }
-                    return _reminderfrom;
                 }
+                return _reminderfrom;
+            }
             set { _reminderfrom = value; }
         }
 
@@ -653,17 +657,17 @@ namespace Components
         public string Paypalaccount
         {
             get
+            {
+                if (ReferenceEquals(_paypalaccount, null))
                 {
-                    if (ReferenceEquals(_paypalaccount, null))
+                    var portalsettings = PortalController.GetCurrentPortalSettings();
+                    if (!ReferenceEquals(portalsettings, null))
                     {
-                        var portalsettings = PortalController.GetCurrentPortalSettings();
-                        if (!ReferenceEquals(portalsettings, null))
-                        {
-                            _paypalaccount = portalsettings.Email;
-                        }
+                        _paypalaccount = portalsettings.Email;
                     }
-                    return _paypalaccount;
                 }
+                return _paypalaccount;
+            }
             set { _paypalaccount = value; }
         }
 
@@ -734,17 +738,17 @@ namespace Components
         public int Neweventemailrole
         {
             get
+            {
+                if (_neweventemailrole < 0)
                 {
-                    if (_neweventemailrole < 0)
+                    var portalsettings = PortalController.GetCurrentPortalSettings();
+                    if (!ReferenceEquals(portalsettings, null))
                     {
-                        var portalsettings = PortalController.GetCurrentPortalSettings();
-                        if (!ReferenceEquals(portalsettings, null))
-                        {
-                            _neweventemailrole = portalsettings.RegisteredRoleId;
-                        }
+                        _neweventemailrole = portalsettings.RegisteredRoleId;
                     }
-                    return _neweventemailrole;
                 }
+                return _neweventemailrole;
+            }
             set { _neweventemailrole = value; }
         }
 
@@ -782,25 +786,25 @@ namespace Components
         public string TimeZoneId
         {
             get
+            {
+                if (string.IsNullOrEmpty(_timeZoneId))
                 {
-                    if (string.IsNullOrEmpty(_timeZoneId))
+                    if (string.IsNullOrEmpty(_timeZone))
                     {
-                        if (string.IsNullOrEmpty(_timeZone))
+                        var portalsettings = PortalController.GetCurrentPortalSettings();
+                        if (!ReferenceEquals(portalsettings, null))
                         {
-                            var portalsettings = PortalController.GetCurrentPortalSettings();
-                            if (!ReferenceEquals(portalsettings, null))
-                            {
-                                _timeZoneId = portalsettings.TimeZone.Id;
-                            }
-                        }
-                        else
-                        {
-                            _timeZoneId = Localization
-                                .ConvertLegacyTimeZoneOffsetToTimeZoneInfo(int.Parse(_timeZone)).Id;
+                            _timeZoneId = portalsettings.TimeZone.Id;
                         }
                     }
-                    return _timeZoneId;
+                    else
+                    {
+                        _timeZoneId = Localization
+                            .ConvertLegacyTimeZoneOffsetToTimeZoneInfo(int.Parse(_timeZone)).Id;
+                    }
                 }
+                return _timeZoneId;
+            }
             set { _timeZoneId = value; }
         }
 
@@ -841,17 +845,17 @@ namespace Components
         public DisplayCategories Enablecategories
         {
             get
+            {
+                if ((int) _enablecategories == 0)
                 {
-                    if ((int) _enablecategories == 0)
+                    if (_disablecategories)
                     {
-                        if (_disablecategories)
-                        {
-                            return DisplayCategories.DoNotDisplay;
-                        }
-                        return DisplayCategories.MultiSelect;
+                        return DisplayCategories.DoNotDisplay;
                     }
-                    return _enablecategories;
+                    return DisplayCategories.MultiSelect;
                 }
+                return _enablecategories;
+            }
             set { _enablecategories = value; }
         }
 
@@ -865,17 +869,17 @@ namespace Components
         public DisplayLocations Enablelocations
         {
             get
+            {
+                if ((int) _enablelocations == 0)
                 {
-                    if ((int) _enablelocations == 0)
+                    if (_disablelocations)
                     {
-                        if (_disablelocations)
-                        {
-                            return DisplayLocations.DoNotDisplay;
-                        }
-                        return DisplayLocations.MultiSelect;
+                        return DisplayLocations.DoNotDisplay;
                     }
-                    return _enablelocations;
+                    return DisplayLocations.MultiSelect;
                 }
+                return _enablelocations;
+            }
             set { _enablelocations = value; }
         }
 
@@ -885,7 +889,7 @@ namespace Components
         [ModuleSetting(ParameterName = "eventdetailnewpage")]
         public bool Eventdetailnewpage { get; set; }
 
-		[ModuleSetting(ParameterName = "ownerchangeallowed")]
+        [ModuleSetting(ParameterName = "ownerchangeallowed")]
         public bool Ownerchangeallowed { get; set; } = false;
 
         [ModuleSetting(ParameterName = "eventsignupallowpaid")]
