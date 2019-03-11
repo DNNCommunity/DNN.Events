@@ -1015,11 +1015,11 @@ namespace DotNetNuke.Modules.Events
             dict.Add("eventurl", eventurl);
             if (eventInfo.DetailPage && eventInfo.DetailNewWin)
             {
-                dict.Add("titleurl", "<a href=\"" + eventurl + "\" target=\"_blank\">" + eventInfo.EventName + "</a>");
+                dict.Add("titleurl", "<a href=\"" + eventurl + "\" target=\"_blank\" style=\"color: "+eventInfo.FontColor+ "\">" + eventInfo.EventName + "</a>");
             }
             else
             {
-                dict.Add("titleurl", "<a href=\"" + eventurl + "\">" + eventInfo.EventName + "</a>");
+                dict.Add("titleurl", "<a href=\"" + eventurl + "\"style=\"color: " + eventInfo.FontColor + "\">" + eventInfo.EventName + "</a>");
             }
 
             //View page url
