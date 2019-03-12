@@ -288,16 +288,16 @@ namespace Components
             set { _standardEmail = value; }
         }
 
-        [ModuleSetting(ParameterName = "iCalIncludeCalname")]
+        [ModuleSetting]
         public bool IcalIncludeCalname { get; set; }
 
-        [ModuleSetting(ParameterName = "iCalEmailEnable")]
+        [ModuleSetting]
         public bool IcalEmailEnable { get; set; }
 
-        [ModuleSetting(ParameterName = "iCalURLinLocation")]
+        [ModuleSetting]
         public bool IcalURLInLocation { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "iCalOnIconBar")]
+        [ModuleSetting]
         public bool IcalOnIconBar { get; set; }
 
         [ModuleSetting]
@@ -306,10 +306,10 @@ namespace Components
         [ModuleSetting]
         public FirstDayOfWeek WeekStart { get; set; } = FirstDayOfWeek.Default;
 
-        [ModuleSetting(ParameterName = "rptRows")]
+        [ModuleSetting]
         public int RptRows { get; set; } = 5;
 
-        [ModuleSetting(ParameterName = "rptColumns")]
+        [ModuleSetting]
         public int RptColumns { get; set; } = 1;
 
         [ModuleSetting]
@@ -318,40 +318,40 @@ namespace Components
         [ModuleSetting]
         public bool ListViewGrid { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "siteMapDaysAfter")]
+        [ModuleSetting]
         public int SiteMapDaysAfter { get; set; } = 365;
 
-        [ModuleSetting(ParameterName = "siteMapDaysBefore")]
+        [ModuleSetting]
         public int SiteMapDaysBefore { get; set; } = 365;
 
-        [ModuleSetting(ParameterName = "siteMapPriority")]
+        [ModuleSetting]
         public float SiteMapPriority { get; set; } = 0.5F;
 
-        [ModuleSetting(ParameterName = "enableSitemap")]
+        [ModuleSetting]
         public bool EnableSitemap { get; set; }
 
         [ModuleSetting]
         public int SEODescriptionLength { get; set; } = 256;
 
-        [ModuleSetting(ParameterName = "enableSEO")]
+        [ModuleSetting]
         public bool EnableSEO { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "iCalDefaultImage")]
+        [ModuleSetting]
         public string IcalDefaultImage { get; set; } = string.Empty;
 
-        [ModuleSetting(ParameterName = "iCalURLAppend")]
+        [ModuleSetting]
         public string IcalURLAppend { get; set; } = string.Empty;
 
-        [ModuleSetting(ParameterName = "iCalDaysAfter")]
+        [ModuleSetting]
         public int IcalDaysAfter { get; set; } = 365;
 
-        [ModuleSetting(ParameterName = "iCalDaysBefore")]
+        [ModuleSetting]
         public int IcalDaysBefore { get; set; } = 365;
 
         [ModuleSetting]
         public string HTMLEmail { get; set; } = "html";
 
-        [ModuleSetting(ParameterName = "eventslistsortcolumn")]
+        [ModuleSetting]
         public string EventsListSortColumn { get; set; } = "EventDateBegin";
 
         public ArrayList ModuleCategoryIDs
@@ -535,13 +535,13 @@ namespace Components
         [ModuleSetting]
         public string EnrollmentPageDefaultUrl { get; set; } = string.Empty;
 
-        [ModuleSetting(ParameterName = "enrolcanceldays")]
+        [ModuleSetting]
         public int Enrolcanceldays { get; set; } = 0;
 
-        [ModuleSetting(ParameterName = "maxnoenrolees")]
+        [ModuleSetting]
         public int Maxnoenrolees { get; set; } = 1;
 
-        [ModuleSetting(ParameterName = "eventhidefullenroll")]
+        [ModuleSetting]
         public bool Eventhidefullenroll { get; set; }
 
         [ModuleSetting]
@@ -571,13 +571,13 @@ namespace Components
         [ModuleSetting]
         public bool MonthAllowed { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "exportanonowneremail")]
+        [ModuleSetting]
         public bool Exportanonowneremail { get; set; }
 
-        [ModuleSetting(ParameterName = "exportowneremail")]
+        [ModuleSetting]
         public bool Exportowneremail { get; set; }
 
-        [ModuleSetting(ParameterName = "expireevents")]
+        [ModuleSetting]
         public string Expireevents { get; set; } = string.Empty;
 
         [ModuleSetting]
@@ -632,7 +632,7 @@ namespace Components
         [ModuleSetting]
         public string EventsListSelectType { get; set; } = "EVENTS";
 
-        [ModuleSetting(ParameterName = "reminderfrom")]
+        [ModuleSetting]
         public string Reminderfrom
         {
             get
@@ -650,10 +650,10 @@ namespace Components
             set { _reminderfrom = value; }
         }
 
-        [ModuleSetting(ParameterName = "moderateall")]
+        [ModuleSetting]
         public bool Moderateall { get; set; }
 
-        [ModuleSetting(ParameterName = "paypalaccount")]
+        [ModuleSetting]
         public string Paypalaccount
         {
             get
@@ -671,70 +671,70 @@ namespace Components
             set { _paypalaccount = value; }
         }
 
-        [ModuleSetting(ParameterName = "eventdefaultenrollview")]
+        [ModuleSetting]
         public bool Eventdefaultenrollview { get; set; }
 
-        [ModuleSetting(ParameterName = "fridayweekend")]
+        [ModuleSetting]
         public bool Fridayweekend { get; set; }
 
-        [ModuleSetting(ParameterName = "enforcesubcalperms")]
+        [ModuleSetting]
         public bool Enforcesubcalperms { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "addsubmodulename")]
+        [ModuleSetting]
         public bool Addsubmodulename { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "masterEvent")]
+        [ModuleSetting]
         public bool MasterEvent { get; set; }
 
-        [ModuleSetting(ParameterName = "monthdayselect")]
+        [ModuleSetting]
         public bool Monthdayselect { get; set; }
 
-        [ModuleSetting(ParameterName = "timeintitle")]
+        [ModuleSetting]
         public bool Timeintitle { get; set; }
 
-        [ModuleSetting(ParameterName = "showEventsAlways")]
+        [ModuleSetting]
         public bool ShowEventsAlways { get; set; }
 
-        [ModuleSetting(ParameterName = "locationconflict")]
+        [ModuleSetting]
         public bool Locationconflict { get; set; }
 
-        [ModuleSetting(ParameterName = "preventconflicts")]
+        [ModuleSetting]
         public bool Preventconflicts { get; set; }
 
         [ModuleSetting]
         public bool Eventsearch { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "allowreoccurring")]
+        [ModuleSetting]
         public bool Allowreoccurring { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "eventimage")]
+        [ModuleSetting]
         public bool Eventimage { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "showvaluemarks")]
+        [ModuleSetting]
         public bool Showvaluemarks { get; set; }
 
-        [ModuleSetting(ParameterName = "includeendvalue")]
+        [ModuleSetting]
         public bool Includeendvalue { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "fulltimescale")]
+        [ModuleSetting]
         public bool Fulltimescale { get; set; }
 
-        [ModuleSetting(ParameterName = "collapserecurring")]
+        [ModuleSetting]
         public bool Collapserecurring { get; set; }
 
-        [ModuleSetting(ParameterName = "disableEventnav")]
+        [ModuleSetting]
         public bool DisableEventnav { get; set; }
 
-        [ModuleSetting(ParameterName = "paypalurl")]
+        [ModuleSetting]
         public string Paypalurl { get; set; } = "https://www.paypal.com";
 
-        [ModuleSetting(ParameterName = "tzdisplay")]
+        [ModuleSetting]
         public bool Tzdisplay { get; set; }
 
-        [ModuleSetting(ParameterName = "newpereventemail")]
+        [ModuleSetting]
         public bool Newpereventemail { get; set; }
 
-        [ModuleSetting(ParameterName = "neweventemailrole")]
+        [ModuleSetting]
         public int Neweventemailrole
         {
             get
@@ -752,13 +752,13 @@ namespace Components
             set { _neweventemailrole = value; }
         }
 
-        [ModuleSetting(ParameterName = "neweventemails")]
+        [ModuleSetting]
         public string Neweventemails { get; set; } = "Never";
 
-        [ModuleSetting(ParameterName = "sendreminderdefault")]
+        [ModuleSetting]
         public bool Sendreminderdefault { get; set; }
 
-        [ModuleSetting(ParameterName = "notifyanon")]
+        [ModuleSetting]
         public bool Notifyanon { get; set; }
 
         [ModuleSetting]
@@ -767,19 +767,19 @@ namespace Components
         [ModuleSetting]
         public string DefaultView { get; set; } = "EventMonth.ascx";
 
-        [ModuleSetting(ParameterName = "eventdaynewpage")]
+        [ModuleSetting]
         public bool Eventdaynewpage { get; set; }
 
-        [ModuleSetting(ParameterName = "enableenrollpopup")]
+        [ModuleSetting]
         public bool Enableenrollpopup { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "maxrecurrences")]
+        [ModuleSetting]
         public string Maxrecurrences { get; set; } = "1000";
 
-        [ModuleSetting(ParameterName = "version")]
+        [ModuleSetting]
         public string Version { get; set; } = string.Empty;
 
-        [ModuleSetting(ParameterName = "timeinterval")]
+        [ModuleSetting]
         public string Timeinterval { get; set; } = "30";
 
         [ModuleSetting]
@@ -817,31 +817,31 @@ namespace Components
         [ModuleSetting]
         public TimeZones SecondaryTimeZone { get; set; } = TimeZones.PortalTZ;
 
-        [ModuleSetting(ParameterName = "eventtooltiplist")]
+        [ModuleSetting]
         public bool Eventtooltiplist { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "eventtooltipday")]
+        [ModuleSetting]
         public bool Eventtooltipday { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "eventtooltipweek")]
+        [ModuleSetting]
         public bool Eventtooltipweek { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "eventtooltipmonth")]
+        [ModuleSetting]
         public bool Eventtooltipmonth { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "eventtooltiplength")]
+        [ModuleSetting]
         public int Eventtooltiplength { get; set; } = 10000;
 
-        [ModuleSetting(ParameterName = "monthcellnoevents")]
+        [ModuleSetting]
         public bool Monthcellnoevents { get; set; } = false;
 
-        [ModuleSetting(ParameterName = "restrictcategories")]
+        [ModuleSetting]
         public bool Restrictcategories { get; set; } = false;
 
-        [ModuleSetting(ParameterName = "restrictcategoriestotimeframe")]
+        [ModuleSetting]
         public bool RestrictCategoriesToTimeFrame { get; set; }
 
-        [ModuleSetting(ParameterName = "enablecategories")]
+        [ModuleSetting]
         public DisplayCategories Enablecategories
         {
             get
@@ -859,10 +859,10 @@ namespace Components
             set { _enablecategories = value; }
         }
 
-        [ModuleSetting(ParameterName = "restrictlocations")]
+        [ModuleSetting]
         public bool Restrictlocations { get; set; }
 
-        [ModuleSetting(ParameterName = "restrictlocationstotimeframe")]
+        [ModuleSetting]
         public bool RestrictLocationsToTimeFrame { get; set; }
 
         [ModuleSetting]
@@ -883,19 +883,19 @@ namespace Components
             set { _enablelocations = value; }
         }
 
-        [ModuleSetting(ParameterName = "enablecontainerskin")]
+        [ModuleSetting]
         public bool Enablecontainerskin { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "eventdetailnewpage")]
+        [ModuleSetting]
         public bool Eventdetailnewpage { get; set; }
 
-        [ModuleSetting(ParameterName = "ownerchangeallowed")]
+        [ModuleSetting]
         public bool Ownerchangeallowed { get; set; } = false;
 
-        [ModuleSetting(ParameterName = "eventsignupallowpaid")]
+        [ModuleSetting]
         public bool Eventsignupallowpaid { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "eventsignup")]
+        [ModuleSetting]
         public bool Eventsignup { get; set; } = false;
 
         [ModuleSetting]
@@ -928,7 +928,7 @@ namespace Components
         [ModuleSetting]
         public bool SendEnrollMessageCancelled { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "allowanonenroll")]
+        [ModuleSetting]
         public bool AllowAnonEnroll { get; set; }
 
         [ModuleSetting]
@@ -952,13 +952,13 @@ namespace Components
         [ModuleSetting]
         public bool JournalIntegration { get; set; } = true;
 
-        [ModuleSetting(ParameterName = "onlyview")]
+        [ModuleSetting]
         public bool? OnlyView { get; set; }
 
-        [ModuleSetting(ParameterName = "allowsubscriptions")]
+        [ModuleSetting]
         public bool? AllowSubscriptions { get; set; }
 
-        [ModuleSetting(ParameterName = "eventtooltip")]
+        [ModuleSetting]
         public bool? Eventtooltip { get; set; }
 
         public EventTemplates Templates { get; set; }
