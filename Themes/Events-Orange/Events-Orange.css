@@ -3,331 +3,369 @@
    ================================
 */
 .ThemeEvents-Orange .EvtHdrLftCol {
-width:33%;
-float:left;
-min-height:1px;
+    width: 33%;
+    float: left;
+    min-height: 1px;
 }
 
 .ThemeEvents-Orange .EvtHdrMdlCol {
-width:34%;
-float:left;
-min-height:1px;
-text-align:center;
+    width: 34%;
+    float: left;
+    min-height: 1px;
+    text-align: center;
 }
 
 .ThemeEvents-Orange .EvtHdrRgtCol {
-width:33%;
-float:left;
+    width: 33%;
+    float: left;
 }
 
 .ThemeEvents-Orange .Eventtooltipheader, .ThemeEvents-Orange .Eventtooltipbody {
-	width: 300px;
-	z-index: 99;
-	font-size: 10px;
-	font-family: Arial;
-	padding: 5px;
+    width: 300px;
+    z-index: 99;
+    font-size: 10px;
+    font-family: Arial;
+    padding: 5px;
 }
+
 .ThemeEvents-Orange .Eventtooltipheader {
-	border: #FF6600 1px solid;
-	background-color: #FF6600;
-	color: #FFFFFF;
-	font-weight: 700;
-	font-size: 11px;
+    border: #FF6600 1px solid;
+    background-color: #FF6600;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 11px;
 }
+
 .ThemeEvents-Orange .Eventtooltipbody {
-	border-left: #FF6600 1px solid;
-	border-right: #FF6600 1px solid;
-	border-bottom: #FF6600 1px solid;
-	background-color: #fff;
+    border-left: #FF6600 1px solid;
+    border-right: #FF6600 1px solid;
+    border-bottom: #FF6600 1px solid;
+    background-color: #fff;
 }
-.ThemeEvents-Orange .Eventtooltipbody hr {
-	width: 100%;
-	color: #000000;
-	background-color: #FFCC99;
-	height: 1px;
-	border: 0;
-}
+
+    .ThemeEvents-Orange .Eventtooltipbody hr {
+        width: 100%;
+        color: #000000;
+        background-color: #FFCC99;
+        height: 1px;
+        border: 0;
+    }
+
 .ThemeEvents-Orange .Event {
-	table-layout: fixed;
-	width: 100%;
-	font-size: 9px;
-	color: #FFFFFF;
-	font-family: Verdana;
-	text-align: center;
-	border-right: #FF6600 2px solid;
-	border-top: #FF6600 1px solid;
-	border-left: #FF6600 2px solid;
-	border-bottom: #FF6600 2px solid;
-	white-space: normal;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9px;
+    color: #FFFFFF;
+    font-family: Verdana;
+    text-align: center;
+    border-right: #FF6600 2px solid;
+    border-top: #FF6600 1px solid;
+    border-left: #FF6600 2px solid;
+    border-bottom: #FF6600 2px solid;
+    white-space: normal;
 }
+
 .ThemeEvents-Orange .EventTitle, .ThemeEvents-Orange .EventTitle td {
-	font-weight: 700;
-	font-size: 14px;
-	width: 100%;
-	color: #FF0000;
-	height: 20px;
-	text-align: center;
-	background-color: #FFFFCC;
-	font-family: Verdana;
-	border-bottom: 0 #FF6600 solid;
+    font-weight: 700;
+    font-size: 14px;
+    width: 100%;
+    color: #FF0000;
+    height: 20px;
+    text-align: center;
+    background-color: #FFFFCC;
+    font-family: Verdana;
+    border-bottom: 0 #FF6600 solid;
 }
+
 .ThemeEvents-Orange .EventDayHeader {
-	font-weight: 700;
-	font-size: 12px;
-	height: 16px;
-	background-color: #FFCC99;
-	vertical-align: middle;
-	font-family: Verdana;
-	border: 1px #FF6600 solid;
+    font-weight: 700;
+    font-size: 12px;
+    height: 16px;
+    background-color: #FFCC99;
+    vertical-align: middle;
+    font-family: Verdana;
+    border: 1px #FF6600 solid;
 }
-.ThemeEvents-Orange .EventDay, .ThemeEvents-Orange .EventDayEvents, .ThemeEvents-Orange .EventWeekendDayEvents{
-	font-size: 10px;
-	text-align: left;
-	height: 100px;
-	vertical-align: top;
-	color: #000000;
-	font-family: Verdana;
-	background-color: #FF6600;
-	border: 1px #FF6600 solid;
+
+.ThemeEvents-Orange .EventDay, .ThemeEvents-Orange .EventDayEvents, .ThemeEvents-Orange .EventWeekendDayEvents {
+    font-size: 10px;
+    text-align: left;
+    height: 100px;
+    vertical-align: top;
+    color: #000000;
+    font-family: Verdana;
+    background-color: #FF6600;
+    border: 1px #FF6600 solid;
 }
-.ThemeEvents-Orange .EventDayEvents a,.ThemeEvents-Orange .EventDayEvents a:visited,.ThemeEvents-Orange .EventDayEvents a:hover, .ThemeEvents-Orange .EventWeekendDayEvents a,.ThemeEvents-Orange .EventWeekendDayEvents a:visited,.ThemeEvents-Orange .EventWeekendDayEvents a:hover  {
-    font-size:10px;
-    color:blue;
-    font-family:Verdana
-}
+
+    .ThemeEvents-Orange .EventDayEvents a, .ThemeEvents-Orange .EventDayEvents a:visited, .ThemeEvents-Orange .EventDayEvents a:hover, .ThemeEvents-Orange .EventWeekendDayEvents a, .ThemeEvents-Orange .EventWeekendDayEvents a:visited, .ThemeEvents-Orange .EventWeekendDayEvents a:hover {
+        font-size: 10px;
+        color: blue;
+        font-family: Verdana
+    }
+
 .ThemeEvents-Orange .EventDayScroll {
-	width: 100%;
-	height: 88%;
-	overflow: auto;
-	position: static;
-	font-weight: bolder;
-	background-color: #fff;
+    width: 100%;
+    height: 88%;
+    overflow: auto;
+    position: static;
+    font-weight: bolder;
+    background-color: #fff;
 }
+
 .ThemeEvents-Orange .EventOtherMonthDay {
-	color: gray;
-	background-color: #FFCC99;
+    color: gray;
+    background-color: #FFCC99;
 }
+
 .ThemeEvents-Orange .EventTodayDay {
-	font-weight: 700;
-	color: #000000;
-	background-color: #FF9933;
-	border: 2px #FF0000 solid;
+    font-weight: 700;
+    color: #000000;
+    background-color: #FF9933;
+    border: 2px #FF0000 solid;
 }
+
 .ThemeEvents-Orange .EventSelectedDay {
-	border: red 2px solid;
-	font-size: 10px;
+    border: red 2px solid;
+    font-size: 10px;
 }
-.ThemeEvents-Orange .EventSelectedDay, .ThemeEvents-Orange .EventSelectedDay a, .ThemeEvents-Orange .EventSelectedDay a:visited, .ThemeEvents-Orange .EventSelectedDay a:hover  {
-	text-align: left;
-}
+
+    .ThemeEvents-Orange .EventSelectedDay, .ThemeEvents-Orange .EventSelectedDay a, .ThemeEvents-Orange .EventSelectedDay a:visited, .ThemeEvents-Orange .EventSelectedDay a:hover {
+        text-align: left;
+    }
+
 .ThemeEvents-Orange .EventSelector {
-	background-color: #FF6600;
+    background-color: #FF6600;
 }
-.ThemeEvents-Orange .EventSelector a, .ThemeEvents-Orange .EventSelector a:visited, .ThemeEvents-Orange .EventSelector a:hover {
-	color: #FF0000;
-	text-decoration: none;
-}
+
+    .ThemeEvents-Orange .EventSelector a, .ThemeEvents-Orange .EventSelector a:visited, .ThemeEvents-Orange .EventSelector a:hover {
+        color: #FF0000;
+        text-decoration: none;
+    }
+
 .ThemeEvents-Orange .WeekTable table {
-	table-layout: auto;
-	width: 100%;
-	font-size: 10px;
-	color: #000;
-	font-family: Verdana;
-	text-align: center;
-	border: #FF6600 1px solid;
+    table-layout: auto;
+    width: 100%;
+    font-size: 10px;
+    color: #000;
+    font-family: Verdana;
+    text-align: center;
+    border: #FF6600 1px solid;
 }
-.ThemeEvents-Orange .WeekTable table td, .ThemeEvents-Orange .WeekTable table th {
-	border: 0;
-	padding: 3px;
-}
+
+    .ThemeEvents-Orange .WeekTable table td, .ThemeEvents-Orange .WeekTable table th {
+        border: 0;
+        padding: 3px;
+    }
+
 .ThemeEvents-Orange .WeekItem {
-	text-align: center;
-	font-family: verdana,helvetica,arial;
-	font-size: 9px;
-	background-color: #FFF;
-	font-weight: 400;
-	background-color: #FFCC99;
-	border: 1px #FF6600 solid;
+    text-align: center;
+    font-family: verdana,helvetica,arial;
+    font-size: 9px;
+    background-color: #FFF;
+    font-weight: 400;
+    background-color: #FFCC99;
+    border: 1px #FF6600 solid;
 }
+
 .ThemeEvents-Orange .WeekDay {
-	font-weight: 700;
-	font-size: 9px;
-	color: #FF6600;
-	font-family: verdana,helvetica,arial;
-	background-color: #FFCC99;
-	text-align: center;
-	vertical-align: middle;
-	border: 1px #FF6600 solid;
+    font-weight: 700;
+    font-size: 9px;
+    color: #FF6600;
+    font-family: verdana,helvetica,arial;
+    background-color: #FFCC99;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px #FF6600 solid;
 }
+
 .ThemeEvents-Orange .WeekBackground {
-	font-family: verdana,helvetica,arial;
-	font-size: 9px;
-	background-color: #fff;
-	border: 1px #FF6600 dotted;
+    font-family: verdana,helvetica,arial;
+    font-size: 9px;
+    background-color: #fff;
+    border: 1px #FF6600 dotted;
 }
+
 .ThemeEvents-Orange .WeekTitle {
-	font-family: verdana,helvetica,arial;
-	font-size: 9px;
-	color: #000;
-	height: 15%;
-	text-align: center;
-	background-color: #FF9933;
-	width: 11%;
-	border: 1px #FF6600 solid;
+    font-family: verdana,helvetica,arial;
+    font-size: 9px;
+    color: #000;
+    height: 15%;
+    text-align: center;
+    background-color: #FF9933;
+    width: 11%;
+    border: 1px #FF6600 solid;
 }
+
 .ThemeEvents-Orange .WeekOfTitle {
-	font-weight: 700;
-	font-size: 10px;
-	width: 100%;
-	color: #333333;
-	font-family: verdana,helvetica,arial;
-	text-align: center;
-	vertical-align: middle;
+    font-weight: 700;
+    font-size: 10px;
+    width: 100%;
+    color: #333333;
+    font-family: verdana,helvetica,arial;
+    text-align: center;
+    vertical-align: middle;
 }
+
 .ThemeEvents-Orange .WeekNextPrev {
-	font-weight: 700;
-	font-family: verdana,helvetica,arial;
-	font-size: 10px;
-	width: 100%;
-	color: #606060;
-	text-align: center;
-	vertical-align: middle;
+    font-weight: 700;
+    font-family: verdana,helvetica,arial;
+    font-size: 10px;
+    width: 100%;
+    color: #606060;
+    text-align: center;
+    vertical-align: middle;
 }
+
 .ThemeEvents-Orange .WeekRangeheader {
-	text-align: center;
-	vertical-align: middle;
-	font-family: verdana,helvetica,arial;
-	font-size: 9px;
-	background-color: #FFCC99;
-	border: none;
+    text-align: center;
+    vertical-align: middle;
+    font-family: verdana,helvetica,arial;
+    font-size: 9px;
+    background-color: #FFCC99;
+    border: none;
 }
+
 .ThemeEvents-Orange .ListTable {
-	width: 100%;
+    width: 100%;
 }
+
 .ThemeEvents-Orange .ListDate, .ThemeEvents-Orange .ListRecurText, .ThemeEvents-Orange .ListRecurUntil {
-	font-size: 10px;
-	font-family: verdana,helvetica,arial;
-	text-align: left;
-	vertical-align: top;
-	width: 100px;
+    font-size: 10px;
+    font-family: verdana,helvetica,arial;
+    text-align: left;
+    vertical-align: top;
+    width: 100px;
 }
+
 .ThemeEvents-Orange .ListLink {
-	font-weight: 700;
-	font-size: 10px;
-	font-family: verdana,helvetica,arial;
-	text-align: left;
-	vertical-align: top;
+    font-weight: 700;
+    font-size: 10px;
+    font-family: verdana,helvetica,arial;
+    text-align: left;
+    vertical-align: top;
 }
-.ThemeEvents-Orange .ListHeader, .ThemeEvents-Orange .DetailEnrollGridHeader, .ThemeEvents-Orange .EditEnrollGridHeader , .ThemeEvents-Orange .EnrollGridHeader {
-	font-size: 12px;
-	font-weight: 700;
-	color: #000;
-	background-color: #FFCC99;
-	font-family: verdana,helvetica,arial;
-	height: 32px;
-	text-align: left;
-	vertical-align: middle;
+
+.ThemeEvents-Orange .ListHeader, .ThemeEvents-Orange .DetailEnrollGridHeader, .ThemeEvents-Orange .EditEnrollGridHeader, .ThemeEvents-Orange .EnrollGridHeader {
+    font-size: 12px;
+    font-weight: 700;
+    color: #000;
+    background-color: #FFCC99;
+    font-family: verdana,helvetica,arial;
+    height: 32px;
+    text-align: left;
+    vertical-align: middle;
 }
+
 .ThemeEvents-Orange .DetailEnrollGridHeader, .ThemeEvents-Orange .EditEnrollGridHeader, .ThemeEvents-Orange .EnrollGridHeader {
-    text-align:center;
+    text-align: center;
 }
-.ThemeEvents-Orange .DetailEnrollUser, .ThemeEvents-Orange .DetailEnrollDisplay,  .ThemeEvents-Orange .DetailEnrollDisplay a:link, .ThemeEvents-Orange .DetailEnrollEmail, .ThemeEvents-Orange .DetailEnrollEmail a:link, .ThemeEvents-Orange .DetailEnrollPhone, .ThemeEvents-Orange .DetailEnrollApproved, .ThemeEvents-Orange .DetailEnrollNo, .ThemeEvents-Orange .EditEnrollSelect, .ThemeEvents-Orange .EditEnrollUser, .ThemeEvents-Orange .EditEnrollDisplay,  .ThemeEvents-Orange .EditEnrollDisplay a:link, .ThemeEvents-Orange .EditEnrollEmail, .ThemeEvents-Orange .EditEnrollEmail a:link, .ThemeEvents-Orange .EditEnrollPhone, .ThemeEvents-Orange .EditEnrollApproved, .ThemeEvents-Orange .EditEnrollNo, .ThemeEvents-Orange .EditEnrollDate .ThemeEvents-Orange .EnrollSelect, .ThemeEvents-Orange .EnrollApproved, .ThemeEvents-Orange .EnrollNo, .ThemeEvents-Orange .EnrollFee, .ThemeEvents-Orange .EnrollDate  {
-    font-size:12px;
-    font-family:verdana,helvetica,arial;
-    text-align:center;
-    vertical-align:top;
-    font-weight:normal;
+
+.ThemeEvents-Orange .DetailEnrollUser, .ThemeEvents-Orange .DetailEnrollDisplay, .ThemeEvents-Orange .DetailEnrollDisplay a:link, .ThemeEvents-Orange .DetailEnrollEmail, .ThemeEvents-Orange .DetailEnrollEmail a:link, .ThemeEvents-Orange .DetailEnrollPhone, .ThemeEvents-Orange .DetailEnrollApproved, .ThemeEvents-Orange .DetailEnrollNo, .ThemeEvents-Orange .EditEnrollSelect, .ThemeEvents-Orange .EditEnrollUser, .ThemeEvents-Orange .EditEnrollDisplay, .ThemeEvents-Orange .EditEnrollDisplay a:link, .ThemeEvents-Orange .EditEnrollEmail, .ThemeEvents-Orange .EditEnrollEmail a:link, .ThemeEvents-Orange .EditEnrollPhone, .ThemeEvents-Orange .EditEnrollApproved, .ThemeEvents-Orange .EditEnrollNo, .ThemeEvents-Orange .EditEnrollDate .ThemeEvents-Orange .EnrollSelect, .ThemeEvents-Orange .EnrollApproved, .ThemeEvents-Orange .EnrollNo, .ThemeEvents-Orange .EnrollFee, .ThemeEvents-Orange .EnrollDate {
+    font-size: 12px;
+    font-family: verdana,helvetica,arial;
+    text-align: center;
+    vertical-align: top;
+    font-weight: normal;
 }
+
 .ThemeEvents-Orange .ListDuration {
-	font-size: 10px;
-	font-family: verdana,helvetica,arial;
-	text-align: center;
-	vertical-align: top;
-	width: 60px;
+    font-size: 10px;
+    font-family: verdana,helvetica,arial;
+    text-align: center;
+    vertical-align: top;
+    width: 60px;
 }
+
 .ThemeEvents-Orange .ListDataGrid, .ThemeEvents-Orange .DetailEnrollGrid, .ThemeEvents-Orange .EditEnrollGrid, .ThemeEvents-Orange .EnrollGrid {
-	border-right: #FF6600 2px solid;
-	border-top: #FF6600 1px solid;
-	border-left: #FF6600 2px solid;
-	border-bottom: #FF6600 2px solid;
-	background-color: #e8eef7;
+    border-right: #FF6600 2px solid;
+    border-top: #FF6600 1px solid;
+    border-left: #FF6600 2px solid;
+    border-bottom: #FF6600 2px solid;
+    background-color: #e8eef7;
 }
-.ThemeEvents-Orange .ListDataGrid td, .ThemeEvents-Orange .DetailEnrollGrid td, .ThemeEvents-Orange .editEnrollGrid td, .ThemeEvents-Orange .EnrollGrid td {
-	border-color: #FF6600;
-	border-style: dotted;
-	border-width: 1px;
-}
+
+    .ThemeEvents-Orange .ListDataGrid td, .ThemeEvents-Orange .DetailEnrollGrid td, .ThemeEvents-Orange .editEnrollGrid td, .ThemeEvents-Orange .EnrollGrid td {
+        border-color: #FF6600;
+        border-style: dotted;
+        border-width: 1px;
+    }
+
 .ThemeEvents-Orange .ListEdit {
-	text-align: center;
-	vertical-align: top;
-	width: 1px;
+    text-align: center;
+    vertical-align: top;
+    width: 1px;
 }
+
 .ThemeEvents-Orange .EventNextPrev, .ThemeEvents-Orange .EventNextPrev a:link, .ThemeEvents-Orange .EventNextPrev a, .ThemeEvents-Orange .EventNextPrev a:visited, .ThemeEvents-Orange .EventNextPrev a:hover {
-	font-size: 12px;
-	color: #666666;
-	padding: 0 0.5em;
+    font-size: 12px;
+    color: #666666;
+    padding: 0 0.5em;
 }
+
 .ThemeEvents-Orange .EventWeekendDay, .ThemeEvents-Orange .ListAlternate, .ThemeEvents-Orange .DetailEnrollGridAlternate, .ThemeEvents-Orange .EditEnrollGridAlternate, .ThemeEvents-Orange .EnrollGridAlternate {
-	background-color: #F5F5F5;
+    background-color: #F5F5F5;
 }
-.ThemeEvents-Orange .ListTitle, .ThemeEvents-Orange .ListDescription, .ThemeEvents-Orange .ListCustomField1, .ThemeEvents-Orange .ListCustomField2, .ThemeEvents-Orange .EnrollTitle  {
-	font-size: 10px;
-	font-family: verdana,helvetica,arial;
-	text-align: left;
-	vertical-align: top;
+
+.ThemeEvents-Orange .ListTitle, .ThemeEvents-Orange .ListDescription, .ThemeEvents-Orange .ListCustomField1, .ThemeEvents-Orange .ListCustomField2, .ThemeEvents-Orange .EnrollTitle {
+    font-size: 10px;
+    font-family: verdana,helvetica,arial;
+    text-align: left;
+    vertical-align: top;
 }
+
 .ThemeEvents-Orange .ListCategory, .ThemeEvents-Orange .ListLocation, .ThemeEvents-Orange .ListLocation a {
-	font-size: 10px;
-	font-family: verdana,helvetica,arial;
-	text-align: left;
-	vertical-align: top;
-	width: 60px;
+    font-size: 10px;
+    font-family: verdana,helvetica,arial;
+    text-align: left;
+    vertical-align: top;
+    width: 60px;
 }
 
 .ThemeEvents-Orange .RptTable {
-	border-right: #FF6600 2px solid;
-	border-top: #FF6600 1px solid;
-	border-left: #FF6600 2px solid;
-	border-bottom: #FF6600 2px solid;
-	background-color: #e8eef7;
-    border-collapse:collapse;
-    width:100%;
+    border-right: #FF6600 2px solid;
+    border-top: #FF6600 1px solid;
+    border-left: #FF6600 2px solid;
+    border-bottom: #FF6600 2px solid;
+    background-color: #e8eef7;
+    border-collapse: collapse;
+    width: 100%;
 }
 
-.ThemeEvents-Orange .RptRepeater  {
-    width:100%;
+.ThemeEvents-Orange .RptRepeater {
+    width: 100%;
 }
 
-.ThemeEvents-Orange .RptRepeater td  {
-	border-color: #FF6600;
-	border-style: dotted;
-	border-width: 1px;
-}
+    .ThemeEvents-Orange .RptRepeater td {
+        border-color: #FF6600;
+        border-style: dotted;
+        border-width: 1px;
+    }
 
 .ThemeEvents-Orange .RptHeader {
-	font-size: 12px;
-	font-weight: 700;
-	background-color: #FFCC99;
-	font-family: verdana,helvetica,arial;
-	height: 32px;
-	text-align: center;
-	vertical-align: middle;
-    width:100%;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: #FFCC99;
+    font-family: verdana,helvetica,arial;
+    height: 32px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
 }
 
 .ThemeEvents-Orange .RptNormal {
-	font-size: 10px;
-	font-family: verdana,helvetica,arial;
-	text-align: left;
-	vertical-align: top;
+    font-size: 10px;
+    font-family: verdana,helvetica,arial;
+    text-align: left;
+    vertical-align: top;
 }
 
 .ThemeEvents-Orange .RptAlternate {
-    background-color:#F5F5F5;
-	font-size: 10px;
-	font-family: verdana,helvetica,arial;
-	text-align: left;
-	vertical-align: top;
+    background-color: #F5F5F5;
+    font-size: 10px;
+    font-family: verdana,helvetica,arial;
+    text-align: left;
+    vertical-align: top;
 }
 
 .ThemeEvents-Orange .RptPagerCurrentPage {
@@ -335,80 +373,80 @@ float:left;
 }
 
 .ThemeEvents-Orange .RptPagerHeader td {
-	border-color: #FF6600;
-	border-style: dotted;
-	border-width: 1px;
+    border-color: #FF6600;
+    border-style: dotted;
+    border-width: 1px;
 }
 
-.ThemeEvents-Orange .DetailReminderDiv, .ThemeEvents-Orange .DetailiCalDiv , 
+.ThemeEvents-Orange .DetailReminderDiv, .ThemeEvents-Orange .DetailiCalDiv,
 .ThemeEvents-Orange .DetailEnrollDiv, .ThemeEvents-Orange .DetailEnrollTableDiv,
 .ThemeEvents-Orange .DetailCommands,
 .ThemeEvents-Orange .DetailEventDetailsDiv1,
 .ThemeEvents-Orange .DetailEventDetailsDiv2,
 .ThemeEvents-Orange .DetailEventDetailsDiv3,
-.ThemeEvents-Orange .DetailEventDetailsDiv4  {
-width:90%;
-padding-left: 5px;
+.ThemeEvents-Orange .DetailEventDetailsDiv4 {
+    width: 90%;
+    padding-left: 5px;
 }
 
-.ThemeEvents-Orange .DetailReminderLeft, .ThemeEvents-Orange .DetailReminderRight, 
+.ThemeEvents-Orange .DetailReminderLeft, .ThemeEvents-Orange .DetailReminderRight,
 .ThemeEvents-Orange .DetailiCalLeft, .ThemeEvents-Orange .DetailiCalRight,
 .ThemeEvents-Orange .DetailEnrollLeft, .ThemeEvents-Orange .DetailEnrollRight,
 .ThemeEvents-Orange .DetailContentLeft, .ThemeEvents-Orange .DetailContentRight {
-text-align:left;
-float:left;
+    text-align: left;
+    float: left;
 }
 
-.ThemeEvents-Orange .DetailReminderLeft, .ThemeEvents-Orange .DetailReminderRight, 
+.ThemeEvents-Orange .DetailReminderLeft, .ThemeEvents-Orange .DetailReminderRight,
 .ThemeEvents-Orange .DetailiCalLeft, .ThemeEvents-Orange .DetailiCalRight,
 .ThemeEvents-Orange .DetailEnrollLeft, .ThemeEvents-Orange .DetailEnrollRight,
 .ThemeEvents-Orange .DetailEnrollTableLeft, .ThemeEvents-Orange .DetailEnrollTableRight,
 .ThemeEvents-Orange .DetailContentLeft, .ThemeEvents-Orange .DetailContentRight {
-padding:5px 0 5px 0;
+    padding: 5px 0 5px 0;
 }
 
-.ThemeEvents-Orange .DetailReminderLeft, .ThemeEvents-Orange .DetailiCalLeft, 
+.ThemeEvents-Orange .DetailReminderLeft, .ThemeEvents-Orange .DetailiCalLeft,
 .ThemeEvents-Orange .DetailEnrollLeft, .ThemeEvents-Orange .DetailContentLeft {
-width:35%;
+    width: 35%;
 }
 
 .ThemeEvents-Orange .DetailClear {
-clear:both;
+    clear: both;
 }
 
 .ThemeEvents-Orange .IconBar {
-white-space:nowrap;
+    white-space: nowrap;
 }
 
-.ThemeEvents-Orange  .IconBar img, .ThemeEvents-Orange  .IconBar input{
-	vertical-align:baseline;
-}
+    .ThemeEvents-Orange .IconBar img, .ThemeEvents-Orange .IconBar input {
+        vertical-align: baseline;
+    }
 
 .ThemeEvents-Orange .TopIconBar {
-width:33%;
-vertical-align:top;
+    width: 33%;
+    vertical-align: top;
 }
 
-.ThemeEvents-Orange .TopIconBar DIV {
-float:right;
-}
+    .ThemeEvents-Orange .TopIconBar DIV {
+        float: right;
+    }
 
 .ThemeEvents-Orange .BottomIconBar {
-padding-top:3px;
+    padding-top: 3px;
 }
 
-.ThemeEvents-Orange .IconBarPadding  {
-padding-right:2px;
+.ThemeEvents-Orange .IconBarPadding {
+    padding-right: 2px;
 }
 
 .ThemeEvents-Orange .EditEvents .TimePicker, .ThemeEvents-Orange .EditEvents .DatePicker {
-Display:inline !important;
-float:left;
-margin-bottom:10px;
+    Display: inline !important;
+    float: left;
+    margin-bottom: 10px;
 }
 
 .ThemeEvents-Orange .EditEvents .DatePicker {
-width:150px !important;
+    width: 150px !important;
 }
 
 .ThemeEvents-Orange .EditEvents .cmdDatePicker {
@@ -416,11 +454,11 @@ width:150px !important;
 }
 
 .ThemeEvents-Orange .EvtHdrMdlCol .DatePicker {
-Display:inline-block;
+    Display: inline-block;
 }
 
 .ThemeEvents-Orange .EvtDateControls {
-margin-bottom:5px;
+    margin-bottom: 5px;
 }
 
 .ThemeEvents-Orange .RadPicker_Default .riTextBox {
@@ -430,72 +468,73 @@ margin-bottom:5px;
 }
 
 .ThemeEvents-Orange .SelCategoryTR {
-height:35px;
+    height: 35px;
 }
 
-.ThemeEvents-Orange  .SelCategoryTR div{
-vertical-align:middle;
-}
+    .ThemeEvents-Orange .SelCategoryTR div {
+        vertical-align: middle;
+    }
 
-.ThemeEvents-Orange  .SelCategory span{
-font-weight:bold;
+.ThemeEvents-Orange .SelCategory span {
+    font-weight: bold;
 }
 
 html body .ThemeEvents-Orange .RadInput_Default .riTextBox.DateFormat,
 .ThemeEvents-Orange .RadComboBox_Default .rcbInput.CategoryFormat {
-font-size:11px;
-font-family:verdana,helvetica,arial;
+    font-size: 11px;
+    font-family: verdana,helvetica,arial;
 }
 
 .ThemeEvents-Orange .RadComboBox_Default.SelectCategory {
-width: 150px !important;
+    width: 150px !important;
 }
 
 .ThemeEvents-Orange ul.dnnActions li.cmdRight {
-float:right;
+    float: right;
 }
 
 .ThemeEvents-Orange .EventSettings .dnnFormItem INPUT[type='text'] {
-min-width:1px;
+    min-width: 1px;
 }
 
 .ThemeEvents-Orange .dnnFormItem .autoWidth LABEL {
-width:auto;
+    width: auto;
 }
 
 .ThemeEvents-Orange .dnnFormItem .inputCenter INPUT {
-float:none;
+    float: none;
 }
 
 .ThemeEvents-Orange .EditEvents .dnnFormItem .evtRecWeekDays label, .ThemeEvents-Orange .EditEvents .dnnFormItem .evtRecWeekDays input {
-float:none;
-width:auto;
-display:inline;
+    float: none;
+    width: auto;
+    display: inline;
 }
+
 .ThemeEvents-Orange .EditEvents .evtShortInputFloat {
-float:none;
-min-width:1%;
-width:31px;
+    float: none;
+    min-width: 1%;
+    width: 31px;
 }
 
 .ThemeEvents-Orange .EditEvents .evtShortInput {
-min-width:1%;
-width:31px;
+    min-width: 1%;
+    width: 31px;
 }
 
 .ThemeEvents-Orange .EditEvents .evtGridInput {
-float:none;
+    float: none;
 }
 
 .ThemeEvents-Orange .EditEvents .SubHead {
-font-size:inherit;
+    font-size: inherit;
 }
 
 .ThemeEvents-Orange .EditEvents .evtRadioTop .dnnRadiobutton {
-vertical-align:top;
+    vertical-align: top;
 }
 
 .ThemeEvents-Orange .EditEvents .dnnForm.dnnTextEditor {
-float:left;
-width:auto;
+    float: left;
+    width: auto;
 }
