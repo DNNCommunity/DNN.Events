@@ -29,13 +29,13 @@ namespace DotNetNuke.Modules.Events
     using System.Diagnostics;
     using System.IO;
     using System.Web;
-    using DotNetNuke.Common;
-    using DotNetNuke.Entities.Icons;
+    using Common;
+    using Entities.Icons;
     using DotNetNuke.Entities.Modules;
     using DotNetNuke.Entities.Modules.Actions;
-    using DotNetNuke.Security;
-    using DotNetNuke.Services.Exceptions;
-    using DotNetNuke.Services.Localization;
+    using Security;
+    using Services.Exceptions;
+    using Services.Localization;
     using global::Components;
 
     [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSSET", "Edit Settings")]
@@ -53,8 +53,8 @@ namespace DotNetNuke.Modules.Events
         {
             get
                 {
-                    this._socialGroupId = this.GetUrlGroupId();
-                    this._socialUserId = this.GetUrlUserId();
+                    _socialGroupId = GetUrlGroupId();
+                    _socialUserId = GetUrlUserId();
                     // ReSharper disable LocalVariableHidesMember
                     // ReSharper disable InconsistentNaming
                     var Actions =
@@ -62,358 +62,358 @@ namespace DotNetNuke.Modules.Events
                     // ReSharper restore InconsistentNaming
                     // ReSharper restore LocalVariableHidesMember
                     var objEventInfoHelper =
-                        new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                        new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
                     var securityLevel = SecurityAccessLevel.View;
 
                     try
                     {
-                        if (PortalSecurity.IsInRole(this.PortalSettings.AdministratorRoleName))
+                        if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
                         {
                             securityLevel = SecurityAccessLevel.Admin;
                         }
 
                         // Add Event
-                        if (this.IsModuleEditor())
+                        if (IsModuleEditor())
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuAddEvents", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuAddEvents", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-add.gif",
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("groupid", this._socialGroupId.ToString(), "Edit"), "?"),
+                                                EditUrl("groupid", _socialGroupId.ToString(), "Edit"), "?"),
                                             false,
                                             securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                if (this._socialUserId == this.UserId || this.IsModerator())
+                                if (_socialUserId == UserId || IsModerator())
                                 {
-                                    Actions.Add(this.GetNextActionID(),
-                                                Localization.GetString("MenuAddEvents", this.LocalResourceFile),
+                                    Actions.Add(GetNextActionID(),
+                                                Localization.GetString("MenuAddEvents", LocalResourceFile),
                                                 ModuleActionType.ContentOptions, "",
                                                 "../DesktopModules/Events/Images/cal-add.gif",
                                                 objEventInfoHelper.AddSkinContainerControls(
-                                                    this.EditUrl("userid", this._socialUserId.ToString(), "Edit"), "?"),
+                                                    EditUrl("userid", _socialUserId.ToString(), "Edit"), "?"),
                                                 false,
                                                 securityLevel, true, false);
                                 }
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuAddEvents", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuAddEvents", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-add.gif",
-                                            objEventInfoHelper.AddSkinContainerControls(this.EditUrl("Edit"), "?"),
+                                            objEventInfoHelper.AddSkinContainerControls(EditUrl("Edit"), "?"),
                                             false,
                                             securityLevel, true, false);
                             }
                         }
 
-                        if (!(this.Request.QueryString["mctl"] == null) && this.ModuleId ==
-                            Convert.ToInt32(this.Request.QueryString["ModuleID"]))
+                        if (!(Request.QueryString["mctl"] == null) && ModuleId ==
+                            Convert.ToInt32(Request.QueryString["ModuleID"]))
                         {
-                            if (this.Request["mctl"].EndsWith(".ascx"))
+                            if (Request["mctl"].EndsWith(".ascx"))
                             {
-                                this._mcontrolToLoad = this.Request["mctl"];
+                                _mcontrolToLoad = Request["mctl"];
                             }
                             else
                             {
-                                this._mcontrolToLoad = this.Request["mctl"] + ".ascx";
+                                _mcontrolToLoad = Request["mctl"] + ".ascx";
                             }
                         }
 
                         // Set Default, if none selected
-                        if (this._mcontrolToLoad.Length == 0)
+                        if (_mcontrolToLoad.Length == 0)
                         {
                             if (!ReferenceEquals(
-                                    this.Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)),
+                                    Request.Cookies.Get("DNNEvents" + Convert.ToString(ModuleId)),
                                     null))
                             {
-                                this._mcontrolToLoad = this.Request
-                                                           .Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId))
+                                _mcontrolToLoad = Request
+                                                           .Cookies.Get("DNNEvents" + Convert.ToString(ModuleId))
                                                            .Value;
                             }
                             else
                             {
                                 // See if Default View Set
-                                this._mcontrolToLoad = this.Settings.DefaultView;
+                                _mcontrolToLoad = Settings.DefaultView;
                             }
                         }
 
                         //Add Month and Week Views
-                        if (this.Settings.MonthAllowed && this._mcontrolToLoad != "EventMonth.ascx")
+                        if (Settings.MonthAllowed && _mcontrolToLoad != "EventMonth.ascx")
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuMonth", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuMonth", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-month.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
-                                                                "mctl=EventMonth", "groupid=" + this._socialGroupId),
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
+                                                                "mctl=EventMonth", "groupid=" + _socialGroupId),
                                             false, securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuMonth", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuMonth", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-month.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
-                                                                "mctl=EventMonth", "userid=" + this._socialUserId),
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
+                                                                "mctl=EventMonth", "userid=" + _socialUserId),
                                             false, securityLevel, true, false);
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuMonth", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuMonth", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-month.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
                                                                 "mctl=EventMonth"), false, securityLevel, true, false);
                             }
                         }
-                        if (this.Settings.WeekAllowed && this._mcontrolToLoad != "EventWeek.ascx")
+                        if (Settings.WeekAllowed && _mcontrolToLoad != "EventWeek.ascx")
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuWeek", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuWeek", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-week.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
-                                                                "mctl=EventWeek", "groupid=" + this._socialGroupId),
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
+                                                                "mctl=EventWeek", "groupid=" + _socialGroupId),
                                             false, securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuWeek", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuWeek", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-week.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
-                                                                "mctl=EventWeek", "userid=" + this._socialUserId),
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
+                                                                "mctl=EventWeek", "userid=" + _socialUserId),
                                             false, securityLevel, true, false);
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuWeek", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuWeek", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-week.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
                                                                 "mctl=EventWeek"), false, securityLevel, true, false);
                             }
                         }
-                        if (this.Settings.ListAllowed && this._mcontrolToLoad != "EventList.ascx")
+                        if (Settings.ListAllowed && _mcontrolToLoad != "EventList.ascx")
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuList", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuList", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-list.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
-                                                                "mctl=EventList", "groupid=" + this._socialGroupId),
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
+                                                                "mctl=EventList", "groupid=" + _socialGroupId),
                                             false, securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuList", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuList", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-list.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
-                                                                "mctl=EventList", "userid=" + this._socialUserId),
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
+                                                                "mctl=EventList", "userid=" + _socialUserId),
                                             false, securityLevel, true, false);
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuList", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuList", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-list.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
                                                                 "mctl=EventList"), false, securityLevel, true, false);
                             }
                         }
 
 
                         // See if Enrollments
-                        if (this.Settings.Eventsignup)
+                        if (Settings.Eventsignup)
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuMyEnrollments", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuMyEnrollments", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-enroll.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
                                                                 "mctl=EventMyEnrollments",
-                                                                "groupid=" + this._socialGroupId), false,
+                                                                "groupid=" + _socialGroupId), false,
                                             securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuMyEnrollments", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuMyEnrollments", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-enroll.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
                                                                 "mctl=EventMyEnrollments",
-                                                                "userid=" + this._socialUserId), false, securityLevel,
+                                                                "userid=" + _socialUserId), false, securityLevel,
                                             true, false);
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuMyEnrollments", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuMyEnrollments", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/cal-enroll.gif",
-                                            Globals.NavigateURL(this.TabId, "", "ModuleID=" + this.ModuleId,
+                                            Globals.NavigateURL(TabId, "", "ModuleID=" + ModuleId,
                                                                 "mctl=EventMyEnrollments"), false, securityLevel, true,
                                             false);
                             }
                         }
 
-                        if (this.IsModerator() && this.Settings.Moderateall)
+                        if (IsModerator() && Settings.Moderateall)
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuModerate", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuModerate", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/moderate.gif",
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("groupid", this._socialGroupId.ToString(), "Moderate"),
+                                                EditUrl("groupid", _socialGroupId.ToString(), "Moderate"),
                                                 "?"), false,
                                             securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuModerate", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuModerate", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/moderate.gif",
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("userid", this._socialUserId.ToString(), "Moderate"), "?"),
+                                                EditUrl("userid", _socialUserId.ToString(), "Moderate"), "?"),
                                             false,
                                             securityLevel, true, false);
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuModerate", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuModerate", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/moderate.gif",
-                                            objEventInfoHelper.AddSkinContainerControls(this.EditUrl("Moderate"), "?"),
+                                            objEventInfoHelper.AddSkinContainerControls(EditUrl("Moderate"), "?"),
                                             false, securityLevel, true, false);
                             }
                         }
-                        if (this.IsSettingsEditor())
+                        if (IsSettingsEditor())
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuSettings", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuSettings", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             IconController.IconURL("EditTab"),
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("groupid", this._socialGroupId.ToString(),
+                                                EditUrl("groupid", _socialGroupId.ToString(),
                                                              "EventSettings"), "?"),
                                             false, securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuSettings", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuSettings", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             IconController.IconURL("EditTab"),
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("userid", this._socialUserId.ToString(), "EventSettings"),
+                                                EditUrl("userid", _socialUserId.ToString(), "EventSettings"),
                                                 "?"),
                                             false, securityLevel, true, false);
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuSettings", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuSettings", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             IconController.IconURL("EditTab"),
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("EventSettings"), "?"),
+                                                EditUrl("EventSettings"), "?"),
                                             false, securityLevel, true, false);
                             }
                         }
-                        if (this.IsCategoryEditor())
+                        if (IsCategoryEditor())
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuCategories", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuCategories", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/SmallCalendar.gif",
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("groupid", this._socialGroupId.ToString(), "Categories"),
+                                                EditUrl("groupid", _socialGroupId.ToString(), "Categories"),
                                                 "?"),
                                             false, securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuCategories", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuCategories", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/SmallCalendar.gif",
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("userid", this._socialUserId.ToString(), "Categories"),
+                                                EditUrl("userid", _socialUserId.ToString(), "Categories"),
                                                 "?"), false,
                                             securityLevel, true, false);
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuCategories", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuCategories", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/SmallCalendar.gif",
                                             objEventInfoHelper
-                                                .AddSkinContainerControls(this.EditUrl("Categories"), "?"),
+                                                .AddSkinContainerControls(EditUrl("Categories"), "?"),
                                             false, securityLevel, true, false);
                             }
                         }
-                        if (this.IsLocationEditor())
+                        if (IsLocationEditor())
                         {
-                            if (this._socialGroupId > 0)
+                            if (_socialGroupId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuLocations", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuLocations", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/SmallCalendar.gif",
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("groupid", this._socialGroupId.ToString(), "Locations"),
+                                                EditUrl("groupid", _socialGroupId.ToString(), "Locations"),
                                                 "?"), false,
                                             securityLevel, true, false);
                             }
-                            else if (this._socialUserId > 0)
+                            else if (_socialUserId > 0)
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuLocations", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuLocations", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/SmallCalendar.gif",
                                             objEventInfoHelper.AddSkinContainerControls(
-                                                this.EditUrl("userid", this._socialUserId.ToString(), "Locations"),
+                                                EditUrl("userid", _socialUserId.ToString(), "Locations"),
                                                 "?"), false,
                                             securityLevel, true, false);
                             }
                             else
                             {
-                                Actions.Add(this.GetNextActionID(),
-                                            Localization.GetString("MenuLocations", this.LocalResourceFile),
+                                Actions.Add(GetNextActionID(),
+                                            Localization.GetString("MenuLocations", LocalResourceFile),
                                             ModuleActionType.ContentOptions, "",
                                             "../DesktopModules/Events/Images/SmallCalendar.gif",
-                                            objEventInfoHelper.AddSkinContainerControls(this.EditUrl("Locations"), "?"),
+                                            objEventInfoHelper.AddSkinContainerControls(EditUrl("Locations"), "?"),
                                             false, securityLevel, true, false);
                             }
                         }
@@ -434,70 +434,69 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                this._socialGroupId = this.GetUrlGroupId();
-                this._socialUserId = this.GetUrlUserId();
+                _socialGroupId = GetUrlGroupId();
+                _socialUserId = GetUrlUserId();
                 var objModules = new ModuleController();
-                var objModule = objModules.GetModule(this.ModuleId, this.TabId);
+                var objModule = objModules.GetModule(ModuleId, TabId);
                 var objDesktopModule =
-                    DesktopModuleController.GetDesktopModule(objModule.DesktopModuleID, this.PortalId);
-                var objEventInfoHelper = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                    DesktopModuleController.GetDesktopModule(objModule.DesktopModuleID, PortalId);
+                var objEventInfoHelper = new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
 
                 // Force Module Default Settings on new Version or New Module Instance
-                if (objDesktopModule.Version != this.Settings.Version)
+                if (objDesktopModule.Version != Settings.Version)
                 {
-                    this.CreateThemeDirectory();
+                    CreateThemeDirectory();
                     //                    objEventInfoHelper.SetDefaultModuleSettings(ModuleId, TabId, Page, LocalResourceFile)
                 }
 
-                if (!(this.Request.QueryString["mctl"] == null) &&
-                    (this.ModuleId == Convert.ToInt32(this.Request.QueryString["ModuleID"]) ||
-                     this.ModuleId == Convert.ToInt32(this.Request.QueryString["mid"])))
+                if (!(Request.QueryString["mctl"] == null) &&
+                    (ModuleId == Convert.ToInt32(Request.QueryString["ModuleID"]) ||
+                     ModuleId == Convert.ToInt32(Request.QueryString["mid"])))
                 {
-                    if (this.Request["mctl"].EndsWith(".ascx"))
+                    if (Request["mctl"].EndsWith(".ascx"))
                     {
-                        this._mcontrolToLoad = this.Request["mctl"];
+                        _mcontrolToLoad = Request["mctl"];
                     }
                     else
                     {
-                        this._mcontrolToLoad = this.Request["mctl"] + ".ascx";
+                        _mcontrolToLoad = Request["mctl"] + ".ascx";
                     }
                 }
 
                 // Set Default, if none selected
-                if (this._mcontrolToLoad.Length == 0)
+                if (_mcontrolToLoad.Length == 0)
                 {
-                    if (!ReferenceEquals(this.Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)), null))
+                    if (!ReferenceEquals(Request.Cookies.Get("DNNEvents" + Convert.ToString(ModuleId)), null))
                     {
-                        this._mcontrolToLoad = this
-                            .Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)).Value;
+                        _mcontrolToLoad = Request.Cookies.Get("DNNEvents" + Convert.ToString(ModuleId)).Value;
                     }
                     else
                     {
                         // See if Default View Set
-                        this._mcontrolToLoad = this.Settings.DefaultView;
+                        _mcontrolToLoad = Settings.DefaultView;
                     }
                 }
 
                 // Check for Valid Module to Load
-                this._mcontrolToLoad = Path.GetFileNameWithoutExtension(this._mcontrolToLoad) + ".ascx";
-                switch (this._mcontrolToLoad.ToLower())
+                _mcontrolToLoad = Path.GetFileNameWithoutExtension(_mcontrolToLoad) + ".ascx";
+                switch (_mcontrolToLoad.ToLower())
                 {
                     case "eventdetails.ascx":
                         // Search and RSS feed may direct detail page url to base module -
                         // should be put in new page
-                        if (this.Settings.Eventdetailnewpage)
+                        if (Settings.Eventdetailnewpage)
                         {
                             //Get the item id of the selected event
-                            if (!ReferenceEquals(this.Request.Params["ItemId"], null))
+                            if (!ReferenceEquals(Request.Params["ItemId"], null))
                             {
-                                this._itemId = int.Parse(this.Request.Params["ItemId"]);
+                                _itemId = int.Parse(Request.Params["ItemId"]);
                                 var objCtlEvents = new EventController();
-                                var objEvent = objCtlEvents.EventsGet(this._itemId, this.ModuleId);
+                                var objEvent = objCtlEvents.EventsGet(_itemId, ModuleId);
                                 if (!ReferenceEquals(objEvent, null))
                                 {
-                                    this.Response.Redirect(
+                                    Response.Redirect(
                                         objEventInfoHelper.GetDetailPageRealURL(
-                                            objEvent.EventID, this._socialGroupId, this._socialUserId));
+                                            objEvent.EventID, _socialGroupId, _socialUserId));
                                 }
                             }
                         }
@@ -509,51 +508,50 @@ namespace DotNetNuke.Modules.Events
                     case "eventweek.ascx":
                         break;
                     case "eventrpt.ascx":
-                        if (this.Settings.ListViewGrid)
+                        if (Settings.ListViewGrid)
                         {
-                            this._mcontrolToLoad = "EventList.ascx";
+                            _mcontrolToLoad = "EventList.ascx";
                         }
                         break;
                     case "eventlist.ascx":
-                        if (!this.Settings.ListViewGrid)
+                        if (!Settings.ListViewGrid)
                         {
-                            this._mcontrolToLoad = "EventRpt.ascx";
+                            _mcontrolToLoad = "EventRpt.ascx";
                         }
                         break;
                     case "eventmoderate.ascx":
-                        this.Response.Redirect(
+                        Response.Redirect(
                             objEventInfoHelper.AddSkinContainerControls(
-                                Globals.NavigateURL(this.TabId, "Moderate", "Mid=" + this.ModuleId),
+                                Globals.NavigateURL(TabId, "Moderate", "Mid=" + ModuleId),
                                 "?"));
                         break;
                     case "eventmyenrollments.ascx":
                         break;
                     default:
-                        this.lblModuleSettings.Text = Localization.GetString("lblBadControl", this.LocalResourceFile);
-                        this.lblModuleSettings.Visible = true;
+                        lblModuleSettings.Text = Localization.GetString("lblBadControl", LocalResourceFile);
+                        lblModuleSettings.Visible = true;
                         return;
                 }
 
-                var objPortalModuleBase =
-                    (PortalModuleBase) this.LoadControl(this._mcontrolToLoad);
-                objPortalModuleBase.ModuleConfiguration = this.ModuleConfiguration.Clone();
-                objPortalModuleBase.ID = Path.GetFileNameWithoutExtension(this._mcontrolToLoad);
-                this.phMain.Controls.Add(objPortalModuleBase);
+                var objPortalModuleBase = (PortalModuleBase) LoadControl(_mcontrolToLoad);
+                objPortalModuleBase.ModuleConfiguration = ModuleConfiguration.Clone();
+                objPortalModuleBase.ID = Path.GetFileNameWithoutExtension(_mcontrolToLoad);
+                phMain.Controls.Add(objPortalModuleBase);
 
                 //EVT-4499 Exlude the EventMyEnrollment.ascx to be set as cookie
-                if (this._mcontrolToLoad.ToLower() != "eventdetails.ascx"
-                    && this._mcontrolToLoad.ToLower() != "eventday.ascx"
-                    && this._mcontrolToLoad.ToLower() != "eventmyenrollments.ascx")
+                if (_mcontrolToLoad.ToLower() != "eventdetails.ascx"
+                    && _mcontrolToLoad.ToLower() != "eventday.ascx"
+                    && _mcontrolToLoad.ToLower() != "eventmyenrollments.ascx")
                 {
-                    var objCookie = new HttpCookie("DNNEvents" + Convert.ToString(this.ModuleId));
-                    objCookie.Value = this._mcontrolToLoad;
-                    if (ReferenceEquals(this.Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)), null))
+                    var objCookie = new HttpCookie("DNNEvents" + Convert.ToString(ModuleId));
+                    objCookie.Value = _mcontrolToLoad;
+                    if (ReferenceEquals(Request.Cookies.Get("DNNEvents" + Convert.ToString(ModuleId)), null))
                     {
-                        this.Response.Cookies.Add(objCookie);
+                        Response.Cookies.Add(objCookie);
                     }
                     else
                     {
-                        this.Response.Cookies.Set(objCookie);
+                        Response.Cookies.Set(objCookie);
                     }
                 }
             }
@@ -590,9 +588,9 @@ namespace DotNetNuke.Modules.Events
 
         private void Page_Load(object sender, EventArgs e)
         {
-            this.SetTheme(this.pnlEventsModule);
-            this.AddFacebookMetaTags();
-            this.LoadModuleControl(); // Load Module Control onto Page
+            SetTheme(pnlEventsModule);
+            AddFacebookMetaTags();
+            LoadModuleControl(); // Load Module Control onto Page
         }
 
         #endregion

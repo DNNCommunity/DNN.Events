@@ -66,7 +66,13 @@ namespace DotNetNuke.Modules.Events
         private const string RecurTableDisplayType = "inline-block";
 
         #endregion
-
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            // Add the click event
+            lnkSelectedEmail.Click += lnkSelectedEmail_Click;
+            lnkSelectedDelete.Click += lnkSelectedDelete_Click;
+        }
         #region Event Handlers
 
         private void Page_Load(object sender, EventArgs e)

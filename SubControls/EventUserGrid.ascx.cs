@@ -39,17 +39,28 @@ namespace DotNetNuke.Modules.Events
     [DefaultEvent("Refreshed")]
     public partial class EventUserGrid : EventBase
     {
+        #region Public and Privates
         public delegate void AddSelectedUsersEventHandler(object sender, EventArgs e, ArrayList arrUsers);
 
         private static readonly string _myFileName = typeof(EventIcons).BaseType.Name + ".ascx";
         //  Inherits Framework.UserControlBase
 
         private AddSelectedUsersEventHandler AddSelectedUsersEvent;
-
-
+        
         protected ArrayList Users { get; set; } = new ArrayList();
 
         protected new string LocalResourceFile => Localization.GetResourceFile(this, _myFileName);
+
+        #endregion
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            // Add the click event
+            cmdRefreshList.Click += cmdRefreshList_Click;
+            cmdSelectedAddUser.Click += cmdSelectedAddUser_Click;
+        }
+
+
 
         /// -----------------------------------------------------------------------------
         /// <summary>
@@ -63,71 +74,71 @@ namespace DotNetNuke.Modules.Events
         {
             get
                 {
-                    var setting = UserModuleBase.GetSetting(this.PortalId, "Records_PerPage");
+                    var setting = UserModuleBase.GetSetting(PortalId, "Records_PerPage");
                     return Convert.ToInt32(setting);
                 }
         }
 
 
-        protected int ItemID => Convert.ToInt32(this.Request.QueryString["ItemID"]);
+        protected int ItemID => Convert.ToInt32(Request.QueryString["ItemID"]);
 
         public event AddSelectedUsersEventHandler AddSelectedUsers
         {
             add
                 {
-                    this.AddSelectedUsersEvent =
-                        (AddSelectedUsersEventHandler) Delegate.Combine(this.AddSelectedUsersEvent, value);
+                    AddSelectedUsersEvent =
+                        (AddSelectedUsersEventHandler) Delegate.Combine(AddSelectedUsersEvent, value);
                 }
             remove
                 {
-                    this.AddSelectedUsersEvent =
-                        (AddSelectedUsersEventHandler) Delegate.Remove(this.AddSelectedUsersEvent, value);
+                    AddSelectedUsersEvent =
+                        (AddSelectedUsersEventHandler) Delegate.Remove(AddSelectedUsersEvent, value);
                 }
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.Page.IsPostBack)
+            if (!Page.IsPostBack)
             { }
         }
 
         private void Localize_Text()
         {
             var localText = "";
-            localText = Localization.GetString("lblStartswith.Text", this.LocalResourceFile);
+            localText = Localization.GetString("lblStartswith.Text", LocalResourceFile);
             if (!string.IsNullOrEmpty(localText))
             {
-                this.lblStartswith.Text = localText;
+                lblStartswith.Text = localText;
             }
-            localText = Localization.GetString("cmdSelectedAddUser.Text", this.LocalResourceFile);
+            localText = Localization.GetString("cmdSelectedAddUser.Text", LocalResourceFile);
             if (!string.IsNullOrEmpty(localText))
             {
-                this.cmdSelectedAddUser.Text = localText;
+                cmdSelectedAddUser.Text = localText;
             }
-            localText = Localization.GetString("cmdRefreshList.Text", this.LocalResourceFile);
+            localText = Localization.GetString("cmdRefreshList.Text", LocalResourceFile);
             if (!string.IsNullOrEmpty(localText))
             {
-                this.cmdRefreshList.Text = localText;
+                cmdRefreshList.Text = localText;
             }
-            localText = Localization.GetString("Select.Header", this.LocalResourceFile);
+            localText = Localization.GetString("Select.Header", LocalResourceFile);
             if (!string.IsNullOrEmpty(localText))
             {
-                this.gvUsersToEnroll.Columns[0].HeaderText = localText;
+                gvUsersToEnroll.Columns[0].HeaderText = localText;
             }
-            localText = Localization.GetString("Username.Header", this.LocalResourceFile);
+            localText = Localization.GetString("Username.Header", LocalResourceFile);
             if (!string.IsNullOrEmpty(localText))
             {
-                this.gvUsersToEnroll.Columns[1].HeaderText = localText;
+                gvUsersToEnroll.Columns[1].HeaderText = localText;
             }
-            localText = Localization.GetString("Displayname.Header", this.LocalResourceFile);
+            localText = Localization.GetString("Displayname.Header", LocalResourceFile);
             if (!string.IsNullOrEmpty(localText))
             {
-                this.gvUsersToEnroll.Columns[2].HeaderText = localText;
+                gvUsersToEnroll.Columns[2].HeaderText = localText;
             }
-            localText = Localization.GetString("Emailaddress.Header", this.LocalResourceFile);
+            localText = Localization.GetString("Emailaddress.Header", LocalResourceFile);
             if (!string.IsNullOrEmpty(localText))
             {
-                this.gvUsersToEnroll.Columns[3].HeaderText = localText;
+                gvUsersToEnroll.Columns[3].HeaderText = localText;
             }
         }
 
@@ -137,20 +148,20 @@ namespace DotNetNuke.Modules.Events
             var cstype = MethodBase.GetCurrentMethod().GetType();
             var cstext = Convert.ToString("function ChangedropdownFilterItem(event) {" + "\r\n" +
                                           "var DropDownFilterItem = document.getElementById('" +
-                                          this.dropdownFilterItem.ClientID + "');" +
+                                          dropdownFilterItem.ClientID + "');" +
                                           "var lblStartswith = document.getElementById('" +
-                                          this.lblStartswith.ClientID + "');" +
+                                          lblStartswith.ClientID + "');" +
                                           "if (DropDownFilterItem.value =='1') lblStartswith.style.display = 'none';" +
                                           "\r\n" +
                                           "else lblStartswith.style.display = '';" + "\r\n" + "}");
 
-            if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname))
+            if (!Page.ClientScript.IsClientScriptBlockRegistered(csname))
             {
-                this.Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, true);
+                Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, true);
             }
 
-            this.Localize_Text();
-            this.BindData(this.txtFilterUsers.Text, this.dropdownFilterItem.Value);
+            Localize_Text();
+            BindData(txtFilterUsers.Text, dropdownFilterItem.Value);
         }
 
 
@@ -167,10 +178,10 @@ namespace DotNetNuke.Modules.Events
         /// -----------------------------------------------------------------------------
         private void BindData(string searchText, string searchField)
         {
-            this.gvUsersToEnroll.PageSize = this.PageSize;
+            gvUsersToEnroll.PageSize = PageSize;
 
             var objCtlRole = new RoleController();
-            var objRole = objCtlRole.GetRoleByName(this.PortalId, this.PortalSettings.RegisteredRoleName);
+            var objRole = objCtlRole.GetRoleByName(PortalId, PortalSettings.RegisteredRoleName);
             var roleName = "";
             var regRoleName = "";
             if (!ReferenceEquals(objRole, null))
@@ -178,38 +189,38 @@ namespace DotNetNuke.Modules.Events
                 roleName = objRole.RoleName;
                 regRoleName = roleName;
             }
-            var ddEnrollRoles = (DropDownList) this.Parent.FindControl("ddEnrollRoles");
+            var ddEnrollRoles = (DropDownList) Parent.FindControl("ddEnrollRoles");
             if (ddEnrollRoles.SelectedValue != "-1")
             {
                 roleName = ddEnrollRoles.SelectedItem.Text;
             }
 
-            this.dropdownFilterItem.Items.Clear();
-            this.dropdownFilterItem.Items.Add(
-                new ListItem(Localization.GetString("dropdownFilterItem00.Text", this.LocalResourceFile), "0"));
-            this.dropdownFilterItem.Items.Add(
-                new ListItem(Localization.GetString("dropdownFilterItem02.Text", this.LocalResourceFile), "2"));
+            dropdownFilterItem.Items.Clear();
+            dropdownFilterItem.Items.Add(
+                new ListItem(Localization.GetString("dropdownFilterItem00.Text", LocalResourceFile), "0"));
+            dropdownFilterItem.Items.Add(
+                new ListItem(Localization.GetString("dropdownFilterItem02.Text", LocalResourceFile), "2"));
             if (roleName == regRoleName)
             {
-                this.dropdownFilterItem.Items.Add(
-                    new ListItem(Localization.GetString("dropdownFilterItem01.Text", this.LocalResourceFile),
+                dropdownFilterItem.Items.Add(
+                    new ListItem(Localization.GetString("dropdownFilterItem01.Text", LocalResourceFile),
                                  "1"));
             }
 
             var tmpUsers = default(ArrayList);
             if (roleName != regRoleName || searchField != "1")
             {
-                tmpUsers = objCtlRole.GetUsersByRoleName(this.PortalId, roleName);
+                tmpUsers = objCtlRole.GetUsersByRoleName(PortalId, roleName);
             }
             else
             {
-                tmpUsers = objCtlRole.GetUsersByRoleName(this.PortalId, searchText);
+                tmpUsers = objCtlRole.GetUsersByRoleName(PortalId, searchText);
             }
 
             var objCtlEventSignups = new EventSignupsController();
-            var lstSignups = objCtlEventSignups.EventsSignupsGetEvent(this.ItemID, this.ModuleId);
+            var lstSignups = objCtlEventSignups.EventsSignupsGetEvent(ItemID, ModuleId);
 
-            this.Users = new ArrayList();
+            Users = new ArrayList();
             if (searchText != "None")
             {
                 foreach (UserInfo objUser in tmpUsers)
@@ -219,36 +230,36 @@ namespace DotNetNuke.Modules.Events
                         case "0": //username
                             if (objUser.Username.Substring(0, searchText.Length).ToLower() == searchText.ToLower())
                             {
-                                this.UserAdd(objUser, lstSignups);
+                                UserAdd(objUser, lstSignups);
                             }
                             break;
                         case "1": //Groupname
-                            this.UserAdd(objUser, lstSignups);
+                            UserAdd(objUser, lstSignups);
                             break;
                         case "2": //Lastname
                             if (objUser.LastName.Substring(0, searchText.Length).ToLower() == searchText.ToLower())
                             {
-                                this.UserAdd(objUser, lstSignups);
+                                UserAdd(objUser, lstSignups);
                             }
                             break;
                         default:
-                            this.UserAdd(objUser, lstSignups);
+                            UserAdd(objUser, lstSignups);
                             break;
                     }
                 }
             }
-            if (this.Users.Count > 0)
+            if (Users.Count > 0)
             {
-                this.gvUsersToEnroll.Visible = true;
-                this.cmdSelectedAddUser.Visible = true;
+                gvUsersToEnroll.Visible = true;
+                cmdSelectedAddUser.Visible = true;
             }
             else
             {
-                this.gvUsersToEnroll.Visible = false;
-                this.cmdSelectedAddUser.Visible = false;
+                gvUsersToEnroll.Visible = false;
+                cmdSelectedAddUser.Visible = false;
             }
-            this.gvUsersToEnroll.DataSource = this.Users;
-            this.gvUsersToEnroll.DataBind();
+            gvUsersToEnroll.DataSource = Users;
+            gvUsersToEnroll.DataBind();
         }
 
         private void UserAdd(UserInfo inUser, ArrayList lstSignups)
@@ -263,14 +274,14 @@ namespace DotNetNuke.Modules.Events
             }
             if (blAdd)
             {
-                this.Users.Add(inUser);
+                Users.Add(inUser);
             }
         }
 
         protected void gvUsersToEnroll_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            this.gvUsersToEnroll.PageIndex = e.NewPageIndex;
-            this.BindData(this.txtFilterUsers.Text, this.dropdownFilterItem.Value);
+            gvUsersToEnroll.PageIndex = e.NewPageIndex;
+            BindData(txtFilterUsers.Text, dropdownFilterItem.Value);
         }
 
         protected void cmdSelectedAddUser_Click(object sender, EventArgs e)
@@ -279,17 +290,17 @@ namespace DotNetNuke.Modules.Events
             var arrUsers = new ArrayList();
             try
             {
-                foreach (GridViewRow tempLoopVar_row in this.gvUsersToEnroll.Rows)
+                foreach (GridViewRow tempLoopVar_row in gvUsersToEnroll.Rows)
                 {
                     row = tempLoopVar_row;
                     if (((CheckBox) row.FindControl("chkSelectUser")).Checked)
                     {
-                        arrUsers.Add(Convert.ToInt32(this.gvUsersToEnroll.DataKeys[row.RowIndex].Value));
+                        arrUsers.Add(Convert.ToInt32(gvUsersToEnroll.DataKeys[row.RowIndex].Value));
                     }
                 }
-                if (this.AddSelectedUsersEvent != null)
+                if (AddSelectedUsersEvent != null)
                 {
-                    this.AddSelectedUsersEvent(this, new EventArgs(), arrUsers);
+                    AddSelectedUsersEvent(this, new EventArgs(), arrUsers);
                 }
             }
             catch (Exception)
@@ -298,15 +309,15 @@ namespace DotNetNuke.Modules.Events
 
         protected void cmdRefreshList_Click(object sender, EventArgs e)
         {
-            this.gvUsersToEnroll.PageIndex = 0;
-            this.BindData(this.txtFilterUsers.Text, this.dropdownFilterItem.Value);
-            if (this.dropdownFilterItem.Value == "1")
+            gvUsersToEnroll.PageIndex = 0;
+            BindData(txtFilterUsers.Text, dropdownFilterItem.Value);
+            if (dropdownFilterItem.Value == "1")
             {
-                this.lblStartswith.Attributes.Add("style", "display: none");
+                lblStartswith.Attributes.Add("style", "display: none");
             }
             else
             {
-                this.lblStartswith.Attributes.Remove("style");
+                lblStartswith.Attributes.Remove("style");
             }
         }
 
@@ -317,8 +328,8 @@ namespace DotNetNuke.Modules.Events
 
         public event RefreshedEventHandler Refreshed
         {
-            add { this.RefreshedEvent = (RefreshedEventHandler) Delegate.Combine(this.RefreshedEvent, value); }
-            remove { this.RefreshedEvent = (RefreshedEventHandler) Delegate.Remove(this.RefreshedEvent, value); }
+            add { RefreshedEvent = (RefreshedEventHandler) Delegate.Combine(RefreshedEvent, value); }
+            remove { RefreshedEvent = (RefreshedEventHandler) Delegate.Remove(RefreshedEvent, value); }
         }
 
         // ReSharper restore EventNeverInvoked

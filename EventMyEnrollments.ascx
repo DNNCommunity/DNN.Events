@@ -12,7 +12,7 @@
     </div>
     <div style="clear: both">
         <asp:DataGrid ID="grdEnrollment" runat="server" AutoGenerateColumns="False" CellPadding="2" CssClass="EnrollGrid"
-                      DataKeyField="SignupID" GridLines="None" OnItemCommand="grdEnrollment_ItemCommand" Width="100%" OnItemCommand="grdEnrollment_ItemCommand">
+                      DataKeyField="SignupID" GridLines="None" OnItemCommand="grdEnrollment_ItemCommand" Width="100%" >
             <EditItemStyle VerticalAlign="Bottom"></EditItemStyle>
             <AlternatingItemStyle CssClass="EnrollGridAlternate"></AlternatingItemStyle>
             <ItemStyle VerticalAlign="Top"></ItemStyle>
