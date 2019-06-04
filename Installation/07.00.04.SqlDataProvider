@@ -10,3 +10,487 @@
 /*****                                                  *****/
 /************************************************************/
 
+/* Correct casing of settings to get in line with the settings attribute naming */
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Addsubmodulename' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('addsubmodulename')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='AllowAnonEnroll' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('allowanonenroll')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Allowreoccurring' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('allowreoccurring')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='AllowSubscriptions' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('allowsubscriptions')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Collapserecurring' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('collapserecurring')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='DefaultView' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('DefaultView')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='DetailPageAllowed' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('DetailPageAllowed')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='DisableEventnav' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('disableEventnav')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Enablecategories' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('enablecategories')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Enablecontainerskin' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('enablecontainerskin')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Enableenrollpopup' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('enableenrollpopup')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnableEventTimeZones' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EnableEventTimeZones')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Enablelocations' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('enablelocations')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnableSEO' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('enableSEO')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnableSitemap' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('enableSitemap')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Enforcesubcalperms' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('enforcesubcalperms')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Enrolcanceldays' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('enrolcanceldays')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnrollAnonFields' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EnrollAnonFields')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnrollEditFields' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EnrollEditFields')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnrolListDaysAfter' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EnrolListDaysAfter')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnrolListDaysBefore' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EnrolListDaysBefore')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnrolListSortDirection' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EnrolListSortDirection')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnrollmentPageAllowed' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EnrollmentPageAllowed')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EnrollmentPageDefaultUrl' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EnrollmentPageDefaultUrl')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventdaynewpage' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventdaynewpage')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventdefaultenrollview' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventdefaultenrollview')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventdetailnewpage' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventdetailnewpage')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventDetailsTemplate' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventDetailsTemplate')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventDetailsTemplate2' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventDetailsTemplate2')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventhidefullenroll' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventhidefullenroll')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventiCalBody' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventiCalBody')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventiCalSubject' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventiCalSubject')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventimage' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventimage')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventImageMonth' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventImageMonth')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventImageWeek' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventImageWeek')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventnotify' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('Eventnotify')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsCustomField1' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsCustomField1')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsCustomField2' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsCustomField2')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventsearch' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('Eventsearch')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventsignup' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventsignup')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventsignupallowpaid' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventsignupallowpaid')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListAfterDays' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListAfterDays')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListBeforeDays' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListBeforeDays')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListEventDays' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListEventDays')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListFields' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListFields')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListNumEvents' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListNumEvents')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListPageSize' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListPageSize')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListSelectType' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListSelectType')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListShowHeader' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListShowHeader')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListSortColumn' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventslistsortcolumn')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventsListSortDirection' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventsListSortDirection')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventTheme' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventTheme')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventThemeDefault' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('EventThemeDefault')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='EventTooltip' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventtooltip')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventtooltipday' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventtooltipday')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventtooltiplength' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventtooltiplength')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventtooltiplist' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventtooltiplist')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventtooltipmonth' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventtooltipmonth')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventtooltipweek' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('eventtooltipweek')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Expireevents' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('Expireevents')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Exportanonowneremail' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('exportanonowneremail')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Exportowneremail' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('exportowneremail')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Fridayweekend' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('fridayweekend')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Fulltimescale' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('fulltimescale')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Eventhidefullenroll' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('Eventhidefullenroll')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='HTMLEmail' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('HTMLEmail')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IcalDaysAfter' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('iCalDaysAfter')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IcalDaysBefore' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('iCalDaysBefore')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IcalDefaultImage' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IcalDefaultImage')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IcalEmailEnable' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('iCalEmailEnable')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='iCalIncludeCalname' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('iCalIncludeCalname')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IcalOnIconBar' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('iCalOnIconBar')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IcalURLAppend' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IcalURLAppend')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IcalURLInLocation' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('iCalURLinLocation')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconBar' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconBar')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconListEnroll' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconListEnroll')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconListPrio' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconListPrio')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconListRec' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconListRec')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconListReminder' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconListReminder')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconMonthEnroll' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconMonthEnroll')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconMonthPrio' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconMonthPrio')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconMonthRec' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconMonthRec')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconMonthReminder' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconMonthReminder')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconWeekEnroll' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconWeekEnroll')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconWeekPrio' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconWeekPrio')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconWeekRec' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconWeekRec')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='IconWeekReminder' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('IconWeekReminder')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Includeendvalue' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('includeendvalue')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='JournalIntegration' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('JournalIntegration')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='ListAllowed' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('ListAllowed')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='ListViewGrid' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('ListViewGrid')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='ListViewTable' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('ListViewTable')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='ListViewUseTime' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('ListViewUseTime')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Locationconflict' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('locationconflict')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='MasterEvent' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('masterEvent')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Maxnoenrolees' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('maxnoenrolees')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Maxrecurrences' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('maxrecurrences')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='MaxThumbHeight' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('MaxThumbHeight')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='MaxThumbWidth' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('MaxThumbWidth')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Moderateall' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('moderateall')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='moderateemailmessage' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('moderateemailmessage')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='moderateemailsubject' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('moderateemailsubject')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='ModuleCategoryIds' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('modulecategoryids')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='ModuleLocationIDs' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('modulelocationids')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='MonthAllowed' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('MonthAllowed')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Monthcellnoevents' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('monthcellnoevents')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Monthdayselect' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('monthdayselect')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Neweventemailrole' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('neweventemailrole')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Neweventemails' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('neweventemails')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='NewEventTemplate' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('NewEventTemplate')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Newpereventemail' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('newpereventemail')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Notifyanon' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('notifyanon')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='OnlyView' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('onlyview')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='OwnerChangeAllowed' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('ownerchangeallowed')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Paypalaccount' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('paypalaccount')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Paypalurl' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('paypalurl')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Preventconflicts' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('preventconflicts')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='PrimaryTimeZone' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('PrimaryTimeZone')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='PrivateMessage' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('PrivateMessage')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RecurDummy' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('RecurDummy')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Reminderfrom' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('reminderfrom')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Restrictcategories' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('restrictcategories')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RestrictCategoriesToTimeFrame' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('restrictcategoriestotimeframe')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Restrictlocations' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('restrictlocations')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RestrictLocationsToTimeFrame' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('restrictlocationstotimeframe')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RptColumns' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('rptColumns')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RptRows' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('rptRows')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RSSDateField' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('RSSDateField')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RSSDays' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('RSSDays')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RSSDesc' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('RSSDesc')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RSSEnable' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('RSSEnable')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='RSSTitle' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('RSSTitle')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SecondaryTimeZone' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SecondaryTimeZone')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessageAdded' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessageAdded')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessageApproved' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessageApproved')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessageCancelled' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessageCancelled')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessageDeleted' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessageDeleted')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessageDenied' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessageDenied')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessageIncorrect' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessageIncorrect')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessagePaid' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessagePaid')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessagePaying' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessagePaying')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessagePending' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessagePending')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SendEnrollMessageWaiting' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SendEnrollMessageWaiting')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Sendreminderdefault' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('sendreminderdefault')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SEODescriptionLength' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SEODescriptionLength')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='ShowEventsAlways' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('showEventsAlways')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Showvaluemarks' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('showvaluemarks')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SiteMapDaysAfter' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('siteMapDaysAfter')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SiteMapDaysBefore' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('siteMapDaysBefore')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SiteMapPriority' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('siteMapPriority')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SocialGroupModule' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SocialGroupModule')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SocialGroupSecurity' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SocialGroupSecurity')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='SocialUserPrivate' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('SocialUserPrivate')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='StandardEmail' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('StandardEmail')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Timeinterval' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('timeinterval')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Timeintitle' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('timeintitle')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='TimeZoneId' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('TimeZoneId')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Tzdisplay' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('tzdisplay')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='Version' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('version')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='WeekAllowed' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('WeekAllowed')
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}ModuleSettings]SET SettingName='WeekStart' FROM {databaseOwner}[{objectQualifier}ModuleSettings] AS MSJOIN {databaseOwner}[{objectQualifier}Modules] AS M ON M.ModuleID = MS.ModuleIDJOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD ON MD.ModuleDefID = M.ModuleDefIDJOIN {databaseOwner}[{objectQualifier}DesktopModules] AS DM ON  DM.DesktopModuleID =  MD.DesktopModuleIDWHERE  DM.ModuleName = 'DNN_Events' AND  UPPER(MS.SettingName)=UPPER('WeekStart')
+GO
