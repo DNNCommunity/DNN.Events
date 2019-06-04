@@ -1,7 +1,28 @@
 ﻿'Remove old versions of events
 Install\Module\Events_07.00.02_Install.zip
-'Remove artifacts from previous incorrect install versions
-DesktopModules\Events\tmpCompressCSS
+
 'Tidy up debug files if any
 Bin\DotNetNuke.Modules.Events.pdb
 Bin\DotNetNuke.Modules.Events.ScheduleControl.pdb
+
+'Remove artifacts from previous incorrect install versions
+DesktopModules\Events\tmpCompressCSS\Themes\Default\Default.css
+DesktopModules\Events\tmpCompressCSS\Themes\Default\
+DesktopModules\Events\tmpCompressCSS\Themes\Events\Events.css
+DesktopModules\Events\tmpCompressCSS\Themes\Events\
+DesktopModules\Events\tmpCompressCSS\Themes\Events-Green\Events-Green.css
+DesktopModules\Events\tmpCompressCSS\Themes\Events-Green\
+DesktopModules\Events\tmpCompressCSS\Themes\Events-Grey\Events-Grey.css
+DesktopModules\Events\tmpCompressCSS\Themes\Events-Grey\
+DesktopModules\Events\tmpCompressCSS\Themes\Events-Orange\Events-Orange.css
+DesktopModules\Events\tmpCompressCSS\Themes\Events-Orange\
+DesktopModules\Events\tmpCompressCSS\Themes\FixedBlue\FixedBlue.css
+DesktopModules\Events\tmpCompressCSS\Themes\FixedBlue\
+DesktopModules\Events\tmpCompressCSS\Themes\Gray\Gray.css
+DesktopModules\Events\tmpCompressCSS\Themes\Gray\
+DesktopModules\Events\tmpCompressCSS\Themes\MinimalExtropy\MinimalExtropy.css
+DesktopModules\Events\tmpCompressCSS\Themes\MinimalExtropy\
+DesktopModules\Events\tmpCompressCSS\Themes\Small\Small.css
+DesktopModules\Events\tmpCompressCSS\Themes\Small\
+DesktopModules\Events\tmpCompressCSS\Themes\
+DesktopModules\Events\tmpCompressCSS\
