@@ -56,7 +56,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         ///     Overrides default value (True)
         /// </remarks>
         /// -----------------------------------------------------------------------------
-        protected override bool ShowEmptyDataTemplate => !this.FullTimeScale;
+        protected override bool ShowEmptyDataTemplate => !FullTimeScale;
 
         /// -----------------------------------------------------------------------------
         /// <summary>
@@ -161,14 +161,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["StartDate"];
+                    var o = ViewState["StartDate"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToDateTime(o);
                     }
                     return DateTime.Today; // default value
                 }
-            set { this.ViewState["StartDate"] = value; }
+            set { ViewState["StartDate"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -188,14 +188,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["StartDay"];
+                    var o = ViewState["StartDay"];
                     if (!ReferenceEquals(o, null))
                     {
                         return (DayOfWeek) o;
                     }
                     return DayOfWeek.Monday; // default value
                 }
-            set { this.ViewState["StartDay"] = value; }
+            set { ViewState["StartDay"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -215,14 +215,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["NumberOfDays"];
+                    var o = ViewState["NumberOfDays"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToInt32(o);
                     }
                     return 7; // default value
                 }
-            set { this.ViewState["NumberOfDays"] = value; }
+            set { ViewState["NumberOfDays"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -242,11 +242,11 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             get
                 {
                     // in horizontal layout, only 1 week is supported
-                    if (this.Layout == LayoutEnum.Horizontal)
+                    if (Layout == LayoutEnum.Horizontal)
                     {
                         return 1;
                     }
-                    var o = this.ViewState["NumberOfRepetitions"];
+                    var o = ViewState["NumberOfRepetitions"];
                     if (!ReferenceEquals(o, null))
                     {
                         var w = Convert.ToInt32(o);
@@ -258,7 +258,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     }
                     return 1;
                 }
-            set { this.ViewState["NumberOfRepetitions"] = value; }
+            set { ViewState["NumberOfRepetitions"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -271,8 +271,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         [Bindable(true)]
         public int Weeks
         {
-            get { return this.NumberOfRepetitions; }
-            set { this.NumberOfRepetitions = value; }
+            get { return NumberOfRepetitions; }
+            set { NumberOfRepetitions = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -287,14 +287,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["DateFormatString"];
+                    var o = ViewState["DateFormatString"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return string.Empty;
                 }
-            set { this.ViewState["DateFormatString"] = value; }
+            set { ViewState["DateFormatString"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -309,14 +309,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["TimeFormatString"];
+                    var o = ViewState["TimeFormatString"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return string.Empty;
                 }
-            set { this.ViewState["TimeFormatString"] = value; }
+            set { ViewState["TimeFormatString"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -337,14 +337,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["TimeFieldsContainDate"];
+                    var o = ViewState["TimeFieldsContainDate"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToBoolean(o);
                     }
                     return false;
                 }
-            set { this.ViewState["TimeFieldsContainDate"] = value; }
+            set { ViewState["TimeFieldsContainDate"] = value; }
         }
 
         #endregion
@@ -419,16 +419,16 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         // Check if all properties are set to make the control work
         public override string CheckConfiguration()
         {
-            if (!this.TimeFieldsContainDate && this.DateField == "")
+            if (!TimeFieldsContainDate && DateField == "")
             {
                 return
                     "Either the DateField property must have a non blank value, or TimeFieldsContainDate must be true";
             }
-            if (this.StartTimeField == "")
+            if (StartTimeField == "")
             {
                 return "The StartTimeField property is not set";
             }
-            if (this.EndTimeField == "")
+            if (EndTimeField == "")
             {
                 return "The EndTimeField property is not set";
             }
@@ -443,25 +443,25 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public override void FillRangeValueArray(ref DataView dv)
         {
-            this.arrRangeValues = new ArrayList();
-            if (this.FullTimeScale)
+            arrRangeValues = new ArrayList();
+            if (FullTimeScale)
             {
-                var tsInc = new TimeSpan(0, this.TimeScaleInterval, 0);
+                var tsInc = new TimeSpan(0, TimeScaleInterval, 0);
                 // ignore data, just fill the time scale
                 // add incrementing times to the array
-                var t = this.StartOfTimeScale;
-                while (TimeSpan.Compare(t, this.EndOfTimeScale) < 0)
+                var t = StartOfTimeScale;
+                while (TimeSpan.Compare(t, EndOfTimeScale) < 0)
                 {
                     // use DateTime objects for easy display
                     var dt = new DateTime(1, 1, 1, t.Hours, t.Minutes, 0);
-                    this.arrRangeValues.Add(dt);
+                    arrRangeValues.Add(dt);
                     t = t.Add(tsInc);
                 }
                 // Add the end of the timescale as well to make sure it's there
                 // e.g. in the case of EndOfTimeScale=23:59 and TimeScaleInterval=1440, this is imperative
-                var dtEnd = new DateTime(1, 1, 1 + this.EndOfTimeScale.Days, this.EndOfTimeScale.Hours,
-                                         this.EndOfTimeScale.Minutes, 0);
-                this.arrRangeValues.Add(dtEnd);
+                var dtEnd = new DateTime(1, 1, 1 + EndOfTimeScale.Days, EndOfTimeScale.Hours,
+                                         EndOfTimeScale.Minutes, 0);
+                arrRangeValues.Add(dtEnd);
             }
             else // Not FullTimeScale
             {
@@ -469,12 +469,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 var j = 0;
                 for (j = 0; j <= dv.Count - 1; j++)
                 {
-                    var t1 = dv[j][this.StartTimeField];
-                    var t2 = dv[j][this.EndTimeField];
-                    if (!this.TimeFieldsContainDate)
+                    var t1 = dv[j][StartTimeField];
+                    var t2 = dv[j][EndTimeField];
+                    if (!TimeFieldsContainDate)
                     {
-                        this.arrRangeValues.Add(t1);
-                        this.arrRangeValues.Add(t2);
+                        arrRangeValues.Add(t1);
+                        arrRangeValues.Add(t2);
                     }
                     else // TimeFieldsContainDate
                     {
@@ -492,22 +492,22 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                         }
                         var dt2 = Convert.ToDateTime(t2);
                         // remove date part, only store time part in array
-                        this.arrRangeValues.Add(new DateTime(1, 1, 1, dt1.Hour, dt1.Minute, dt1.Second));
+                        arrRangeValues.Add(new DateTime(1, 1, 1, dt1.Hour, dt1.Minute, dt1.Second));
                         if ((dt2.Hour > 0) | (dt2.Minute > 0) | (dt2.Second > 0))
                         {
-                            this.arrRangeValues.Add(new DateTime(1, 1, 1, dt2.Hour, dt2.Minute, dt2.Second));
+                            arrRangeValues.Add(new DateTime(1, 1, 1, dt2.Hour, dt2.Minute, dt2.Second));
                         }
                         else
                         {
                             // if the end is 0:00:00 hour, insert 24:00:00 hour instead
-                            this.arrRangeValues.Add(new DateTime(1, 1, 2, 0, 0, 0));
+                            arrRangeValues.Add(new DateTime(1, 1, 2, 0, 0, 0));
                         }
                     }
                 }
             }
 
-            this.arrRangeValues.Sort();
-            RemoveDoubles(this.arrRangeValues);
+            arrRangeValues.Sort();
+            RemoveDoubles(arrRangeValues);
         }
 
         /// -----------------------------------------------------------------------------
@@ -520,8 +520,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public override void PreprocessData(ref DataView dv)
         {
-            this.ShiftStartDate();
-            if (!this.TimeFieldsContainDate)
+            ShiftStartDate();
+            if (!TimeFieldsContainDate)
             {
                 return;
             }
@@ -534,8 +534,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             while (j < count)
             {
                 var drv = dv[j];
-                var dtStartValue = Convert.ToDateTime(drv[this.StartTimeField]);
-                var dtEndValue = Convert.ToDateTime(drv[this.EndTimeField]);
+                var dtStartValue = Convert.ToDateTime(drv[StartTimeField]);
+                var dtEndValue = Convert.ToDateTime(drv[EndTimeField]);
                 var dateStart = new DateTime(dtStartValue.Year, dtStartValue.Month, dtStartValue.Day);
                 var dateEnd = new DateTime(dtEndValue.Year, dtEndValue.Month, dtEndValue.Day);
                 if ((dtEndValue.Hour == 0) & (dtEndValue.Minute == 0) & (dtEndValue.Second == 0))
@@ -548,17 +548,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 {
                     // the item spans midnight. We'll truncate the item first, so that it only
                     // covers the last day, and we'll add new items for the other day(s) in the loop below.
-                    if (this.FullTimeScale)
+                    if (FullTimeScale)
                     {
                         // truncate the item by setting its start time to StartOfTimeScale
-                        drv[this.StartTimeField] =
-                            new DateTime(dateEnd.Year, dateEnd.Month, dateEnd.Day, this.StartOfTimeScale.Hours,
-                                         this.StartOfTimeScale.Minutes, this.StartOfTimeScale.Seconds);
+                        drv[StartTimeField] =
+                            new DateTime(dateEnd.Year, dateEnd.Month, dateEnd.Day, StartOfTimeScale.Hours,
+                                         StartOfTimeScale.Minutes, StartOfTimeScale.Seconds);
                     }
                     else
                     {
                         // truncate the item by setting its start time to 0:00:00 hours
-                        drv[this.StartTimeField] = new DateTime(dateEnd.Year, dateEnd.Month, dateEnd.Day, 0, 0, 0);
+                        drv[StartTimeField] = new DateTime(dateEnd.Year, dateEnd.Month, dateEnd.Day, 0, 0, 0);
                     }
                 }
                 while (dateStart < dateEnd)
@@ -571,36 +571,36 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     {
                         drvNew[i] = drv[i]; // copy columns one by one
                     }
-                    drvNew[this.StartTimeField] = dtStartValue;
-                    if (this.FullTimeScale)
+                    drvNew[StartTimeField] = dtStartValue;
+                    if (FullTimeScale)
                     {
                         // set the end time to the EndOfTimeScale value
                         var dateEnd2 = new DateTime(dateStart.Year, dateStart.Month, dateStart.Day,
-                                                    this.EndOfTimeScale.Hours, this.EndOfTimeScale.Minutes,
-                                                    this.EndOfTimeScale.Seconds);
-                        if (this.EndOfTimeScale.Equals(new TimeSpan(1, 0, 0, 0)))
+                                                    EndOfTimeScale.Hours, EndOfTimeScale.Minutes,
+                                                    EndOfTimeScale.Seconds);
+                        if (EndOfTimeScale.Equals(new TimeSpan(1, 0, 0, 0)))
                         {
                             // EndOfTimeScale is 24:00 hours. Set the end at 0:00 AM of the next day.
                             // We'll catch this case later and show the proper value.
                             dateEnd2.AddDays(1);
                         }
-                        drvNew[this.EndTimeField] = dateEnd2;
+                        drvNew[EndTimeField] = dateEnd2;
                     }
                     else
                     {
                         // Set the end time to 24:00 hours. This is 0:00 AM of the next day.
                         // We'll catch this case later and show the proper value.
-                        drvNew[this.EndTimeField] =
+                        drvNew[EndTimeField] =
                             new DateTime(dateStart.Year, dateStart.Month, dateStart.Day, 0, 0, 0).AddDays(1);
                     }
                     drvNew.EndEdit();
                     dateStart = dateStart.AddDays(1);
-                    if (this.FullTimeScale)
+                    if (FullTimeScale)
                     {
                         // next item should start at StartOfTimeScale
                         dtStartValue = new DateTime(dateStart.Year, dateStart.Month, dateStart.Day,
-                                                    this.StartOfTimeScale.Hours, this.StartOfTimeScale.Minutes,
-                                                    this.StartOfTimeScale.Seconds);
+                                                    StartOfTimeScale.Hours, StartOfTimeScale.Minutes,
+                                                    StartOfTimeScale.Seconds);
                     }
                     else
                     {
@@ -631,7 +631,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             // remove time part, if any
             dtDate = new DateTime(dtDate.Year, dtDate.Month, dtDate.Day, 0, 0, 0);
             returnValue =
-                Convert.ToInt32(dtDate.Subtract(this.StartDate.Date).Days % this.NumberOfDays +
+                Convert.ToInt32(dtDate.Subtract(StartDate.Date).Days % NumberOfDays +
                                 1); // fix courtesy of Anthony Main
             return returnValue;
         }
@@ -658,33 +658,33 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             var returnValue = 0;
             var RangeValueIndex = -1;
             // Find range value index by matching with range values array
-            if (this.FullTimeScale && !(objRangeValue is DateTime))
+            if (FullTimeScale && !(objRangeValue is DateTime))
             {
                 throw new HttpException("The time field should be of type DateTime when FullTimeScale is set to true");
             }
-            if (this.TimeFieldsContainDate && !(objRangeValue is DateTime))
+            if (TimeFieldsContainDate && !(objRangeValue is DateTime))
             {
                 throw new HttpException(
                     "The time field should be of type DateTime when TimeFieldsContainDate is set to true");
             }
             var k = 0;
-            if (this.FullTimeScale)
+            if (FullTimeScale)
             {
                 var Dobj = Convert.ToDateTime(objRangeValue);
                 // omit the date part for comparison
                 Dobj = new DateTime(1, 1, 1, Dobj.Hour, Dobj.Minute, Dobj.Second);
                 // if no match is found, use the index of the EndOfTimeScale value
-                RangeValueIndex = this.arrRangeValues.Count;
-                for (k = 0; k <= this.arrRangeValues.Count - 1; k++)
+                RangeValueIndex = arrRangeValues.Count;
+                for (k = 0; k <= arrRangeValues.Count - 1; k++)
                 {
-                    var Dk = Convert.ToDateTime(this.arrRangeValues[k]);
+                    var Dk = Convert.ToDateTime(arrRangeValues[k]);
                     Dk = new DateTime(1, 1, 1, Dk.Hour, Dk.Minute, Dk.Second); // omit date part
                     if (Dobj < Dk && k == 0 && isEndValue)
                     {
                         // ends before start of time scale
                         return -1;
                     }
-                    if (Dobj >= Dk && k == this.arrRangeValues.Count - 1 && !isEndValue)
+                    if (Dobj >= Dk && k == arrRangeValues.Count - 1 && !isEndValue)
                     {
                         // starts at or after end of time scale
                         return -1;
@@ -696,7 +696,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             // This can happen when the end value is 24:00:00, which will
                             // match with the value 0:00:00 and give k=0
                             // Instead of the value k=0, use k=arrRangeValues.Count-1
-                            RangeValueIndex = this.arrRangeValues.Count;
+                            RangeValueIndex = arrRangeValues.Count;
                         }
                         else
                         {
@@ -708,12 +708,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             }
             else // Not FullTimeScale
             {
-                if (!this.TimeFieldsContainDate)
+                if (!TimeFieldsContainDate)
                 {
                     // find the matching value in arrRangeValues
-                    for (k = 0; k <= this.arrRangeValues.Count - 1; k++)
+                    for (k = 0; k <= arrRangeValues.Count - 1; k++)
                     {
-                        if (this.arrRangeValues[k].ToString() == objRangeValue.ToString())
+                        if (arrRangeValues[k].ToString() == objRangeValue.ToString())
                         {
                             RangeValueIndex = k + 1;
                             break;
@@ -726,9 +726,9 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     var Dobj = Convert.ToDateTime(objRangeValue);
                     // omit the date part for comparison
                     Dobj = new DateTime(1, 1, 1, Dobj.Hour, Dobj.Minute, Dobj.Second);
-                    for (k = 0; k <= this.arrRangeValues.Count - 1; k++)
+                    for (k = 0; k <= arrRangeValues.Count - 1; k++)
                     {
-                        var Dk = Convert.ToDateTime(this.arrRangeValues[k]);
+                        var Dk = Convert.ToDateTime(arrRangeValues[k]);
                         Dk = new DateTime(1, 1, 1, Dk.Hour, Dk.Minute, Dk.Second); // omit date part
                         if (Dobj == Dk)
                         {
@@ -737,7 +737,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                                 // This can happen when the end value is 24:00:00, which will
                                 // match with the value 0:00:00, and give k=0
                                 // Instead of the value k=0, use k=arrRangeValues.Count-1
-                                RangeValueIndex = this.arrRangeValues.Count;
+                                RangeValueIndex = arrRangeValues.Count;
                             }
                             else
                             {
@@ -749,9 +749,9 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 }
             }
 
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                if (this.Layout == LayoutEnum.Vertical)
+                if (Layout == LayoutEnum.Vertical)
                 {
                     // Each item spans two rows
                     returnValue = RangeValueIndex * 2;
@@ -771,7 +771,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             // If the item is in another week, modify the valueindex accordingly.
             // To find out, check the date of the item
             var dtDate = default(DateTime);
-            if (!this.TimeFieldsContainDate)
+            if (!TimeFieldsContainDate)
             {
                 // use objTitleValue for the date
                 if (!(objTitleValue is DateTime) && !(objTitleValue is DateTime))
@@ -794,68 +794,68 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 }
             }
             // if dtDate is more than NumberOfDays after StartDate, add additional rows
-            var rowsPerWeek = 1 + this.arrRangeValues.Count;
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            var rowsPerWeek = 1 + arrRangeValues.Count;
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                rowsPerWeek = 1 + this.arrRangeValues.Count * 2;
+                rowsPerWeek = 1 + arrRangeValues.Count * 2;
             }
 
             returnValue = Convert.ToInt32(returnValue +
-                                          dtDate.Subtract(this.StartDate).Days / this.NumberOfDays * rowsPerWeek);
+                                          dtDate.Subtract(StartDate).Days / NumberOfDays * rowsPerWeek);
             return returnValue;
         }
 
         protected override int GetTitleCount()
         {
-            return this.NumberOfDays; // make a title cell for every NumberOfDays
+            return NumberOfDays; // make a title cell for every NumberOfDays
         }
 
         public override void AddTitleHeaderData()
         {
-            var nTitles = this.GetTitleCount();
+            var nTitles = GetTitleCount();
 
             // iterate arrTitleValues creating a new item for each data item
             var titleIndex = 0;
             for (titleIndex = 1; titleIndex <= nTitles; titleIndex++)
             {
                 var iWeek = 0;
-                for (iWeek = 0; iWeek <= this.NumberOfRepetitions - 1; iWeek++)
+                for (iWeek = 0; iWeek <= NumberOfRepetitions - 1; iWeek++)
                 {
-                    object obj = this.StartDate.AddDays(titleIndex - 1 + iWeek * this.NumberOfDays);
-                    var rowsPerWeek = 1 + this.arrRangeValues.Count;
-                    if (!this.IncludeEndValue && this.ShowValueMarks)
+                    object obj = StartDate.AddDays(titleIndex - 1 + iWeek * NumberOfDays);
+                    var rowsPerWeek = 1 + arrRangeValues.Count;
+                    if (!IncludeEndValue && ShowValueMarks)
                     {
-                        rowsPerWeek = 1 + this.arrRangeValues.Count * 2;
+                        rowsPerWeek = 1 + arrRangeValues.Count * 2;
                     }
                     var rangeIndex = iWeek * rowsPerWeek;
-                    this.CreateItem(rangeIndex, titleIndex, ScheduleItemType.TitleHeader, true, obj, -1);
+                    CreateItem(rangeIndex, titleIndex, ScheduleItemType.TitleHeader, true, obj, -1);
                 }
             }
         }
 
         protected override string GetTitleField()
         {
-            if (this.TimeFieldsContainDate)
+            if (TimeFieldsContainDate)
             {
                 // When TimeFieldsContainDate=true, use StartTimeField as Title
-                return this.StartTimeField;
+                return StartTimeField;
             }
-            return this.DateField;
+            return DateField;
         }
 
         public void ShiftStartDate()
         {
-            if (this.NumberOfDays != 7)
+            if (NumberOfDays != 7)
             {
                 return; // change the start date only for a weekly calendar
             }
             // for any StartDate set by the user, shift it to the previous day indicated by the StartDay property
             // (by default, this will be the previous Monday)
-            this.StartDate = this.StartDate.AddDays(Convert.ToInt32(this.StartDay) -
-                                                    Convert.ToInt32(this.StartDate.DayOfWeek));
-            if (Convert.ToInt32(this.StartDay) > Convert.ToInt32(this.StartDate.DayOfWeek))
+            StartDate = StartDate.AddDays(Convert.ToInt32(StartDay) -
+                                                    Convert.ToInt32(StartDate.DayOfWeek));
+            if (Convert.ToInt32(StartDay) > Convert.ToInt32(StartDate.DayOfWeek))
             {
-                this.StartDate = this.StartDate.AddDays(-7);
+                StartDate = StartDate.AddDays(-7);
             }
             // StartDate should be on the day of the week indicated by StartDay now
         }
@@ -863,17 +863,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         public override string GetSortOrder()
         {
             // make sure the data is processed in the right order: from bottom right up to top left.
-            if (!this.TimeFieldsContainDate)
+            if (!TimeFieldsContainDate)
             {
-                return this.DateField + " ASC, " + this.StartTimeField + " ASC, " + this.EndTimeField + " ASC";
+                return DateField + " ASC, " + StartTimeField + " ASC, " + EndTimeField + " ASC";
             }
             // In Calendar Mode with TimeFieldsContainDate=True, there is no DateField
-            return this.StartTimeField + " ASC, " + this.EndTimeField + " ASC";
+            return StartTimeField + " ASC, " + EndTimeField + " ASC";
         }
 
         public override int GetRepetitionCount()
         {
-            return this.NumberOfRepetitions;
+            return NumberOfRepetitions;
         }
 
         /// -----------------------------------------------------------------------------
@@ -891,24 +891,24 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             {
                 if (type == ScheduleItemType.TitleHeader)
                 {
-                    if (this.DateFormatString.Length == 0)
+                    if (DateFormatString.Length == 0)
                     {
                         retVal = value.ToString();
                     }
                     else
                     {
-                        retVal = string.Format(this.DateFormatString, value);
+                        retVal = string.Format(DateFormatString, value);
                     }
                 }
                 else if (type == ScheduleItemType.RangeHeader)
                 {
-                    if (this.TimeFormatString.Length == 0)
+                    if (TimeFormatString.Length == 0)
                     {
                         retVal = value.ToString();
                     }
                     else
                     {
-                        retVal = string.Format(this.TimeFormatString, value);
+                        retVal = string.Format(TimeFormatString, value);
                     }
                 }
                 else
@@ -924,13 +924,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             switch (type)
             {
                 case ScheduleItemType.RangeHeader:
-                    return this.TimeTemplate;
+                    return TimeTemplate;
                 case ScheduleItemType.TitleHeader:
-                    return this.DateTemplate;
+                    return DateTemplate;
                 case ScheduleItemType.Item:
-                    return this.ItemTemplate;
+                    return ItemTemplate;
                 case ScheduleItemType.AlternatingItem:
-                    return this.ItemTemplate;
+                    return ItemTemplate;
             }
             return null;
         }
@@ -949,16 +949,16 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         public override dynamic CalculateTitle(int titleIndex, int cellIndex)
         {
             var cellsPerWeek = 0;
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                cellsPerWeek = this.arrRangeValues.Count * 2 + 1;
+                cellsPerWeek = arrRangeValues.Count * 2 + 1;
             }
             else
             {
-                cellsPerWeek = this.arrRangeValues.Count + 1;
+                cellsPerWeek = arrRangeValues.Count + 1;
             }
             var week = cellIndex / cellsPerWeek;
-            return this.StartDate.AddDays(titleIndex - 1 + week * 7);
+            return StartDate.AddDays(titleIndex - 1 + week * 7);
         }
 
         #endregion

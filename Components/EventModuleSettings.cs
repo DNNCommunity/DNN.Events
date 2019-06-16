@@ -182,7 +182,7 @@ namespace Components
                 {
                     _socialUserPrivate = false;
                 }
-                //if ((SocialModule)Convert.ToInt32(this._allsettings["SocialGroupModule"]) == SocialModule.SocialGroup)
+
                 if ((SocialModule) Enum.Parse(typeof(SocialModule), SocialGroupModule.ToString(), true) ==
                     SocialModule.SocialGroup)
                 {

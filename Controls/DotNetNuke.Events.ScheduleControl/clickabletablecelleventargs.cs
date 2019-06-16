@@ -45,16 +45,16 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         public ClickableTableCellEventArgs(object newTitle, object newRangeStartValue,
                                            object newRangeEndValue)
         {
-            this._title = newTitle;
-            this._rangeStartValue = newRangeStartValue;
-            this._rangeEndValue = newRangeEndValue;
+            _title = newTitle;
+            _rangeStartValue = newRangeStartValue;
+            _rangeEndValue = newRangeEndValue;
         }
 
-        public dynamic Title => this._title;
+        public dynamic Title => _title;
 
-        public dynamic RangeStartValue => this._rangeStartValue;
+        public dynamic RangeStartValue => _rangeStartValue;
 
-        public dynamic RangeEndValue => this._rangeEndValue;
+        public dynamic RangeEndValue => _rangeEndValue;
     }
 
     public delegate void ClickableTableCellEventHandler(object sender, ClickableTableCellEventArgs e);

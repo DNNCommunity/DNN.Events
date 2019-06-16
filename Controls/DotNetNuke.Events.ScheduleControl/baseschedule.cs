@@ -129,8 +129,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         protected ArrayList arrRangeValues
         {
-            get { return (ArrayList) this.ViewState["arrRangeValues"]; }
-            set { this.ViewState["arrRangeValues"] = value; }
+            get { return (ArrayList) ViewState["arrRangeValues"]; }
+            set { ViewState["arrRangeValues"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -142,15 +142,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (ReferenceEquals(this._items, null))
+                    if (ReferenceEquals(_items, null))
                     {
-                        if (ReferenceEquals(this._itemsArrayList, null))
+                        if (ReferenceEquals(_itemsArrayList, null))
                         {
-                            this.EnsureChildControls();
+                            EnsureChildControls();
                         }
-                        this._items = new ScheduleItemCollection(this._itemsArrayList);
+                        _items = new ScheduleItemCollection(_itemsArrayList);
                     }
-                    return this._items;
+                    return _items;
                 }
         }
 
@@ -176,14 +176,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["Layout"];
+                    var o = ViewState["Layout"];
                     if (!ReferenceEquals(o, null))
                     {
                         return (LayoutEnum) o;
                     }
                     return LayoutEnum.Vertical;
                 }
-            set { this.ViewState["Layout"] = value; }
+            set { ViewState["Layout"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -199,14 +199,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["IncludeEndValue"];
+                    var o = ViewState["IncludeEndValue"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToBoolean(o);
                     }
                     return false;
                 }
-            set { this.ViewState["IncludeEndValue"] = value; }
+            set { ViewState["IncludeEndValue"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -224,14 +224,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["ShowValueMarks"];
+                    var o = ViewState["ShowValueMarks"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToBoolean(o);
                     }
                     return false;
                 }
-            set { this.ViewState["ShowValueMarks"] = value; }
+            set { ViewState["ShowValueMarks"] = value; }
         }
 
 
@@ -247,12 +247,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         [Category("Data")]
         public dynamic DataSource
         {
-            get { return this._dataSource; }
+            get { return _dataSource; }
             set
                 {
                     if (ReferenceEquals(value, null) || value is DataTable || value is DataSet || value is DataView)
                     {
-                        this._dataSource = value;
+                        _dataSource = value;
                     }
                     else
                     {
@@ -273,14 +273,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["DataMember"];
+                    var o = ViewState["DataMember"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return string.Empty;
                 }
-            set { this.ViewState["DataMember"] = value; }
+            set { ViewState["DataMember"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -295,14 +295,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["DataRangeStartField"];
+                    var o = ViewState["DataRangeStartField"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return "";
                 }
-            set { this.ViewState["DataRangeStartField"] = value; }
+            set { ViewState["DataRangeStartField"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -317,14 +317,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["DataRangeEndField"];
+                    var o = ViewState["DataRangeEndField"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return "";
                 }
-            set { this.ViewState["DataRangeEndField"] = value; }
+            set { ViewState["DataRangeEndField"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -341,14 +341,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["TitleField"];
+                    var o = ViewState["TitleField"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return "";
                 }
-            set { this.ViewState["TitleField"] = value; }
+            set { ViewState["TitleField"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -365,14 +365,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["ItemStyleField"];
+                    var o = ViewState["ItemStyleField"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return "";
                 }
-            set { this.ViewState["ItemStyleField"] = value; }
+            set { ViewState["ItemStyleField"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -390,14 +390,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["FullTimeScale"];
+                    var o = ViewState["FullTimeScale"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToBoolean(o);
                     }
                     return false;
                 }
-            set { this.ViewState["FullTimeScale"] = value; }
+            set { ViewState["FullTimeScale"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -414,7 +414,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["TimeScaleInterval"];
+                    var o = ViewState["TimeScaleInterval"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToInt32(o);
@@ -427,7 +427,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     {
                         throw new HttpException("TimeScaleInterval can not be 0");
                     }
-                    this.ViewState["TimeScaleInterval"] = value;
+                    ViewState["TimeScaleInterval"] = value;
                 }
         }
 
@@ -444,12 +444,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["StartOfTimeScale"];
+                    var o = ViewState["StartOfTimeScale"];
                     if (!ReferenceEquals(o, null))
                     {
                         return (TimeSpan) o;
                     }
-                    if (this.FullTimeScale)
+                    if (FullTimeScale)
                     {
                         return new TimeSpan(0, 0, 0); // = 0:00
                     }
@@ -459,7 +459,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 {
                     if (value.Days == 0)
                     {
-                        this.ViewState["StartOfTimeScale"] = value;
+                        ViewState["StartOfTimeScale"] = value;
                     }
                     else
                     {
@@ -481,12 +481,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["EndOfTimeScale"];
+                    var o = ViewState["EndOfTimeScale"];
                     if (!ReferenceEquals(o, null))
                     {
                         return (TimeSpan) o;
                     }
-                    if (this.FullTimeScale)
+                    if (FullTimeScale)
                     {
                         return new TimeSpan(1, 0, 0, 0); // = 24:00
                     }
@@ -496,7 +496,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 {
                     if (value.Days == 0 || value.Equals(new TimeSpan(1, 0, 0, 0)))
                     {
-                        this.ViewState["EndOfTimeScale"] = value;
+                        ViewState["EndOfTimeScale"] = value;
                     }
                     else
                     {
@@ -518,17 +518,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (this.ControlStyleCreated == false)
+                    if (ControlStyleCreated == false)
                     {
                         return -1;
                     }
-                    return ((TableStyle) this.ControlStyle).CellPadding;
+                    return ((TableStyle) ControlStyle).CellPadding;
                 }
             set
                 {
-                    if (this.ControlStyle is TableStyle)
+                    if (ControlStyle is TableStyle)
                     {
-                        ((TableStyle) this.ControlStyle).CellPadding = value;
+                        ((TableStyle) ControlStyle).CellPadding = value;
                     }
                 }
         }
@@ -546,17 +546,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (this.ControlStyleCreated == false)
+                    if (ControlStyleCreated == false)
                     {
                         return 1;
                     }
-                    return ((TableStyle) this.ControlStyle).CellSpacing;
+                    return ((TableStyle) ControlStyle).CellSpacing;
                 }
             set
                 {
-                    if (this.ControlStyle is TableStyle)
+                    if (ControlStyle is TableStyle)
                     {
-                        ((TableStyle) this.ControlStyle).CellSpacing = value;
+                        ((TableStyle) ControlStyle).CellSpacing = value;
                     }
                 }
         }
@@ -574,17 +574,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (this.ControlStyleCreated == false)
+                    if (ControlStyleCreated == false)
                     {
                         return GridLines.None;
                     }
-                    return ((TableStyle) this.ControlStyle).GridLines;
+                    return ((TableStyle) ControlStyle).GridLines;
                 }
             set
                 {
-                    if (this.ControlStyle is TableStyle)
+                    if (ControlStyle is TableStyle)
                     {
-                        ((TableStyle) this.ControlStyle).GridLines = value;
+                        ((TableStyle) ControlStyle).GridLines = value;
                     }
                 }
         }
@@ -602,17 +602,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (this.ControlStyleCreated == false)
+                    if (ControlStyleCreated == false)
                     {
                         return HorizontalAlign.NotSet;
                     }
-                    return ((TableStyle) this.ControlStyle).HorizontalAlign;
+                    return ((TableStyle) ControlStyle).HorizontalAlign;
                 }
             set
                 {
-                    if (this.ControlStyle is TableStyle)
+                    if (ControlStyle is TableStyle)
                     {
-                        ((TableStyle) this.ControlStyle).HorizontalAlign = value;
+                        ((TableStyle) ControlStyle).HorizontalAlign = value;
                     }
                 }
         }
@@ -630,14 +630,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["EnableEmptySlotClick"];
+                    var o = ViewState["EnableEmptySlotClick"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToBoolean(o);
                     }
                     return false;
                 }
-            set { this.ViewState["EnableEmptySlotClick"] = value; }
+            set { ViewState["EnableEmptySlotClick"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -671,15 +671,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (ReferenceEquals(this._itemStyle, null))
+                    if (ReferenceEquals(_itemStyle, null))
                     {
-                        this._itemStyle = new TableItemStyle();
-                        if (this.IsTrackingViewState)
+                        _itemStyle = new TableItemStyle();
+                        if (IsTrackingViewState)
                         {
-                            ((IStateManager) this._itemStyle).TrackViewState();
+                            ((IStateManager) _itemStyle).TrackViewState();
                         }
                     }
-                    return this._itemStyle;
+                    return _itemStyle;
                 }
         }
 
@@ -697,15 +697,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (ReferenceEquals(this._alternatingItemStyle, null))
+                    if (ReferenceEquals(_alternatingItemStyle, null))
                     {
-                        this._alternatingItemStyle = new TableItemStyle();
-                        if (this.IsTrackingViewState)
+                        _alternatingItemStyle = new TableItemStyle();
+                        if (IsTrackingViewState)
                         {
-                            ((IStateManager) this._alternatingItemStyle).TrackViewState();
+                            ((IStateManager) _alternatingItemStyle).TrackViewState();
                         }
                     }
-                    return this._alternatingItemStyle;
+                    return _alternatingItemStyle;
                 }
         }
 
@@ -723,15 +723,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (ReferenceEquals(this._RangeHeaderStyle, null))
+                    if (ReferenceEquals(_RangeHeaderStyle, null))
                     {
-                        this._RangeHeaderStyle = new TableItemStyle();
-                        if (this.IsTrackingViewState)
+                        _RangeHeaderStyle = new TableItemStyle();
+                        if (IsTrackingViewState)
                         {
-                            ((IStateManager) this._RangeHeaderStyle).TrackViewState();
+                            ((IStateManager) _RangeHeaderStyle).TrackViewState();
                         }
                     }
-                    return this._RangeHeaderStyle;
+                    return _RangeHeaderStyle;
                 }
         }
 
@@ -749,15 +749,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (ReferenceEquals(this._TitleStyle, null))
+                    if (ReferenceEquals(_TitleStyle, null))
                     {
-                        this._TitleStyle = new TableItemStyle();
-                        if (this.IsTrackingViewState)
+                        _TitleStyle = new TableItemStyle();
+                        if (IsTrackingViewState)
                         {
-                            ((IStateManager) this._TitleStyle).TrackViewState();
+                            ((IStateManager) _TitleStyle).TrackViewState();
                         }
                     }
-                    return this._TitleStyle;
+                    return _TitleStyle;
                 }
         }
 
@@ -775,15 +775,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    if (ReferenceEquals(this._BackgroundStyle, null))
+                    if (ReferenceEquals(_BackgroundStyle, null))
                     {
-                        this._BackgroundStyle = new TableItemStyle();
-                        if (this.IsTrackingViewState)
+                        _BackgroundStyle = new TableItemStyle();
+                        if (IsTrackingViewState)
                         {
-                            ((IStateManager) this._BackgroundStyle).TrackViewState();
+                            ((IStateManager) _BackgroundStyle).TrackViewState();
                         }
                     }
-                    return this._BackgroundStyle;
+                    return _BackgroundStyle;
                 }
         }
 
@@ -821,25 +821,25 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         protected virtual void OnItemCommand(ScheduleCommandEventArgs e)
         {
-            if (this.ItemCommandEvent != null)
+            if (ItemCommandEvent != null)
             {
-                this.ItemCommandEvent(this, e);
+                ItemCommandEvent(this, e);
             }
         }
 
         protected virtual void OnItemCreated(ScheduleItemEventArgs e)
         {
-            if (this.ItemCreatedEvent != null)
+            if (ItemCreatedEvent != null)
             {
-                this.ItemCreatedEvent(this, e);
+                ItemCreatedEvent(this, e);
             }
         }
 
         protected virtual void OnItemDataBound(ScheduleItemEventArgs e)
         {
-            if (this.ItemDataBoundEvent != null)
+            if (ItemDataBoundEvent != null)
             {
-                this.ItemDataBoundEvent(this, e);
+                ItemDataBoundEvent(this, e);
             }
         }
 
@@ -852,9 +852,9 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         protected virtual void OnEmptySlotClick(ClickableTableCellEventArgs e)
         {
-            if (this.EmptySlotClickEvent != null)
+            if (EmptySlotClickEvent != null)
             {
-                this.EmptySlotClickEvent(this, e);
+                EmptySlotClickEvent(this, e);
             }
         }
 
@@ -872,12 +872,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             add
                 {
-                    this.ItemCommandEvent =
-                        (ScheduleCommandEventHandler) Delegate.Combine(this.ItemCommandEvent, value);
+                    ItemCommandEvent =
+                        (ScheduleCommandEventHandler) Delegate.Combine(ItemCommandEvent, value);
                 }
             remove
                 {
-                    this.ItemCommandEvent = (ScheduleCommandEventHandler) Delegate.Remove(this.ItemCommandEvent, value);
+                    ItemCommandEvent = (ScheduleCommandEventHandler) Delegate.Remove(ItemCommandEvent, value);
                 }
         }
 
@@ -894,8 +894,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         public event ScheduleItemEventHandler ItemCreated
         {
-            add { this.ItemCreatedEvent = (ScheduleItemEventHandler) Delegate.Combine(this.ItemCreatedEvent, value); }
-            remove { this.ItemCreatedEvent = (ScheduleItemEventHandler) Delegate.Remove(this.ItemCreatedEvent, value); }
+            add { ItemCreatedEvent = (ScheduleItemEventHandler) Delegate.Combine(ItemCreatedEvent, value); }
+            remove { ItemCreatedEvent = (ScheduleItemEventHandler) Delegate.Remove(ItemCreatedEvent, value); }
         }
 
 
@@ -913,13 +913,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             add
                 {
-                    this.ItemDataBoundEvent =
-                        (ScheduleItemEventHandler) Delegate.Combine(this.ItemDataBoundEvent, value);
+                    ItemDataBoundEvent =
+                        (ScheduleItemEventHandler) Delegate.Combine(ItemDataBoundEvent, value);
                 }
             remove
                 {
-                    this.ItemDataBoundEvent =
-                        (ScheduleItemEventHandler) Delegate.Remove(this.ItemDataBoundEvent, value);
+                    ItemDataBoundEvent =
+                        (ScheduleItemEventHandler) Delegate.Remove(ItemDataBoundEvent, value);
                 }
         }
 
@@ -937,13 +937,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             add
                 {
-                    this.EmptySlotClickEvent =
-                        (ClickableTableCellEventHandler) Delegate.Combine(this.EmptySlotClickEvent, value);
+                    EmptySlotClickEvent =
+                        (ClickableTableCellEventHandler) Delegate.Combine(EmptySlotClickEvent, value);
                 }
             remove
                 {
-                    this.EmptySlotClickEvent =
-                        (ClickableTableCellEventHandler) Delegate.Remove(this.EmptySlotClickEvent, value);
+                    EmptySlotClickEvent =
+                        (ClickableTableCellEventHandler) Delegate.Remove(EmptySlotClickEvent, value);
                 }
         }
 
@@ -953,17 +953,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         protected override void CreateChildControls()
         {
-            this.CheckVersion();
-            this.Controls.Clear();
-            if (!ReferenceEquals(this.ViewState["RowCount"], null) || !ReferenceEquals(this.ViewState["Empty"], null))
+            CheckVersion();
+            Controls.Clear();
+            if (!ReferenceEquals(ViewState["RowCount"], null) || !ReferenceEquals(ViewState["Empty"], null))
             {
                 // Create the control hierarchy using the view state, not the data source.
-                this.CreateControlHierarchy(false);
+                CreateControlHierarchy(false);
             }
             else
             {
-                this._itemsArrayList = new ArrayList();
-                this.ClearChildViewState();
+                _itemsArrayList = new ArrayList();
+                ClearChildViewState();
             }
         }
 
@@ -984,7 +984,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public override void DataBind()
         {
-            this.OnDataBinding(EventArgs.Empty); // See BaseDatalist control in mono
+            OnDataBinding(EventArgs.Empty); // See BaseDatalist control in mono
         }
 
         /// -----------------------------------------------------------------------------
@@ -995,87 +995,87 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         protected override void OnDataBinding(EventArgs e)
         {
             base.OnDataBinding(e);
-            if (!ReferenceEquals(this.DataSource, null))
+            if (!ReferenceEquals(DataSource, null))
             {
-                this.Controls.Clear(); // clear any existing child controls
+                Controls.Clear(); // clear any existing child controls
 
                 // clear any previous viewstate for existing child controls
-                this.ClearChildViewState();
-                this.CreateControlHierarchy(true);
+                ClearChildViewState();
+                CreateControlHierarchy(true);
 
                 // prevent child controls from being created again
-                this.ChildControlsCreated = true;
-                this.TrackViewState();
+                ChildControlsCreated = true;
+                TrackViewState();
             }
         }
 
         public void CreateControlHierarchy(bool useDataSource)
         {
-            if (!ReferenceEquals(this._itemsArrayList, null))
+            if (!ReferenceEquals(_itemsArrayList, null))
             {
-                this._itemsArrayList.Clear();
-                this._items = null;
+                _itemsArrayList.Clear();
+                _items = null;
             }
             else
             {
-                this._itemsArrayList = new ArrayList();
+                _itemsArrayList = new ArrayList();
             }
 
 
             if (useDataSource)
             {
-                var strCheckConfiguration = this.CheckConfiguration();
+                var strCheckConfiguration = CheckConfiguration();
                 // check if all the necessary properties are set
                 if (!string.IsNullOrEmpty(strCheckConfiguration))
                 {
                     throw new HttpException(strCheckConfiguration);
                 }
 
-                var dv = this.GetDataView();
+                var dv = GetDataView();
 
-                this.Controls.Clear();
-                if ((ReferenceEquals(dv, null) || dv.Count == 0) && this.ShowEmptyDataTemplate)
+                Controls.Clear();
+                if ((ReferenceEquals(dv, null) || dv.Count == 0) && ShowEmptyDataTemplate)
                 {
-                    this.RenderEmptyDataTemplate();
+                    RenderEmptyDataTemplate();
                     return;
                 }
                 // clear any existing child controls
-                this.Table1 = new Table();
-                this.Controls.Add(this.Table1);
-                this.Table1.CopyBaseAttributes(this);
-                if (this.ControlStyleCreated)
+                Table1 = new Table();
+                Controls.Add(Table1);
+                Table1.CopyBaseAttributes(this);
+                if (ControlStyleCreated)
                 {
-                    this.Table1.ApplyStyle(this.ControlStyle);
+                    Table1.ApplyStyle(ControlStyle);
                 }
 
-                this.PreprocessData(ref dv);
+                PreprocessData(ref dv);
 
-                this.FillRangeValueArray(ref dv);
-                this.FillTitleValueArray(ref dv);
+                FillRangeValueArray(ref dv);
+                FillTitleValueArray(ref dv);
 
-                this.CreateEmptyTable();
+                CreateEmptyTable();
 
-                this.AddRangeHeaderData();
-                this.AddTitleHeaderData();
+                AddRangeHeaderData();
+                AddTitleHeaderData();
 
-                this.AddData(dv);
+                AddData(dv);
 
-                if (!this.IncludeEndValue && this.ShowValueMarks)
+                if (!IncludeEndValue && ShowValueMarks)
                 {
-                    this.AddRangeValueMarks();
+                    AddRangeValueMarks();
                 }
 
-                this.AddDateHeaderData();
+                AddDateHeaderData();
 
                 // Save information for use in round trips (enough to re-create the control tree).
                 if (!ReferenceEquals(HttpContext.Current, null))
                 {
-                    this.SaveControlTree();
+                    SaveControlTree();
                 }
             }
             else // Not useDataSource
             {
-                this.LoadControlTree(); // Recreate the control tree from viewstate
+                LoadControlTree(); // Recreate the control tree from viewstate
             }
         }
 
@@ -1165,65 +1165,65 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             var row = 0;
             var iWeek = 0;
 
-            var nTitles = this.GetTitleCount();
+            var nTitles = GetTitleCount();
 
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
-                for (iWeek = 1; iWeek <= this.GetRepetitionCount(); iWeek++)
+                for (iWeek = 1; iWeek <= GetRepetitionCount(); iWeek++)
                 {
                     // Add a row of title header cells
-                    this.Table1.Rows.Add(new TableRow());
-                    var tr0 = this.Table1.Rows[this.Table1.Rows.Count - 1];
+                    Table1.Rows.Add(new TableRow());
+                    var tr0 = Table1.Rows[Table1.Rows.Count - 1];
                     for (col = 1; col <= nTitles + 1; col++)
                     {
                         tr0.Cells.Add(new TableHeaderCell());
-                        tr0.Cells[tr0.Cells.Count - 1].ApplyStyle(this.TitleStyle);
+                        tr0.Cells[tr0.Cells.Count - 1].ApplyStyle(TitleStyle);
                         tr0.Cells[tr0.Cells.Count - 1].Text = "&nbsp;";
                     }
 
                     var nRows = 0;
-                    if (!this.IncludeEndValue && this.ShowValueMarks)
+                    if (!IncludeEndValue && ShowValueMarks)
                     {
                         // Create 2 rows for each value allowing for a value mark to be added in between
-                        nRows = this.arrRangeValues.Count * 2;
+                        nRows = arrRangeValues.Count * 2;
                     }
                     else
                     {
-                        nRows = this.arrRangeValues.Count;
+                        nRows = arrRangeValues.Count;
                     }
 
                     for (row = 1; row <= nRows; row++)
                     {
                         // add a cell for the range header
-                        this.Table1.Rows.Add(new TableRow());
-                        var tr = this.Table1.Rows[this.Table1.Rows.Count - 1];
+                        Table1.Rows.Add(new TableRow());
+                        var tr = Table1.Rows[Table1.Rows.Count - 1];
                         // add a cell for the header column
                         tr.Cells.Add(new TableHeaderCell());
                         var cell0 = tr.Cells[tr.Cells.Count - 1];
-                        cell0.ApplyStyle(this.RangeHeaderStyle);
+                        cell0.ApplyStyle(RangeHeaderStyle);
                         cell0.Text = "&nbsp;";
 
                         // If no value marks are needed add cells to all the rows
                         // Else show only the even rows and the first row
 
-                        if (this.IncludeEndValue || !this.ShowValueMarks || (row % 2 == 0) | (row == 1))
+                        if (IncludeEndValue || !ShowValueMarks || (row % 2 == 0) | (row == 1))
                         {
                             // add a cell for each normal column
                             for (col = 1; col <= nTitles; col++)
                             {
-                                if (this.EnableEmptySlotClick &&
-                                    !(this.ShowValueMarks && !this.IncludeEndValue && (row == 1) | (row == nRows)))
+                                if (EnableEmptySlotClick &&
+                                    !(ShowValueMarks && !IncludeEndValue && (row == 1) | (row == nRows)))
                                 {
-                                    tr.Cells.Add(new ClickableTableCell(this.Table1.Rows.Count - 1, col));
+                                    tr.Cells.Add(new ClickableTableCell(Table1.Rows.Count - 1, col));
                                 }
                                 else
                                 {
                                     tr.Cells.Add(new TableCell());
                                 }
                                 var cell = tr.Cells[tr.Cells.Count - 1];
-                                cell.ApplyStyle(this.BackgroundStyle);
+                                cell.ApplyStyle(BackgroundStyle);
 
-                                if (!this.IncludeEndValue && this.ShowValueMarks)
+                                if (!IncludeEndValue && ShowValueMarks)
                                 {
                                     if ((row > 1) & (row < nRows))
                                     {
@@ -1243,30 +1243,30 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             }
             else // Horizontal
             {
-                var nColumnsForRangeHeaders = this.arrRangeValues.Count;
-                if (!this.IncludeEndValue && this.ShowValueMarks)
+                var nColumnsForRangeHeaders = arrRangeValues.Count;
+                if (!IncludeEndValue && ShowValueMarks)
                 {
                     // Create 2 columns for each value allowing for a value mark to be added in between
-                    nColumnsForRangeHeaders = this.arrRangeValues.Count * 2;
+                    nColumnsForRangeHeaders = arrRangeValues.Count * 2;
                 }
 
                 // In Horizontal layout, ignore repetition count: show 1 week only
                 // Add range header cell
-                this.Table1.Rows.Add(new TableRow());
-                var tr0 = this.Table1.Rows[0];
+                Table1.Rows.Add(new TableRow());
+                var tr0 = Table1.Rows[0];
                 tr0.Cells.Add(new TableHeaderCell());
-                tr0.Cells[0].ApplyStyle(this.TitleStyle);
+                tr0.Cells[0].ApplyStyle(TitleStyle);
                 tr0.Cells[0].Text = "&nbsp;";
                 for (col = 1; col <= nColumnsForRangeHeaders; col++)
                 {
                     tr0.Cells.Add(new TableHeaderCell());
                     var cell = tr0.Cells[col];
-                    cell.ApplyStyle(this.RangeHeaderStyle);
+                    cell.ApplyStyle(RangeHeaderStyle);
                     cell.Text = "&nbsp;";
                 }
 
-                var nColumns = this.arrRangeValues.Count;
-                if (!this.IncludeEndValue && this.ShowValueMarks)
+                var nColumns = arrRangeValues.Count;
+                if (!IncludeEndValue && ShowValueMarks)
                 {
                     // Extra column to allow the range headers to sit on the separation
                     // When for example there are 4 values, we make 5 columns
@@ -1276,17 +1276,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
                 for (row = 1; row <= nTitles; row++)
                 {
-                    this.Table1.Rows.Add(new TableRow());
-                    var tr = this.Table1.Rows[row];
+                    Table1.Rows.Add(new TableRow());
+                    var tr = Table1.Rows[row];
                     // add a cell for the title header
                     tr.Cells.Add(new TableHeaderCell());
-                    tr.Cells[0].ApplyStyle(this.TitleStyle);
+                    tr.Cells[0].ApplyStyle(TitleStyle);
                     tr.Cells[0].Text = "&nbsp;";
 
                     // add a cell for each column
                     for (col = 1; col <= nColumns; col++)
                     {
-                        if (this.EnableEmptySlotClick && !(!this.IncludeEndValue && this.ShowValueMarks &&
+                        if (EnableEmptySlotClick && !(!IncludeEndValue && ShowValueMarks &&
                                                            (col == 1) | (col == nColumns)))
                         {
                             tr.Cells.Add(new ClickableTableCell(row, col));
@@ -1296,10 +1296,10 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             tr.Cells.Add(new TableCell());
                         }
                         var cell = tr.Cells[col];
-                        cell.ApplyStyle(this.BackgroundStyle);
+                        cell.ApplyStyle(BackgroundStyle);
                         cell.Text = "&nbsp;";
 
-                        if (!this.IncludeEndValue && this.ShowValueMarks && (col > 1) & (col < nColumns))
+                        if (!IncludeEndValue && ShowValueMarks && (col > 1) & (col < nColumns))
                         {
                             // the first and last column only have a span of 1
                             cell.ColumnSpan = 2;
@@ -1327,27 +1327,27 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public void AddRangeHeaderData()
         {
-            var cellsPerWeek = 1 + this.arrRangeValues.Count;
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            var cellsPerWeek = 1 + arrRangeValues.Count;
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                cellsPerWeek = 1 + this.arrRangeValues.Count * 2;
+                cellsPerWeek = 1 + arrRangeValues.Count * 2;
             }
 
             var j = 0;
-            for (j = 0; j <= this.GetRepetitionCount() - 1; j++)
+            for (j = 0; j <= GetRepetitionCount() - 1; j++)
             {
                 var i = 0;
-                for (i = 0; i <= this.arrRangeValues.Count - 1; i++)
+                for (i = 0; i <= arrRangeValues.Count - 1; i++)
                 {
-                    var obj = this.arrRangeValues[i];
+                    var obj = arrRangeValues[i];
 
                     var rangeValueIndex = i + 1 + j * cellsPerWeek;
-                    if (!this.IncludeEndValue && this.ShowValueMarks)
+                    if (!IncludeEndValue && ShowValueMarks)
                     {
                         rangeValueIndex = i * 2 + 1 + j * cellsPerWeek;
                     }
 
-                    this.CreateItem(rangeValueIndex, 0, ScheduleItemType.RangeHeader, true, obj, -1);
+                    CreateItem(rangeValueIndex, 0, ScheduleItemType.RangeHeader, true, obj, -1);
                 }
             }
         }
@@ -1364,7 +1364,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public void AddData(DataView dvView)
         {
-            if (ReferenceEquals(this.ItemTemplate, null))
+            if (ReferenceEquals(ItemTemplate, null))
             {
                 throw new HttpException("The ItemTemplate is missing.");
             }
@@ -1374,7 +1374,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 return;
             }
 
-            var strSortOrder = this.GetSortOrder();
+            var strSortOrder = GetSortOrder();
             if (!string.IsNullOrEmpty(strSortOrder))
             {
                 dvView.Sort = strSortOrder;
@@ -1397,20 +1397,20 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 // titleIndex is the row number in Horizontal mode and the column number in vertical mode
                 // valueIndex is the row number in Vertical mode and the column number in Horizontal mode
                 // Both start at 0
-                var objTitleField = drv[this.GetTitleField()];
-                var titleIndex = this.CalculateTitleIndex(objTitleField);
+                var objTitleField = drv[GetTitleField()];
+                var titleIndex = CalculateTitleIndex(objTitleField);
                 if (titleIndex < 1)
                 {
                     break; // since titleIndex is descending, and this one is too low already, skip all the rest too
                 }
 
-                var objStartValue = drv[this.DataRangeStartField];
-                var objEndValue = drv[this.DataRangeEndField];
-                var startCellIndex = this.CalculateRangeCellIndex(objStartValue, objTitleField, false);
-                var endCellIndex = this.CalculateRangeCellIndex(objEndValue, objTitleField, true);
+                var objStartValue = drv[DataRangeStartField];
+                var objEndValue = drv[DataRangeEndField];
+                var startCellIndex = CalculateRangeCellIndex(objStartValue, objTitleField, false);
+                var endCellIndex = CalculateRangeCellIndex(objEndValue, objTitleField, true);
                 if ((startCellIndex > -1) & (endCellIndex > -1)) // if not out of range
                 {
-                    if (!this.IncludeEndValue)
+                    if (!IncludeEndValue)
                     {
                         endCellIndex--;
                     }
@@ -1421,20 +1421,20 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     }
 
                     var maxStartCellIndex = 0;
-                    if (this.Layout == LayoutEnum.Vertical)
+                    if (Layout == LayoutEnum.Vertical)
                     {
-                        maxStartCellIndex = this.Table1.Rows.Count - 1;
+                        maxStartCellIndex = Table1.Rows.Count - 1;
                     }
                     else // Horizontal
                     {
-                        if (titleIndex >= this.Table1.Rows.Count)
+                        if (titleIndex >= Table1.Rows.Count)
                         {
                             // make sure nothing is added in this case
                             maxStartCellIndex = -2;
                         }
                         else
                         {
-                            maxStartCellIndex = Convert.ToInt32(this.Table1.Rows[titleIndex].Cells.Count - 1);
+                            maxStartCellIndex = Convert.ToInt32(Table1.Rows[titleIndex].Cells.Count - 1);
                         }
                     }
                     if (startCellIndex > 0 && startCellIndex <= maxStartCellIndex)
@@ -1450,7 +1450,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             // that's because we work from bottom right to top left
                             // split the column or row that's overlapping so that we can show both contents
                             // the last value to split is the end value of this item
-                            this.SplitTitle(titleIndex, startCellIndex, endCellIndex);
+                            SplitTitle(titleIndex, startCellIndex, endCellIndex);
                         }
                         // create new content
                         var type = ScheduleItemType.Item;
@@ -1459,13 +1459,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             type = ScheduleItemType.AlternatingItem;
                         }
                         // use the index in _itemsArrayList as dataSetIndex
-                        if (this.Layout == LayoutEnum.Vertical ||
-                            cellIndex <= Convert.ToInt32(this.Table1.Rows[titleIndex].Cells.Count - 1))
+                        if (Layout == LayoutEnum.Vertical ||
+                            cellIndex <= Convert.ToInt32(Table1.Rows[titleIndex].Cells.Count - 1))
                         {
-                            var Item = this.CreateItem(cellIndex, titleIndex, type, true, drv,
-                                                       this._itemsArrayList.Count);
-                            this.MergeCells(cellIndex, titleIndex, Span);
-                            this._itemsArrayList.Add(Item);
+                            var Item = CreateItem(cellIndex, titleIndex, type, true, drv,
+                                                       _itemsArrayList.Count);
+                            MergeCells(cellIndex, titleIndex, Span);
+                            _itemsArrayList.Add(Item);
                         }
                         // save location for next item to compare with
                         prevTitleIndex = titleIndex;
@@ -1482,54 +1482,54 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         protected void AddRangeValueMarks()
         {
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
                 // Insert an extra column for range marks after the first column
 
-                var rowsPerWeek = 1 + this.arrRangeValues.Count * 2;
+                var rowsPerWeek = 1 + arrRangeValues.Count * 2;
                 var j = 0;
-                for (j = 0; j <= this.GetRepetitionCount() - 1; j++)
+                for (j = 0; j <= GetRepetitionCount() - 1; j++)
                 {
                     // First insert a cell in the title row
                     var rangeValueIndex = j * rowsPerWeek;
-                    this.Table1.Rows[rangeValueIndex].Cells.AddAt(1, new TableHeaderCell());
-                    var tc1 = this.Table1.Rows[rangeValueIndex].Cells[1];
+                    Table1.Rows[rangeValueIndex].Cells.AddAt(1, new TableHeaderCell());
+                    var tc1 = Table1.Rows[rangeValueIndex].Cells[1];
                     tc1.Text = "&nbsp;";
-                    tc1.ApplyStyle(this.TitleStyle);
+                    tc1.ApplyStyle(TitleStyle);
 
                     var i = 0;
                     for (i = 1; i <= rowsPerWeek - 1; i++)
                     {
                         rangeValueIndex = i + j * rowsPerWeek;
 
-                        this.Table1.Rows[rangeValueIndex].Cells.AddAt(1, new TableHeaderCell());
-                        var tc = this.Table1.Rows[rangeValueIndex].Cells[1];
+                        Table1.Rows[rangeValueIndex].Cells.AddAt(1, new TableHeaderCell());
+                        var tc = Table1.Rows[rangeValueIndex].Cells[1];
                         tc.Text = "&nbsp;";
-                        var tc0 = this.Table1.Rows[rangeValueIndex].Cells[0];
+                        var tc0 = Table1.Rows[rangeValueIndex].Cells[0];
                     }
                     for (i = 1; i <= rowsPerWeek - 1; i += 2)
                     {
                         // each rangeheader spans 2 rows (over the rangeheader mark)
                         // merge these cells over 2 rows in the first column
                         rangeValueIndex = i + j * rowsPerWeek;
-                        this.MergeCells(rangeValueIndex, 0, 2);
+                        MergeCells(rangeValueIndex, 0, 2);
                     }
                 }
             }
             else // Horizontal
             {
-                var tr0 = this.Table1.Rows[0];
+                var tr0 = Table1.Rows[0];
                 // Add new row for rangevalue marks
-                this.Table1.Rows.AddAt(1, new TableRow());
-                var tr1 = this.Table1.Rows[1];
+                Table1.Rows.AddAt(1, new TableRow());
+                var tr1 = Table1.Rows[1];
 
                 // title column
                 tr1.Cells.Add(new TableHeaderCell());
                 var tc1 = tr1.Cells[0];
                 tc1.Text = "&nbsp;";
-                tc1.ApplyStyle(this.TitleStyle);
+                tc1.ApplyStyle(TitleStyle);
 
-                var nColumns = this.arrRangeValues.Count * 2 + 1;
+                var nColumns = arrRangeValues.Count * 2 + 1;
                 var i = 0;
                 for (i = 1; i <= nColumns - 1; i++)
                 {
@@ -1543,7 +1543,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 {
                     // each rangeheader spans 2 rows (over the rangeheader mark)
                     // merge these cells over 2 columns in the first column
-                    this.MergeCells(i, 0, 2);
+                    MergeCells(i, 0, 2);
                 }
             }
         }
@@ -1551,7 +1551,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         protected virtual string GetTitleField()
         {
             // overridden in ScheduleCalendar
-            return this.TitleField;
+            return TitleField;
         }
 
         /// -----------------------------------------------------------------------------
@@ -1596,12 +1596,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public TableCell MergeCells(int startCellIndex, int titleIndex, int span)
         {
-            if (titleIndex > this.GetTitleCount())
+            if (titleIndex > GetTitleCount())
             {
                 return null;
             }
 
-            var minValueIndex = Convert.ToInt32(Convert.ToInt32(this.Layout == LayoutEnum.Horizontal ? 0 : 1));
+            var minValueIndex = Convert.ToInt32(Convert.ToInt32(Layout == LayoutEnum.Horizontal ? 0 : 1));
             if (startCellIndex < minValueIndex)
             {
                 return null;
@@ -1612,13 +1612,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             }
 
             var maxValueIndex = 0;
-            if (this.Layout == LayoutEnum.Horizontal)
+            if (Layout == LayoutEnum.Horizontal)
             {
-                maxValueIndex = Convert.ToInt32(this.Table1.Rows[0].Cells.Count - 1);
+                maxValueIndex = Convert.ToInt32(Table1.Rows[0].Cells.Count - 1);
             }
             else // Vertical
             {
-                maxValueIndex = this.Table1.Rows.Count - 1;
+                maxValueIndex = Table1.Rows.Count - 1;
             }
 
             if (startCellIndex > maxValueIndex)
@@ -1633,27 +1633,27 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
             try
             {
-                if (!this.IncludeEndValue && this.ShowValueMarks &&
-                    (this.Layout == LayoutEnum.Horizontal) & (titleIndex > 0))
+                if (!IncludeEndValue && ShowValueMarks &&
+                    (Layout == LayoutEnum.Horizontal) & (titleIndex > 0))
                 {
                     // in this case every item spans 2 columns
                     span = span * 2;
                 }
 
-                if (span <= this.GetValueSpan(startCellIndex, titleIndex))
+                if (span <= GetValueSpan(startCellIndex, titleIndex))
                 {
                     return null;
                 }
-                this.RemoveCells(startCellIndex, startCellIndex + span, titleIndex);
+                RemoveCells(startCellIndex, startCellIndex + span, titleIndex);
                 // change span property to extend the cell
-                this.SetValueSpan(startCellIndex, titleIndex, span);
-                return this.GetCell(startCellIndex, titleIndex);
+                SetValueSpan(startCellIndex, titleIndex, span);
+                return GetCell(startCellIndex, titleIndex);
             }
             catch (Exception ex)
             {
                 if (!ReferenceEquals(HttpContext.Current, null))
                 {
-                    this.Context.Trace.Warn(ex.Message);
+                    Context.Trace.Warn(ex.Message);
                 }
             }
             return null;
@@ -1671,13 +1671,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             // When cells are merged in HTML, it is done by increasing the span of the first cell,
             // and removing the other cells.
-            var prevSpan = this.GetValueSpan(startCellIndex, titleIndex);
+            var prevSpan = GetValueSpan(startCellIndex, titleIndex);
 
             var valueCellIndex = startCellIndex + prevSpan;
             while (valueCellIndex < endCellIndex)
             {
                 var nextCellIndex = 0;
-                if (this.Layout == LayoutEnum.Vertical)
+                if (Layout == LayoutEnum.Vertical)
                 {
                     nextCellIndex = valueCellIndex;
                 }
@@ -1685,8 +1685,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 {
                     nextCellIndex = startCellIndex + 1; // use +1, not +prevSpan
                 }
-                prevSpan = this.GetValueSpan(nextCellIndex, titleIndex);
-                this.RemoveCell(nextCellIndex, titleIndex);
+                prevSpan = GetValueSpan(nextCellIndex, titleIndex);
+                RemoveCell(nextCellIndex, titleIndex);
                 valueCellIndex += prevSpan;
             }
         }
@@ -1700,13 +1700,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         private void RemoveCell(int cellValueIndex, int titleIndex)
         {
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
-                this.Table1.Rows[cellValueIndex].Cells.RemoveAt(titleIndex);
+                Table1.Rows[cellValueIndex].Cells.RemoveAt(titleIndex);
             }
             else // Horizontal
             {
-                this.Table1.Rows[titleIndex].Cells.RemoveAt(cellValueIndex);
+                Table1.Rows[titleIndex].Cells.RemoveAt(cellValueIndex);
             }
         }
 
@@ -1721,13 +1721,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         private int GetSplitSpan(int valueIndex, int titleIndex)
         {
             var returnValue = 0;
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
-                returnValue = this.Table1.Rows[valueIndex].Cells[titleIndex].ColumnSpan;
+                returnValue = Table1.Rows[valueIndex].Cells[titleIndex].ColumnSpan;
             }
             else
             {
-                returnValue = this.Table1.Rows[titleIndex].Cells[valueIndex].RowSpan;
+                returnValue = Table1.Rows[titleIndex].Cells[valueIndex].RowSpan;
             }
             if (returnValue == 0)
             {
@@ -1748,21 +1748,21 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         private bool IsRangeAlreadySpanning(int titleIndex, int firstCellIndex, int lastCellIndex)
         {
-            var SplitSpan = this.GetSplitSpan(firstCellIndex, titleIndex);
+            var SplitSpan = GetSplitSpan(firstCellIndex, titleIndex);
             if (SplitSpan == 1)
             {
                 return false;
             }
-            if (this.Layout == LayoutEnum.Vertical) // v1.6.0.4 bugfix
+            if (Layout == LayoutEnum.Vertical) // v1.6.0.4 bugfix
             {
-                var row = firstCellIndex + this.GetValueSpan(firstCellIndex, titleIndex);
+                var row = firstCellIndex + GetValueSpan(firstCellIndex, titleIndex);
                 while (row <= lastCellIndex)
                 {
-                    if (this.GetSplitSpan(row, titleIndex) != SplitSpan)
+                    if (GetSplitSpan(row, titleIndex) != SplitSpan)
                     {
                         return false;
                     }
-                    row = row + this.GetValueSpan(row, titleIndex);
+                    row = row + GetValueSpan(row, titleIndex);
                 }
                 // the last cell of the range must also end at startOfRange
                 // if not, we can't split the range without adding a new column or row
@@ -1776,7 +1776,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 var cellIndex = firstCellIndex + 1; // v1.6.0.3 bugfix
                 for (cellIndex = firstCellIndex + 1; cellIndex <= lastCellIndex; cellIndex++)
                 {
-                    if (this.GetSplitSpan(cellIndex, titleIndex) != SplitSpan)
+                    if (GetSplitSpan(cellIndex, titleIndex) != SplitSpan)
                     {
                         return false;
                     }
@@ -1805,22 +1805,22 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             // Because of the way tables work in HTML, the approach is different for each layout.
             // In vertical layout, we'll split the column by adding cells in several rows.
             // In horizontal layout, we'll add a new row, and add several cells to it.
-            var cellsPerWeek = 1 + this.arrRangeValues.Count; // including one cell for title headers
+            var cellsPerWeek = 1 + arrRangeValues.Count; // including one cell for title headers
 
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                if (this.Layout == LayoutEnum.Horizontal)
+                if (Layout == LayoutEnum.Horizontal)
                 {
                     // Extra column to allow the range headers to sit on the separation
                     // When for example there are 4 values, we make 6 columns
                     // 1 title column, 1 start column, 3 columns (each sitting between 2 values),
                     // and an end column
-                    cellsPerWeek = 2 + this.arrRangeValues.Count;
+                    cellsPerWeek = 2 + arrRangeValues.Count;
                 }
                 else
                 {
                     // Each item takes 2 rows
-                    cellsPerWeek = 1 + this.arrRangeValues.Count * 2;
+                    cellsPerWeek = 1 + arrRangeValues.Count * 2;
                 }
             }
 
@@ -1828,38 +1828,38 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             var lastCellIndexInThisWeek = firstCellIndexInThisWeek + cellsPerWeek - 1;
 
             var SplitEntireColumnOrRow =
-                !this.IsRangeAlreadySpanning(titleIndex, firstCellIndexToSplit, lastCellIndexToSplit);
+                !IsRangeAlreadySpanning(titleIndex, firstCellIndexToSplit, lastCellIndexToSplit);
 
             TableRow newRow = null; // only used in horizontal layout if SplitEntireColumnOrRow=True
-            if (SplitEntireColumnOrRow && this.Layout == LayoutEnum.Horizontal)
+            if (SplitEntireColumnOrRow && Layout == LayoutEnum.Horizontal)
             {
                 // insert a new row
-                this.Table1.Rows.AddAt(titleIndex, new TableRow());
-                newRow = this.Table1.Rows[titleIndex];
+                Table1.Rows.AddAt(titleIndex, new TableRow());
+                newRow = Table1.Rows[titleIndex];
                 titleIndex++;
             }
 
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
                 // in vertical layout, realCellIndex is the same as valueIndex
                 var row = firstCellIndexInThisWeek;
                 while (row <= lastCellIndexInThisWeek)
                 {
                     // first, get the span of the original cell
-                    var originalCellSpan = this.GetValueSpan(row, titleIndex);
+                    var originalCellSpan = GetValueSpan(row, titleIndex);
 
                     if (row >= firstCellIndexToSplit && row <= lastCellIndexToSplit)
                     {
                         // split the cell in this row by inserting a new cell
                         var ctc0 = new ClickableTableCell(row, titleIndex);
-                        this.Table1.Rows[row].Cells.AddAt(titleIndex, ctc0);
-                        var tc = this.Table1.Rows[row].Cells[titleIndex];
+                        Table1.Rows[row].Cells.AddAt(titleIndex, ctc0);
+                        var tc = Table1.Rows[row].Cells[titleIndex];
                         tc.RowSpan = originalCellSpan;
                         if (!SplitEntireColumnOrRow)
                         {
                             // no extra column was added, only an extra cell
                             // therefore: reduce the columnspan of the original cell
-                            var tcOriginal = this.Table1.Rows[row].Cells[titleIndex + 1];
+                            var tcOriginal = Table1.Rows[row].Cells[titleIndex + 1];
                             tc.ColumnSpan = tcOriginal.ColumnSpan - 1;
                             tcOriginal.ColumnSpan = 1;
                         }
@@ -1872,9 +1872,9 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                                 tc.RowSpan = lastCellIndexToSplit - row + 1;
                                 // split the remainder as well
                                 var ctc = new ClickableTableCell(lastCellIndexToSplit + 1, titleIndex);
-                                this.Table1.Rows[lastCellIndexToSplit + 1].Cells.AddAt(titleIndex, ctc);
-                                var tc2 = this.Table1.Rows[lastCellIndexToSplit + 1].Cells[titleIndex];
-                                tc2.ApplyStyle(this.BackgroundStyle);
+                                Table1.Rows[lastCellIndexToSplit + 1].Cells.AddAt(titleIndex, ctc);
+                                var tc2 = Table1.Rows[lastCellIndexToSplit + 1].Cells[titleIndex];
+                                tc2.ApplyStyle(BackgroundStyle);
                                 tc2.Text = "&nbsp;";
                                 tc2.RowSpan = row + originalCellSpan - 1 - lastCellIndexToSplit;
                             }
@@ -1886,7 +1886,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                         {
                             // we have added an extra column, but this cell should not be split,
                             // it should only be spread over the extra column
-                            var tc = this.Table1.Rows[row].Cells[titleIndex];
+                            var tc = Table1.Rows[row].Cells[titleIndex];
                             var ColumnSpan = tc.ColumnSpan;
                             if (ColumnSpan == 0)
                             {
@@ -1909,9 +1909,9 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 while (valueIndex <= lastCellIndexInThisWeek)
                 {
                     // first, get the span of the original cell
-                    var originalCellSpan = this.GetValueSpan(realCellIndex, titleIndex);
+                    var originalCellSpan = GetValueSpan(realCellIndex, titleIndex);
                     var originalValueSpan = originalCellSpan;
-                    if (!this.IncludeEndValue && this.ShowValueMarks)
+                    if (!IncludeEndValue && ShowValueMarks)
                     {
                         // in this case a normal item already has a span of 2, but it's only 1 cell
                         originalValueSpan = originalCellSpan / 2;
@@ -1928,9 +1928,9 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             // the current cell is already spanning several rows
                             // there is no need to add another row, just split the current cell
                             // over the rows that it's already occupying.
-                            var thisRow = this.Table1.Rows[titleIndex];
+                            var thisRow = Table1.Rows[titleIndex];
                             var SplitSpan = thisRow.Cells[valueIndex].RowSpan;
-                            var lastRowInSpan = this.Table1.Rows[titleIndex + SplitSpan - 1];
+                            var lastRowInSpan = Table1.Rows[titleIndex + SplitSpan - 1];
                             // move the current cell down to the last row of the rows that are being spanned
                             // it should become the first cell in that row
                             lastRowInSpan.Cells.AddAt(0, thisRow.Cells[realCellIndex]);
@@ -1953,7 +1953,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                                 // previous item ended further to the right than this one, so split the remainder too
                                 // this is done by inserting another empty cell
                                 var newValueSpan = lastCellIndexToSplit - valueIndex + 1;
-                                if (!this.IncludeEndValue && this.ShowValueMarks)
+                                if (!IncludeEndValue && ShowValueMarks)
                                 {
                                     // in this case a normal item has a span of 2
                                     newValueSpan *= 2;
@@ -1965,13 +1965,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                                 newRow.Cells.Add(ctc);
                                 var tc2 = newRow.Cells[newRow.Cells.Count - 1];
                                 var newValueSpan2 = valueIndex + originalValueSpan - 1 - lastCellIndexToSplit;
-                                if (!this.IncludeEndValue && this.ShowValueMarks)
+                                if (!IncludeEndValue && ShowValueMarks)
                                 {
                                     // in this case a normal item has a span of 2
                                     newValueSpan2 *= 2;
                                 }
                                 tc2.ColumnSpan = newValueSpan2;
-                                tc2.ApplyStyle(this.BackgroundStyle);
+                                tc2.ApplyStyle(BackgroundStyle);
                                 tc2.Text = "&nbsp;";
                             }
                         }
@@ -1983,7 +1983,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             // we have added an extra row, but this cell should not be split,
                             // it should only be spread over the extra row
                             // move this cell up one row to the new row, and spread it over more rows
-                            newRow.Cells.Add(this.Table1.Rows[titleIndex].Cells[realCellIndex]);
+                            newRow.Cells.Add(Table1.Rows[titleIndex].Cells[realCellIndex]);
                             realCellIndex--; // decrease cellindex, because one cell has been removed
                             // the cell was moved, and it is currently the last cell of newRow
                             var tc2 = newRow.Cells[newRow.Cells.Count - 1];
@@ -2014,28 +2014,28 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             var returnValue = default(DataView);
             returnValue = null;
 
-            if (!ReferenceEquals(this.DataSource, null))
+            if (!ReferenceEquals(DataSource, null))
             {
                 // determine if the datasource is a DataSet, DataTable or DataView
-                if (this.DataSource is DataView)
+                if (DataSource is DataView)
                 {
-                    returnValue = (DataView) this.DataSource;
+                    returnValue = (DataView) DataSource;
                 }
-                else if (this.DataSource is DataTable)
+                else if (DataSource is DataTable)
                 {
-                    returnValue = new DataView((DataTable) this.DataSource);
+                    returnValue = new DataView((DataTable) DataSource);
                 }
-                else if (this.DataSource is DataSet)
+                else if (DataSource is DataSet)
                 {
-                    var ds = (DataSet) this.DataSource;
-                    if (string.IsNullOrEmpty(this.DataMember))
+                    var ds = (DataSet) DataSource;
+                    if (string.IsNullOrEmpty(DataMember))
                     {
                         // if data member isn't supplied, default to the first table
                         returnValue = new DataView(ds.Tables[0]);
                     }
                     else
                     {
-                        returnValue = new DataView(ds.Tables[this.DataMember]); // if data member is supplied, use it
+                        returnValue = new DataView(ds.Tables[DataMember]); // if data member is supplied, use it
                     }
                 }
             }
@@ -2059,20 +2059,20 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             switch (type)
             {
                 case ScheduleItemType.RangeHeader:
-                    return this.RangeHeaderStyle;
+                    return RangeHeaderStyle;
                 case ScheduleItemType.TitleHeader:
-                    return this.TitleStyle;
+                    return TitleStyle;
                 case ScheduleItemType.Item:
-                    return this.ItemStyle;
+                    return ItemStyle;
                 case ScheduleItemType.AlternatingItem:
                     returnValue = new TableItemStyle();
-                    if (!ReferenceEquals(this._itemStyle, null))
+                    if (!ReferenceEquals(_itemStyle, null))
                     {
-                        returnValue.MergeWith(this.ItemStyle);
+                        returnValue.MergeWith(ItemStyle);
                     }
-                    if (!ReferenceEquals(this._alternatingItemStyle, null))
+                    if (!ReferenceEquals(_alternatingItemStyle, null))
                     {
-                        returnValue.CopyFrom(this.AlternatingItemStyle);
+                        returnValue.CopyFrom(AlternatingItemStyle);
                     }
                     break;
             }
@@ -2088,7 +2088,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         private void InstantiateItem(ScheduleItem item, TableCell cell)
         {
-            var template = this.GetTemplate(item.ItemType);
+            var template = GetTemplate(item.ItemType);
             if (!ReferenceEquals(template, null))
             {
                 template.InstantiateIn(item); // initialize item from template
@@ -2105,7 +2105,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 var lit = new Literal();
                 if (!ReferenceEquals(value, null))
                 {
-                    lit.Text = this.FormatDataValue(value, item.ItemType);
+                    lit.Text = FormatDataValue(value, item.ItemType);
                 }
                 else
                 {
@@ -2116,7 +2116,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 }
                 item.Controls.Add(lit);
             }
-            var myStyle = this.GetStyle(item.ItemType);
+            var myStyle = GetStyle(item.ItemType);
             if (!ReferenceEquals(myStyle, null))
             {
                 cell.ApplyStyle(myStyle);
@@ -2152,15 +2152,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             {
                 item.DataItem = dataItem;
             }
-            var cell = this.GetCell(cellValueIndex, titleIndex);
-            this.InstantiateItem(item, cell);
+            var cell = GetCell(cellValueIndex, titleIndex);
+            InstantiateItem(item, cell);
 
             if ((item.ItemType == ScheduleItemType.Item) | (item.ItemType == ScheduleItemType.AlternatingItem))
             {
-                if (this.ItemStyleField != "" && !ReferenceEquals(dataItem, null))
+                if (ItemStyleField != "" && !ReferenceEquals(dataItem, null))
                 {
                     var drv = (DataRowView) dataItem;
-                    var objItemStyle = drv[this.ItemStyleField];
+                    var objItemStyle = drv[ItemStyleField];
                     if (!Information.IsDBNull(objItemStyle))
                     {
                         var style = new TableItemStyle();
@@ -2171,13 +2171,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             }
 
             var e = new ScheduleItemEventArgs(item);
-            this.OnItemCreated(e);
-            this.GetCell(cellValueIndex, titleIndex).Controls.Add(item);
+            OnItemCreated(e);
+            GetCell(cellValueIndex, titleIndex).Controls.Add(item);
 
             if (dataBind)
             {
                 item.DataBind();
-                this.OnItemDataBound(e);
+                OnItemDataBound(e);
                 //item.DataItem = Nothing
             }
             return item;
@@ -2193,16 +2193,16 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         private int GetMinTitleIndex()
         {
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                return this.GetRangeHeaderIndex() + 2;
+                return GetRangeHeaderIndex() + 2;
             }
-            return this.GetRangeHeaderIndex() + 1;
+            return GetRangeHeaderIndex() + 1;
         }
 
         private int GetMaxTitleIndex()
         {
-            return this.GetMinTitleIndex() + this.GetTitleCount() - 1;
+            return GetMinTitleIndex() + GetTitleCount() - 1;
         }
 
         /// -----------------------------------------------------------------------------
@@ -2216,13 +2216,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         protected int GetValueSpan(int cellValueIndex, int titleIndex)
         {
             var returnValue = 0;
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
-                returnValue = this.Table1.Rows[cellValueIndex].Cells[titleIndex].RowSpan;
+                returnValue = Table1.Rows[cellValueIndex].Cells[titleIndex].RowSpan;
             }
             else
             {
-                returnValue = this.Table1.Rows[titleIndex].Cells[cellValueIndex].ColumnSpan;
+                returnValue = Table1.Rows[titleIndex].Cells[cellValueIndex].ColumnSpan;
             }
             if (returnValue == 0)
             {
@@ -2241,13 +2241,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         private void SetValueSpan(int cellValueIndex, int titleIndex, int span)
         {
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
-                this.Table1.Rows[cellValueIndex].Cells[titleIndex].RowSpan = span;
+                Table1.Rows[cellValueIndex].Cells[titleIndex].RowSpan = span;
             }
             else
             {
-                this.Table1.Rows[titleIndex].Cells[cellValueIndex].ColumnSpan = span;
+                Table1.Rows[titleIndex].Cells[cellValueIndex].ColumnSpan = span;
             }
         }
 
@@ -2262,13 +2262,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         private TableCell GetCell(int cellValueIndex, int titleIndex)
         {
             var returnValue = default(TableCell);
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
-                returnValue = this.Table1.Rows[cellValueIndex].Cells[titleIndex];
+                returnValue = Table1.Rows[cellValueIndex].Cells[titleIndex];
             }
             else
             {
-                returnValue = this.Table1.Rows[titleIndex].Cells[cellValueIndex];
+                returnValue = Table1.Rows[titleIndex].Cells[cellValueIndex];
             }
             return returnValue;
         }
@@ -2280,12 +2280,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         private void RenderEmptyDataTemplate()
         {
-            if (!ReferenceEquals(this.EmptyDataTemplate, null))
+            if (!ReferenceEquals(EmptyDataTemplate, null))
             {
                 var plh = new PlaceHolder();
-                this.EmptyDataTemplate.InstantiateIn(plh); // initialize from template
-                this.Controls.Add(plh);
-                this.ViewState["Empty"] = true; // raize a flag
+                EmptyDataTemplate.InstantiateIn(plh); // initialize from template
+                Controls.Add(plh);
+                ViewState["Empty"] = true; // raize a flag
             }
         }
 
@@ -2302,7 +2302,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             if (e is ScheduleCommandEventArgs)
             {
                 var ce = (ScheduleCommandEventArgs) e;
-                this.OnItemCommand(ce);
+                OnItemCommand(ce);
                 var cmdName = ce.CommandName.ToLower();
             }
             return true;
@@ -2327,25 +2327,25 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             object Title = null;
             object RangeStartValue = null;
             object RangeEndValue = null;
-            var RangeStartValueIndex = this.CalculateRangeValueIndex(row, column);
-            if (this.Layout == LayoutEnum.Horizontal)
+            var RangeStartValueIndex = CalculateRangeValueIndex(row, column);
+            if (Layout == LayoutEnum.Horizontal)
             {
-                Title = this.CalculateTitle(row, column);
+                Title = CalculateTitle(row, column);
             }
             else
             {
-                Title = this.CalculateTitle(column, row);
+                Title = CalculateTitle(column, row);
             }
-            RangeStartValue = this.arrRangeValues[RangeStartValueIndex]; //CalculateRangeValue(row - 1)
+            RangeStartValue = arrRangeValues[RangeStartValueIndex]; //CalculateRangeValue(row - 1)
             var RangeEndValueIndex = RangeStartValueIndex + 1;
-            if (RangeEndValueIndex >= this.arrRangeValues.Count)
+            if (RangeEndValueIndex >= arrRangeValues.Count)
             {
-                RangeEndValueIndex = this.arrRangeValues.Count - 1;
+                RangeEndValueIndex = arrRangeValues.Count - 1;
             }
-            RangeEndValue = this.arrRangeValues[RangeEndValueIndex]; //CalculateRangeValue(endRow)
+            RangeEndValue = arrRangeValues[RangeEndValueIndex]; //CalculateRangeValue(endRow)
 
             var ctcea = new ClickableTableCellEventArgs(Title, RangeStartValue, RangeEndValue);
-            this.OnEmptySlotClick(ctcea);
+            OnEmptySlotClick(ctcea);
         }
 
         /// ' -----------------------------------------------------------------------------
@@ -2371,13 +2371,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public int CalculateRangeValueIndex(int row, int column)
         {
-            if (this.Layout == LayoutEnum.Horizontal)
+            if (Layout == LayoutEnum.Horizontal)
             {
-                return column - 1 - Convert.ToInt32(!this.IncludeEndValue && this.ShowValueMarks ? 1 : 0);
+                return column - 1 - Convert.ToInt32(!IncludeEndValue && ShowValueMarks ? 1 : 0);
             }
-            var rowsPerWeek = this.CalculateRowsPerRepetition();
+            var rowsPerWeek = CalculateRowsPerRepetition();
             var RangeValueIndex = 0;
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            if (!IncludeEndValue && ShowValueMarks)
             {
                 RangeValueIndex = Convert.ToInt32(row % rowsPerWeek / 2 - 1);
             }
@@ -2401,13 +2401,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         public int CalculateRowsPerRepetition()
         {
             var returnValue = 0;
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                returnValue = this.arrRangeValues.Count * 2 + 1;
+                returnValue = arrRangeValues.Count * 2 + 1;
             }
             else
             {
-                returnValue = this.arrRangeValues.Count + 1;
+                returnValue = arrRangeValues.Count + 1;
             }
             return returnValue;
         }
@@ -2419,19 +2419,19 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         private void SaveControlTree()
         {
-            if (this.Items.Count == 0)
+            if (Items.Count == 0)
             {
                 return;
             }
-            var arrCellCount = new int[this.Table1.Rows.Count + 1]; // number of cells in each row
-            var arrHeaderCount = new int[this.Table1.Rows.Count + 1]; // number of header cells in each row
-            var arrItemCols = new int[this.Items.Count + 1];
-            var arrItemRows = new int[this.Items.Count + 1];
+            var arrCellCount = new int[Table1.Rows.Count + 1]; // number of cells in each row
+            var arrHeaderCount = new int[Table1.Rows.Count + 1]; // number of header cells in each row
+            var arrItemCols = new int[Items.Count + 1];
+            var arrItemRows = new int[Items.Count + 1];
 
-            var nCells = this.Table1.Rows.Count * this.Table1.Rows[0].Cells.Count;
-            if (this.Table1.Rows.Count > 0 && this.Table1.Rows[1].Cells.Count > this.Table1.Rows[0].Cells.Count)
+            var nCells = Table1.Rows.Count * Table1.Rows[0].Cells.Count;
+            if (Table1.Rows.Count > 0 && Table1.Rows[1].Cells.Count > Table1.Rows[0].Cells.Count)
             {
-                nCells = this.Table1.Rows.Count * this.Table1.Rows[1].Cells.Count;
+                nCells = Table1.Rows.Count * Table1.Rows[1].Cells.Count;
             }
             var arrClickRows = new int[nCells + 1]; // row of each clickable cell
             var arrClickColumns = new int[nCells + 1]; // column of each clickable cell
@@ -2439,24 +2439,24 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             var row = 0;
             var col = 0;
             var ClickableCellCount = 0;
-            for (row = 0; row <= this.Table1.Rows.Count - 1; row++)
+            for (row = 0; row <= Table1.Rows.Count - 1; row++)
             {
-                var cellsInThisRow = this.Table1.Rows[row].Cells.Count;
+                var cellsInThisRow = Table1.Rows[row].Cells.Count;
                 arrCellCount[row] = cellsInThisRow;
                 for (col = 0; col <= cellsInThisRow - 1; col++)
                 {
-                    if (this.Table1.Rows[row].Cells[col] is TableHeaderCell)
+                    if (Table1.Rows[row].Cells[col] is TableHeaderCell)
                     {
                         arrHeaderCount[row] = col + 1; // will continue to increase until normal cells start
                     }
-                    if (this.EnableEmptySlotClick && this.Table1.Rows[row].Cells[col] is ClickableTableCell)
+                    if (EnableEmptySlotClick && Table1.Rows[row].Cells[col] is ClickableTableCell)
                     {
-                        var ccell = (ClickableTableCell) this.Table1.Rows[row].Cells[col];
+                        var ccell = (ClickableTableCell) Table1.Rows[row].Cells[col];
                         arrClickColumns[ClickableCellCount] = ccell.Column;
                         arrClickRows[ClickableCellCount] = ccell.Row;
                         ClickableCellCount++;
                     }
-                    var cell = this.Table1.Rows[row].Cells[col];
+                    var cell = Table1.Rows[row].Cells[col];
                     if (cell.HasControls())
                     {
                         if (cell.Controls[0] is ScheduleItem)
@@ -2472,19 +2472,19 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     }
                 }
             }
-            this.ViewState["RowCount"] = this.Table1.Rows.Count; // number of rows
-            this.ViewState["ItemCount"] = this.Items.Count; // number of items in datasource
-            this.ViewState["arrCellCount"] = arrCellCount; // number of cells in each row
-            this.ViewState["arrHeaderCount"] = arrHeaderCount; // number of header cells in each row
-            this.ViewState["arrItemCols"] = arrItemCols; // column index of each item
-            this.ViewState["arrItemRows"] = arrItemRows; // row index of each item
+            ViewState["RowCount"] = Table1.Rows.Count; // number of rows
+            ViewState["ItemCount"] = Items.Count; // number of items in datasource
+            ViewState["arrCellCount"] = arrCellCount; // number of cells in each row
+            ViewState["arrHeaderCount"] = arrHeaderCount; // number of header cells in each row
+            ViewState["arrItemCols"] = arrItemCols; // column index of each item
+            ViewState["arrItemRows"] = arrItemRows; // row index of each item
 
-            if (this.EnableEmptySlotClick)
+            if (EnableEmptySlotClick)
             {
                 Array.Resize(ref arrClickRows, ClickableCellCount + 1); // reduce viewstate
-                this.ViewState["arrClickRows"] = arrClickRows; // row of each clickable cell
+                ViewState["arrClickRows"] = arrClickRows; // row of each clickable cell
                 Array.Resize(ref arrClickColumns, ClickableCellCount + 1);
-                this.ViewState["arrClickColumns"] = arrClickColumns; // column of each clickable cell
+                ViewState["arrClickColumns"] = arrClickColumns; // column of each clickable cell
             }
         }
 
@@ -2495,48 +2495,48 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         private void LoadControlTree()
         {
-            this.Controls.Clear();
-            if (Convert.ToBoolean(this.ViewState["Empty"]))
+            Controls.Clear();
+            if (Convert.ToBoolean(ViewState["Empty"]))
             {
                 // empty control: use EmptyDataTemplate
                 var plh = new PlaceHolder();
-                this.EmptyDataTemplate.InstantiateIn(plh);
-                this.Controls.Add(plh);
+                EmptyDataTemplate.InstantiateIn(plh);
+                Controls.Add(plh);
                 return;
             }
             // When the control is empty, and EmptyDataTemplate does not exist:
-            if (ReferenceEquals(this.ViewState["RowCount"], null))
+            if (ReferenceEquals(ViewState["RowCount"], null))
             {
                 return;
             }
-            var RowCount = Convert.ToInt32(this.ViewState["RowCount"]);
-            var ItemCount = Convert.ToInt32(this.ViewState["ItemCount"]);
-            var arrCellCount = (int[]) this.ViewState["arrCellCount"]; // number of cells in each row
-            var arrHeaderCount = (int[]) this.ViewState["arrHeaderCount"]; // number of row header cells in each row
-            var arrItemCols = (int[]) this.ViewState["arrItemCols"]; // column index of each data item
-            var arrItemRows = (int[]) this.ViewState["arrItemRows"]; // row index of each data item
+            var RowCount = Convert.ToInt32(ViewState["RowCount"]);
+            var ItemCount = Convert.ToInt32(ViewState["ItemCount"]);
+            var arrCellCount = (int[]) ViewState["arrCellCount"]; // number of cells in each row
+            var arrHeaderCount = (int[]) ViewState["arrHeaderCount"]; // number of row header cells in each row
+            var arrItemCols = (int[]) ViewState["arrItemCols"]; // column index of each data item
+            var arrItemRows = (int[]) ViewState["arrItemRows"]; // row index of each data item
             int[] arrClickRows = null;
             int[] arrClickColumns = null;
-            if (this.EnableEmptySlotClick)
+            if (EnableEmptySlotClick)
             {
-                arrClickRows = (int[]) this.ViewState["arrClickRows"]; // row of each clickable cell
-                arrClickColumns = (int[]) this.ViewState["arrClickColumns"]; // column of each clickable cell
+                arrClickRows = (int[]) ViewState["arrClickRows"]; // row of each clickable cell
+                arrClickColumns = (int[]) ViewState["arrClickColumns"]; // column of each clickable cell
             }
             // clear any existing child controls
-            this.Table1 = new Table();
-            this.Controls.Add(this.Table1);
+            Table1 = new Table();
+            Controls.Add(Table1);
 
             var week = 0;
             var row = 0;
             var col = 0;
             var ClickableCellCount = 0;
-            var rowsPerRepetition = RowCount / this.GetRepetitionCount(); // Only used in vertical layout
+            var rowsPerRepetition = RowCount / GetRepetitionCount(); // Only used in vertical layout
 
             // first recreate the table
             for (row = 0; row <= RowCount - 1; row++)
             {
-                this.Table1.Rows.Add(new TableRow());
-                var tr = this.Table1.Rows[this.Table1.Rows.Count - 1];
+                Table1.Rows.Add(new TableRow());
+                var tr = Table1.Rows[Table1.Rows.Count - 1];
                 for (col = 0; col <= arrCellCount[row] - 1; col++)
                 {
                     if (col < arrHeaderCount[row])
@@ -2546,12 +2546,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     }
                     else
                     {
-                        if (this.EnableEmptySlotClick)
+                        if (EnableEmptySlotClick)
                         {
                             var isClickableCell = true;
-                            if (this.ShowValueMarks && !this.IncludeEndValue)
+                            if (ShowValueMarks && !IncludeEndValue)
                             {
-                                if ((this.Layout == LayoutEnum.Horizontal) & (arrHeaderCount[row] > 0))
+                                if ((Layout == LayoutEnum.Horizontal) & (arrHeaderCount[row] > 0))
                                 {
                                     // first and last columns should not be clickable
                                     // when the title is split over several rows, only check the first row
@@ -2609,29 +2609,29 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             // 4) DateHeader items (if any)
             //
             // add RangeHeader items
-            if (this.Layout == LayoutEnum.Horizontal)
+            if (Layout == LayoutEnum.Horizontal)
             {
                 // create range header items in the first or second row
-                var rangeHeaderRow = this.GetRangeHeaderIndex();
+                var rangeHeaderRow = GetRangeHeaderIndex();
                 for (col = 1; col <= arrCellCount[rangeHeaderRow] - 1; col++)
                 {
-                    this.CreateItem(col, rangeHeaderRow, ScheduleItemType.RangeHeader, false, null, -1);
+                    CreateItem(col, rangeHeaderRow, ScheduleItemType.RangeHeader, false, null, -1);
                 }
             }
             else // Layout = LayoutEnum.Vertical
             {
-                for (week = 0; week <= this.GetRepetitionCount() - 1; week++)
+                for (week = 0; week <= GetRepetitionCount() - 1; week++)
                 {
                     // create range header items of this repetition in the first or second column
                     var minRangeHeaderRow = week * rowsPerRepetition + 1;
                     var maxRangeHeaderRow = week * rowsPerRepetition + rowsPerRepetition - 1;
-                    var iStep = Convert.ToInt32(!this.IncludeEndValue && this.ShowValueMarks ? 2 : 1);
+                    var iStep = Convert.ToInt32(!IncludeEndValue && ShowValueMarks ? 2 : 1);
 
                     for (row = minRangeHeaderRow; row <= maxRangeHeaderRow; row += iStep)
                     {
                         col = arrHeaderCount[row] -
                               1; // the range header column is the right-most column of the header columns
-                        if (!this.IncludeEndValue && this.ShowValueMarks)
+                        if (!IncludeEndValue && ShowValueMarks)
                         {
                             // in this case, the range header column is the 2nd to the right of the header columns
                             col--;
@@ -2639,35 +2639,35 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
                         if (col >= 0)
                         {
-                            this.CreateItem(row, col, ScheduleItemType.RangeHeader, false, null, -1);
+                            CreateItem(row, col, ScheduleItemType.RangeHeader, false, null, -1);
                         }
                     }
                 }
             }
 
             // add Title Header items
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
-                for (col = this.GetMinTitleIndex(); col <= arrCellCount[0] - 1; col++)
+                for (col = GetMinTitleIndex(); col <= arrCellCount[0] - 1; col++)
                 {
-                    for (week = 0; week <= this.GetRepetitionCount() - 1; week++)
+                    for (week = 0; week <= GetRepetitionCount() - 1; week++)
                     {
                         // create title header items in the first row of the week
                         var titleHeaderRow = week * rowsPerRepetition;
-                        this.CreateItem(titleHeaderRow, col, ScheduleItemType.TitleHeader, false, null, -1);
+                        CreateItem(titleHeaderRow, col, ScheduleItemType.TitleHeader, false, null, -1);
                     }
                 }
             }
             else // Layout = LayoutEnum.Horizontal
             {
                 // create title header items in the first column
-                for (row = this.GetMinTitleIndex(); row <= RowCount - 1; row++)
+                for (row = GetMinTitleIndex(); row <= RowCount - 1; row++)
                 {
                     // titles may be merged over rows. Only the first row of a title contains the item
                     // So check if there is a title in this row
                     if (arrHeaderCount[row] == 1)
                     {
-                        this.CreateItem(0, row, ScheduleItemType.TitleHeader, false, null, -1);
+                        CreateItem(0, row, ScheduleItemType.TitleHeader, false, null, -1);
                     }
                 }
             }
@@ -2682,42 +2682,42 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 var item = default(ScheduleItem);
                 if (i % 2 == 1)
                 {
-                    if (this.Layout == LayoutEnum.Vertical)
+                    if (Layout == LayoutEnum.Vertical)
                     {
-                        item = this.CreateItem(row, col, ScheduleItemType.AlternatingItem, false, null, -1);
+                        item = CreateItem(row, col, ScheduleItemType.AlternatingItem, false, null, -1);
                     }
                     else
                     {
-                        item = this.CreateItem(col, row, ScheduleItemType.AlternatingItem, false, null, -1);
+                        item = CreateItem(col, row, ScheduleItemType.AlternatingItem, false, null, -1);
                     }
                 }
                 else
                 {
-                    if (this.Layout == LayoutEnum.Vertical)
+                    if (Layout == LayoutEnum.Vertical)
                     {
-                        item = this.CreateItem(row, col, ScheduleItemType.Item, false, null, -1);
+                        item = CreateItem(row, col, ScheduleItemType.Item, false, null, -1);
                     }
                     else
                     {
-                        item = this.CreateItem(col, row, ScheduleItemType.Item, false, null, -1);
+                        item = CreateItem(col, row, ScheduleItemType.Item, false, null, -1);
                     }
                 }
             }
 
-            if (this.GetRangeHeaderIndex() == 1)
+            if (GetRangeHeaderIndex() == 1)
             {
                 // add DateHeader items
-                if (this.Layout == LayoutEnum.Horizontal)
+                if (Layout == LayoutEnum.Horizontal)
                 {
                     // first row is the date header row
                     for (col = 1; col <= arrCellCount[0] - 1; col++)
                     {
-                        this.CreateItem(col, 0, ScheduleItemType.RangeHeader, false, null, -1);
+                        CreateItem(col, 0, ScheduleItemType.RangeHeader, false, null, -1);
                     }
                 }
                 else // Layout = LayoutEnum.Vertical
                 {
-                    for (week = 0; week <= this.GetRepetitionCount() - 1; week++)
+                    for (week = 0; week <= GetRepetitionCount() - 1; week++)
                     {
                         // create date header items in the first column
                         var minDateHeaderRow = week * rowsPerRepetition + 1;
@@ -2728,7 +2728,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             // Only the first column of a date header contains the item
                             // So check if there is a title in this column
                             var headersInDateHeaderRow = 2;
-                            if (!this.IncludeEndValue && this.ShowValueMarks)
+                            if (!IncludeEndValue && ShowValueMarks)
                             {
                                 headersInDateHeaderRow = 3;
                             }
@@ -2736,7 +2736,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             if (arrHeaderCount[row] == headersInDateHeaderRow)
                             {
                                 // first column contains a date header
-                                this.CreateItem(row, 0, ScheduleItemType.RangeHeader, false, null, -1);
+                                CreateItem(row, 0, ScheduleItemType.RangeHeader, false, null, -1);
                             }
                         }
                     }
@@ -2748,7 +2748,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             // Since the Schedule control renders an HTML table,
             // an instance of the TableStyle class is used as the control style.
-            var mystyle = new TableStyle(this.ViewState);
+            var mystyle = new TableStyle(ViewState);
             // Set up default initial state.
             //mystyle.CellSpacing = 0
             mystyle.CellPadding = -1;
@@ -2775,23 +2775,23 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 }
                 if (!ReferenceEquals(myState[1], null))
                 {
-                    ((IStateManager) this.ItemStyle).LoadViewState(myState[1]);
+                    ((IStateManager) ItemStyle).LoadViewState(myState[1]);
                 }
                 if (!ReferenceEquals(myState[2], null))
                 {
-                    ((IStateManager) this.AlternatingItemStyle).LoadViewState(myState[2]);
+                    ((IStateManager) AlternatingItemStyle).LoadViewState(myState[2]);
                 }
                 if (!ReferenceEquals(myState[3], null))
                 {
-                    ((IStateManager) this.RangeHeaderStyle).LoadViewState(myState[3]);
+                    ((IStateManager) RangeHeaderStyle).LoadViewState(myState[3]);
                 }
                 if (!ReferenceEquals(myState[4], null))
                 {
-                    ((IStateManager) this.TitleStyle).LoadViewState(myState[4]);
+                    ((IStateManager) TitleStyle).LoadViewState(myState[4]);
                 }
                 if (!ReferenceEquals(myState[5], null))
                 {
-                    ((IStateManager) this.BackgroundStyle).LoadViewState(myState[5]);
+                    ((IStateManager) BackgroundStyle).LoadViewState(myState[5]);
                 }
             }
         }
@@ -2811,41 +2811,41 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             object TitleStyleState = null;
             object BackgroundStyleState = null;
 
-            if (!ReferenceEquals(this._itemStyle, null))
+            if (!ReferenceEquals(_itemStyle, null))
             {
-                itemStyleState = ((IStateManager) this._itemStyle).SaveViewState();
+                itemStyleState = ((IStateManager) _itemStyle).SaveViewState();
             }
             else
             {
                 itemStyleState = null;
             }
-            if (!ReferenceEquals(this._alternatingItemStyle, null))
+            if (!ReferenceEquals(_alternatingItemStyle, null))
             {
-                alternatingItemStyleState = ((IStateManager) this._alternatingItemStyle).SaveViewState();
+                alternatingItemStyleState = ((IStateManager) _alternatingItemStyle).SaveViewState();
             }
             else
             {
                 alternatingItemStyleState = null;
             }
-            if (!ReferenceEquals(this._RangeHeaderStyle, null))
+            if (!ReferenceEquals(_RangeHeaderStyle, null))
             {
-                RangeHeaderStyleState = ((IStateManager) this._RangeHeaderStyle).SaveViewState();
+                RangeHeaderStyleState = ((IStateManager) _RangeHeaderStyle).SaveViewState();
             }
             else
             {
                 RangeHeaderStyleState = null;
             }
-            if (!ReferenceEquals(this._TitleStyle, null))
+            if (!ReferenceEquals(_TitleStyle, null))
             {
-                TitleStyleState = ((IStateManager) this._TitleStyle).SaveViewState();
+                TitleStyleState = ((IStateManager) _TitleStyle).SaveViewState();
             }
             else
             {
                 TitleStyleState = null;
             }
-            if (!ReferenceEquals(this._BackgroundStyle, null))
+            if (!ReferenceEquals(_BackgroundStyle, null))
             {
-                BackgroundStyleState = ((IStateManager) this._BackgroundStyle).SaveViewState();
+                BackgroundStyleState = ((IStateManager) _BackgroundStyle).SaveViewState();
             }
             else
             {
@@ -2871,25 +2871,25 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             base.TrackViewState();
 
-            if (!ReferenceEquals(this._itemStyle, null))
+            if (!ReferenceEquals(_itemStyle, null))
             {
-                ((IStateManager) this._itemStyle).TrackViewState();
+                ((IStateManager) _itemStyle).TrackViewState();
             }
-            if (!ReferenceEquals(this._alternatingItemStyle, null))
+            if (!ReferenceEquals(_alternatingItemStyle, null))
             {
-                ((IStateManager) this._alternatingItemStyle).TrackViewState();
+                ((IStateManager) _alternatingItemStyle).TrackViewState();
             }
-            if (!ReferenceEquals(this._RangeHeaderStyle, null))
+            if (!ReferenceEquals(_RangeHeaderStyle, null))
             {
-                ((IStateManager) this._RangeHeaderStyle).TrackViewState();
+                ((IStateManager) _RangeHeaderStyle).TrackViewState();
             }
-            if (!ReferenceEquals(this._TitleStyle, null))
+            if (!ReferenceEquals(_TitleStyle, null))
             {
-                ((IStateManager) this._TitleStyle).TrackViewState();
+                ((IStateManager) _TitleStyle).TrackViewState();
             }
-            if (!ReferenceEquals(this._BackgroundStyle, null))
+            if (!ReferenceEquals(_BackgroundStyle, null))
             {
-                ((IStateManager) this._BackgroundStyle).TrackViewState();
+                ((IStateManager) _BackgroundStyle).TrackViewState();
             }
         }
 

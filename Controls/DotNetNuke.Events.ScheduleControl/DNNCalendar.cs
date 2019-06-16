@@ -103,14 +103,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 get
                     {
                         var wed = (MyDayOfWeek) ((int) MyDayOfWeek.Saturday | (int) MyDayOfWeek.Sunday);
-                        var obj = this.ViewState["wed"];
+                        var obj = ViewState["wed"];
                         if (obj != null)
                         {
                             wed = (MyDayOfWeek) obj;
                         }
                         return wed;
                     }
-                set { this.ViewState["wed"] = value; }
+                set { ViewState["wed"] = value; }
             }
 
             // Mapping of built-in DayOfWeek and our custom MyDayOfWeek
@@ -157,11 +157,11 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             {
                 get
                     {
-                        if (this.VisibleDate == DateTime.MinValue)
+                        if (VisibleDate == DateTime.MinValue)
                         {
-                            return this.TodaysDate;
+                            return TodaysDate;
                         }
-                        return this.VisibleDate;
+                        return VisibleDate;
                     }
             }
 
@@ -182,10 +182,10 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             {
                 // Create the main table.
                 var table = new Table();
-                table.CellPadding = this.CellPadding;
-                table.CellSpacing = this.CellSpacing;
+                table.CellPadding = CellPadding;
+                table.CellSpacing = CellSpacing;
 
-                if (this.ShowGridLines)
+                if (ShowGridLines)
                 {
                     table.GridLines = GridLines.Both;
                 }
@@ -195,12 +195,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 }
 
                 // If ShowTitle is true, add a row with the calendar title.
-                if (this.ShowTitle)
+                if (ShowTitle)
                 {
                     // Create a one-cell table row.
                     var row = new TableRow();
                     var cell = new TableCell();
-                    if (this.HasWeekSelectors(this.SelectionMode))
+                    if (HasWeekSelectors(SelectionMode))
                     {
                         cell.ColumnSpan = 8;
                     }
@@ -210,10 +210,10 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     }
 
                     // Apply styling.
-                    cell.MergeStyle(this.TitleStyle);
+                    cell.MergeStyle(TitleStyle);
 
                     // Add the title table to the cell.
-                    cell.Controls.Add(this.TitleTable());
+                    cell.Controls.Add(TitleTable());
                     row.Cells.Add(cell);
 
                     // Add it to the table.
@@ -221,13 +221,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 }
 
                 // If ShowDayHeader is true, add a row with the days header.
-                if (this.ShowDayHeader)
+                if (ShowDayHeader)
                 {
-                    table.Rows.Add(this.DaysHeaderTableRow());
+                    table.Rows.Add(DaysHeaderTableRow());
                 }
 
                 // Find the first date that will be visible on the calendar.
-                var date = this.GetFirstCalendarDate();
+                var date = GetFirstCalendarDate();
 
                 // Create a list for storing nonselectable dates.
                 var nonselectableDates = new ArrayList();
@@ -238,33 +238,33 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     var row = new TableRow();
 
                     // Create a week selector, if needed.
-                    if (this.HasWeekSelectors(this.SelectionMode))
+                    if (HasWeekSelectors(SelectionMode))
                     {
                         var cell = new TableCell();
                         cell.HorizontalAlign = HorizontalAlign.Center;
-                        cell.MergeStyle(this.SelectorStyle);
+                        cell.MergeStyle(SelectorStyle);
 
-                        if (this.Enabled)
+                        if (Enabled)
                         {
                             // Create the post back link.
                             var anchor = new HtmlAnchor();
-                            var arg = string.Format("R{0}07", this.DayCountFromDate(date));
-                            anchor.HRef = this.Page.ClientScript.GetPostBackClientHyperlink(this, arg);
-                            anchor.Controls.Add(new LiteralControl(this.SelectWeekText));
+                            var arg = string.Format("R{0}07", DayCountFromDate(date));
+                            anchor.HRef = Page.ClientScript.GetPostBackClientHyperlink(this, arg);
+                            anchor.Controls.Add(new LiteralControl(SelectWeekText));
 
                             // Add a color style to the anchor if it is explicitly
                             // set.
-                            if (!this.SelectorStyle.ForeColor.IsEmpty)
+                            if (!SelectorStyle.ForeColor.IsEmpty)
                             {
                                 anchor.Attributes.Add(
-                                    "style", string.Format("color:{0}", this.SelectorStyle.ForeColor.Name));
+                                    "style", string.Format("color:{0}", SelectorStyle.ForeColor.Name));
                             }
 
                             cell.Controls.Add(anchor);
                         }
                         else
                         {
-                            cell.Controls.Add(new LiteralControl(this.SelectWeekText));
+                            cell.Controls.Add(new LiteralControl(SelectWeekText));
                         }
 
                         row.Cells.Add(cell);
@@ -274,11 +274,11 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     for (var j = 0; j <= 6; j++)
                     {
                         // Create a CalendarDay and a TableCell for the date.
-                        var day = this.Day(date);
-                        var cell = this.Cell(day);
+                        var day = Day(date);
+                        var cell = Cell(day);
 
                         // Raise the OnDayRender event.
-                        this.OnDayRender(cell, day);
+                        OnDayRender(cell, day);
 
                         // If the day was marked nonselectable, add it to the list.
                         if (!day.IsSelectable)
@@ -288,14 +288,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
                         // If the day is selectable, and the selection mode allows
                         // it, convert the text to a link with post back.
-                        if (this.Enabled && day.IsSelectable && this.SelectionMode != CalendarSelectionMode.None)
+                        if (Enabled && day.IsSelectable && SelectionMode != CalendarSelectionMode.None)
                         {
                             try
                             {
                                 // Create the post back link.
                                 var anchor = new HtmlAnchor();
-                                var arg = Convert.ToString(this.DayCountFromDate(date).ToString());
-                                anchor.HRef = this.Page.ClientScript.GetPostBackClientHyperlink(this, arg);
+                                var arg = Convert.ToString(DayCountFromDate(date).ToString());
+                                anchor.HRef = Page.ClientScript.GetPostBackClientHyperlink(this, arg);
 
                                 // Copy the existing text.
                                 anchor.Controls.Add(new LiteralControl(((LiteralControl) cell.Controls[0]).Text));
@@ -304,27 +304,27 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                                 // explicitly set. Note that the style precedence
                                 // follows that of the base Calendar control.
                                 var s = "";
-                                if (!this.DayStyle.ForeColor.IsEmpty)
+                                if (!DayStyle.ForeColor.IsEmpty)
                                 {
-                                    s = this.DayStyle.ForeColor.Name;
+                                    s = DayStyle.ForeColor.Name;
                                 }
-                                var currdayofweek = this.DayOfWeekMapping(day.Date.DayOfWeek);
-                                if ((this.WeekEndDays & currdayofweek) == currdayofweek &&
-                                    !this.WeekendDayStyle.ForeColor.IsEmpty)
+                                var currdayofweek = DayOfWeekMapping(day.Date.DayOfWeek);
+                                if ((WeekEndDays & currdayofweek) == currdayofweek &&
+                                    !WeekendDayStyle.ForeColor.IsEmpty)
                                 {
-                                    s = this.WeekendDayStyle.ForeColor.Name;
+                                    s = WeekendDayStyle.ForeColor.Name;
                                 }
-                                if (day.IsOtherMonth && !this.OtherMonthDayStyle.ForeColor.IsEmpty)
+                                if (day.IsOtherMonth && !OtherMonthDayStyle.ForeColor.IsEmpty)
                                 {
-                                    s = this.OtherMonthDayStyle.ForeColor.Name;
+                                    s = OtherMonthDayStyle.ForeColor.Name;
                                 }
-                                if (day.IsToday && !this.TodayDayStyle.ForeColor.IsEmpty)
+                                if (day.IsToday && !TodayDayStyle.ForeColor.IsEmpty)
                                 {
-                                    s = this.TodayDayStyle.ForeColor.Name;
+                                    s = TodayDayStyle.ForeColor.Name;
                                 }
-                                if (this.SelectedDates.Contains(day.Date) && !this.SelectedDayStyle.ForeColor.IsEmpty)
+                                if (SelectedDates.Contains(day.Date) && !SelectedDayStyle.ForeColor.IsEmpty)
                                 {
-                                    s = this.SelectedDayStyle.ForeColor.Name;
+                                    s = SelectedDayStyle.ForeColor.Name;
                                 }
                                 if (s.Length > 0)
                                 {
@@ -354,11 +354,11 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 // Save the list of nonselectable dates.
                 if (nonselectableDates.Count > 0)
                 {
-                    this.SaveNonselectableDates(nonselectableDates);
+                    SaveNonselectableDates(nonselectableDates);
                 }
 
                 // Apply styling.
-                this.AddAttributesToRender(output);
+                AddAttributesToRender(output);
 
                 // Render the table.
                 table.RenderControl(output);
@@ -381,31 +381,31 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 var text = "";
 
                 // Add a table cell with the previous month.
-                if (this.ShowNextPrevMonth)
+                if (ShowNextPrevMonth)
                 {
                     cell = new TableCell();
-                    cell.MergeStyle(this.NextPrevStyle);
+                    cell.MergeStyle(NextPrevStyle);
                     cell.Style.Add("width", "15%");
 
                     // Find the first of the previous month, needed for post back
                     // processing.
                     try
                     {
-                        date = new DateTime(this.TargetDate.Year, this.TargetDate.Month, 1).AddMonths(-1);
+                        date = new DateTime(TargetDate.Year, TargetDate.Month, 1).AddMonths(-1);
                     }
                     catch (Exception)
                     {
-                        date = this.TargetDate;
+                        date = TargetDate;
                     }
 
                     // Get the previous month text.
-                    if (this.NextPrevFormat == NextPrevFormat.CustomText)
+                    if (NextPrevFormat == NextPrevFormat.CustomText)
                     {
-                        text = this.PrevMonthText;
+                        text = PrevMonthText;
                     }
                     else
                     {
-                        if (this.NextPrevFormat == NextPrevFormat.ShortMonth)
+                        if (NextPrevFormat == NextPrevFormat.ShortMonth)
                         {
                             text = date.ToString("MMM");
                         }
@@ -415,20 +415,20 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                         }
                     }
 
-                    if (this.Enabled)
+                    if (Enabled)
                     {
                         // Create the post back link.
                         anchor = new HtmlAnchor();
-                        var arg = string.Format("V{0}", this.DayCountFromDate(date));
-                        anchor.HRef = this.Page.ClientScript.GetPostBackClientHyperlink(this, arg);
+                        var arg = string.Format("V{0}", DayCountFromDate(date));
+                        anchor.HRef = Page.ClientScript.GetPostBackClientHyperlink(this, arg);
                         anchor.Controls.Add(new LiteralControl(text));
 
                         // Add a color style to the anchor if it is explicitly
                         // set.
-                        if (!this.NextPrevStyle.ForeColor.IsEmpty)
+                        if (!NextPrevStyle.ForeColor.IsEmpty)
                         {
                             anchor.Attributes.Add(
-                                "style", string.Format("color:{0}", this.NextPrevStyle.ForeColor.Name));
+                                "style", string.Format("color:{0}", NextPrevStyle.ForeColor.Name));
                         }
 
                         // Add the link to the cell.
@@ -447,47 +447,47 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 cell = new TableCell();
                 cell.HorizontalAlign = HorizontalAlign.Center;
                 cell.VerticalAlign = VerticalAlign.Middle;
-                if (this.ShowNextPrevMonth)
+                if (ShowNextPrevMonth)
                 {
                     cell.Style.Add("width", "70%");
                 }
-                if (this.TitleFormat == TitleFormat.Month)
+                if (TitleFormat == TitleFormat.Month)
                 {
-                    cell.Text = this.TargetDate.ToString("MMMM");
+                    cell.Text = TargetDate.ToString("MMMM");
                 }
                 else
                 {
-                    cell.Text = Convert.ToString(this.TargetDate.ToString("y").Replace(", ", " "));
+                    cell.Text = Convert.ToString(TargetDate.ToString("y").Replace(", ", " "));
                 }
                 row.Cells.Add(cell);
 
                 // Add a table cell for the next month.
-                if (this.ShowNextPrevMonth)
+                if (ShowNextPrevMonth)
                 {
                     cell = new TableCell();
                     cell.HorizontalAlign = HorizontalAlign.Right;
-                    cell.MergeStyle(this.NextPrevStyle);
+                    cell.MergeStyle(NextPrevStyle);
                     cell.Style.Add("width", "15%");
 
                     // Find the first of the next month, needed for post back
                     // processing.
                     try
                     {
-                        date = new DateTime(this.TargetDate.Year, this.TargetDate.Month, 1).AddMonths(1);
+                        date = new DateTime(TargetDate.Year, TargetDate.Month, 1).AddMonths(1);
                     }
                     catch (Exception)
                     {
-                        date = this.TargetDate;
+                        date = TargetDate;
                     }
 
                     // Get the next month text.
-                    if (this.NextPrevFormat == NextPrevFormat.CustomText)
+                    if (NextPrevFormat == NextPrevFormat.CustomText)
                     {
-                        text = this.NextMonthText;
+                        text = NextMonthText;
                     }
                     else
                     {
-                        if (this.NextPrevFormat == NextPrevFormat.ShortMonth)
+                        if (NextPrevFormat == NextPrevFormat.ShortMonth)
                         {
                             text = date.ToString("MMM");
                         }
@@ -497,20 +497,20 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                         }
                     }
 
-                    if (this.Enabled)
+                    if (Enabled)
                     {
                         // Create the post back link.
                         anchor = new HtmlAnchor();
-                        var arg = string.Format("V{0}", this.DayCountFromDate(date));
-                        anchor.HRef = this.Page.ClientScript.GetPostBackClientHyperlink(this, arg);
+                        var arg = string.Format("V{0}", DayCountFromDate(date));
+                        anchor.HRef = Page.ClientScript.GetPostBackClientHyperlink(this, arg);
                         anchor.Controls.Add(new LiteralControl(text));
 
                         // Add a color style to the anchor if it is explicitly
                         // set.
-                        if (!this.NextPrevStyle.ForeColor.IsEmpty)
+                        if (!NextPrevStyle.ForeColor.IsEmpty)
                         {
                             anchor.Attributes.Add(
-                                "style", string.Format("color:{0}", this.NextPrevStyle.ForeColor.Name));
+                                "style", string.Format("color:{0}", NextPrevStyle.ForeColor.Name));
                         }
 
                         // Add the link to the cell.
@@ -552,7 +552,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     };
 
                 // Adjust the array to get the specified starting day at the first index.
-                var first = this.GetFirstDayOfWeek();
+                var first = GetFirstDayOfWeek();
                 while (days[0] != first)
                 {
                     var temp = days[0];
@@ -564,48 +564,48 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 }
 
                 // Add a month selector column, if needed.
-                if (this.HasWeekSelectors(this.SelectionMode))
+                if (HasWeekSelectors(SelectionMode))
                 {
                     var cell = new TableCell();
                     cell.HorizontalAlign = HorizontalAlign.Center;
 
                     // If months are selectable, create the selector.
-                    if (this.SelectionMode == CalendarSelectionMode.DayWeekMonth)
+                    if (SelectionMode == CalendarSelectionMode.DayWeekMonth)
                     {
                         // Find the first of the month.
-                        var date = new DateTime(this.TargetDate.Year, this.TargetDate.Month, 1);
+                        var date = new DateTime(TargetDate.Year, TargetDate.Month, 1);
 
                         // Use the selector style.
-                        cell.MergeStyle(this.SelectorStyle);
+                        cell.MergeStyle(SelectorStyle);
 
                         // Create the post back link.
-                        if (this.Enabled)
+                        if (Enabled)
                         {
                             var anchor = new HtmlAnchor();
-                            var arg = string.Format("R{0}{1}", this.DayCountFromDate(date),
+                            var arg = string.Format("R{0}{1}", DayCountFromDate(date),
                                                     DateTime.DaysInMonth(date.Year, date.Month));
-                            anchor.HRef = this.Page.ClientScript.GetPostBackClientHyperlink(this, arg);
-                            anchor.Controls.Add(new LiteralControl(this.SelectMonthText));
+                            anchor.HRef = Page.ClientScript.GetPostBackClientHyperlink(this, arg);
+                            anchor.Controls.Add(new LiteralControl(SelectMonthText));
 
                             // Add a color style to the anchor if it is explicitly
                             // set.
-                            if (!this.SelectorStyle.ForeColor.IsEmpty)
+                            if (!SelectorStyle.ForeColor.IsEmpty)
                             {
                                 anchor.Attributes.Add(
-                                    "style", string.Format("color:{0}", this.SelectorStyle.ForeColor.Name));
+                                    "style", string.Format("color:{0}", SelectorStyle.ForeColor.Name));
                             }
 
                             cell.Controls.Add(anchor);
                         }
                         else
                         {
-                            cell.Controls.Add(new LiteralControl(this.SelectMonthText));
+                            cell.Controls.Add(new LiteralControl(SelectMonthText));
                         }
                     }
                     else
                     {
                         // Use the day header style.
-                        cell.CssClass = this.DayHeaderStyle.CssClass;
+                        cell.CssClass = DayHeaderStyle.CssClass;
                     }
 
                     row.Cells.Add(cell);
@@ -614,7 +614,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 // Add the day names to the header.
                 foreach (var day in days)
                 {
-                    row.Cells.Add(this.DayHeaderTableCell(day));
+                    row.Cells.Add(DayHeaderTableCell(day));
                 }
 
                 return row;
@@ -628,18 +628,18 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             {
                 // Generate the day name text based on the specified format.
                 var s = "";
-                if (this.DayNameFormat == DayNameFormat.Short)
+                if (DayNameFormat == DayNameFormat.Short)
                 {
                     s = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedDayNames[Convert.ToInt32(dayOfWeek)];
                 }
                 else
                 {
                     s = CultureInfo.CurrentCulture.DateTimeFormat.DayNames[Convert.ToInt32(dayOfWeek)];
-                    if (this.DayNameFormat == DayNameFormat.FirstTwoLetters)
+                    if (DayNameFormat == DayNameFormat.FirstTwoLetters)
                     {
                         s = s.Substring(0, 2);
                     }
-                    if (this.DayNameFormat == DayNameFormat.FirstLetter)
+                    if (DayNameFormat == DayNameFormat.FirstLetter)
                     {
                         s = s.Substring(0, 1);
                     }
@@ -648,7 +648,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 // Create the cell, set the style and the text.
                 var cell = new TableCell();
                 cell.HorizontalAlign = HorizontalAlign.Center;
-                cell.MergeStyle(this.DayHeaderStyle);
+                cell.MergeStyle(DayHeaderStyle);
                 cell.Text = s;
 
                 return cell;
@@ -661,11 +661,11 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             private DayOfWeek GetFirstDayOfWeek()
             {
                 // If the default value is specifed, use the system default.
-                if (this.FirstDayOfWeek == FirstDayOfWeek.Default)
+                if (FirstDayOfWeek == FirstDayOfWeek.Default)
                 {
                     return CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
                 }
-                return (DayOfWeek) this.FirstDayOfWeek;
+                return (DayOfWeek) FirstDayOfWeek;
             }
 
             //
@@ -675,10 +675,10 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             private DateTime GetFirstCalendarDate()
             {
                 // Start with the first of the month.
-                var date = new DateTime(this.TargetDate.Year, this.TargetDate.Month, 1);
+                var date = new DateTime(TargetDate.Year, TargetDate.Month, 1);
 
                 // While that day does not fall on the first day of the week, move back.
-                var firstDay = this.GetFirstDayOfWeek();
+                var firstDay = GetFirstDayOfWeek();
                 while (date.DayOfWeek != firstDay)
                 {
                     date = date.AddDays(-1);
@@ -697,8 +697,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             {
                 var calday =
                     new CalendarDay(date, date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday,
-                                    date == this.TodaysDate, date == this.SelectedDate,
-                                    !(date.Month == this.TargetDate.Month && date.Year == this.TargetDate.Year),
+                                    date == TodaysDate, date == SelectedDate,
+                                    !(date.Month == TargetDate.Month && date.Year == TargetDate.Year),
                                     date.Day.ToString());
 
                 // Default the day to selectable.
@@ -723,40 +723,40 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 // base Calendar control.
                 // - For CssClass, multiple class names may be added.
                 var sb = new StringBuilder();
-                var currdayofweek = this.DayOfWeekMapping(day.Date.DayOfWeek);
-                if ((this.WeekEndDays & currdayofweek) == currdayofweek && !day.IsOtherMonth)
+                var currdayofweek = DayOfWeekMapping(day.Date.DayOfWeek);
+                if ((WeekEndDays & currdayofweek) == currdayofweek && !day.IsOtherMonth)
                 {
-                    tbcell.MergeStyle(this.WeekendDayStyle);
-                    sb.AppendFormat(" {0}", this.WeekendDayStyle.CssClass);
+                    tbcell.MergeStyle(WeekendDayStyle);
+                    sb.AppendFormat(" {0}", WeekendDayStyle.CssClass);
                 }
                 if (day.IsOtherMonth)
                 {
                     if (day.IsWeekend)
                     {
-                        tbcell.ApplyStyle(this.OtherMonthDayStyle);
+                        tbcell.ApplyStyle(OtherMonthDayStyle);
                         sb = new StringBuilder();
-                        sb.AppendFormat(" {0}", this.OtherMonthDayStyle.CssClass);
+                        sb.AppendFormat(" {0}", OtherMonthDayStyle.CssClass);
                     }
                     else
                     {
-                        tbcell.MergeStyle(this.OtherMonthDayStyle);
-                        sb.AppendFormat(" {0}", this.OtherMonthDayStyle.CssClass);
+                        tbcell.MergeStyle(OtherMonthDayStyle);
+                        sb.AppendFormat(" {0}", OtherMonthDayStyle.CssClass);
                     }
                 }
 
-                if (this.SelectedDates.Contains(day.Date))
+                if (SelectedDates.Contains(day.Date))
                 {
-                    tbcell.MergeStyle(this.SelectedDayStyle);
-                    sb.AppendFormat(" {0}", this.SelectedDayStyle.CssClass);
+                    tbcell.MergeStyle(SelectedDayStyle);
+                    sb.AppendFormat(" {0}", SelectedDayStyle.CssClass);
                 }
                 if (day.IsToday)
                 {
-                    tbcell.MergeStyle(this.TodayDayStyle);
-                    sb.AppendFormat(" {0}", this.TodayDayStyle.CssClass);
+                    tbcell.MergeStyle(TodayDayStyle);
+                    sb.AppendFormat(" {0}", TodayDayStyle.CssClass);
                 }
 
-                tbcell.MergeStyle(this.DayStyle);
-                sb.AppendFormat(" {0}", this.DayStyle.CssClass);
+                tbcell.MergeStyle(DayStyle);
+                sb.AppendFormat(" {0}", DayStyle.CssClass);
 
                 var s = Convert.ToString(sb.ToString().Trim());
                 if (s.Length > 0)
@@ -833,11 +833,11 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 for (var i = 0; i <= list.Length - 1; i++)
                 {
                     list[i] = Convert.ToString(
-                        this.DayCountFromDate(DateTime.Parse(Convert.ToString(dates[i].ToString()))).ToString());
+                        DayCountFromDate(DateTime.Parse(Convert.ToString(dates[i].ToString()))).ToString());
                 }
 
                 // Get the hidden field name.
-                var fieldName = this.GetHiddenFieldName();
+                var fieldName = GetHiddenFieldName();
 
                 // For the field value, create a comma-separated list from the day
                 // count values.
@@ -845,7 +845,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
                 // Add the hidden form field to the page.
                 //EVT-9313 this.Page.RegisterHiddenField(fieldName, fieldValue);
-                this.Page.ClientScript.RegisterHiddenField(fieldName, fieldValue);
+                Page.ClientScript.RegisterHiddenField(fieldName, fieldValue);
             }
 
             //
@@ -857,8 +857,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 var dates = new ArrayList();
 
                 // Get the value stored in the hidden form field.
-                var fieldName = this.GetHiddenFieldName();
-                var fieldValue = this.Page.Request.Form[fieldName];
+                var fieldName = GetHiddenFieldName();
+                var fieldValue = Page.Request.Form[fieldName];
 
                 // If no dates were stored, return the empty list.
                 if (string.IsNullOrEmpty(fieldValue))
@@ -872,7 +872,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 // Convert those values to dates and store them in an array list.
                 foreach (var s in list)
                 {
-                    dates.Add(this.DateFromDayCount(int.Parse(s)));
+                    dates.Add(DateFromDayCount(int.Parse(s)));
                 }
 
                 return dates;
@@ -885,7 +885,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             private string GetHiddenFieldName()
             {
                 // Create a unique field name.
-                return string.Format("{0}_NonselectableDates", this.ClientID);
+                return string.Format("{0}_NonselectableDates", ClientID);
             }
 
             // ====================================================================
@@ -907,15 +907,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                     try
                     {
                         // Save the current visible date.
-                        var previousDate = this.TargetDate;
+                        var previousDate = TargetDate;
 
                         // Extract the day count from the argument and use it to
                         // change the visible date.
                         var d = int.Parse(eventArgument.Substring(1));
-                        this.VisibleDate = this.DateFromDayCount(d);
+                        VisibleDate = DateFromDayCount(d);
 
                         // Raise the VisibleMonthChanged event.
-                        this.OnVisibleMonthChanged(this.VisibleDate, previousDate);
+                        OnVisibleMonthChanged(VisibleDate, previousDate);
                     }
                     catch (Exception)
                     { }
@@ -933,12 +933,12 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                         var n = int.Parse(eventArgument.Substring(eventArgument.Length - 2));
 
                         // Get the starting date.
-                        var date = this.DateFromDayCount(d);
+                        var date = DateFromDayCount(d);
 
                         // Reset the selected dates collection to include all the
                         // dates in the given range.
-                        this.SelectedDates.Clear();
-                        this.SelectedDates.SelectRange(date, date.AddDays(n - 1));
+                        SelectedDates.Clear();
+                        SelectedDates.SelectRange(date, date.AddDays(n - 1));
 
                         // // If SelectAllInRange is false, remove any dates found
                         // // in the nonselectable date list.
@@ -950,7 +950,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                         // }
 
                         // Raise the SelectionChanged event.
-                        this.OnSelectionChanged();
+                        OnSelectionChanged();
                     }
                     catch (Exception)
                     { }
@@ -965,11 +965,11 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
                     // Reset the selected dates collection to include only the
                     // newly selected date.
-                    this.SelectedDates.Clear();
-                    this.SelectedDates.Add(this.DateFromDayCount(d));
+                    SelectedDates.Clear();
+                    SelectedDates.Add(DateFromDayCount(d));
 
                     // Raise the SelectionChanged event.
-                    this.OnSelectionChanged();
+                    OnSelectionChanged();
                 }
                 catch (Exception)
                 { }

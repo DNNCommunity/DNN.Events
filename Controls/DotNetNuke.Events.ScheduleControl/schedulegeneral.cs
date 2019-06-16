@@ -55,8 +55,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         protected ArrayList arrTitleValues
         {
-            get { return (ArrayList) this.ViewState["arrTitleValues"]; }
-            set { this.ViewState["arrTitleValues"] = value; }
+            get { return (ArrayList) ViewState["arrTitleValues"]; }
+            set { ViewState["arrTitleValues"] = value; }
         }
 
         #endregion
@@ -78,14 +78,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["SeparateDateHeader"];
+                    var o = ViewState["SeparateDateHeader"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToBoolean(o);
                     }
                     return false;
                 }
-            set { this.ViewState["SeparateDateHeader"] = value; }
+            set { ViewState["SeparateDateHeader"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -100,14 +100,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["TitleDataFormatString"];
+                    var o = ViewState["TitleDataFormatString"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return string.Empty;
                 }
-            set { this.ViewState["TitleDataFormatString"] = value; }
+            set { ViewState["TitleDataFormatString"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -122,14 +122,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["RangeDataFormatString"];
+                    var o = ViewState["RangeDataFormatString"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return string.Empty;
                 }
-            set { this.ViewState["RangeDataFormatString"] = value; }
+            set { ViewState["RangeDataFormatString"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -146,14 +146,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["DateHeaderDataFormatString"];
+                    var o = ViewState["DateHeaderDataFormatString"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToString(o);
                     }
                     return string.Empty;
                 }
-            set { this.ViewState["DateHeaderDataFormatString"] = value; }
+            set { ViewState["DateHeaderDataFormatString"] = value; }
         }
 
         /// -----------------------------------------------------------------------------
@@ -177,14 +177,14 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             get
                 {
-                    var o = this.ViewState["AutoSortTitles"];
+                    var o = ViewState["AutoSortTitles"];
                     if (!ReferenceEquals(o, null))
                     {
                         return Convert.ToBoolean(o);
                     }
                     return true;
                 }
-            set { this.ViewState["AutoSortTitles"] = value; }
+            set { ViewState["AutoSortTitles"] = value; }
         }
 
         #endregion
@@ -217,15 +217,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         // Check if all properties are set to make the control work
         public override string CheckConfiguration()
         {
-            if (this.TitleField == "")
+            if (TitleField == "")
             {
                 return "The TitleField property is not set";
             }
-            if (this.DataRangeStartField == "")
+            if (DataRangeStartField == "")
             {
                 return "The DataRangeStartField property is not set";
             }
-            if (this.DataRangeEndField == "")
+            if (DataRangeEndField == "")
             {
                 return "The DataRangeEndField property is not set";
             }
@@ -240,19 +240,19 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public override void FillRangeValueArray(ref DataView dv)
         {
-            this.arrRangeValues = new ArrayList();
+            arrRangeValues = new ArrayList();
             var strOldSort = dv.Sort;
-            if (this.FullTimeScale)
+            if (FullTimeScale)
             {
-                var tsInc = new TimeSpan(0, this.TimeScaleInterval, 0);
+                var tsInc = new TimeSpan(0, TimeScaleInterval, 0);
                 if (dv.Count == 0)
                 {
                     return; // empty database
                 }
-                dv.Sort = this.DataRangeStartField + " ASC ";
+                dv.Sort = DataRangeStartField + " ASC ";
                 // Nulls are allowed (for creating titles without content) but will not show up
                 var i = 0;
-                while (i < dv.Count && Information.IsDBNull(dv[i][this.DataRangeStartField]))
+                while (i < dv.Count && Information.IsDBNull(dv[i][DataRangeStartField]))
                 {
                     i++;
                 }
@@ -260,29 +260,29 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 {
                     return;
                 }
-                var dt1 = Convert.ToDateTime(dv[i][this.DataRangeStartField]); // first start time in dataview
-                dv.Sort = this.DataRangeEndField + " DESC ";
+                var dt1 = Convert.ToDateTime(dv[i][DataRangeStartField]); // first start time in dataview
+                dv.Sort = DataRangeEndField + " DESC ";
                 i = 0;
-                while (Information.IsDBNull(dv[i][this.DataRangeStartField]))
+                while (Information.IsDBNull(dv[i][DataRangeStartField]))
                 {
                     i++;
                 }
-                var dt2 = Convert.ToDateTime(dv[i][this.DataRangeEndField]); // last end time in dataview
+                var dt2 = Convert.ToDateTime(dv[i][DataRangeEndField]); // last end time in dataview
                 // add incrementing times to the array
                 while (dt1 <= dt2)
                 {
-                    var t = this.StartOfTimeScale;
-                    while (TimeSpan.Compare(t, this.EndOfTimeScale) < 0)
+                    var t = StartOfTimeScale;
+                    while (TimeSpan.Compare(t, EndOfTimeScale) < 0)
                     {
                         var dt = new DateTime(dt1.Year, dt1.Month, dt1.Day, t.Hours, t.Minutes, 0);
-                        this.arrRangeValues.Add(dt);
+                        arrRangeValues.Add(dt);
                         t = t.Add(tsInc);
                     }
                     // Add the end of the timescale as well to make sure it's there
                     // e.g. in the case of EndOfTimeScale=23:59 and TimeScaleInterval=1440, this is imperative
-                    var dtEnd = new DateTime(dt1.Year, dt1.Month, dt1.Day, this.EndOfTimeScale.Hours,
-                                             this.EndOfTimeScale.Minutes, 0);
-                    this.arrRangeValues.Add(dtEnd);
+                    var dtEnd = new DateTime(dt1.Year, dt1.Month, dt1.Day, EndOfTimeScale.Hours,
+                                             EndOfTimeScale.Minutes, 0);
+                    arrRangeValues.Add(dtEnd);
                     dt1 = dt1.AddDays(1);
                 }
             }
@@ -293,18 +293,18 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 for (j = 0; j <= dv.Count - 1; j++)
                 {
                     // Nulls are allowed (for creating titles without content) but will not show up
-                    if (!Information.IsDBNull(dv[j][this.DataRangeStartField]))
+                    if (!Information.IsDBNull(dv[j][DataRangeStartField]))
                     {
-                        var t1 = dv[j][this.DataRangeStartField];
-                        var t2 = dv[j][this.DataRangeEndField];
-                        this.arrRangeValues.Add(t1);
-                        this.arrRangeValues.Add(t2);
+                        var t1 = dv[j][DataRangeStartField];
+                        var t2 = dv[j][DataRangeEndField];
+                        arrRangeValues.Add(t1);
+                        arrRangeValues.Add(t2);
                     }
                 }
             }
 
-            this.arrRangeValues.Sort();
-            RemoveDoubles(this.arrRangeValues);
+            arrRangeValues.Sort();
+            RemoveDoubles(arrRangeValues);
             dv.Sort = strOldSort;
         }
 
@@ -316,18 +316,18 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public override void FillTitleValueArray(ref DataView dv)
         {
-            this.arrTitleValues = new ArrayList();
+            arrTitleValues = new ArrayList();
             var i = 0;
             for (i = 0; i <= dv.Count - 1; i++)
             {
-                var val = dv[i][this.TitleField];
-                this.arrTitleValues.Add(val);
+                var val = dv[i][TitleField];
+                arrTitleValues.Add(val);
             }
-            if (this.AutoSortTitles)
+            if (AutoSortTitles)
             {
-                this.arrTitleValues.Sort();
+                arrTitleValues.Sort();
             }
-            RemoveDoubles(this.arrTitleValues);
+            RemoveDoubles(arrTitleValues);
         }
 
         /// -----------------------------------------------------------------------------
@@ -337,39 +337,39 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// -----------------------------------------------------------------------------
         public override void AddDateHeaderData()
         {
-            if (!this.SeparateDateHeader)
+            if (!SeparateDateHeader)
             {
                 return;
             }
             // merge all cells having the same date in the first (date) header
-            if (this.arrRangeValues.Count == 0)
+            if (arrRangeValues.Count == 0)
             {
                 return;
             }
-            if (!(this.arrRangeValues[0] is DateTime) && !(this.arrRangeValues[0] is DateTime))
+            if (!(arrRangeValues[0] is DateTime) && !(arrRangeValues[0] is DateTime))
             {
                 throw new HttpException("If SeparateDateHeader is true, then DataRangeStartField " +
                                         " and DataRangeEndField need to be of type DateTime");
             }
-            if (this.Layout == LayoutEnum.Horizontal)
+            if (Layout == LayoutEnum.Horizontal)
             {
                 // In horizontal mode, add an extra row for date headers
-                this.Table1.Rows.AddAt(0, new TableRow());
+                Table1.Rows.AddAt(0, new TableRow());
             }
-            this.Table1.Rows[0].Cells.AddAt(0, new TableHeaderCell());
-            this.Table1.Rows[0].Cells[0].ApplyStyle(this.TitleStyle);
+            Table1.Rows[0].Cells.AddAt(0, new TableHeaderCell());
+            Table1.Rows[0].Cells[0].ApplyStyle(TitleStyle);
 
-            var prevRangeValue = Convert.ToDateTime(this.arrRangeValues[this.arrRangeValues.Count - 1]);
-            var prevStartValueIndex = this.arrRangeValues.Count;
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            var prevRangeValue = Convert.ToDateTime(arrRangeValues[arrRangeValues.Count - 1]);
+            var prevStartValueIndex = arrRangeValues.Count;
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                prevStartValueIndex = this.arrRangeValues.Count * 2 - 1;
+                prevStartValueIndex = arrRangeValues.Count * 2 - 1;
             }
 
             var i = 0;
-            for (i = this.arrRangeValues.Count - 1; i >= 0; i--)
+            for (i = arrRangeValues.Count - 1; i >= 0; i--)
             {
-                var arrRangeValue = Convert.ToDateTime(this.arrRangeValues[i]);
+                var arrRangeValue = Convert.ToDateTime(arrRangeValues[i]);
                 if (arrRangeValue.Date != prevRangeValue.Date)
                 {
                     // this value has another date than the previous one (the one below or to the right)
@@ -378,29 +378,29 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                         i + 2; // add 1 for the title cell and 1 because it's the next cell, not this one
                     var Span = prevStartValueIndex - ValueIndexOfNextCell + 1;
 
-                    if (!this.IncludeEndValue && this.ShowValueMarks)
+                    if (!IncludeEndValue && ShowValueMarks)
                     {
                         ValueIndexOfNextCell = i * 2 + 3;
                         Span = prevStartValueIndex - ValueIndexOfNextCell + 2;
                     }
 
                     var cell = default(TableCell);
-                    if (this.Layout == LayoutEnum.Vertical)
+                    if (Layout == LayoutEnum.Vertical)
                     {
-                        this.Table1.Rows[ValueIndexOfNextCell].Cells.AddAt(0, new TableHeaderCell());
-                        cell = this.Table1.Rows[ValueIndexOfNextCell].Cells[0];
+                        Table1.Rows[ValueIndexOfNextCell].Cells.AddAt(0, new TableHeaderCell());
+                        cell = Table1.Rows[ValueIndexOfNextCell].Cells[0];
                         cell.RowSpan = Span;
                     }
                     else // Horizontal
                     {
-                        this.Table1.Rows[0].Cells.AddAt(1, new TableHeaderCell());
-                        cell = this.Table1.Rows[0].Cells[1];
+                        Table1.Rows[0].Cells.AddAt(1, new TableHeaderCell());
+                        cell = Table1.Rows[0].Cells[1];
                         cell.ColumnSpan = Span;
                     }
-                    cell.ApplyStyle(this.RangeHeaderStyle);
+                    cell.ApplyStyle(RangeHeaderStyle);
                     prevRangeValue = arrRangeValue;
                     prevStartValueIndex = i + 1;
-                    if (!this.IncludeEndValue && this.ShowValueMarks)
+                    if (!IncludeEndValue && ShowValueMarks)
                     {
                         prevStartValueIndex = i * 2 + 1;
                     }
@@ -409,40 +409,40 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             // finish by adding the first cell also
             var cell0 = default(TableCell);
             var Span0 = prevStartValueIndex;
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            if (!IncludeEndValue && ShowValueMarks)
             {
                 Span0++;
             }
 
-            if (this.Layout == LayoutEnum.Vertical)
+            if (Layout == LayoutEnum.Vertical)
             {
-                this.Table1.Rows[1].Cells.AddAt(0, new TableHeaderCell());
-                cell0 = this.Table1.Rows[1].Cells[0];
+                Table1.Rows[1].Cells.AddAt(0, new TableHeaderCell());
+                cell0 = Table1.Rows[1].Cells[0];
                 cell0.RowSpan = Span0;
             }
             else // Horizontal
             {
-                this.Table1.Rows[0].Cells.AddAt(1, new TableHeaderCell());
-                cell0 = this.Table1.Rows[0].Cells[1];
+                Table1.Rows[0].Cells.AddAt(1, new TableHeaderCell());
+                cell0 = Table1.Rows[0].Cells[1];
                 cell0.ColumnSpan = Span0;
             }
-            cell0.ApplyStyle(this.RangeHeaderStyle);
+            cell0.ApplyStyle(RangeHeaderStyle);
 
             // iterate arrRangeValues in forward direction creating a new item for each data item
             // forward because it has to be in the same order as after postback, and there it's\
             // much easier if it's forward
             var cellIndex = 1;
             i = 0;
-            while (i < this.arrRangeValues.Count)
+            while (i < arrRangeValues.Count)
             {
-                var arrRangeValue = Convert.ToDateTime(this.arrRangeValues[i]);
-                this.CreateItem(cellIndex, 0, ScheduleItemType.DateHeader, true, arrRangeValue, -1);
-                var Span = this.GetValueSpan(cellIndex, 0);
+                var arrRangeValue = Convert.ToDateTime(arrRangeValues[i]);
+                CreateItem(cellIndex, 0, ScheduleItemType.DateHeader, true, arrRangeValue, -1);
+                var Span = GetValueSpan(cellIndex, 0);
                 if (Span == 0)
                 {
                     Span = 1;
                 }
-                if (this.Layout == LayoutEnum.Horizontal)
+                if (Layout == LayoutEnum.Horizontal)
                 {
                     cellIndex++;
                 }
@@ -450,7 +450,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                 {
                     cellIndex += Span;
                 }
-                if (!this.IncludeEndValue && this.ShowValueMarks)
+                if (!IncludeEndValue && ShowValueMarks)
                 {
                     i += Span / 2;
                 }
@@ -472,9 +472,9 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         {
             // Find the title index by matching with the title values array
             var k = 0;
-            for (k = 0; k <= this.arrTitleValues.Count - 1; k++)
+            for (k = 0; k <= arrTitleValues.Count - 1; k++)
             {
-                if (this.arrTitleValues[k].ToString() == objTitleValue.ToString())
+                if (arrTitleValues[k].ToString() == objTitleValue.ToString())
                 {
                     return k + 1;
                 }
@@ -507,19 +507,19 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             }
             var RangeValueIndex = -1;
             // Find range value index by matching with range values array
-            if (this.FullTimeScale && !(objRangeValue is DateTime))
+            if (FullTimeScale && !(objRangeValue is DateTime))
             {
                 throw new HttpException("The range field should be of type DateTime when FullTimeScale is set to true");
             }
             var k = 0;
-            if (this.FullTimeScale)
+            if (FullTimeScale)
             {
                 var Dobj = Convert.ToDateTime(objRangeValue);
                 // if no match is found, use the index of the EndOfTimeScale value
-                RangeValueIndex = this.arrRangeValues.Count;
-                for (k = 0; k <= this.arrRangeValues.Count - 1; k++)
+                RangeValueIndex = arrRangeValues.Count;
+                for (k = 0; k <= arrRangeValues.Count - 1; k++)
                 {
-                    var Dk = Convert.ToDateTime(this.arrRangeValues[k]);
+                    var Dk = Convert.ToDateTime(arrRangeValues[k]);
                     if (Dobj <= Dk)
                     {
                         if (k == 0 && isEndValue)
@@ -527,7 +527,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                             // This can happen when the end value is 24:00:00, which will
                             // match with the value 0:00:00 and give k=0
                             // Instead of the value k=0, use k=arrRangeValues.Count-1
-                            RangeValueIndex = this.arrRangeValues.Count;
+                            RangeValueIndex = arrRangeValues.Count;
                         }
                         else
                         {
@@ -540,18 +540,18 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             else // Not FullTimeScale
             {
                 // find the matching value in arrRangeValues
-                for (k = 0; k <= this.arrRangeValues.Count - 1; k++)
+                for (k = 0; k <= arrRangeValues.Count - 1; k++)
                 {
-                    if (this.arrRangeValues[k].ToString() == objRangeValue.ToString())
+                    if (arrRangeValues[k].ToString() == objRangeValue.ToString())
                     {
                         RangeValueIndex = k + 1;
                         break;
                     }
                 }
             }
-            if (!this.IncludeEndValue && this.ShowValueMarks)
+            if (!IncludeEndValue && ShowValueMarks)
             {
-                if (this.Layout == LayoutEnum.Vertical)
+                if (Layout == LayoutEnum.Vertical)
                 {
                     // Each item spans two rows
                     return RangeValueIndex * 2;
@@ -564,35 +564,35 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         protected override int GetTitleCount()
         {
-            return this.arrTitleValues.Count;
+            return arrTitleValues.Count;
         }
 
         public override int GetRangeHeaderIndex()
         {
             // when SeparateDateHeader=True, the first index (column or row) is the date header,
             // the second (column or row) contains the range values
-            return Convert.ToInt32(this.SeparateDateHeader ? 1 : 0);
+            return Convert.ToInt32(SeparateDateHeader ? 1 : 0);
         }
 
         public override void AddTitleHeaderData()
         {
-            var nTitles = this.GetTitleCount();
+            var nTitles = GetTitleCount();
 
             // iterate arrTitleValues creating a new item for each data item
             var titleIndex = 0;
             for (titleIndex = 1; titleIndex <= nTitles; titleIndex++)
             {
-                var obj = this.arrTitleValues[titleIndex - 1];
-                this.CreateItem(0, titleIndex, ScheduleItemType.TitleHeader, true, obj, -1);
+                var obj = arrTitleValues[titleIndex - 1];
+                CreateItem(0, titleIndex, ScheduleItemType.TitleHeader, true, obj, -1);
             }
         }
 
         public override string GetSortOrder()
         {
             // make sure the data is processed in the right order: from bottom right up to top left.
-            if (this.AutoSortTitles)
+            if (AutoSortTitles)
             {
-                return this.TitleField + " ASC, " + this.DataRangeStartField + " ASC, " + this.DataRangeEndField +
+                return TitleField + " ASC, " + DataRangeStartField + " ASC, " + DataRangeEndField +
                        " ASC";
             }
             return ""; // leave sort order as it is when AutoSortTitles=False
@@ -613,35 +613,35 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             {
                 if (type == ScheduleItemType.TitleHeader)
                 {
-                    if (this.TitleDataFormatString.Length == 0)
+                    if (TitleDataFormatString.Length == 0)
                     {
                         retVal = value.ToString();
                     }
                     else
                     {
-                        retVal = string.Format(this.TitleDataFormatString, value);
+                        retVal = string.Format(TitleDataFormatString, value);
                     }
                 }
                 else if (type == ScheduleItemType.RangeHeader)
                 {
-                    if (this.RangeDataFormatString.Length == 0)
+                    if (RangeDataFormatString.Length == 0)
                     {
                         retVal = value.ToString();
                     }
                     else
                     {
-                        retVal = string.Format(this.RangeDataFormatString, value);
+                        retVal = string.Format(RangeDataFormatString, value);
                     }
                 }
                 else if (type == ScheduleItemType.DateHeader)
                 {
-                    if (this.DateHeaderDataFormatString.Length == 0)
+                    if (DateHeaderDataFormatString.Length == 0)
                     {
                         retVal = value.ToString();
                     }
                     else
                     {
-                        retVal = string.Format(this.DateHeaderDataFormatString, value);
+                        retVal = string.Format(DateHeaderDataFormatString, value);
                     }
                 }
                 else
@@ -657,15 +657,15 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             switch (type)
             {
                 case ScheduleItemType.RangeHeader:
-                    return this.RangeHeaderTemplate;
+                    return RangeHeaderTemplate;
                 case ScheduleItemType.TitleHeader:
-                    return this.TitleTemplate;
+                    return TitleTemplate;
                 case ScheduleItemType.DateHeader:
-                    return this.DateHeaderTemplate;
+                    return DateHeaderTemplate;
                 case ScheduleItemType.Item:
-                    return this.ItemTemplate;
+                    return ItemTemplate;
                 case ScheduleItemType.AlternatingItem:
-                    return this.ItemTemplate;
+                    return ItemTemplate;
             }
             return null;
         }
@@ -675,7 +675,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             // handle DateHeader, which is not handled in the base class
             if (type == ScheduleItemType.DateHeader)
             {
-                return this.RangeHeaderStyle;
+                return RangeHeaderStyle;
             }
             return base.GetStyle(type);
         }
@@ -693,7 +693,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         /// ' -----------------------------------------------------------------------------
         public override dynamic CalculateTitle(int titleIndex, int cellIndex)
         {
-            return this.arrTitleValues[titleIndex - 1];
+            return arrTitleValues[titleIndex - 1];
         }
 
         #endregion

@@ -41,8 +41,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
     {
         public ClickableTableCell(int newRow, int newColumn)
         {
-            this.Row = newRow;
-            this.Column = newColumn;
+            Row = newRow;
+            Column = newColumn;
         }
 
         public int Row { get; set; }
@@ -52,17 +52,17 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         protected override void OnPreRender(EventArgs e)
         {
             base.OnPreRender(e);
-            if (this.Controls.Count > 0)
+            if (Controls.Count > 0)
             {
                 return; // don't allow clicking on cells that contain existing items
             }
-            this.Style.Add("cursor", "hand"); // change the cursor: only works in Internet Explorer
-            var scheduleControl = (BaseSchedule) this.Parent.Parent.Parent;
+            Style.Add("cursor", "hand"); // change the cursor: only works in Internet Explorer
+            var scheduleControl = (BaseSchedule) Parent.Parent.Parent;
             // get tooltip from parent schedule control
-            this.ToolTip = scheduleControl.EmptySlotToolTip;
-            var eventArgument = this.Row + "-" + Convert.ToString(this.Column);
-            this.Attributes["onclick"] =
-                this.Page.ClientScript.GetPostBackClientHyperlink(scheduleControl, eventArgument);
+            ToolTip = scheduleControl.EmptySlotToolTip;
+            var eventArgument = Row + "-" + Convert.ToString(Column);
+            Attributes["onclick"] =
+                Page.ClientScript.GetPostBackClientHyperlink(scheduleControl, eventArgument);
         }
     }
 }

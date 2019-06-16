@@ -48,9 +48,9 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         public bool IsReadOnly => false;
 
-        public ScheduleItem this[int index] => (ScheduleItem) this.items[index];
+        public ScheduleItem this[int index] => (ScheduleItem) items[index];
 
-        public int Count => this.items.Count;
+        public int Count => items.Count;
 
         public bool IsSynchronized => false;
 
@@ -69,7 +69,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         public IEnumerator GetEnumerator()
         {
-            return this.items.GetEnumerator();
+            return items.GetEnumerator();
         }
     } //ScheduleItemCollection
 }
