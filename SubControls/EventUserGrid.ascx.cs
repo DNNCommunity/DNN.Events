@@ -42,14 +42,21 @@ namespace DotNetNuke.Modules.Events
         #region Public and Privates
         public delegate void AddSelectedUsersEventHandler(object sender, EventArgs e, ArrayList arrUsers);
 
-        private static readonly string _myFileName = typeof(EventIcons).BaseType.Name + ".ascx";
+
+        private string _myFileName => GetType().BaseType.Name + ".ascx";
+
+        protected new string LocalResourceFile => Localization.GetResourceFile(this, _myFileName);
+
+
+
+        //private static readonly string _myFileName = typeof(EventIcons).BaseType.Name + ".ascx";
         //  Inherits Framework.UserControlBase
 
         private AddSelectedUsersEventHandler AddSelectedUsersEvent;
         
         protected ArrayList Users { get; set; } = new ArrayList();
 
-        protected new string LocalResourceFile => Localization.GetResourceFile(this, _myFileName);
+        //protected new string LocalResourceFile => Localization.GetResourceFile(this, _myFileName);
 
         #endregion
         protected override void OnInit(EventArgs e)
@@ -196,15 +203,12 @@ namespace DotNetNuke.Modules.Events
             }
 
             dropdownFilterItem.Items.Clear();
-            dropdownFilterItem.Items.Add(
-                new ListItem(Localization.GetString("dropdownFilterItem00.Text", LocalResourceFile), "0"));
-            dropdownFilterItem.Items.Add(
-                new ListItem(Localization.GetString("dropdownFilterItem02.Text", LocalResourceFile), "2"));
+            dropdownFilterItem.Items.Add( new ListItem(Localization.GetString("dropdownFilterItem00", LocalResourceFile), "0"));
+            dropdownFilterItem.Items.Add( new ListItem(Localization.GetString("dropdownFilterItem02", LocalResourceFile), "2"));
+			
             if (roleName == regRoleName)
             {
-                dropdownFilterItem.Items.Add(
-                    new ListItem(Localization.GetString("dropdownFilterItem01.Text", LocalResourceFile),
-                                 "1"));
+                dropdownFilterItem.Items.Add( new ListItem(Localization.GetString("dropdownFilterItem01", LocalResourceFile), "1"));
             }
 
             var tmpUsers = default(ArrayList);

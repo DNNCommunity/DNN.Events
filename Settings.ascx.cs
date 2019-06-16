@@ -28,12 +28,12 @@ namespace DotNetNuke.Modules.Events
     using System;
     using System.Collections;
     using System.Diagnostics;
-    using DotNetNuke.Common.Utilities;
+    using Common.Utilities;
     using DotNetNuke.Entities.Modules;
-    using DotNetNuke.Entities.Users;
-    using DotNetNuke.Framework;
-    using DotNetNuke.Security.Permissions;
-    using DotNetNuke.Services.Exceptions;
+    using Entities.Users;
+    using Framework;
+    using Security.Permissions;
+    using Services.Exceptions;
     using global::Components;
 
     [DNNtc.ModuleControlProperties("Settings", "Event Settings", DNNtc.ControlType.Admin, "https://github.com/DNNCommunity/DNN.Events/wiki", true, true)]
@@ -43,25 +43,25 @@ namespace DotNetNuke.Modules.Events
 
         protected void cmdUpgrade_Click(object sender, EventArgs e)
         {
-            var emSettings = EventModuleSettings.GetEventModuleSettings(this.ModuleId, this.LocalResourceFile);
+            var emSettings = EventModuleSettings.GetEventModuleSettings(ModuleId, LocalResourceFile);
 
             var dummyRmid = emSettings.RecurDummy;
-            this.divUpgrade.Visible = false;
-            this.divRetry.Visible = false;
+            divUpgrade.Visible = false;
+            divRetry.Visible = false;
             if (!string.IsNullOrEmpty(dummyRmid) &&
                 dummyRmid != "99999")
             {
                 var objEventController = new EventController();
                 int dummyRmidInt = int.TryParse(dummyRmid, out dummyRmidInt) ? dummyRmidInt : 0;
                 var upgradeOk =
-                    objEventController.UpgradeRecurringEventModule(this.ModuleId, dummyRmidInt,
-                                                                   emSettings.Maxrecurrences, this.LocalResourceFile);
+                    objEventController.UpgradeRecurringEventModule(ModuleId, dummyRmidInt,
+                                                                   emSettings.Maxrecurrences, LocalResourceFile);
                 var objEventCtl = new EventController();
                 objEventCtl.EventsUpgrade("04.01.00");
                 if (!upgradeOk)
                 {
-                    this.divUpgrade.Visible = true;
-                    this.divRetry.Visible = true;
+                    divUpgrade.Visible = true;
+                    divRetry.Visible = true;
                 }
             }
         }
@@ -79,7 +79,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
@@ -99,18 +99,18 @@ namespace DotNetNuke.Modules.Events
             // Force full PostBack since these pass off to aspx page
             if (AJAX.IsInstalled())
             {
-                AJAX.RegisterPostBackControl(this.cmdUpgrade);
+                AJAX.RegisterPostBackControl(cmdUpgrade);
             }
 
-            var emSettings = EventModuleSettings.GetEventModuleSettings(this.ModuleId, this.LocalResourceFile);
+            var emSettings = EventModuleSettings.GetEventModuleSettings(ModuleId, LocalResourceFile);
 
             var dummyRmid = emSettings.RecurDummy;
-            this.divUpgrade.Visible = false;
-            this.divRetry.Visible = false;
+            divUpgrade.Visible = false;
+            divRetry.Visible = false;
             if (!string.IsNullOrEmpty(dummyRmid) &&
                 dummyRmid != "99999")
             {
-                this.divUpgrade.Visible = true;
+                divUpgrade.Visible = true;
             }
         }
 
@@ -122,9 +122,9 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                this.MakeModerator_Editor();
-                this.UpdateSubscriptions();
-                var emCacheKey = "EventsModuleTitle" + this.ModuleId;
+                MakeModerator_Editor();
+                UpdateSubscriptions();
+                var emCacheKey = "EventsModuleTitle" + ModuleId;
                 DataCache.ClearCache(emCacheKey);
             }
             catch (Exception exc) //Module failed to load
@@ -146,7 +146,7 @@ namespace DotNetNuke.Modules.Events
 
                 var objModules = new ModuleController();
                 // Get existing module permissions
-                var objModule = objModules.GetModule(this.ModuleId, this.TabId);
+                var objModule = objModules.GetModule(ModuleId, TabId);
 
                 var objModulePermissions2 = new ModulePermissionCollection();
                 foreach (ModulePermissionInfo perm in objModule.ModulePermissions)
@@ -200,7 +200,7 @@ namespace DotNetNuke.Modules.Events
                     // Add Edit Permission for Moderator Role
                     objPermission = new ModulePermissionInfo();
                     objPermission.RoleID = iRoleID;
-                    objPermission.ModuleID = this.ModuleId;
+                    objPermission.ModuleID = ModuleId;
                     objPermission.PermissionKey = objEditPermission.PermissionKey;
                     objPermission.PermissionName = objEditPermission.PermissionName;
                     objPermission.PermissionCode = objEditPermission.PermissionCode;
@@ -212,7 +212,7 @@ namespace DotNetNuke.Modules.Events
                 {
                     objPermission = new ModulePermissionInfo();
                     objPermission.UserID = iUserID;
-                    objPermission.ModuleID = this.ModuleId;
+                    objPermission.ModuleID = ModuleId;
                     objPermission.PermissionKey = objEditPermission.PermissionKey;
                     objPermission.PermissionName = objEditPermission.PermissionName;
                     objPermission.PermissionCode = objEditPermission.PermissionCode;
@@ -232,13 +232,13 @@ namespace DotNetNuke.Modules.Events
         {
             var objCtlEventSubscriptions = new EventSubscriptionController();
             var lstEventSubscriptions = default(ArrayList);
-            lstEventSubscriptions = objCtlEventSubscriptions.EventsSubscriptionGetModule(this.ModuleId);
+            lstEventSubscriptions = objCtlEventSubscriptions.EventsSubscriptionGetModule(ModuleId);
             if (lstEventSubscriptions.Count == 0)
             {
                 return;
             }
 
-            var objEventInfo = new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, null);
+            var objEventInfo = new EventInfoHelper(ModuleId, TabId, PortalId, null);
             var lstusers = objEventInfo.GetEventModuleViewers();
 
             var objEventSubscription = default(EventSubscriptionInfo);
@@ -248,12 +248,12 @@ namespace DotNetNuke.Modules.Events
                 if (!lstusers.Contains(objEventSubscription.UserID))
                 {
                     var objCtlUser = new UserController();
-                    var objUser = objCtlUser.GetUser(this.PortalId, objEventSubscription.UserID);
+                    var objUser = objCtlUser.GetUser(PortalId, objEventSubscription.UserID);
 
                     if (ReferenceEquals(objUser, null) || !objUser.IsSuperUser)
                     {
                         objCtlEventSubscriptions.EventsSubscriptionDeleteUser(
-                            objEventSubscription.UserID, this.ModuleId);
+                            objEventSubscription.UserID, ModuleId);
                     }
                 }
             }
