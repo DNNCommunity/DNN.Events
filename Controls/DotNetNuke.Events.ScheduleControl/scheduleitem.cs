@@ -51,8 +51,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         public dynamic DataItem
         {
-            get { return this._dataItem; }
-            set { this._dataItem = value; }
+            get { return _dataItem; }
+            set { _dataItem = value; }
         }
 
 #if NET_2_0
@@ -75,8 +75,8 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
 
         public ScheduleItem(int dataSetIndex1, ScheduleItemType itemType1)
         {
-            this.DataSetIndex = dataSetIndex1;
-            this.ItemType = itemType1;
+            DataSetIndex = dataSetIndex1;
+            ItemType = itemType1;
         }
 
         protected override bool OnBubbleEvent(object source, EventArgs e)
@@ -85,7 +85,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
             if (e is CommandEventArgs)
             {
                 var args = new ScheduleCommandEventArgs(this, source, (CommandEventArgs) e);
-                this.RaiseBubbleEvent(this, args);
+                RaiseBubbleEvent(this, args);
                 return true;
             }
             return false;

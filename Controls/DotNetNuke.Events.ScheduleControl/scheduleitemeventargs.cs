@@ -41,7 +41,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
     {
         public ScheduleItemEventArgs(ScheduleItem item)
         {
-            this.Item = item;
+            Item = item;
         }
 
         public ScheduleItem Item { get; }

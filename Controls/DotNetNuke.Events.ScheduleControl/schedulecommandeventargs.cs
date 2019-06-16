@@ -44,13 +44,13 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
         public ScheduleCommandEventArgs(ScheduleItem item, object commandSource,
                                         CommandEventArgs originalArgs) : base(originalArgs)
         {
-            this.Item = item;
-            this._commandSource = commandSource;
+            Item = item;
+            _commandSource = commandSource;
         }
 
         public ScheduleItem Item { get; }
 
-        public dynamic CommandSource => this._commandSource;
+        public dynamic CommandSource => _commandSource;
     }
 
     public delegate void ScheduleCommandEventHandler(object sender, ScheduleCommandEventArgs e);

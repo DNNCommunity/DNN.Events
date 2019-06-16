@@ -37,51 +37,51 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
     {
         private void btnOK_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void cbFullTimeScale_CheckedChanged(object sender, EventArgs e)
         {
-            this.tbStartTimeScale.Enabled = this.cbFullTimeScale.Checked;
-            this.tbEndTimeScale.Enabled = this.cbFullTimeScale.Checked;
-            this.tbInterval.Enabled = this.cbFullTimeScale.Checked;
+            tbStartTimeScale.Enabled = cbFullTimeScale.Checked;
+            tbEndTimeScale.Enabled = cbFullTimeScale.Checked;
+            tbInterval.Enabled = cbFullTimeScale.Checked;
         }
 
         private void cbTimeFieldsContainDate_CheckedChanged(object sender, EventArgs e)
         {
-            this.tbDateField.Enabled = !this.cbTimeFieldsContainDate.Checked;
+            tbDateField.Enabled = !cbTimeFieldsContainDate.Checked;
         }
 
         private void rbHorizontal_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.rbHorizontal.Checked)
+            if (rbHorizontal.Checked)
             {
-                this.tbNumberOfRepetitions.Text = "1";
-                this.tbNumberOfRepetitions.Enabled = false;
+                tbNumberOfRepetitions.Text = "1";
+                tbNumberOfRepetitions.Enabled = false;
             }
             else
             {
-                this.tbNumberOfRepetitions.Enabled = true;
+                tbNumberOfRepetitions.Enabled = true;
             }
         }
 
         private void cbShowValueMarks_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.cbShowValueMarks.Checked)
+            if (cbShowValueMarks.Checked)
             {
-                this.cbIncludeEndValue.Checked = false;
+                cbIncludeEndValue.Checked = false;
             }
         }
 
         private void tbNumberOfDays_TextChanged(object sender, EventArgs e)
         {
-            this.cbStartDay.Enabled = this.tbNumberOfDays.Text == "7"; // startday is only used on weekly calendar
+            cbStartDay.Enabled = tbNumberOfDays.Text == "7"; // startday is only used on weekly calendar
         }
 
         private void cbEnableEmptySlotClick_CheckedChanged(object sender, EventArgs e)
         {
-            this.tbEmptySlotToolTip.Enabled = this.cbEnableEmptySlotClick.Checked;
+            tbEmptySlotToolTip.Enabled = cbEnableEmptySlotClick.Checked;
         }
 
         #region  Windows Form Designer generated code

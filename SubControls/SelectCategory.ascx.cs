@@ -31,8 +31,8 @@ namespace DotNetNuke.Modules.Events
     using System.Diagnostics;
     using System.Reflection;
     using System.Web.UI.WebControls;
-    using DotNetNuke.Security;
-    using DotNetNuke.Services.Localization;
+    using Security;
+    using Services.Localization;
     using global::Components;
     using Telerik.Web.UI;
     using EventInfo = global::Components.EventInfo;
@@ -43,17 +43,17 @@ namespace DotNetNuke.Modules.Events
 
         public void StoreCategories()
         {
-            this.SelectedCategory.Clear();
+            SelectedCategory.Clear();
             var lstCategories = new ArrayList();
-            if (this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.SingleSelect)
+            if (Settings.Enablecategories == EventModuleSettings.DisplayCategories.SingleSelect)
             {
-                lstCategories.Add(this.ddlCategories.SelectedValue);
+                lstCategories.Add(ddlCategories.SelectedValue);
             }
             else
             {
-                if (this.ddlCategories.CheckedItems.Count > 0 && this.ddlCategories.CheckedItems.Count != this.ddlCategories.Items.Count)
+                if (ddlCategories.CheckedItems.Count > 0 && ddlCategories.CheckedItems.Count != ddlCategories.Items.Count)
                 {
-                    foreach (var item in this.ddlCategories.CheckedItems)
+                    foreach (var item in ddlCategories.CheckedItems)
                     {
                         lstCategories.Add(item.Value);
                     }
@@ -63,7 +63,7 @@ namespace DotNetNuke.Modules.Events
                     lstCategories.Add("-1");
                 }
             }
-            this.SelectedCategory = lstCategories;
+            SelectedCategory = lstCategories;
         }
 
         #endregion
@@ -78,66 +78,66 @@ namespace DotNetNuke.Modules.Events
             get
                 {
                     //have selected the category before
-                    if (!this._gotCategories)
+                    if (!_gotCategories)
                     {
-                        this._gotCategories = true;
-                        this._selectedCategory.Clear();
+                        _gotCategories = true;
+                        _selectedCategory.Clear();
                         //is there a default module category when category select has been disabled
                         //if not has it been passed in as a parameter
                         //if not is there a default module category when category select has not been disabled
                         //if not is there as setting in cookies available
-                        if (this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay)
+                        if (Settings.Enablecategories == EventModuleSettings.DisplayCategories.DoNotDisplay)
                         {
-                            if (this.Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.All)
+                            if (Settings.ModuleCategoriesSelected == EventModuleSettings.CategoriesSelected.All)
                             {
-                                this._selectedCategory.Clear();
-                                this._selectedCategory.Add("-1");
+                                _selectedCategory.Clear();
+                                _selectedCategory.Add("-1");
                             }
                             else
                             {
-                                this._selectedCategory.Clear();
-                                foreach (var category in this.Settings.ModuleCategoryIDs)
-                            {
-                                this._selectedCategory.Add(category);
+                                _selectedCategory.Clear();
+                                foreach (var category in Settings.ModuleCategoryIDs)
+                                {
+                                    _selectedCategory.Add(category);
                                 }
                             }
                         }
-                        else if (!(this.Request.Params["Category"] == null))
+                        else if (!(Request.Params["Category"] == null))
                         {
                             var objSecurity = new PortalSecurity();
-                            var tmpCategory = this.Request.Params["Category"];
+                            var tmpCategory = Request.Params["Category"];
                             tmpCategory = objSecurity.InputFilter(tmpCategory, PortalSecurity.FilterFlag.NoScripting);
                             tmpCategory = objSecurity.InputFilter(tmpCategory, PortalSecurity.FilterFlag.NoSQL);
                             var oCntrlEventCategory = new EventCategoryController();
                             var oEventCategory =
-                                oCntrlEventCategory.EventCategoryGetByName(tmpCategory, this.PortalSettings.PortalId);
+                                oCntrlEventCategory.EventCategoryGetByName(tmpCategory, PortalSettings.PortalId);
                             if (!ReferenceEquals(oEventCategory, null))
                             {
-                                this._selectedCategory.Add(oEventCategory.Category);
+                                _selectedCategory.Add(oEventCategory.Category);
                             }
                         }
-                        else if (this.Settings.ModuleCategoriesSelected != EventModuleSettings.CategoriesSelected.All)
+                        else if (Settings.ModuleCategoriesSelected != EventModuleSettings.CategoriesSelected.All)
                         {
-                            this._selectedCategory.Clear();
-                            foreach (var category in this.Settings.ModuleCategoryIDs)
+                            _selectedCategory.Clear();
+                            foreach (var category in Settings.ModuleCategoryIDs)
                             {
-                                this._selectedCategory.Add(category);
+                                _selectedCategory.Add(category);
                             }
                         }
-                        else if (ReferenceEquals(this.Request.Cookies["DNNEvents"], null))
+                        else if (ReferenceEquals(Request.Cookies["DNNEvents"], null))
                         {
-                            this._selectedCategory.Clear();
-                            this._selectedCategory.Add("-1");
+                            _selectedCategory.Clear();
+                            _selectedCategory.Add("-1");
                         }
                         else
                         {
                             //Do we have a special one for this module
                             if (ReferenceEquals(
-                                this.Request.Cookies["DNNEvents"]["EventCategory" + Convert.ToString(this.ModuleId)],
+                                Request.Cookies["DNNEvents"]["EventCategory" + Convert.ToString(ModuleId)],
                                 null))
                             {
-                                this._selectedCategory.Clear();
-                                this._selectedCategory.Add("-1");
+                                _selectedCategory.Clear();
+                                _selectedCategory.Add("-1");
                             }
                             else
                             {
@@ -145,8 +145,8 @@ namespace DotNetNuke.Modules.Events
                                 var objSecurity = new PortalSecurity();
                                 var tmpCategory =
                                     Convert.ToString(
-                                        this.Request.Cookies["DNNEvents"][
-                                            "EventCategory" + Convert.ToString(this.ModuleId)]);
+                                        Request.Cookies["DNNEvents"][
+                                            "EventCategory" + Convert.ToString(ModuleId)]);
                                 tmpCategory =
                                     objSecurity.InputFilter(tmpCategory, PortalSecurity.FilterFlag.NoScripting);
                                 tmpCategory = objSecurity.InputFilter(tmpCategory, PortalSecurity.FilterFlag.NoSQL);
@@ -155,24 +155,24 @@ namespace DotNetNuke.Modules.Events
                                 {
                                     if (tmpArray[i] != "")
                                     {
-                                        this._selectedCategory.Add(int.Parse(tmpArray[i]));
+                                        _selectedCategory.Add(int.Parse(tmpArray[i]));
                                     }
                                 }
                             }
                         }
                     }
-                    return this._selectedCategory;
+                    return _selectedCategory;
                 }
             set
                 {
                     try
                     {
-                        this._selectedCategory = value;
-                        this._gotCategories = true;
-                        this.Response.Cookies["DNNEvents"]["EventCategory" + Convert.ToString(this.ModuleId)] =
-                            string.Join(",", (string[]) this._selectedCategory.ToArray(typeof(string)));
-                        this.Response.Cookies["DNNEvents"].Expires = DateTime.Now.AddMinutes(2);
-                        this.Response.Cookies["DNNEvents"].Path = "/";
+                        _selectedCategory = value;
+                        _gotCategories = true;
+                        Response.Cookies["DNNEvents"]["EventCategory" + Convert.ToString(ModuleId)] =
+                            string.Join(",", (string[]) _selectedCategory.ToArray(typeof(string)));
+                        Response.Cookies["DNNEvents"].Expires = DateTime.Now.AddMinutes(2);
+                        Response.Cookies["DNNEvents"].Path = "/";
                     }
                     catch (Exception)
                     { }
@@ -192,35 +192,35 @@ namespace DotNetNuke.Modules.Events
                 // Add the external Validation.js to the Page
                 const string csname = "ExtValidationScriptFile";
                 var cstype = MethodBase.GetCurrentMethod().GetType();
-                var cstext = "<script src=\"" + this.ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
+                var cstext = "<script src=\"" + ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
                              "\" type=\"text/javascript\"></script>";
-                if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname))
+                if (!Page.ClientScript.IsClientScriptBlockRegistered(csname))
                 {
-                    this.Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
+                    Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
                 }
 
-                this.ddlCategories.EmptyMessage = Localization.GetString("NoCategories", this.LocalResourceFile);
-                this.ddlCategories.Localization.AllItemsCheckedString =
-                    Localization.GetString("AllCategories", this.LocalResourceFile);
-                this.ddlCategories.Localization.CheckAllString =
-                    Localization.GetString("SelectAllCategories", this.LocalResourceFile);
-                if (this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.SingleSelect)
+                ddlCategories.EmptyMessage = Localization.GetString("NoCategories", LocalResourceFile);
+                ddlCategories.Localization.AllItemsCheckedString =
+                    Localization.GetString("AllCategories", LocalResourceFile);
+                ddlCategories.Localization.CheckAllString =
+                    Localization.GetString("SelectAllCategories", LocalResourceFile);
+                if (Settings.Enablecategories == EventModuleSettings.DisplayCategories.SingleSelect)
                 {
-                    this.ddlCategories.CheckBoxes = false;
+                    ddlCategories.CheckBoxes = false;
                 }
 
-                if (!this.Page.IsPostBack)
+                if (!Page.IsPostBack)
                 {
                     //Bind DDL
                     var ctrlEventCategories = new EventCategoryController();
-                    var lstCategories = ctrlEventCategories.EventsCategoryList(this.PortalId);
+                    var lstCategories = ctrlEventCategories.EventsCategoryList(PortalId);
 
                     var arrCategories = new ArrayList();
-                    if (this.Settings.Restrictcategories)
+                    if (Settings.Restrictcategories)
                     {
                         foreach (EventCategoryInfo dbCategory in lstCategories)
                         {
-                            foreach (int category in this.Settings.ModuleCategoryIDs)
+                            foreach (int category in Settings.ModuleCategoryIDs)
                             {
                                 if (dbCategory.Category == category)
                                 {
@@ -236,65 +236,64 @@ namespace DotNetNuke.Modules.Events
 
                     if (lstCategories.Count == 0)
                     {
-                        this.Visible = false;
-                        this.SelectedCategory.Clear();
+                        Visible = false;
+                        SelectedCategory.Clear();
                         return;
                     }
 
                     //Restrict categories by events in time frame.
-                    if (this.Settings.RestrictCategoriesToTimeFrame)
+                    if (Settings.RestrictCategoriesToTimeFrame)
                     {
                         //Only for list view.
                         var whichView = string.Empty;
-                        if (!(this.Request.QueryString["mctl"] == null) && this.ModuleId ==
-                            Convert.ToInt32(this.Request.QueryString["ModuleID"]))
+                        if (!(Request.QueryString["mctl"] == null) && ModuleId ==
+                            Convert.ToInt32(Request.QueryString["ModuleID"]))
                         {
-                            if (this.Request["mctl"].EndsWith(".ascx"))
+                            if (Request["mctl"].EndsWith(".ascx"))
                             {
-                                whichView = this.Request["mctl"];
+                                whichView = Request["mctl"];
                             }
                             else
                             {
-                                whichView = this.Request["mctl"] + ".ascx";
+                                whichView = Request["mctl"] + ".ascx";
                             }
                         }
                         if (whichView.Length == 0)
                         {
                             if (!ReferenceEquals(
-                                    this.Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)), null))
+                                    Request.Cookies.Get("DNNEvents" + Convert.ToString(ModuleId)), null))
                             {
-                                whichView = this
-                                    .Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)).Value;
+                                whichView = Request.Cookies.Get("DNNEvents" + Convert.ToString(ModuleId)).Value;
                             }
                             else
                             {
-                                whichView = this.Settings.DefaultView;
+                                whichView = Settings.DefaultView;
                             }
                         }
 
                         if (whichView == "EventList.ascx" || whichView == "EventRpt.ascx")
                         {
                             var objEventInfoHelper =
-                                new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                                new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
                             var lstEvents = default(ArrayList);
 
-                            var getSubEvents = this.Settings.MasterEvent;
-                            var numDays = this.Settings.EventsListEventDays;
+                            var getSubEvents = Settings.MasterEvent;
+                            var numDays = Settings.EventsListEventDays;
                             var displayDate = default(DateTime);
                             var startDate = default(DateTime);
                             var endDate = default(DateTime);
-                            if (this.Settings.ListViewUseTime)
+                            if (Settings.ListViewUseTime)
                             {
-                                displayDate = this.DisplayNow();
+                                displayDate = DisplayNow();
                             }
                             else
                             {
-                                displayDate = this.DisplayNow().Date;
+                                displayDate = DisplayNow().Date;
                             }
-                            if (this.Settings.EventsListSelectType == "DAYS")
+                            if (Settings.EventsListSelectType == "DAYS")
                             {
-                                startDate = displayDate.AddDays(this.Settings.EventsListBeforeDays * -1);
-                                endDate = displayDate.AddDays(this.Settings.EventsListAfterDays * 1);
+                                startDate = displayDate.AddDays(Settings.EventsListBeforeDays * -1);
+                                endDate = displayDate.AddDays(Settings.EventsListAfterDays * 1);
                             }
                             else
                             {
@@ -323,35 +322,35 @@ namespace DotNetNuke.Modules.Events
                     }
 
                     //Bind categories.
-                    this.ddlCategories.DataSource = arrCategories;
-                    this.ddlCategories.DataBind();
+                    ddlCategories.DataSource = arrCategories;
+                    ddlCategories.DataBind();
 
-                    if (this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.SingleSelect)
+                    if (Settings.Enablecategories == EventModuleSettings.DisplayCategories.SingleSelect)
                     {
-                        this.ddlCategories.Items.Insert(
+                        ddlCategories.Items.Insert(
                             0,
-                            new RadComboBoxItem(Localization.GetString("AllCategories", this.LocalResourceFile),
+                            new RadComboBoxItem(Localization.GetString("AllCategories", LocalResourceFile),
                                                 "-1"));
-                        this.ddlCategories.SelectedIndex = 0;
+                        ddlCategories.SelectedIndex = 0;
                     }
-                    this.ddlCategories.OnClientDropDownClosed =
-                        "function() { btnUpdateClick('" + this.btnUpdate.UniqueID + "','" +
-                        this.ddlCategories.ClientID + "');}";
-                    this.ddlCategories.OnClientLoad = "function() { storeText('" + this.ddlCategories.ClientID + "');}";
-                    if (this.Settings.Enablecategories == EventModuleSettings.DisplayCategories.SingleSelect)
+                    ddlCategories.OnClientDropDownClosed =
+                        "function() { btnUpdateClick('" + btnUpdate.UniqueID + "','" +
+                        ddlCategories.ClientID + "');}";
+                    ddlCategories.OnClientLoad = "function() { storeText('" + ddlCategories.ClientID + "');}";
+                    if (Settings.Enablecategories == EventModuleSettings.DisplayCategories.SingleSelect)
                     {
-                        foreach (int category in this.SelectedCategory)
+                        foreach (int category in SelectedCategory)
                         {
-                            this.ddlCategories.SelectedIndex =
-                                this.ddlCategories.FindItemByValue(category.ToString()).Index;
+                            ddlCategories.SelectedIndex =
+                                ddlCategories.FindItemByValue(category.ToString()).Index;
                             break;
                         }
                     }
                     else
                     {
-                        foreach (int category in this.SelectedCategory)
+                        foreach (int category in SelectedCategory)
                         {
-                            foreach (RadComboBoxItem item in this.ddlCategories.Items)
+                            foreach (RadComboBoxItem item in ddlCategories.Items)
                             {
                                 if (item.Value == category.ToString())
                                 {
@@ -360,9 +359,9 @@ namespace DotNetNuke.Modules.Events
                             }
                         }
 
-                        if (Convert.ToInt32(this.SelectedCategory[0]) == -1)
+                        if (Convert.ToInt32(SelectedCategory[0]) == -1)
                         {
-                            foreach (RadComboBoxItem item in this.ddlCategories.Items)
+                            foreach (RadComboBoxItem item in ddlCategories.Items)
                             {
                                 item.Checked = true;
                             }
@@ -378,13 +377,13 @@ namespace DotNetNuke.Modules.Events
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            this.StoreCategories();
+            StoreCategories();
 
             // Fire the CategorySelected event...
-            var args = new CommandEventArgs(this.SelectedCategory.ToString(), null);
-            if (this.CategorySelectedChangedEvent != null)
+            var args = new CommandEventArgs(SelectedCategory.ToString(), null);
+            if (CategorySelectedChangedEvent != null)
             {
-                this.CategorySelectedChangedEvent(this, args);
+                CategorySelectedChangedEvent(this, args);
             }
         }
 
@@ -396,14 +395,14 @@ namespace DotNetNuke.Modules.Events
         {
             add
                 {
-                    this.CategorySelectedChangedEvent =
+                    CategorySelectedChangedEvent =
                         (CategorySelectedChangedEventHandler) Delegate.Combine(
-                            this.CategorySelectedChangedEvent, value);
+                            CategorySelectedChangedEvent, value);
                 }
             remove
                 {
-                    this.CategorySelectedChangedEvent =
-                        (CategorySelectedChangedEventHandler) Delegate.Remove(this.CategorySelectedChangedEvent, value);
+                    CategorySelectedChangedEvent =
+                        (CategorySelectedChangedEventHandler) Delegate.Remove(CategorySelectedChangedEvent, value);
                 }
         }
 
@@ -420,7 +419,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

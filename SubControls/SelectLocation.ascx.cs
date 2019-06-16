@@ -30,8 +30,8 @@ namespace DotNetNuke.Modules.Events
     using System.Diagnostics;
     using System.Reflection;
     using System.Web.UI.WebControls;
-    using DotNetNuke.Security;
-    using DotNetNuke.Services.Localization;
+    using Security;
+    using Services.Localization;
     using global::Components;
     using Telerik.Web.UI;
     using EventInfo = global::Components.EventInfo;
@@ -42,17 +42,17 @@ namespace DotNetNuke.Modules.Events
 
         public void StoreLocations()
         {
-            this.SelectedLocation.Clear();
+            SelectedLocation.Clear();
             var lstLocations = new ArrayList();
-            if (this.Settings.Enablelocations == EventModuleSettings.DisplayLocations.SingleSelect)
+            if (Settings.Enablelocations == EventModuleSettings.DisplayLocations.SingleSelect)
             {
-                lstLocations.Add(this.ddlLocations.SelectedValue);
+                lstLocations.Add(ddlLocations.SelectedValue);
             }
             else
             {
-                if (this.ddlLocations.CheckedItems.Count > 0 && this.ddlLocations.CheckedItems.Count != this.ddlLocations.Items.Count)
+                if (ddlLocations.CheckedItems.Count > 0 && ddlLocations.CheckedItems.Count != ddlLocations.Items.Count)
                 {
-                    foreach (var item in this.ddlLocations.CheckedItems)
+                    foreach (var item in ddlLocations.CheckedItems)
                     {
                         lstLocations.Add(item.Value);
                     }
@@ -62,7 +62,7 @@ namespace DotNetNuke.Modules.Events
                     lstLocations.Add("-1");
                 }
             }
-            this.SelectedLocation = lstLocations;
+            SelectedLocation = lstLocations;
         }
 
         #endregion
@@ -77,67 +77,67 @@ namespace DotNetNuke.Modules.Events
             get
                 {
                     //have selected the location before
-                    if (!this._gotLocations)
+                    if (!_gotLocations)
                     {
-                        this._gotLocations = true;
-                        this._selectedLocation.Clear();
+                        _gotLocations = true;
+                        _selectedLocation.Clear();
 
                         //is there a default module location when location select has been disabled
                         //if not has it been passed in as a parameter
                         //if not is there a default module location when location select has not been disabled
                         //if not is there as setting in cookies available
-                        if (this.Settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay)
+                        if (Settings.Enablelocations == EventModuleSettings.DisplayLocations.DoNotDisplay)
                         {
-                            if (this.Settings.ModuleLocationsSelected == EventModuleSettings.LocationsSelected.All)
+                            if (Settings.ModuleLocationsSelected == EventModuleSettings.LocationsSelected.All)
                             {
-                                this._selectedLocation.Clear();
-                                this._selectedLocation.Add("-1");
+                                _selectedLocation.Clear();
+                                _selectedLocation.Add("-1");
                             }
                             else
                             {
-                                this._selectedLocation.Clear();
-                                foreach (int location in this.Settings.ModuleLocationIDs)
+                                _selectedLocation.Clear();
+                                foreach (int location in Settings.ModuleLocationIDs)
                                 {
-                                    this._selectedLocation.Add(location);
+                                    _selectedLocation.Add(location);
                                 }
                             }
                         }
-                        else if (!(this.Request.Params["Location"] == null))
+                        else if (!(Request.Params["Location"] == null))
                         {
                             var objSecurity = new PortalSecurity();
-                            var tmpLocation = this.Request.Params["Location"];
+                            var tmpLocation = Request.Params["Location"];
                             tmpLocation = objSecurity.InputFilter(tmpLocation, PortalSecurity.FilterFlag.NoScripting);
                             tmpLocation = objSecurity.InputFilter(tmpLocation, PortalSecurity.FilterFlag.NoSQL);
                             var oCntrlEventLocation = new EventLocationController();
                             var oEventLocation =
-                                oCntrlEventLocation.EventsLocationGetByName(tmpLocation, this.PortalSettings.PortalId);
+                                oCntrlEventLocation.EventsLocationGetByName(tmpLocation, PortalSettings.PortalId);
                             if (!ReferenceEquals(oEventLocation, null))
                             {
-                                this._selectedLocation.Add(oEventLocation.Location);
+                                _selectedLocation.Add(oEventLocation.Location);
                             }
                         }
-                        else if (this.Settings.ModuleLocationsSelected != EventModuleSettings.LocationsSelected.All)
+                        else if (Settings.ModuleLocationsSelected != EventModuleSettings.LocationsSelected.All)
                         {
-                            this._selectedLocation.Clear();
-                            foreach (int location in this.Settings.ModuleLocationIDs)
+                            _selectedLocation.Clear();
+                            foreach (int location in Settings.ModuleLocationIDs)
                             {
-                                this._selectedLocation.Add(location);
+                                _selectedLocation.Add(location);
                             }
                         }
-                        else if (ReferenceEquals(this.Request.Cookies["DNNEvents"], null))
+                        else if (ReferenceEquals(Request.Cookies["DNNEvents"], null))
                         {
-                            this._selectedLocation.Clear();
-                            this._selectedLocation.Add("-1");
+                            _selectedLocation.Clear();
+                            _selectedLocation.Add("-1");
                         }
                         else
                         {
                             //Do we have a special one for this module
                             if (ReferenceEquals(
-                                this.Request.Cookies["DNNEvents"]["EventLocation" + Convert.ToString(this.ModuleId)],
+                                Request.Cookies["DNNEvents"]["EventLocation" + Convert.ToString(ModuleId)],
                                 null))
                             {
-                                this._selectedLocation.Clear();
-                                this._selectedLocation.Add("-1");
+                                _selectedLocation.Clear();
+                                _selectedLocation.Add("-1");
                             }
                             else
                             {
@@ -145,8 +145,8 @@ namespace DotNetNuke.Modules.Events
                                 var objSecurity = new PortalSecurity();
                                 var tmpLocation =
                                     Convert.ToString(
-                                        this.Request.Cookies["DNNEvents"][
-                                            "EventLocation" + Convert.ToString(this.ModuleId)]);
+                                        Request.Cookies["DNNEvents"][
+                                            "EventLocation" + Convert.ToString(ModuleId)]);
                                 tmpLocation =
                                     objSecurity.InputFilter(tmpLocation, PortalSecurity.FilterFlag.NoScripting);
                                 tmpLocation = objSecurity.InputFilter(tmpLocation, PortalSecurity.FilterFlag.NoSQL);
@@ -155,24 +155,24 @@ namespace DotNetNuke.Modules.Events
                                 {
                                     if (tmpArray[i] != "")
                                     {
-                                        this._selectedLocation.Add(int.Parse(tmpArray[i]));
+                                        _selectedLocation.Add(int.Parse(tmpArray[i]));
                                     }
                                 }
                             }
                         }
                     }
-                    return this._selectedLocation;
+                    return _selectedLocation;
                 }
             set
                 {
                     try
                     {
-                        this._selectedLocation = value;
-                        this._gotLocations = true;
-                        this.Response.Cookies["DNNEvents"]["EventLocation" + Convert.ToString(this.ModuleId)] =
-                            string.Join(",", (string[]) this._selectedLocation.ToArray(typeof(string)));
-                        this.Response.Cookies["DNNEvents"].Expires = DateTime.Now.AddMinutes(2);
-                        this.Response.Cookies["DNNEvents"].Path = "/";
+                        _selectedLocation = value;
+                        _gotLocations = true;
+                        Response.Cookies["DNNEvents"]["EventLocation" + Convert.ToString(ModuleId)] =
+                            string.Join(",", (string[]) _selectedLocation.ToArray(typeof(string)));
+                        Response.Cookies["DNNEvents"].Expires = DateTime.Now.AddMinutes(2);
+                        Response.Cookies["DNNEvents"].Path = "/";
                     }
                     catch (Exception)
                     { }
@@ -192,35 +192,35 @@ namespace DotNetNuke.Modules.Events
                 // Add the external Validation.js to the Page
                 const string csname = "ExtValidationScriptFile";
                 var cstype = MethodBase.GetCurrentMethod().GetType();
-                var cstext = "<script src=\"" + this.ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
+                var cstext = "<script src=\"" + ResolveUrl("~/DesktopModules/Events/Scripts/Validation.js") +
                              "\" type=\"text/javascript\"></script>";
-                if (!this.Page.ClientScript.IsClientScriptBlockRegistered(csname))
+                if (!Page.ClientScript.IsClientScriptBlockRegistered(csname))
                 {
-                    this.Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
+                    Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
                 }
 
-                this.ddlLocations.EmptyMessage = Localization.GetString("NoLocations", this.LocalResourceFile);
-                this.ddlLocations.Localization.AllItemsCheckedString =
-                    Localization.GetString("AllLocations", this.LocalResourceFile);
-                this.ddlLocations.Localization.CheckAllString =
-                    Localization.GetString("SelectAllLocations", this.LocalResourceFile);
-                if (this.Settings.Enablelocations == EventModuleSettings.DisplayLocations.SingleSelect)
+                ddlLocations.EmptyMessage = Localization.GetString("NoLocations", LocalResourceFile);
+                ddlLocations.Localization.AllItemsCheckedString =
+                    Localization.GetString("AllLocations", LocalResourceFile);
+                ddlLocations.Localization.CheckAllString =
+                    Localization.GetString("SelectAllLocations", LocalResourceFile);
+                if (Settings.Enablelocations == EventModuleSettings.DisplayLocations.SingleSelect)
                 {
-                    this.ddlLocations.CheckBoxes = false;
+                    ddlLocations.CheckBoxes = false;
                 }
 
-                if (!this.Page.IsPostBack)
+                if (!Page.IsPostBack)
                 {
                     //Bind DDL
                     var ctrlEventLocations = new EventLocationController();
-                    var lstLocations = ctrlEventLocations.EventsLocationList(this.PortalId);
+                    var lstLocations = ctrlEventLocations.EventsLocationList(PortalId);
 
                     var arrLocations = new ArrayList();
-                    if (this.Settings.Restrictlocations)
+                    if (Settings.Restrictlocations)
                     {
                         foreach (EventLocationInfo dbLocation in lstLocations)
                         {
-                            foreach (int location in this.Settings.ModuleLocationIDs)
+                            foreach (int location in Settings.ModuleLocationIDs)
                             {
                                 if (dbLocation.Location == location)
                                 {
@@ -236,65 +236,64 @@ namespace DotNetNuke.Modules.Events
 
                     if (lstLocations.Count == 0)
                     {
-                        this.Visible = false;
-                        this.SelectedLocation.Clear();
+                        Visible = false;
+                        SelectedLocation.Clear();
                         return;
                     }
 
                     //Restrict locations by events in time frame.
-                    if (this.Settings.RestrictLocationsToTimeFrame)
+                    if (Settings.RestrictLocationsToTimeFrame)
                     {
                         //Only for list view.
                         var whichView = string.Empty;
-                        if (!(this.Request.QueryString["mctl"] == null) && this.ModuleId ==
-                            Convert.ToInt32(this.Request.QueryString["ModuleID"]))
+                        if (!(Request.QueryString["mctl"] == null) && ModuleId ==
+                            Convert.ToInt32(Request.QueryString["ModuleID"]))
                         {
-                            if (this.Request["mctl"].EndsWith(".ascx"))
+                            if (Request["mctl"].EndsWith(".ascx"))
                             {
-                                whichView = this.Request["mctl"];
+                                whichView = Request["mctl"];
                             }
                             else
                             {
-                                whichView = this.Request["mctl"] + ".ascx";
+                                whichView = Request["mctl"] + ".ascx";
                             }
                         }
                         if (whichView.Length == 0)
                         {
                             if (!ReferenceEquals(
-                                    this.Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)), null))
+                                    Request.Cookies.Get("DNNEvents" + Convert.ToString(ModuleId)), null))
                             {
-                                whichView = this
-                                    .Request.Cookies.Get("DNNEvents" + Convert.ToString(this.ModuleId)).Value;
+                                whichView = Request.Cookies.Get("DNNEvents" + Convert.ToString(ModuleId)).Value;
                             }
                             else
                             {
-                                whichView = this.Settings.DefaultView;
+                                whichView = Settings.DefaultView;
                             }
                         }
 
                         if (whichView == "EventList.ascx" || whichView == "EventRpt.ascx")
                         {
                             var objEventInfoHelper =
-                                new EventInfoHelper(this.ModuleId, this.TabId, this.PortalId, this.Settings);
+                                new EventInfoHelper(ModuleId, TabId, PortalId, Settings);
                             var lstEvents = default(ArrayList);
 
-                            var getSubEvents = this.Settings.MasterEvent;
-                            var numDays = this.Settings.EventsListEventDays;
+                            var getSubEvents = Settings.MasterEvent;
+                            var numDays = Settings.EventsListEventDays;
                             var displayDate = default(DateTime);
                             var startDate = default(DateTime);
                             var endDate = default(DateTime);
-                            if (this.Settings.ListViewUseTime)
+                            if (Settings.ListViewUseTime)
                             {
-                                displayDate = this.DisplayNow();
+                                displayDate = DisplayNow();
                             }
                             else
                             {
-                                displayDate = this.DisplayNow().Date;
+                                displayDate = DisplayNow().Date;
                             }
-                            if (this.Settings.EventsListSelectType == "DAYS")
+                            if (Settings.EventsListSelectType == "DAYS")
                             {
-                                startDate = displayDate.AddDays(this.Settings.EventsListBeforeDays * -1);
-                                endDate = displayDate.AddDays(this.Settings.EventsListAfterDays * 1);
+                                startDate = displayDate.AddDays(Settings.EventsListBeforeDays * -1);
+                                endDate = displayDate.AddDays(Settings.EventsListAfterDays * 1);
                             }
                             else
                             {
@@ -323,35 +322,35 @@ namespace DotNetNuke.Modules.Events
                     }
 
                     //Bind locations.
-                    this.ddlLocations.DataSource = arrLocations;
-                    this.ddlLocations.DataBind();
+                    ddlLocations.DataSource = arrLocations;
+                    ddlLocations.DataBind();
 
-                    if (this.Settings.Enablelocations == EventModuleSettings.DisplayLocations.SingleSelect)
+                    if (Settings.Enablelocations == EventModuleSettings.DisplayLocations.SingleSelect)
                     {
-                        this.ddlLocations.Items.Insert(
+                        ddlLocations.Items.Insert(
                             0,
-                            new RadComboBoxItem(Localization.GetString("AllLocations", this.LocalResourceFile),
+                            new RadComboBoxItem(Localization.GetString("AllLocations", LocalResourceFile),
                                                 "-1"));
-                        this.ddlLocations.SelectedIndex = 0;
+                        ddlLocations.SelectedIndex = 0;
                     }
-                    this.ddlLocations.OnClientDropDownClosed =
-                        "function() { btnUpdateClick('" + this.btnUpdate.UniqueID + "','" + this.ddlLocations.ClientID +
+                    ddlLocations.OnClientDropDownClosed =
+                        "function() { btnUpdateClick('" + btnUpdate.UniqueID + "','" + ddlLocations.ClientID +
                         "');}";
-                    this.ddlLocations.OnClientLoad = "function() { storeText('" + this.ddlLocations.ClientID + "');}";
-                    if (this.Settings.Enablelocations == EventModuleSettings.DisplayLocations.SingleSelect)
+                    ddlLocations.OnClientLoad = "function() { storeText('" + ddlLocations.ClientID + "');}";
+                    if (Settings.Enablelocations == EventModuleSettings.DisplayLocations.SingleSelect)
                     {
-                        foreach (int location in this.SelectedLocation)
+                        foreach (int location in SelectedLocation)
                         {
-                            this.ddlLocations.SelectedIndex =
-                                this.ddlLocations.FindItemByValue(location.ToString()).Index;
+                            ddlLocations.SelectedIndex =
+                                ddlLocations.FindItemByValue(location.ToString()).Index;
                             break;
                         }
                     }
                     else
                     {
-                        foreach (int location in this.SelectedLocation)
+                        foreach (int location in SelectedLocation)
                         {
-                            foreach (RadComboBoxItem item in this.ddlLocations.Items)
+                            foreach (RadComboBoxItem item in ddlLocations.Items)
                             {
                                 if (item.Value == location.ToString())
                                 {
@@ -360,9 +359,9 @@ namespace DotNetNuke.Modules.Events
                             }
                         }
 
-                        if (Convert.ToInt32(this.SelectedLocation[0]) == -1)
+                        if (Convert.ToInt32(SelectedLocation[0]) == -1)
                         {
-                            foreach (RadComboBoxItem item in this.ddlLocations.Items)
+                            foreach (RadComboBoxItem item in ddlLocations.Items)
                             {
                                 item.Checked = true;
                             }
@@ -378,13 +377,13 @@ namespace DotNetNuke.Modules.Events
 
         public void btnUpdate_Click(object sender, EventArgs e)
         {
-            this.StoreLocations();
+            StoreLocations();
 
             // Fire the LocationSelected event...
-            var args = new CommandEventArgs(this.SelectedLocation.ToString(), null);
-            if (this.LocationSelectedChangedEvent != null)
+            var args = new CommandEventArgs(SelectedLocation.ToString(), null);
+            if (LocationSelectedChangedEvent != null)
             {
-                this.LocationSelectedChangedEvent(this, args);
+                LocationSelectedChangedEvent(this, args);
             }
         }
 
@@ -396,14 +395,14 @@ namespace DotNetNuke.Modules.Events
         {
             add
                 {
-                    this.LocationSelectedChangedEvent =
+                    LocationSelectedChangedEvent =
                         (LocationSelectedChangedEventHandler) Delegate.Combine(
-                            this.LocationSelectedChangedEvent, value);
+                            LocationSelectedChangedEvent, value);
                 }
             remove
                 {
-                    this.LocationSelectedChangedEvent =
-                        (LocationSelectedChangedEventHandler) Delegate.Remove(this.LocationSelectedChangedEvent, value);
+                    LocationSelectedChangedEvent =
+                        (LocationSelectedChangedEventHandler) Delegate.Remove(LocationSelectedChangedEvent, value);
                 }
         }
 
@@ -420,7 +419,7 @@ namespace DotNetNuke.Modules.Events
         {
             //CODEGEN: This method call is required by the Web Form Designer
             //Do not modify it using the code editor.
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
