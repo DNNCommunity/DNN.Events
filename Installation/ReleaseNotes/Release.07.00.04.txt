@@ -6,5 +6,12 @@
 	<li>Several casting errors due to the VB.net/C# conversion fixed</li>
 	<li>Several none functioning buttons and links fixed that were due to the VB.net/C# conversion</li>
 	<li>Some V6 settings were not carried forward to the new version due to case mismatch in the name of the setting</li>
-	<li>Select date did not work</li>
+	<li>Select date fixed</li>
+	<li>Editing event enrolments fixed</li>
+	<li>Selecting users for enrolment fixed</li>
+	<li><Approval of enrolments fixed/li>
+</ul>
+<h3>Other</h3>
+<ul>
+	<li>Code cleanup done</li>
 </ul>
