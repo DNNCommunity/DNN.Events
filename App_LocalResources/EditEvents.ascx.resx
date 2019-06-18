@@ -145,7 +145,7 @@
     <value>Location:</value>
   </data>
   <data name="lblNotes.Text" xml:space="preserve">
-    <value>Notes:</value>
+    <value>Description:</value>
   </data>
   <data name="lblDisplayImage.Text" xml:space="preserve">
     <value>Display Image:</value>
@@ -433,7 +433,7 @@
     <value>Select Event Location</value>
   </data>
   <data name="lblNotes.Help" xml:space="preserve">
-    <value>Enter a more detailed description for the Event (note this will optionally be displayed on the Calendar view as a popup)</value>
+    <value>Enter a more detailed description for the Event (Note: This will optionally be displayed on the Calendar view as a popup)</value>
   </data>
   <data name="lblDisplayImage.Help" xml:space="preserve">
     <value>Determines if an image will be associated/displayed with the Event</value>
