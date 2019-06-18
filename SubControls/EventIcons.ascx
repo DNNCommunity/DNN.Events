@@ -23,6 +23,6 @@
         ImageUrl="~/DesktopModules/Events/Images/cal-list.gif" Visible="false" OnClick="btnList_Click" />
     <asp:ImageButton ID="btnEnroll" runat="server" AlternateText="My Enrollments"
         ImageUrl="~/DesktopModules/Events/Images/cal-enroll.gif" Visible="false" OnClick="btnEnroll_Click" />
-    <asp:HyperLink ID="hypiCal" runat="server" Visible="false" ImageUrl="~/DesktopModules/Events/Images/iCal.gif" />
-    <asp:HyperLink ID="btnRSS" runat="server" Visible="false" ImageUrl="~/DesktopModules/Events/Images/rss.gif" />
+    <asp:HyperLink ID="hypiCal" Text="Download iCal calendar file" runat="server" Visible="false" ImageUrl="~/DesktopModules/Events/Images/iCal.gif" />
+    <asp:HyperLink ID="btnRSS" Text="Show RSS feed" runat="server" Visible="false" ImageUrl="~/DesktopModules/Events/Images/rss.gif" />
 </div>
