@@ -121,7 +121,7 @@
     <value>Add Event</value>
   </data>
   <data name="MenuiCal.Text" xml:space="preserve">
-    <value>iCalendar</value>
+    <value>Download iCal calendar file</value>
   </data>
   <data name="MenuList.Text" xml:space="preserve">
     <value>List view</value>
@@ -136,7 +136,7 @@
     <value>My Enrollments</value>
   </data>
   <data name="MenuRSS.Text" xml:space="preserve">
-    <value>Events RSS</value>
+    <value>Display Events RSS</value>
   </data>
   <data name="MenuSettings.Text" xml:space="preserve">
     <value>Edit Settings</value>
