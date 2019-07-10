@@ -9,7 +9,7 @@
 	<li>Select date fixed</li>
 	<li>Editing event enrolments fixed</li>
 	<li>Selecting users for enrolment fixed</li>
-	<li><Approval of enrolments fixed/li>
+	<li>Approval of enrolments fixed</li>
 </ul>
 <h3>Other</h3>
 <ul>
