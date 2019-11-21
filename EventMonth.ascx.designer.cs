@@ -55,7 +55,7 @@ namespace DotNetNuke.Modules.Events {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Modules.Events.SelectCategory SelectCategory;
+        protected global::System.Web.UI.UserControl SelectCategory;
         
         /// <summary>
         /// SelectLocation control.
@@ -64,7 +64,7 @@ namespace DotNetNuke.Modules.Events {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Modules.Events.SelectLocation SelectLocation;
+        protected global::System.Web.UI.UserControl SelectLocation;
         
         /// <summary>
         /// EventIcons control.
@@ -73,7 +73,7 @@ namespace DotNetNuke.Modules.Events {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Modules.Events.EventIcons EventIcons;
+        protected global::System.Web.UI.UserControl EventIcons;
         
         /// <summary>
         /// EventCalendar control.
@@ -91,6 +91,6 @@ namespace DotNetNuke.Modules.Events {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DotNetNuke.Modules.Events.EventIcons EventIcons2;
+        protected global::System.Web.UI.UserControl EventIcons2;
     }
 }

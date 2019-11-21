@@ -50,7 +50,7 @@ namespace DotNetNuke.Modules.Events
             {
                 LocalizeAll();
 
-                SetupViewControls(EventIcons, EventIcons2, SelectCategory, SelectLocation,
+                SetupViewControls((EventIcons)EventIcons, (EventIcons)EventIcons2, (SelectCategory)SelectCategory, (SelectLocation)SelectLocation,
                                        pnlDateControls);
                 var initDate = SelectedDate.Date;
                 dpGoToDate.SelectedDate = initDate;
@@ -161,8 +161,8 @@ namespace DotNetNuke.Modules.Events
 
                 var getSubEvents = Settings.MasterEvent;
                 _selectedEvents =
-                    objEventInfoHelper.GetEvents(dBegin, dEnd, getSubEvents, SelectCategory.SelectedCategory,
-                                                 SelectLocation.SelectedLocation, GetUrlGroupId(),
+                    objEventInfoHelper.GetEvents(dBegin, dEnd, getSubEvents, ((SelectCategory)SelectCategory).SelectedCategory,
+                                                 ((SelectLocation)SelectLocation).SelectedLocation, GetUrlGroupId(),
                                                  GetUrlUserId());
 
                 _selectedEvents =
@@ -305,8 +305,8 @@ namespace DotNetNuke.Modules.Events
             var dDate = Convert.ToDateTime(Convert.ToDateTime(ViewState[ModuleId + "WeekOf"]).AddDays(7));
             SelectedDate = dDate.Date;
             dpGoToDate.SelectedDate = dDate.Date;
-            SelectCategory.StoreCategories();
-            SelectLocation.StoreLocations();
+            ((SelectCategory)SelectCategory).StoreCategories();
+            ((SelectLocation)SelectLocation).StoreLocations();
             BindPage(dDate);
         }
 
@@ -315,8 +315,8 @@ namespace DotNetNuke.Modules.Events
             var dDate = Convert.ToDateTime(Convert.ToDateTime(ViewState[ModuleId + "WeekOf"]).AddDays(-7));
             SelectedDate = dDate.Date;
             dpGoToDate.SelectedDate = dDate.Date;
-            SelectCategory.StoreCategories();
-            SelectLocation.StoreLocations();
+            ((SelectCategory)SelectCategory).StoreCategories();
+            ((SelectLocation)SelectLocation).StoreLocations();
             BindPage(dDate);
         }
 
@@ -351,7 +351,7 @@ namespace DotNetNuke.Modules.Events
         protected void SelectCategory_CategorySelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            SelectLocation.StoreLocations();
+            ((SelectLocation)SelectLocation).StoreLocations();
             var dDate = Convert.ToDateTime(ViewState[ModuleId + "WeekOf"]);
             BindPage(dDate);
         }
@@ -359,7 +359,7 @@ namespace DotNetNuke.Modules.Events
         protected void SelectLocation_LocationSelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            SelectCategory.StoreCategories();
+            ((SelectCategory)SelectCategory).StoreCategories();
             var dDate = Convert.ToDateTime(ViewState[ModuleId + "WeekOf"]);
             BindPage(dDate);
         }
@@ -369,8 +369,8 @@ namespace DotNetNuke.Modules.Events
             var dDate = DateTime.Now.Date;
             SelectedDate = dDate;
             dpGoToDate.SelectedDate = dDate;
-            SelectCategory.StoreCategories();
-            SelectLocation.StoreLocations();
+            ((SelectCategory)SelectCategory).StoreCategories();
+            ((SelectLocation)SelectLocation).StoreLocations();
             BindPage(dDate);
         }
 

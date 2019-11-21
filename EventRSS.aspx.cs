@@ -273,7 +273,19 @@ namespace DotNetNuke.Modules.Events
                 }
             }
 
-            if (!_settings.RSSEnable)
+            var cusomview = 0;
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["cusomview"]))
+            {
+                cusomview = Convert.ToInt32(HttpContext.Current.Request.QueryString["cusomview"]);
+                if (cusomview == 1)
+                {
+
+
+                }
+            }
+
+
+            if (cusomview != 1 && !_settings.RSSEnable)
             {
                 Response.Redirect(Globals.NavigateURL(), true);
             }
@@ -367,7 +379,15 @@ namespace DotNetNuke.Modules.Events
                         locationIDs.Add("-1");
                     }
 
-                    lstEvents = objEventInfoHelper.GetEvents(dtStartDate, dtEndDate, getSubEvents, categoryIDs,
+                    if (cusomview == 1)
+                    {
+                        categoryIDs.Clear();
+                        locationIDs.Clear();
+                        categoryIDs.Add("-1");
+                        locationIDs.Add("-1");
+                    }
+
+                        lstEvents = objEventInfoHelper.GetEvents(dtStartDate, dtEndDate, getSubEvents, categoryIDs,
                                                              locationIDs, iGroupId, iUserId);
 
                     var objEventBase = new EventBase();
@@ -376,6 +396,15 @@ namespace DotNetNuke.Modules.Events
                     var rssCount = 0;
                     foreach (EventInfo eventInfo in lstEvents)
                     {
+
+                        if (cusomview == 1)
+                        {
+                            var daystoevent = eventInfo.EventTimeBegin.Date.Subtract(DateTime.Now).Days;
+                            if(daystoevent != 28 && daystoevent != 7 && daystoevent != 1){
+                                continue;
+                            }
+                        }
+
                         var objEvent = eventInfo;
 
                         if ((Convert.ToInt32(categoryIDs[0]) == 0) &

@@ -82,7 +82,7 @@ namespace DotNetNuke.Modules.Events
 
                 LocalizeAll();
 
-                SetupViewControls(EventIcons, EventIcons2, SelectCategory, SelectLocation,
+                SetupViewControls((EventIcons)EventIcons, (EventIcons)EventIcons2, (SelectCategory)SelectCategory, (SelectLocation)SelectLocation,
                                        pnlDateControls);
 
                 dpGoToDate.SelectedDate = SelectedDate.Date;
@@ -165,8 +165,8 @@ namespace DotNetNuke.Modules.Events
 
             var getSubEvents = Settings.MasterEvent;
             _selectedEvents =
-                objEventInfoHelper.GetEvents(startDate, endDate, getSubEvents, SelectCategory.SelectedCategory,
-                                             SelectLocation.SelectedLocation, GetUrlGroupId(),
+                objEventInfoHelper.GetEvents(startDate, endDate, getSubEvents, ((SelectCategory)SelectCategory).SelectedCategory,
+                                             ((SelectLocation)SelectLocation).SelectedLocation, GetUrlGroupId(),
                                              GetUrlUserId());
 
             _selectedEvents =
@@ -514,8 +514,8 @@ namespace DotNetNuke.Modules.Events
             {
                 EventCalendar.SelectedDate = e.NewDate;
             }
-            SelectCategory.StoreCategories();
-            SelectLocation.StoreLocations();
+            ((SelectCategory)SelectCategory).StoreCategories();
+            ((SelectLocation)SelectLocation).StoreLocations();
             //bind datagrid
             BindDataGrid();
         }
@@ -545,8 +545,8 @@ namespace DotNetNuke.Modules.Events
             {
                 EventCalendar.SelectedDate = SelectedDate;
             }
-            SelectCategory.StoreCategories();
-            SelectLocation.StoreLocations();
+            ((SelectCategory)SelectCategory).StoreCategories();
+            ((SelectLocation)SelectLocation).StoreLocations();
             //fill grid with current selection's data
             BindDataGrid();
         }
@@ -554,14 +554,14 @@ namespace DotNetNuke.Modules.Events
         protected void SelectCategoryChanged(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            SelectLocation.StoreLocations();
+            ((SelectLocation)SelectLocation).StoreLocations();
             BindDataGrid();
         }
 
         protected void SelectLocationChanged(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            SelectCategory.StoreCategories();
+            ((SelectCategory)SelectCategory).StoreCategories();
             BindDataGrid();
         }
 
