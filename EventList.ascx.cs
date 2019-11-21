@@ -47,7 +47,7 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
-                SetupViewControls(EventIcons, EventIcons2, SelectCategory, SelectLocation);
+                SetupViewControls((EventIcons)EventIcons, (EventIcons)EventIcons2, (SelectCategory)SelectCategory, (SelectLocation)SelectLocation);
 
                 gvEvents.PageSize = Settings.EventsListPageSize;
 
@@ -119,8 +119,8 @@ namespace DotNetNuke.Modules.Events
             var editColumnVisible = false;
 
             // Get Events/Sub-Calendar Events
-            _selectedEvents = Get_ListView_Events(SelectCategory.SelectedCategory,
-                                                            SelectLocation.SelectedLocation);
+            _selectedEvents = Get_ListView_Events(((SelectCategory)SelectCategory).SelectedCategory,
+                                                            ((SelectLocation)SelectLocation).SelectedLocation);
 
             var fmtEventTimeBegin = Settings.Templates.txtListEventTimeBegin;
             if (string.IsNullOrEmpty(fmtEventTimeBegin))
@@ -401,14 +401,14 @@ namespace DotNetNuke.Modules.Events
         protected void SelectCategory_CategorySelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            SelectLocation.StoreLocations();
+            ((SelectLocation)SelectLocation).StoreLocations();
             BindDataGrid();
         }
 
         protected void SelectLocation_LocationSelected(object sender, CommandEventArgs e)
         {
             //Store the other selection(s) too.
-            SelectCategory.StoreCategories();
+            ((SelectCategory)SelectCategory).StoreCategories();
             BindDataGrid();
         }
 

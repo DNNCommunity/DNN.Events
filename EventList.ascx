@@ -92,16 +92,22 @@
                     <HeaderStyle CssClass="ListHeader"></HeaderStyle>
                     <ItemStyle CssClass="ListCustomField1"></ItemStyle>
                     <ItemTemplate>
-                        <asp:Label id="lblCustomField1" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "CustomField1") %>' forecolor='<%# DataBinder.Eval(Container.DataItem, "CategoryFontColor") %>'>
+                        <asp:Label id="lblCustomField1" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "CustomField1") %>' forecolor='<%# DataBinder.Eval(Container.DataItem, "CategoryFontColor") %>' Visible="false">
                         </asp:Label>
+
+                        <asp:HyperLink CssClass="ListTitle" runat="Server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "CustomField1") %>' Text="Event Photos" Visible='<%#(DataBinder.Eval(Container.DataItem, "CustomField1") == null || DataBinder.Eval(Container.DataItem, "CustomField1") == ""  ? false : true)%>'  >
+                        </asp:HyperLink>
+
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField SortExpression="CustomField2" HeaderText="CustomField2">
                     <HeaderStyle CssClass="ListHeader"></HeaderStyle>
                     <ItemStyle CssClass="ListCustomField2"></ItemStyle>
                     <ItemTemplate>
-                        <asp:Label id="lblCustomField2" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "CustomField2") %>' forecolor='<%# DataBinder.Eval(Container.DataItem, "CategoryFontColor") %>'>
+                        <asp:Label id="lblCustomField2" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "CustomField2") %>' forecolor='<%# DataBinder.Eval(Container.DataItem, "CategoryFontColor") %>' Visible="false">
                         </asp:Label>
+                         <asp:HyperLink CssClass="ListTitle" runat="Server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "CustomField2") %>' Text="Event Report" Visible='<%#(DataBinder.Eval(Container.DataItem, "CustomField2") == null || DataBinder.Eval(Container.DataItem, "CustomField2") == ""  ? false : true)%>'  >
+                        </asp:HyperLink>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField SortExpression="Description" HeaderText="Description">
