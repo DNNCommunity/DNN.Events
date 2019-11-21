@@ -5,7 +5,7 @@
         <asp:Label ID="lblMessage" runat="server"></asp:Label>
     </div>
     <div id="divEventDetails1" runat="server" class="DetailClear DetailEventDetails1"/>
-    <div id="divReminder" Runat="server" class="DetailClear DetailReminderDiv">
+    <div id="divReminder" Runat="server" class="DetailClear DetailReminderDiv" visible="false">
         <div class="SubHead DetailReminderLeft">
             <div id="rem1" runat="server" visible="false">
                 <asp:Image ID="imgNotify" runat="server" ImageUrl="Images/bell.gif"/>&nbsp;
