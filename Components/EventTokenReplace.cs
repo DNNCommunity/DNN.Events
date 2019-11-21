@@ -273,10 +273,12 @@ namespace DotNetNuke.Modules.Events
             if (settings.EventsCustomField1)
             {
                 dict.Add("customfield1", eventInfo.CustomField1);
+                dict.Add("customfield1link", string.IsNullOrEmpty(eventInfo.CustomField1) ? "" : "<a href=\"" + eventInfo.CustomField1 + "\" >Click here to view</a>");
             }
             else
             {
                 dict.Add("customfield1", "");
+                dict.Add("customfield1link", "");
             }
 
             //customfield1label
@@ -293,10 +295,12 @@ namespace DotNetNuke.Modules.Events
             if (settings.EventsCustomField2)
             {
                 dict.Add("customfield2", eventInfo.CustomField2);
+                dict.Add("customfield2link", string.IsNullOrEmpty(eventInfo.CustomField2) ? "" : "<a href=\"" + eventInfo.CustomField2 + "\" >Click here to view</a>");
             }
             else
             {
                 dict.Add("customfield2", "");
+                dict.Add("customfield2link", "");
             }
 
             //customfield2label
