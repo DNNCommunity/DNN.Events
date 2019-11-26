@@ -31,9 +31,9 @@ The Events module support various way of displaying events, all handled by selec
 
 Calendar Month View|List View
 -------------------|---------  
-![DNNEvents](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents.png)|![List View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/List View.png)  
+![DNNEvents](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents.png)|![List View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/List%20View.png)  
 **Week View**|**Detail View**    
-![Week View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Week View.png)|![Detail View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Detail View.png)  
+![Week View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Week%20View.png)|![Detail View](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/Detail%20View.png)  
 
 See [Event views](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Views) for more information.
 
@@ -83,7 +83,7 @@ The Events module supports themes (skins): standard themes are installed automat
 
 Events theme|Blue theme  
 ------------|----------  
-![DNNEvents2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png)|![Event Themes2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/EventThemes2.png)    
+![DNNEvents2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/DNNEvents2.png)|![Event Themes2](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/EventThemes2.png)
 **Grey theme**|**Small theme**  
 ![Event Themes3](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/EventThemes3.png)|![Event Themes4](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/EventThemes4.png)  
 
