@@ -7,20 +7,19 @@ The Events module is part of the standard core modules of DNN, the web content m
   * Feature requests, bug reports and general questions can be submitted via [the issues page on GitHub](https://github.com/DNNCommunity/DNN.Events/issues).  
   * More Information about our [move to GitHub](https://github.com/DNNCommunity/home/wiki).  
   
-**Note**: For the latest version of the DNN Events source code, please visit the releases page, or fork the project to your own GitHub repository and start contributing today!  
+**Note**: For the latest version of the DNN Events source code, fork the project to your own GitHub repository and start contributing today!  
 
 # Getting started
 
-  * [Download and install](http://dotnetnuke.codeplex.com/) (if you have not done already) DNN CMS.  
-  * [Download and install](https://github.com/DNNCommunity/DNN.Events/releases/tag/06.02.02) the latest release of Events on your site    
+  * [Download and install](https://github.com/dnnsoftware/Dnn.Platform/releases/) (if you have not done already) DNN CMS.  
+  * [Download and install](https://github.com/DNNCommunity/DNN.Events/releases/) the latest release of Events on your site    
   * Start with experimenting!  
   
 # Suggestions? Features? Questions?  
 
-  * Visit the [Events forum](http://www.dnnsoftware.com/forums/forumid/20/scope/threads) on dnnsoftware.com.
+  * Visit the [Module forum](https://dnncommunity.org/forums/aff/8) on DNNCommunity.org
   * Add bugs or feature requests to the [Issue Tracker](https://github.com/dnncommunity/dnn.events/issues). Help us shape the Events module with your feedback!  
-  * Read more about the Events module on our [Blog](http://www.dnnsoftware.com/community-blog/articletype/authorview/authorid/13953) on dnnsoftware.com.  
-
+  
 # Contributions
 If you would like to contribute to this repository, please read the [CONTRIBUTING.md](https://github.com/DNNCommunity/DNN.Events/blob/master/.github/CONTRIBUTING.md)
 
@@ -102,8 +101,8 @@ See [Event themes](https://github.com/DNNCommunity/DNN.Events/wiki/Event-Themes)
 
 #Supported by
 
-[![ReSharper](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/ReSharper Support.png)](https://www.jetbrains.com/resharper/)  
+[![ReSharper](https://raw.githubusercontent.com/wiki/DNNCommunity/DNN.Events/ReSharper%20Support.png)](https://www.jetbrains.com/resharper/)  
 
 ## Maintainers
-This module is currently maintained by Erst Peter Tamminga (@EPTamminga)
+This module is currently maintained by Ernst Peter Tamminga (@EPTamminga)
 Please coordinate with him before publishing any new release and ask his review on any pull request.
