@@ -123,7 +123,7 @@
                 <dnn:TextEditor id="ftbDesktopText" runat="server" width="650" height="400"></dnn:TextEditor>
 				</div>
             </div>
-            <div class="dnnFormItem SummaryHeader">
+            <div class="dnnFormItem SummaryHeader" style="display:none;">
                 <dnn:Label id="lblSummary" runat="server"></dnn:Label>
 				<div  style="margin-left:150px">
                 <dnn:TextEditor id="ftbSummary" runat="server" width="650" height="400"></dnn:TextEditor>

@@ -79,8 +79,14 @@ namespace DotNetNuke.Modules.Events
         {
             try
             {
+                // Determine ItemId of Event to Update
+                if (!ReferenceEquals(Request.Params["ItemId"], null))
+                {
+                    _itemID = int.Parse(Request.Params["ItemId"]);
+                }
+
                 // Verify that the current user has edit access to this module
-                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) || IsModuleEditor())
+                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) || IsModuleEditor() || IsEventOwner())
                 { }
                 else
                 {
@@ -103,11 +109,7 @@ namespace DotNetNuke.Modules.Events
                     Page.ClientScript.RegisterClientScriptBlock(cstype, csname, cstext, false);
                 }
 
-                // Determine ItemId of Event to Update
-                if (!ReferenceEquals(Request.Params["ItemId"], null))
-                {
-                    _itemID = int.Parse(Request.Params["ItemId"]);
-                }
+               
                 _editRecur = false;
                 if (!ReferenceEquals(Request.Params["EditRecur"], null))
                 {
@@ -124,7 +126,8 @@ namespace DotNetNuke.Modules.Events
                 //RWJS: Replaced with custom function IsModuleEditor which checks whether users has editor permissions
                 if (IsModuleEditor() ||
                     IsModerator() ||
-                    PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
+                    PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName)
+                    || IsEventOwner())
                 { }
                 else
                 {
@@ -132,8 +135,11 @@ namespace DotNetNuke.Modules.Events
                 }
 
                 trOwner.Visible = false;
-                if (IsModerator() && Settings.Ownerchangeallowed ||
-                    PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
+                if (IsModerator() && Settings.Ownerchangeallowed
+                    
+                    //||
+                    //PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName)
+                    )
                 {
                     trOwner.Visible = true;
                 }
@@ -386,6 +392,22 @@ namespace DotNetNuke.Modules.Events
 
         #region Helper Methods and Functions
 
+        private bool IsEventOwner()
+        {
+
+            if (_itemID > 0)
+            {
+                _objEvent = _objCtlEvent.EventsGet(_itemID, ModuleId);
+
+                if (_objCtlEvent != null && _objEvent.OwnerID == UserId)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
         private void LocalizeAll()
         {
             var culture = Thread.CurrentThread.CurrentCulture;
@@ -595,9 +617,18 @@ namespace DotNetNuke.Modules.Events
                     }
                 }
 
+                copyButton.Visible = false;
+                deleteButton.Visible = false;
                 // Check user has edit permissions to this event
                 if (IsEventEditor(objEvent, false))
-                { }
+                {
+                    if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) ||
+                    IsModuleEditor() || IsModerator())
+                    {
+                        copyButton.Visible = true;
+                        deleteButton.Visible = true;
+                    }
+                }
                 else
                 {
                     Response.Redirect(GetSocialNavigateUrl(), true);
@@ -1224,53 +1255,92 @@ namespace DotNetNuke.Modules.Events
 
         private void LoadOwnerUsers(int ownerID)
         {
-            var objCollModulePermission = default(ModulePermissionCollection);
-            objCollModulePermission = ModulePermissionController.GetModulePermissions(ModuleId, TabId);
-            var objModulePermission = default(ModulePermissionInfo);
+            //var objCollModulePermission = default(ModulePermissionCollection);
+            //objCollModulePermission = ModulePermissionController.GetModulePermissions(ModuleId, TabId);
+            //var objModulePermission = default(ModulePermissionInfo);
 
-            // To cope with host users or someone who is no longer an editor!!
-            var objEventModuleEditor = new EventUser();
-            objEventModuleEditor.UserID = ownerID;
-            LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
+            //// To cope with host users or someone who is no longer an editor!!
+            //var objEventModuleEditor = new EventUser();
+            //objEventModuleEditor.UserID = ownerID;
+            //LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
 
-            if (IsModerator() && Settings.Ownerchangeallowed ||
-                PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
+            //if (IsModerator() && Settings.Ownerchangeallowed ||
+            //    PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName))
+            //{
+            //    foreach (ModulePermissionInfo tempLoopVar_objModulePermission in objCollModulePermission)
+            //    {
+            //        objModulePermission = tempLoopVar_objModulePermission;
+            //        if (objModulePermission.PermissionKey == "EVENTSEDT")
+            //        {
+            //            if (objModulePermission.UserID < 0)
+            //            {
+            //                var objCtlRole = new RoleController();
+            //                var lstRoleUsers =
+            //                    objCtlRole.GetUsersByRoleName(PortalId, objModulePermission.RoleName);
+            //                foreach (UserInfo objUser in lstRoleUsers)
+            //                {
+            //                    objEventModuleEditor = new EventUser();
+            //                    objEventModuleEditor.UserID = objUser.UserID;
+            //                    objEventModuleEditor.DisplayName = objUser.DisplayName;
+            //                    LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
+            //                }
+            //            }
+            //            else
+            //            {
+            //                objEventModuleEditor = new EventUser();
+            //                objEventModuleEditor.UserID = objModulePermission.UserID;
+            //                objEventModuleEditor.DisplayName = objModulePermission.DisplayName;
+            //                LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
+            //            }
+            //        }
+            //    }
+            //}
+            Boolean iexist = false;
+            foreach (UserInfo objUser in DotNetNuke.Entities.Users.UserController.GetUsers(PortalId))
             {
-                foreach (ModulePermissionInfo tempLoopVar_objModulePermission in objCollModulePermission)
+                var ouser = new EventUser
                 {
-                    objModulePermission = tempLoopVar_objModulePermission;
-                    if (objModulePermission.PermissionKey == "EVENTSEDT")
+                    UserID = objUser.UserID,
+                    DisplayName = objUser.FirstName + " " + objUser.LastName + " / " + objUser.Username
+                };
+                if (ouser.UserID == ownerID)
+                {
+
+                    iexist = true;
+                }
+                LoadSingleUser(ouser, _lstOwnerUsers);
+            }
+
+            if (!iexist)
+            {
+                foreach (UserInfo objUser in DotNetNuke.Entities.Users.UserController.GetUsers(-1))
+                {
+                    var ouser = new EventUser
                     {
-                        if (objModulePermission.UserID < 0)
-                        {
-                            var objCtlRole = new RoleController();
-                            var lstRoleUsers =
-                                objCtlRole.GetUsersByRoleName(PortalId, objModulePermission.RoleName);
-                            foreach (UserInfo objUser in lstRoleUsers)
-                            {
-                                objEventModuleEditor = new EventUser();
-                                objEventModuleEditor.UserID = objUser.UserID;
-                                objEventModuleEditor.DisplayName = objUser.DisplayName;
-                                LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
-                            }
-                        }
-                        else
-                        {
-                            objEventModuleEditor = new EventUser();
-                            objEventModuleEditor.UserID = objModulePermission.UserID;
-                            objEventModuleEditor.DisplayName = objModulePermission.DisplayName;
-                            LoadSingleUser(objEventModuleEditor, _lstOwnerUsers);
-                        }
+                        UserID = objUser.UserID,
+                        DisplayName = objUser.FirstName + " " + objUser.LastName + " / " + objUser.Username
+                    };
+                    if (ouser.UserID == ownerID)
+                    {
+
+                        LoadSingleUser(ouser, _lstOwnerUsers);
+                        break;
                     }
                 }
             }
+
             _lstOwnerUsers.Sort(new UserListSort());
 
             cmbOwner.DataSource = _lstOwnerUsers;
             cmbOwner.DataTextField = "DisplayName";
             cmbOwner.DataValueField = "UserID";
             cmbOwner.DataBind();
-            cmbOwner.Items.FindByValue(Convert.ToString(ownerID)).Selected = true;
+
+            var myuser = cmbOwner.Items.FindByValue(Convert.ToString(ownerID));
+
+            if (myuser != null){
+                myuser.Selected = true;
+            }
         }
 
         private void LoadRegUsers()
