@@ -273,7 +273,14 @@ namespace DotNetNuke.Modules.Events
                 }
             }
 
-            if (!_settings.RSSEnable)
+            Boolean iscusomview = false;
+
+            if (!string.IsNullOrEmpty(HttpContext.Current.Request.QueryString["cusomview"]))
+            {
+                iscusomview = HttpContext.Current.Request.QueryString["cusomview"] == "1";
+            }
+
+            if (!iscusomview && !_settings.RSSEnable)
             {
                 Response.Redirect(Globals.NavigateURL(), true);
             }
@@ -367,6 +374,15 @@ namespace DotNetNuke.Modules.Events
                         locationIDs.Add("-1");
                     }
 
+                    if (iscusomview)
+                    {
+                        categoryIDs.Clear();
+                        categoryIDs.Add("-1");
+                        locationIDs.Clear();
+                        locationIDs.Add("-1");
+
+                    }
+
                     lstEvents = objEventInfoHelper.GetEvents(dtStartDate, dtEndDate, getSubEvents, categoryIDs,
                                                              locationIDs, iGroupId, iUserId);
 
@@ -377,6 +393,12 @@ namespace DotNetNuke.Modules.Events
                     foreach (EventInfo eventInfo in lstEvents)
                     {
                         var objEvent = eventInfo;
+
+                        if (iscusomview)
+                        {
+                            int daystoevent = objEvent.EventTimeBegin.Date.Subtract(DateTime.Now).Days;
+                            if (daystoevent != 28 && daystoevent != 7 && daystoevent != 1) continue;
+                        }
 
                         if ((Convert.ToInt32(categoryIDs[0]) == 0) &
                             (objEvent.Category != Convert.ToInt32(categoryIDs[0])))
