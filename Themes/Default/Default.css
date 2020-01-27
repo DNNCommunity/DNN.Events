@@ -441,7 +441,7 @@
 }
 
 .ThemeDefault .SelCategoryTR {
-    height: 35px;
+    height: auto;
 }
 
     .ThemeDefault .SelCategoryTR div {
