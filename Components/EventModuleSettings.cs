@@ -244,7 +244,6 @@ namespace Components
 
             var repository = new EventModuleSettingsRepository();
             var settings = repository.GetSettings(moduleInfo);
-
             settings._moduleID = moduleId;
             settings._localresourcefile = localResourceFile;
 
@@ -890,7 +889,9 @@ namespace Components
         public bool Eventdetailnewpage { get; set; }
 
         [ModuleSetting]
-        public bool Ownerchangeallowed { get; set; } = false;
+        public bool Ownerchangeallowed { get; set; } = true;
+        //bbehrens Ownerchangeallowed default set to true because the setting was not being pulled correctly from the database. work around because i want it to be true
+        //issue you save the setting and it saves in the db. but if you clear the site cache it uses the default and not the database value
 
         [ModuleSetting]
         public bool Eventsignupallowpaid { get; set; } = true;

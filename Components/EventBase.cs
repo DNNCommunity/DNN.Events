@@ -220,8 +220,8 @@ namespace Components
         {
             try
             {
-                if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) ||
-                    IsModuleEditor() && (objEvent.CreatedByID == UserId ||
+                if ((PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) ||
+                    IsModuleEditor() || objEvent.OwnerID == UserId) && (objEvent.CreatedByID == UserId ||
                                               objEvent.OwnerID == UserId && !blMasterOwner ||
                                               objEvent.RmOwnerID == UserId) ||
                     IsModerator())

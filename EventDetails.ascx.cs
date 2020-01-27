@@ -338,13 +338,29 @@ namespace DotNetNuke.Modules.Events
                         objEventInfoHelper.GetEditURL(_eventInfo.EventID, _eventInfo.SocialGroupId,
                                                       _eventInfo.SocialUserId);
                     editButton.ToolTip = Localization.GetString("editButton", LocalResourceFile);
-                    deleteButton.Visible = true;
-                    deleteButton.Attributes.Add(
-                        "onclick",
-                        "javascript:return confirm('" +
-                        Localization.GetString("ConfirmEventDelete", LocalResourceFile) + "');");
+                    if (PortalSecurity.IsInRole(PortalSettings.AdministratorRoleName) ||
+                    IsModuleEditor() || IsModerator())
+                    {
+                        deleteButton.Visible = true;
+                        deleteButton.Attributes.Add(
+                            "onclick",
+                            "javascript:return confirm('" +
+                            Localization.GetString("ConfirmEventDelete", LocalResourceFile) + "');");
+                    }
                     cmdvEventSignups.Visible = true;
                 }
+                else if (_eventInfo.OwnerID == UserId)
+                {
+
+                    editButton.Visible = true;
+                    editButton.NavigateUrl =
+                        objEventInfoHelper.GetEditURL(_eventInfo.EventID, _eventInfo.SocialGroupId,
+                                                      _eventInfo.SocialUserId);
+                    editButton.ToolTip = Localization.GetString("editButton", LocalResourceFile);
+                    cmdvEventSignups.Visible = true;
+                }
+
+
                 editSeriesButton.Visible = false;
                 deleteSeriesButton.Visible = false;
                 if (_eventInfo.RRULE != "")
