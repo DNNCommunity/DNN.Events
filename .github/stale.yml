@@ -9,6 +9,7 @@ exemptLabels:
   - bug
   - noteworthy
   - pull request submitted
+
 # Label to use when marking an issue as stale
 staleLabel: stale
 # Comment to post when marking an issue as stale. Set to `false` to disable
@@ -35,6 +36,5 @@ markComment: >
 # Comment to post when closing a stale issue. Set to `false` to disable
 closeComment: >
   This issue has been closed automatically due to inactivity (as mentioned 
-  14 days ago). 
-  
-  Feel free to re-open the issue if you believe it is still relevant.
+  21 days ago). Feel free to re-open the issue if you believe it is still 
+  relevant.
