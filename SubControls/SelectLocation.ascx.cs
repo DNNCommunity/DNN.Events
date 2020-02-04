@@ -96,7 +96,7 @@ namespace DotNetNuke.Modules.Events
                             else
                             {
                                 _selectedLocation.Clear();
-                                foreach (int location in Settings.ModuleLocationIDs)
+                                foreach (var location in Settings.ModuleLocationIDs)
                                 {
                                     _selectedLocation.Add(location);
                                 }
@@ -119,7 +119,7 @@ namespace DotNetNuke.Modules.Events
                         else if (Settings.ModuleLocationsSelected != EventModuleSettings.LocationsSelected.All)
                         {
                             _selectedLocation.Clear();
-                            foreach (int location in Settings.ModuleLocationIDs)
+                            foreach (var location in Settings.ModuleLocationIDs)
                             {
                                 _selectedLocation.Add(location);
                             }
