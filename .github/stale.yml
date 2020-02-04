@@ -4,14 +4,22 @@ daysUntilStale: 180
 daysUntilClose: 21
 # Issues with these labels will never be considered stale
 exemptLabels:
-  - pinned
-  - security
+  - "Alert: Noteworthy"
+  - "Alert: Pinned"
+  - "Type: Bug"
+  - "Type: Feature"
+  - "Status: Development"
+  - "Status: Review"
+  - "Status: Testing"
 # Label to use when marking an issue as stale
-staleLabel: wontfix
+staleLabel: stale
 # Comment to post when marking an issue as stale. Set to `false` to disable
 markComment: >
   This issue has been automatically marked as stale because it has not had
   recent activity. It will be closed if no further activity occurs. Thank you
   for your contributions.
 # Comment to post when closing a stale issue. Set to `false` to disable
-closeComment: false
+closeComment: >
+  This issue has been closed automatically due to inactivity (as mentioned 
+  21 days ago). Feel free to re-open the issue if you believe it is still 
+  relevant.
