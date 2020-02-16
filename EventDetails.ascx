@@ -9,10 +9,7 @@
         <div class="SubHead DetailReminderLeft">
             <div id="rem1" runat="server" visible="false">
                 <asp:Image ID="imgNotify" runat="server" ImageUrl="Images/bell.gif"/>&nbsp;
-                <asp:LinkButton ID="cmdNotify" CssClass="CommandButton" runat="server" BorderStyle="none"
-                                resourcekey="cmdNotify" ValidationGroup="EventEmail" OnClick="cmdNotify_Click">
-                    Notify Me for this Event @
-                </asp:LinkButton><br/>
+                <asp:LinkButton ID="cmdNotify" CssClass="CommandButton" runat="server" BorderStyle="none" resourcekey="cmdNotify" ValidationGroup="EventEmail" OnClick="cmdNotify_Click">Notify Me for this Event @</asp:LinkButton><br/>
                 <asp:CheckBox ID="chkReminderRec" resourcekey="chkReminderRec" Visible="false" runat="server" CssClass="SubHead" Text=""></asp:CheckBox><br/>
             </div>
         </div>
@@ -26,8 +23,7 @@
                                             ControlToValidate="txtUserEmail" Display="Dynamic">
                 </asp:RequiredFieldValidator><br/>
                 <asp:TextBox ID="txtReminderTime" CssClass="NormalTextBox" runat="server" MaxLength="3" Width="30" Font-Size="8pt">8</asp:TextBox>
-                <asp:DropDownList
-                    ID="ddlReminderTimeMeasurement" runat="server" Width="90" Font-Size="8pt" CssClass="NormalTextBox">
+                <asp:DropDownList ID="ddlReminderTimeMeasurement" runat="server" Width="90" Font-Size="8pt" CssClass="NormalTextBox">
                     <asp:ListItem Value="m" resourcekey="Minutes">Minutes</asp:ListItem>
                     <asp:ListItem Value="h" resourcekey="Hours" Selected="True">Hours</asp:ListItem>
                     <asp:ListItem Value="d" resourcekey="Days">Days</asp:ListItem>
@@ -48,8 +44,7 @@
     <div id="divIcalendar" Runat="server" class="DetailClear DetailiCalDiv">
         <div class="SubHead DetailiCalLeft">
             <asp:Image ID="imgEmail" runat="server" IconKey="Email"/>&nbsp;
-            <asp:LinkButton ID="cmdEmail" CssClass="CommandButton" runat="server" BorderStyle="none"
-                            resourcekey="cmdEmail" ValidationGroup="EventEmailiCal" OnClick="cmdEmail_Click">
+            <asp:LinkButton ID="cmdEmail" CssClass="CommandButton" runat="server" BorderStyle="none" resourcekey="cmdEmail" ValidationGroup="EventEmailiCal" OnClick="cmdEmail_Click">
             </asp:LinkButton>
         </div>
         <div class="SubHead DetailiCalRight">
@@ -70,9 +65,7 @@
             <div id="enroll1" runat="server" visible="false">
                 <asp:Image ID="imgEnroll" runat="server" ImageUrl="Images/enroll.gif"/>&nbsp;
                 <asp:LinkButton ID="cmdSignup" CssClass="CommandButton" runat="server" BorderStyle="none"
-                                ValidationGroup="EventSignup" OnClick="cmdSignup_Click">
-                    Enroll for this Event?
-                </asp:LinkButton>
+                                ValidationGroup="EventSignup" OnClick="cmdSignup_Click">Enroll for this Event?</asp:LinkButton>
             </div>
             <div id="enroll4" runat="server" visible="false">
                 <asp:Image ID="imgEnrollTooLate" runat="server" ImageUrl="Images/EnrollFull.gif"/>&nbsp;
@@ -82,10 +75,7 @@
         <div class="SubHead DetailEnrollRight">
             <div id="enroll3" runat="server" visible="false">
                 <asp:Label ID="lblNoEnrolee" runat="server" resourcekey="lblNoEnrolee" class="DetailEnrollLabel" Width="100px">No. of Enrolees</asp:Label>&nbsp;
-                <asp:TextBox ID="txtNoEnrolees" runat="server" CssClass="NormalTextBox"
-                             Font-Size="8pt" MaxLength="3" Width="30">
-                    1
-                </asp:TextBox>&nbsp;
+                <asp:TextBox ID="txtNoEnrolees" runat="server" CssClass="NormalTextBox" Font-Size="8pt" MaxLength="3" Width="30">1</asp:TextBox>&nbsp;
                 <asp:Label ID="lblMaxNoEnrolees" runat="server">(Max 1)</asp:Label>&nbsp;
                 <asp:RangeValidator ID="valNoEnrolees" runat="server"
                                     ControlToValidate="txtNoEnrolees" MinimumValue="1" MaximumValue="1" Display="Dynamic" Type="Integer" cssclass="dnnFormMessage dnnFormError"
