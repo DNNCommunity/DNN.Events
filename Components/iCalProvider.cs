@@ -423,6 +423,12 @@ namespace DotNetNuke.Modules.Events
                     for (intYear = dtStartDate.Year - 1; intYear <= dtEndDate.Year; intYear++)
                     {
                         var yearDayLight = GetAdjustment(adjustments, intYear);
+                        
+                        if (yearDayLight == null)
+                        {
+                            continue;
+                        }
+                        
                         var daylightStart = yearDayLight.StartDate;
                         var daylightEnd = yearDayLight.EndDate;
                         if ((lastDSTStartDate == DateTime.MinValue || daylightStart > lastDSTStartDate) &&
@@ -439,6 +445,12 @@ namespace DotNetNuke.Modules.Events
                     for (intYear = dtStartDate.Year - 1; intYear <= dtEndDate.Year; intYear++)
                     {
                         var yearDayLight = GetAdjustment(adjustments, intYear);
+                        
+                        if (yearDayLight == null)
+                        {
+                            continue;
+                        }
+                        
                         var daylightStart = yearDayLight.StartDate;
                         var daylightEnd = yearDayLight.EndDate;
 
