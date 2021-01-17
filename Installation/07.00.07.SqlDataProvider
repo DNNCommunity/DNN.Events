@@ -24,6 +24,6 @@ WHERE   ModuleID IN
                     ON MD.ModuleDefID = MO.ModuleDefID
             WHERE MD.DefinitionName = 'Events'
         )
-        AND [ModuleSettings].SettingName LIKE 'Module%Ids';
+        AND [ModuleSettings].SettingName = 'ModuleLocationIds';
 		
 GO

@@ -411,7 +411,6 @@ namespace Components
             set { _moduleCategoriesSelected = value; }
         }
 
-        [ModuleSetting]
         public ArrayList ModuleLocationIDs
         {
             get
@@ -426,6 +425,23 @@ namespace Components
             }
             set { _moduleLocationIDs = value; }
         }
+
+        [ModuleSetting(ParameterName = "ModuleLocationIds")]
+        public string ModuleLocationIdsList
+        {
+            get { return string.Join(";", ModuleLocationIDs ?? new ArrayList()); }
+
+            set
+            {
+                ModuleLocationIDs = !string.IsNullOrWhiteSpace(value)
+                    ? new ArrayList(
+                        value.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
+                            .Select(arg => arg)
+                            .ToArray())
+                    : new ArrayList();
+            }
+        }
+
 
         public LocationsSelected ModuleLocationsSelected
         {

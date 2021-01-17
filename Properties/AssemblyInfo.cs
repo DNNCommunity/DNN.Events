@@ -9,10 +9,10 @@ using System.Runtime.InteropServices;
 // Review the values of the assembly attributes
 [assembly: AssemblyTitle("DotNetNuke.Modules.Events")]
 [assembly: AssemblyDescription("Open Source Web Application Framework")]
-[assembly: AssemblyCompany("DNN Corp")]
-[assembly: AssemblyProduct("http://www.dnnsoftware.com")]
-[assembly: AssemblyCopyright("DotNetNuke® is copyright 2002-2018 by DNN Corp. All Rights Reserved.")]
-[assembly: AssemblyTrademark("DotNetNuke")]
+[assembly: AssemblyCompany("DNNCommunity")]
+[assembly: AssemblyProduct("https://dnncommunity.org/")]
+[assembly: AssemblyCopyright("DNNCommunity")]
+[assembly: AssemblyTrademark("DNNPlatform")]
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("7.0.6.0")]
-[assembly: AssemblyFileVersion("7.0.6.0")]
+[assembly: AssemblyVersion("7.0.7.0")]
+[assembly: AssemblyFileVersion("7.0.7.0")]
