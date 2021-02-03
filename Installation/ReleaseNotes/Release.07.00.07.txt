@@ -4,7 +4,7 @@ DNN_Events 07.00.07 will work for any DNN version <strong>8.0.1</strong> and up 
 </p>
 <p>This is a bug fix release of the DNN_Events module.</p>
 <p>
-<strong>Please note</strong> that you have to reapply the limits on locations in the module settings (if you ahve used them), because those limitations are removed by the SQL statement in the upgrade process.
+<strong>Please note</strong> that you have to reapply the limits on locations in the module settings (if you have used them), because those limitations are removed in the upgrade process.
 </p>
 
 <h3>BUG FIXES</h3>
@@ -13,15 +13,13 @@ DNN_Events 07.00.07 will work for any DNN version <strong>8.0.1</strong> and up 
 </ul>
 <h3>CHANGES</h3>
 <ul>
-	<li>This upgrade will remove all old Events install packages that the DNN installer has saved in App_Data</li>
+	<li>This upgrade will remove all old Events install packages (no longer needed) that the DNN installer has saved in App_Data folder</li>
 </ul>
-
-
+<p>&nbsp;</p>
 <hr />
 <p>Below updates since the last main release 07.00.00</p>
 
 <h2>DNN_Events 07.00.06</h2>
-https://github.com/dnnsoftware/Language-Pack-NL-NL/releases/tag/v9.7.2
 <h3>BUG FIXES</h3>
 <ul>
 	<li>Display detail Enrollment box looked empty</li>

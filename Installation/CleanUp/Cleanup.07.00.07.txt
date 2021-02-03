@@ -1,7 +1,7 @@
 ﻿'Remove old versions of events
 Install\Module\Events_07.00.06_Install.zip
 
-'Remove the by DNN saved old install packages
+'Remove the old install packages that are saved by the DNN installer
 App_Data\ExtensionPackages\Module_DNN_Events_5.1.5.resources
 App_Data\ExtensionPackages\Module_DNN_Events_5.2.3.resources
 App_Data\ExtensionPackages\Module_DNN_Events_6.0.0.resources

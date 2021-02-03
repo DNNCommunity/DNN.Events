@@ -447,17 +447,22 @@ namespace Components
         {
             get
             {
+                int moduleLocAll = 0;
                 if (ModuleLocationIDs.Count == 0)
                 {
                     _moduleLocationsSelected = LocationsSelected.None;
                 }
-                else if (Convert.ToInt32(ModuleLocationIDs[0]) == -1)
-                {
-                    _moduleLocationsSelected = LocationsSelected.All;
-                }
                 else
                 {
-                    _moduleLocationsSelected = LocationsSelected.Some;
+                    moduleLocAll = int.TryParse(ModuleLocationIDs[0] as string, out moduleLocAll) ? moduleLocAll : -1;
+                    if (moduleLocAll == -1)
+                    {
+                        _moduleLocationsSelected = LocationsSelected.All;
+                    }
+                    else
+                    {
+                        _moduleLocationsSelected = LocationsSelected.Some;
+                    }
                 }
                 return _moduleLocationsSelected;
             }

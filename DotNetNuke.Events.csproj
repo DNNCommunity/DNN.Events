@@ -373,6 +373,9 @@
     <Content Include="Installation\CleanUp\Cleanup.07.00.02.txt" />
     <Content Include="Installation\CleanUp\Cleanup.07.00.03.txt" />
     <Content Include="Installation\CleanUp\Cleanup.07.00.04.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.07.00.05.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.07.00.06.txt" />
+    <Content Include="Installation\CleanUp\Cleanup.07.00.07.txt" />
     <Content Include="Installation\DNN_Events.png" />
     <Content Include="Installation\ReleaseNotes\Release.06.01.05.txt" />
     <Content Include="Installation\ReleaseNotes\Release.06.02.00.txt" />
@@ -592,6 +595,8 @@
     </None>
     <Content Include="Installation\ReleaseNotes\Release.06.03.01.txt" />
     <None Include="Installation\Uninstall.SqlDataProvider" />
+    <Content Include="LICENSE" />
+    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Controls\DotNetNuke.Events.ScheduleControl\DotNetNuke.Events.ScheduleControl.csproj">
