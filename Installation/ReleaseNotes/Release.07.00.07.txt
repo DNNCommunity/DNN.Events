@@ -1,0 +1,77 @@
+﻿<h2>Release notes DNN_Events 07.00.07</h2>
+<p>
+DNN_Events 07.00.07 will work for any DNN version <strong>8.0.1</strong> and up to the latest release of DNNPlatform. Full details on the changes can be found in great detail at <a href="https://github.com/DNNCommunity/DNN.Events/releases" target="_blank">the repository on GitHub</a>.
+</p>
+<p>This is a bug fix release of the DNN_Events module.</p>
+<p>
+<strong>Please note</strong> that you have to reapply the limits on locations in the module settings (if you have used them), because those limitations are removed in the upgrade process.
+</p>
+
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Prevent error in Event module settings when upgrading DNN to DNN98x</li>
+</ul>
+<h3>CHANGES</h3>
+<ul>
+	<li>This upgrade will remove all old Events install packages (no longer needed) that the DNN installer has saved in App_Data folder</li>
+</ul>
+<p>&nbsp;</p>
+<hr />
+<p>Below updates since the last main release 07.00.00</p>
+
+<h2>DNN_Events 07.00.06</h2>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Display detail Enrollment box looked empty</li>
+</ul>
+
+
+<h2>DNN_Events 07.00.05</h2>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Several casting errors due to the VB.net/C# conversion fixed</li>
+	<li>Select date fixed</li>
+	<li>Auto height in Location & Category table</li>
+</ul>
+
+<h2>DNN_Events 07.00.04</h2>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Several casting errors due to the VB.net/C# conversion fixed</li>
+	<li>Several none functioning buttons and links fixed that were due to the VB.net/C# conversion</li>
+	<li>Some V6 settings were not carried forward to the new version due to case mismatch in the name of the setting</li>
+	<li>Select date fixed</li>
+	<li>Editing event enrolments fixed</li>
+	<li>Selecting users for enrolment fixed</li>
+	<li>Approval of enrolments fixed</li>
+</ul>
+<h3>Other</h3>
+<ul>
+	<li>Code cleanup done</li>
+</ul>
+
+<h2>DNN_Events 07.00.03</h2>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Several casting errors due to the VB.net/C# conversion fixed</li>
+	<li>Several none functioning buttons and links fixed that were due to the VB.net/C# conversion</li>
+	<li>Some V6 settings were not carried forward to the new version due to case mismatch in the name of the setting</li>
+	<li>Templates save/update did not work</li>
+</ul>
+
+<h2>DNN_Events 07.00.02</h2>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Casting errors due to the VB.net/C# conversion fixed</li>
+	<li>Fixed an issue where it was impossible to create an event if the edit interval was set to 1440</li>
+	<li>Fixed an issue where it was impossible to view events after changing months when categories where enabled but none selected</li>
+	<li>Fixed an issue where it was impossible to view events after changing months when locations where enabled but none selected</li>
+	<li>Fixed an issue where it was impossible to exit list view mode</li>
+</ul>
+
+<h2>DNN_Events 07.00.01</h2>
+<h3>BUG FIXES</h3>
+<ul>
+	<li>Casting errors due to the VB.net/C# conversion fixed</li>
+	<li>URL of image file not saving, solved</li>
+</ul>

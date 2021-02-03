@@ -411,7 +411,6 @@ namespace Components
             set { _moduleCategoriesSelected = value; }
         }
 
-        [ModuleSetting]
         public ArrayList ModuleLocationIDs
         {
             get
@@ -427,21 +426,43 @@ namespace Components
             set { _moduleLocationIDs = value; }
         }
 
+        [ModuleSetting(ParameterName = "ModuleLocationIds")]
+        public string ModuleLocationIdsList
+        {
+            get { return string.Join(";", ModuleLocationIDs ?? new ArrayList()); }
+
+            set
+            {
+                ModuleLocationIDs = !string.IsNullOrWhiteSpace(value)
+                    ? new ArrayList(
+                        value.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
+                            .Select(arg => arg)
+                            .ToArray())
+                    : new ArrayList();
+            }
+        }
+
+
         public LocationsSelected ModuleLocationsSelected
         {
             get
             {
+                int moduleLocAll = 0;
                 if (ModuleLocationIDs.Count == 0)
                 {
                     _moduleLocationsSelected = LocationsSelected.None;
                 }
-                else if (Convert.ToInt32(ModuleLocationIDs[0]) == -1)
-                {
-                    _moduleLocationsSelected = LocationsSelected.All;
-                }
                 else
                 {
-                    _moduleLocationsSelected = LocationsSelected.Some;
+                    moduleLocAll = int.TryParse(ModuleLocationIDs[0] as string, out moduleLocAll) ? moduleLocAll : -1;
+                    if (moduleLocAll == -1)
+                    {
+                        _moduleLocationsSelected = LocationsSelected.All;
+                    }
+                    else
+                    {
+                        _moduleLocationsSelected = LocationsSelected.Some;
+                    }
                 }
                 return _moduleLocationsSelected;
             }

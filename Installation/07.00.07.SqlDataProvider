@@ -1,0 +1,29 @@
+﻿/************************************************************/
+/*****                                                  *****/
+/*****       SqlDataProvider                            *****/
+/*****       Install/Upgrade for Events module 07.00.07 *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search AND replace operation     *****/
+/*****       for {databaseOwner} AND {objectQualifier}  *****/
+/*****       or use 'SQL' FROM Host Menu AND run this.  *****/
+/*****                                                  *****/
+/************************************************************/
+
+
+/* Remove the Module limits for category and/or locations per module instance */
+
+DELETE  FROM {databaseOwner}[{objectQualifier}ModuleSettings]
+WHERE   ModuleID IN
+        (
+            SELECT DISTINCT MS.ModuleID
+            FROM   {databaseOwner}[{objectQualifier}ModuleSettings] AS MS
+                INNER JOIN {databaseOwner}[{objectQualifier}Modules] AS MO 
+				    ON MO.ModuleID = MS.[ModuleID]
+                INNER JOIN {databaseOwner}[{objectQualifier}ModuleDefinitions] AS MD
+                    ON MD.ModuleDefID = MO.ModuleDefID
+            WHERE MD.DefinitionName = 'Events'
+        )
+        AND [ModuleSettings].SettingName = 'ModuleLocationIds';
+		
+GO
