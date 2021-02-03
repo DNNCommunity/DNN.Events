@@ -23,6 +23,7 @@
 #endregion
 
 
+// ReSharper disable EmptyGeneralCatchClause
 namespace DotNetNuke.Modules.Events.ScheduleControl
 {
     namespace MonthControl
@@ -336,6 +337,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                                 cell.Controls.RemoveAt(0);
                                 cell.Controls.AddAt(0, anchor);
                             }
+                            // ReSharper disable once EmptyGeneralCatchClause
                             catch (Exception)
                             { }
                         }
@@ -917,6 +919,7 @@ namespace DotNetNuke.Modules.Events.ScheduleControl
                         // Raise the VisibleMonthChanged event.
                         OnVisibleMonthChanged(VisibleDate, previousDate);
                     }
+                    // ReSharper disable once EmptyGeneralCatchClause
                     catch (Exception)
                     { }
                     return;

@@ -307,6 +307,7 @@ namespace DotNetNuke.Modules.Events
                     AddSelectedUsersEvent(this, new EventArgs(), arrUsers);
                 }
             }
+            // ReSharper disable once EmptyGeneralCatchClause
             catch (Exception)
             { }
         }

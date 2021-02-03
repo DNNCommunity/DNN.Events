@@ -292,6 +292,7 @@ namespace DotNetNuke.Modules.Events
                 schWeek.DataSource = dvEvent;
                 schWeek.DataBind();
             }
+            // ReSharper disable once EmptyGeneralCatchClause
             catch
             { }
         }
