@@ -24,6 +24,7 @@
 #endregion
 
 
+// ReSharper disable EmptyGeneralCatchClause
 namespace DotNetNuke.Modules.Events
 {
     using System;

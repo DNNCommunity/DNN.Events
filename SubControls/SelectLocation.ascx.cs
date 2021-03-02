@@ -174,6 +174,7 @@ namespace DotNetNuke.Modules.Events
                         Response.Cookies["DNNEvents"].Expires = DateTime.Now.AddMinutes(2);
                         Response.Cookies["DNNEvents"].Path = "/";
                     }
+                    // ReSharper disable once EmptyGeneralCatchClause
                     catch (Exception)
                     { }
                 }

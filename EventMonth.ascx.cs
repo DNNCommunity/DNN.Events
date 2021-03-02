@@ -495,6 +495,7 @@ namespace DotNetNuke.Modules.Events
                                                 "selecteddate=" + urlDate));
                     }
                 }
+                // ReSharper disable once EmptyGeneralCatchClause
                 catch (Exception)
                 { }
             }

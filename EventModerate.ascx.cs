@@ -620,6 +620,7 @@ namespace DotNetNuke.Modules.Events
                                 objEventInfoHelper.AddSkinContainerControls(
                                     EditUrl("ItemID", itemID.ToString(), "Edit"), "?"));
                         }
+                        // ReSharper disable once EmptyGeneralCatchClause
                         catch (Exception)
                         { }
                         break;

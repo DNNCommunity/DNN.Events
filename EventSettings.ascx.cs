@@ -1093,6 +1093,7 @@ namespace DotNetNuke.Modules.Events
                     ddNewEventEmailRoles.Items.FindByValue(PortalSettings.RegisteredRoleId.ToString())
                         .Selected = true;
                 }
+                // ReSharper disable once EmptyGeneralCatchClause
                 catch
                 { }
             }
