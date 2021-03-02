@@ -23,6 +23,7 @@
 #endregion
 
 
+// ReSharper disable EmptyGeneralCatchClause
 namespace Components
 {
     using System;

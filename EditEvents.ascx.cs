@@ -45,6 +45,7 @@ using DotNetNuke.Web.UI.WebControls.Extensions;
 using Microsoft.VisualBasic;
 using EventInfo = Components.EventInfo;
 using Globals = DotNetNuke.Common.Globals;
+// ReSharper disable EmptyGeneralCatchClause
 
 namespace DotNetNuke.Modules.Events
 {
