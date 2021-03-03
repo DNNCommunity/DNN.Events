@@ -13,11 +13,14 @@
     <div class="EvtHdrLftCol"></div>
     <div class="EvtHdrMdlCol">
         <div>
-            <%--<p>Date: <input type="text" id="datepicker"></p>--%>
             <asp:panel id="pnlDateControls" Runat="server" Visible="True" CssClass="EvtDateControls">
-                <asp:LinkButton ID="lnkToday" runat="server" CssClass="CommandButton" OnClick="lnkToday_Click"> Today</asp:LinkButton>&nbsp;
+			<div class="SelCategory SubHead">
+				<asp:label id="lblDateSelect" runat="server" class="SubHead" resourcekey="lblDateSelect" Text="Select date: " ControlName="dpGoToDate"></asp:label>
+                <asp:LinkButton ID="lnkToday" runat="server" CssClass="CommandButton" OnClick="lnkToday_Click"> Today</asp:LinkButton>
+				&nbsp;
                 <dnn:DnnDatePicker id="dpGoToDate" AutoPostBack="true" OnSelectedDateChanged="dpGoToDate_SelectedDateChanged" runat="server" DateInput-CssClass="DateFormat" CssClass="DatePicker"></dnn:DnnDatePicker>
             </asp:panel>
+			</div>
         </div>
         <div style="text-align: center;">
             <evt:Category ID="SelectCategory" runat="server" OnCategorySelectedChanged="SelectCategoryChanged"></evt:Category>
