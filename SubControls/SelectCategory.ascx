@@ -3,7 +3,7 @@
 
 <div class="SelCategoryTR">
     <div class="SelCategory SubHead">
-        <asp:label id="lblCategory" runat="server" resourcekey="lblCategory"></asp:label>
+        <asp:label id="lblCategory" runat="server" resourcekey="lblCategory" ControlName="ddlCategories"></asp:label>
         <dnn:DnnComboBox ID="ddlCategories" runat="server" CheckBoxes="True" EnableCheckAllItemsCheckBox="true"
                          AllowCustomText="False" DataValueField="Category" DataTextField="CategoryName" InputCssClass="CategoryFormat" DropDownCssClass="CategoryFormat" CssClass="SelectCategory">
         </dnn:DnnComboBox>
