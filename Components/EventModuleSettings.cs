@@ -371,13 +371,13 @@ namespace Components
         [ModuleSetting(ParameterName = "ModuleCategoryIds")]
         public string ModuleCategoryIdsList
         {
-            get { return string.Join(";", ModuleCategoryIDs ?? new ArrayList()); }
+            get => ModuleCategoryIDs == null ? "" : string.Join(";", ModuleCategoryIDs.ToArray());
 
             set
             {
                 ModuleCategoryIDs = !string.IsNullOrWhiteSpace(value)
                                              ? new ArrayList(
-                                                 value.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
+                                                 value.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
                                                       .Select(arg => arg)
                                                       .ToArray())
                                              : new ArrayList();
@@ -429,13 +429,13 @@ namespace Components
         [ModuleSetting(ParameterName = "ModuleLocationIds")]
         public string ModuleLocationIdsList
         {
-            get { return string.Join(";", ModuleLocationIDs ?? new ArrayList()); }
+            get => ModuleLocationIDs == null ? "" : string.Join(";", ModuleLocationIDs.ToArray());
 
             set
             {
                 ModuleLocationIDs = !string.IsNullOrWhiteSpace(value)
                     ? new ArrayList(
-                        value.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries)
+                        value.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
                             .Select(arg => arg)
                             .ToArray())
                     : new ArrayList();

@@ -1169,148 +1169,145 @@ namespace DotNetNuke.Modules.Events
         /// <remarks></remarks>
         private void UpdateSettings()
         {
-            var repository = new EventModuleSettingsRepository();
-            var emSettings = repository.GetSettings(ModuleConfiguration);
-
-            emSettings.Timeinterval = ddlTimeInterval.SelectedValue.Trim();
-            emSettings.TimeZoneId = cboTimeZone.SelectedValue;
-            emSettings.EnableEventTimeZones = chkEnableEventTimeZones.Checked;
-            emSettings.PrimaryTimeZone =
+            Settings.Timeinterval = ddlTimeInterval.SelectedValue.Trim();
+            Settings.TimeZoneId = cboTimeZone.SelectedValue;
+            Settings.EnableEventTimeZones = chkEnableEventTimeZones.Checked;
+            Settings.PrimaryTimeZone =
                 (EventModuleSettings.TimeZones) int.Parse(ddlPrimaryTimeZone.SelectedValue);
 
             try
             {
-                emSettings.Timeinterval = ddlTimeInterval.SelectedValue.Trim();
-                emSettings.TimeZoneId = cboTimeZone.SelectedValue;
-                emSettings.EnableEventTimeZones = chkEnableEventTimeZones.Checked;
-                emSettings.PrimaryTimeZone =
+                Settings.Timeinterval = ddlTimeInterval.SelectedValue.Trim();
+                Settings.TimeZoneId = cboTimeZone.SelectedValue;
+                Settings.EnableEventTimeZones = chkEnableEventTimeZones.Checked;
+                Settings.PrimaryTimeZone =
                     (EventModuleSettings.TimeZones) int.Parse(ddlPrimaryTimeZone.SelectedValue);
-                emSettings.SecondaryTimeZone =
+                Settings.SecondaryTimeZone =
                     (EventModuleSettings.TimeZones) int.Parse(ddlSecondaryTimeZone.SelectedValue);
-                emSettings.Eventtooltipmonth = chkToolTipMonth.Checked;
-                emSettings.Eventtooltipweek = chkToolTipWeek.Checked;
-                emSettings.Eventtooltipday = chkToolTipDay.Checked;
-                emSettings.Eventtooltiplist = chkToolTipList.Checked;
-                emSettings.Eventtooltiplength = int.Parse(txtTooltipLength.Text);
+                Settings.Eventtooltipmonth = chkToolTipMonth.Checked;
+                Settings.Eventtooltipweek = chkToolTipWeek.Checked;
+                Settings.Eventtooltipday = chkToolTipDay.Checked;
+                Settings.Eventtooltiplist = chkToolTipList.Checked;
+                Settings.Eventtooltiplength = int.Parse(txtTooltipLength.Text);
                 if (chkMonthCellEvents.Checked)
                 {
-                    emSettings.Monthcellnoevents = false;
+                    Settings.Monthcellnoevents = false;
                 }
                 else
                 {
-                    emSettings.Monthcellnoevents = true;
+                    Settings.Monthcellnoevents = true;
                 }
-                emSettings.Enablecategories =
+                Settings.Enablecategories =
                     (EventModuleSettings.DisplayCategories) int.Parse(ddlEnableCategories.SelectedValue);
-                emSettings.Restrictcategories = chkRestrictCategories.Checked;
-                emSettings.Enablelocations =
+                Settings.Restrictcategories = chkRestrictCategories.Checked;
+                Settings.Enablelocations =
                     (EventModuleSettings.DisplayLocations) int.Parse(ddlEnableLocations.SelectedValue);
-                emSettings.Restrictlocations = chkRestrictLocations.Checked;
-                emSettings.Enablecontainerskin = chkEnableContainerSkin.Checked;
-                emSettings.Eventdetailnewpage = chkEventDetailNewPage.Checked;
-                emSettings.Enableenrollpopup = chkEnableEnrollPopup.Checked;
-                emSettings.Eventdaynewpage = chkEventDayNewPage.Checked;
-                emSettings.EventImageMonth = chkEventImageMonth.Checked;
-                emSettings.EventImageWeek = chkEventImageWeek.Checked;
-                emSettings.Eventnotify = chkEventNotify.Checked;
-                emSettings.DetailPageAllowed = chkDetailPageAllowed.Checked;
-                emSettings.EnrollmentPageAllowed = chkEnrollmentPageAllowed.Checked;
-                emSettings.EnrollmentPageDefaultUrl = txtEnrollmentPageDefaultURL.Text;
-                emSettings.Notifyanon = chkNotifyAnon.Checked;
-                emSettings.Sendreminderdefault = chkSendReminderDefault.Checked;
-                emSettings.Neweventemails = rblNewEventEmail.SelectedValue;
-                emSettings.Neweventemailrole = int.Parse(ddNewEventEmailRoles.SelectedValue);
-                emSettings.Newpereventemail = chkNewPerEventEmail.Checked;
-                emSettings.Tzdisplay = chkTZDisplay.Checked;
-                emSettings.Paypalurl = txtPayPalURL.Text;
+                Settings.Restrictlocations = chkRestrictLocations.Checked;
+                Settings.Enablecontainerskin = chkEnableContainerSkin.Checked;
+                Settings.Eventdetailnewpage = chkEventDetailNewPage.Checked;
+                Settings.Enableenrollpopup = chkEnableEnrollPopup.Checked;
+                Settings.Eventdaynewpage = chkEventDayNewPage.Checked;
+                Settings.EventImageMonth = chkEventImageMonth.Checked;
+                Settings.EventImageWeek = chkEventImageWeek.Checked;
+                Settings.Eventnotify = chkEventNotify.Checked;
+                Settings.DetailPageAllowed = chkDetailPageAllowed.Checked;
+                Settings.EnrollmentPageAllowed = chkEnrollmentPageAllowed.Checked;
+                Settings.EnrollmentPageDefaultUrl = txtEnrollmentPageDefaultURL.Text;
+                Settings.Notifyanon = chkNotifyAnon.Checked;
+                Settings.Sendreminderdefault = chkSendReminderDefault.Checked;
+                Settings.Neweventemails = rblNewEventEmail.SelectedValue;
+                Settings.Neweventemailrole = int.Parse(ddNewEventEmailRoles.SelectedValue);
+                Settings.Newpereventemail = chkNewPerEventEmail.Checked;
+                Settings.Tzdisplay = chkTZDisplay.Checked;
+                Settings.Paypalurl = txtPayPalURL.Text;
                 if (chkEnableEventNav.Checked)
                 {
-                    emSettings.DisableEventnav = false;
+                    Settings.DisableEventnav = false;
                 }
                 else
                 {
-                    emSettings.DisableEventnav = true;
+                    Settings.DisableEventnav = true;
                 }
-                emSettings.Fulltimescale = chkFullTimeScale.Checked;
-                emSettings.Collapserecurring = chkCollapseRecurring.Checked;
-                emSettings.Includeendvalue = chkIncludeEndValue.Checked;
-                emSettings.Showvaluemarks = chkShowValueMarks.Checked;
-                emSettings.Eventimage = chkImageEnabled.Checked;
-                emSettings.MaxThumbHeight = int.Parse(txtMaxThumbHeight.Text);
-                emSettings.MaxThumbWidth = int.Parse(txtMaxThumbWidth.Text);
-                emSettings.Allowreoccurring = chkAllowRecurring.Checked;
-                emSettings.Maxrecurrences = txtMaxRecurrences.Text;
-                emSettings.Eventsearch = chkEnableSearch.Checked;
-                emSettings.Addsubmodulename = chkAddSubModuleName.Checked;
-                emSettings.Enforcesubcalperms = chkEnforceSubCalPerms.Checked;
-                emSettings.Preventconflicts = chkPreventConflicts.Checked;
-                emSettings.Locationconflict = chkLocationConflict.Checked;
-                emSettings.ShowEventsAlways = chkShowEventsAlways.Checked;
-                emSettings.Timeintitle = chkTimeInTitle.Checked;
-                emSettings.Monthdayselect = chkMonthDaySelect.Checked;
-                emSettings.MasterEvent = chkMasterEvent.Checked;
-                emSettings.Eventsignup = chkEventSignup.Checked;
-                emSettings.Eventsignupallowpaid = chkEventSignupAllowPaid.Checked;
-                emSettings.Eventdefaultenrollview = chkDefaultEnrollView.Checked;
-                emSettings.Eventhidefullenroll = chkHideFullEnroll.Checked;
-                emSettings.Maxnoenrolees = int.Parse(txtMaxNoEnrolees.Text);
-                emSettings.Enrolcanceldays = int.Parse(txtCancelDays.Text);
-                emSettings.Fridayweekend = chkFridayWeekend.Checked;
-                emSettings.Moderateall = chkModerateAll.Checked;
-                emSettings.Paypalaccount = txtPayPalAccount.Text;
-                emSettings.Reminderfrom = txtReminderFrom.Text;
-                emSettings.StandardEmail = txtStandardEmail.Text;
-                emSettings.EventsCustomField1 = chkCustomField1.Checked;
-                emSettings.EventsCustomField2 = chkCustomField2.Checked;
-                emSettings.DefaultView = ddlDefaultView.SelectedItem.Value;
-                emSettings.EventsListPageSize = int.Parse(ddlPageSize.SelectedItem.Value);
-                emSettings.EventsListSortDirection = ddlListSortedFieldDirection.SelectedItem.Value;
-                emSettings.EventsListSortColumn = ddlListDefaultColumn.SelectedItem.Value;
-                emSettings.RSSEnable = chkRSSEnable.Checked;
-                emSettings.RSSDateField = ddlRSSDateField.SelectedItem.Value;
-                emSettings.RSSDays = int.Parse(txtRSSDays.Text);
-                emSettings.RSSTitle = txtRSSTitle.Text;
-                emSettings.RSSDesc = txtRSSDesc.Text;
-                emSettings.Expireevents = txtExpireEvents.Text;
-                emSettings.Exportowneremail = chkExportOwnerEmail.Checked;
-                emSettings.Exportanonowneremail = chkExportAnonOwnerEmail.Checked;
-                emSettings.Ownerchangeallowed = chkOwnerChangeAllowed.Checked;
-                emSettings.IconMonthPrio = chkIconMonthPrio.Checked;
-                emSettings.IconMonthRec = chkIconMonthRec.Checked;
-                emSettings.IconMonthReminder = chkIconMonthReminder.Checked;
-                emSettings.IconMonthEnroll = chkIconMonthEnroll.Checked;
-                emSettings.IconWeekPrio = chkIconWeekPrio.Checked;
-                emSettings.IconWeekRec = chkIconWeekRec.Checked;
-                emSettings.IconWeekReminder = chkIconWeekReminder.Checked;
-                emSettings.IconWeekEnroll = chkIconWeekEnroll.Checked;
-                emSettings.IconListPrio = chkIconListPrio.Checked;
-                emSettings.IconListRec = chkIconListRec.Checked;
-                emSettings.IconListReminder = chkIconListReminder.Checked;
-                emSettings.IconListEnroll = chkIconListEnroll.Checked;
-                emSettings.PrivateMessage = txtPrivateMessage.Text.Trim();
-                emSettings.EnableSEO = chkEnableSEO.Checked;
-                emSettings.SEODescriptionLength = int.Parse(txtSEODescriptionLength.Text);
-                emSettings.EnableSitemap = chkEnableSitemap.Checked;
-                emSettings.SiteMapPriority = Convert.ToSingle(Convert.ToSingle(txtSitemapPriority.Text));
-                emSettings.SiteMapDaysBefore = int.Parse(txtSitemapDaysBefore.Text);
-                emSettings.SiteMapDaysAfter = int.Parse(txtSitemapDaysAfter.Text);
-                emSettings.WeekStart = (FirstDayOfWeek) int.Parse(ddlWeekStart.SelectedValue);
-                emSettings.ListViewUseTime = chkListViewUseTime.Checked;
+                Settings.Fulltimescale = chkFullTimeScale.Checked;
+                Settings.Collapserecurring = chkCollapseRecurring.Checked;
+                Settings.Includeendvalue = chkIncludeEndValue.Checked;
+                Settings.Showvaluemarks = chkShowValueMarks.Checked;
+                Settings.Eventimage = chkImageEnabled.Checked;
+                Settings.MaxThumbHeight = int.Parse(txtMaxThumbHeight.Text);
+                Settings.MaxThumbWidth = int.Parse(txtMaxThumbWidth.Text);
+                Settings.Allowreoccurring = chkAllowRecurring.Checked;
+                Settings.Maxrecurrences = txtMaxRecurrences.Text;
+                Settings.Eventsearch = chkEnableSearch.Checked;
+                Settings.Addsubmodulename = chkAddSubModuleName.Checked;
+                Settings.Enforcesubcalperms = chkEnforceSubCalPerms.Checked;
+                Settings.Preventconflicts = chkPreventConflicts.Checked;
+                Settings.Locationconflict = chkLocationConflict.Checked;
+                Settings.ShowEventsAlways = chkShowEventsAlways.Checked;
+                Settings.Timeintitle = chkTimeInTitle.Checked;
+                Settings.Monthdayselect = chkMonthDaySelect.Checked;
+                Settings.MasterEvent = chkMasterEvent.Checked;
+                Settings.Eventsignup = chkEventSignup.Checked;
+                Settings.Eventsignupallowpaid = chkEventSignupAllowPaid.Checked;
+                Settings.Eventdefaultenrollview = chkDefaultEnrollView.Checked;
+                Settings.Eventhidefullenroll = chkHideFullEnroll.Checked;
+                Settings.Maxnoenrolees = int.Parse(txtMaxNoEnrolees.Text);
+                Settings.Enrolcanceldays = int.Parse(txtCancelDays.Text);
+                Settings.Fridayweekend = chkFridayWeekend.Checked;
+                Settings.Moderateall = chkModerateAll.Checked;
+                Settings.Paypalaccount = txtPayPalAccount.Text;
+                Settings.Reminderfrom = txtReminderFrom.Text;
+                Settings.StandardEmail = txtStandardEmail.Text;
+                Settings.EventsCustomField1 = chkCustomField1.Checked;
+                Settings.EventsCustomField2 = chkCustomField2.Checked;
+                Settings.DefaultView = ddlDefaultView.SelectedItem.Value;
+                Settings.EventsListPageSize = int.Parse(ddlPageSize.SelectedItem.Value);
+                Settings.EventsListSortDirection = ddlListSortedFieldDirection.SelectedItem.Value;
+                Settings.EventsListSortColumn = ddlListDefaultColumn.SelectedItem.Value;
+                Settings.RSSEnable = chkRSSEnable.Checked;
+                Settings.RSSDateField = ddlRSSDateField.SelectedItem.Value;
+                Settings.RSSDays = int.Parse(txtRSSDays.Text);
+                Settings.RSSTitle = txtRSSTitle.Text;
+                Settings.RSSDesc = txtRSSDesc.Text;
+                Settings.Expireevents = txtExpireEvents.Text;
+                Settings.Exportowneremail = chkExportOwnerEmail.Checked;
+                Settings.Exportanonowneremail = chkExportAnonOwnerEmail.Checked;
+                Settings.Ownerchangeallowed = chkOwnerChangeAllowed.Checked;
+                Settings.IconMonthPrio = chkIconMonthPrio.Checked;
+                Settings.IconMonthRec = chkIconMonthRec.Checked;
+                Settings.IconMonthReminder = chkIconMonthReminder.Checked;
+                Settings.IconMonthEnroll = chkIconMonthEnroll.Checked;
+                Settings.IconWeekPrio = chkIconWeekPrio.Checked;
+                Settings.IconWeekRec = chkIconWeekRec.Checked;
+                Settings.IconWeekReminder = chkIconWeekReminder.Checked;
+                Settings.IconWeekEnroll = chkIconWeekEnroll.Checked;
+                Settings.IconListPrio = chkIconListPrio.Checked;
+                Settings.IconListRec = chkIconListRec.Checked;
+                Settings.IconListReminder = chkIconListReminder.Checked;
+                Settings.IconListEnroll = chkIconListEnroll.Checked;
+                Settings.PrivateMessage = txtPrivateMessage.Text.Trim();
+                Settings.EnableSEO = chkEnableSEO.Checked;
+                Settings.SEODescriptionLength = int.Parse(txtSEODescriptionLength.Text);
+                Settings.EnableSitemap = chkEnableSitemap.Checked;
+                Settings.SiteMapPriority = Convert.ToSingle(Convert.ToSingle(txtSitemapPriority.Text));
+                Settings.SiteMapDaysBefore = int.Parse(txtSitemapDaysBefore.Text);
+                Settings.SiteMapDaysAfter = int.Parse(txtSitemapDaysAfter.Text);
+                Settings.WeekStart = (FirstDayOfWeek) int.Parse(ddlWeekStart.SelectedValue);
+                Settings.ListViewUseTime = chkListViewUseTime.Checked;
 
-                emSettings.IcalOnIconBar = chkiCalOnIconBar.Checked;
-                emSettings.IcalEmailEnable = chkiCalEmailEnable.Checked;
-                emSettings.IcalURLInLocation = chkiCalURLinLocation.Checked;
-                emSettings.IcalIncludeCalname = chkiCalIncludeCalname.Checked;
-                emSettings.IcalDaysBefore = int.Parse(txtiCalDaysBefore.Text);
-                emSettings.IcalDaysAfter = int.Parse(txtiCalDaysAfter.Text);
-                emSettings.IcalURLAppend = txtiCalURLAppend.Text;
+                Settings.IcalOnIconBar = chkiCalOnIconBar.Checked;
+                Settings.IcalEmailEnable = chkiCalEmailEnable.Checked;
+                Settings.IcalURLInLocation = chkiCalURLinLocation.Checked;
+                Settings.IcalIncludeCalname = chkiCalIncludeCalname.Checked;
+                Settings.IcalDaysBefore = int.Parse(txtiCalDaysBefore.Text);
+                Settings.IcalDaysAfter = int.Parse(txtiCalDaysAfter.Text);
+                Settings.IcalURLAppend = txtiCalURLAppend.Text;
                 if (chkiCalDisplayImage.Checked)
                 {
-                    emSettings.IcalDefaultImage = "Image=" + ctliCalDefaultImage.Url;
+                    Settings.IcalDefaultImage = "Image=" + ctliCalDefaultImage.Url;
                 }
                 else
                 {
-                    emSettings.IcalDefaultImage = "";
+                    Settings.IcalDefaultImage = "";
                 }
                 //objModules.UpdateModuleSetting(ModuleId, "EventDetailsTemplate", txtEventDetailsTemplate.Text.Trim)
 
@@ -1326,7 +1323,7 @@ namespace DotNetNuke.Modules.Events
                 {
                     moduleCategories.Add("-1");
                 }
-                emSettings.ModuleCategoryIDs = moduleCategories;
+                Settings.ModuleCategoryIDs = moduleCategories;
 
                 var moduleLocations = new ArrayList();
                 if (ddlModuleLocations.CheckedItems.Count != ddlModuleLocations.Items.Count)
@@ -1340,58 +1337,58 @@ namespace DotNetNuke.Modules.Events
                 {
                     moduleLocations.Add("-1");
                 }
-                emSettings.ModuleLocationIDs = moduleLocations;
+                Settings.ModuleLocationIDs = moduleLocations;
 
                 // ReSharper disable LocalizableElement
                 if (chkMonthAllowed.Checked || ddlDefaultView.SelectedItem.Value == "EventMonth.ascx")
                 {
-                    emSettings.MonthAllowed = true;
+                    Settings.MonthAllowed = true;
                 }
                 else
                 {
-                    emSettings.MonthAllowed = false;
+                    Settings.MonthAllowed = false;
                 }
                 if (chkWeekAllowed.Checked || ddlDefaultView.SelectedItem.Value == "EventWeek.ascx")
                 {
-                    emSettings.WeekAllowed = true;
+                    Settings.WeekAllowed = true;
                 }
                 else
                 {
-                    emSettings.WeekAllowed = false;
+                    Settings.WeekAllowed = false;
                 }
                 if (chkListAllowed.Checked || ddlDefaultView.SelectedItem.Value == "EventList.ascx")
                 {
-                    emSettings.ListAllowed = true;
+                    Settings.ListAllowed = true;
                 }
                 else
                 {
-                    emSettings.ListAllowed = false;
+                    Settings.ListAllowed = false;
                 }
                 // ReSharper restore LocalizableElement
 
                 switch (rblIconBar.SelectedIndex)
                 {
                     case 0:
-                        emSettings.IconBar = "TOP";
+                        Settings.IconBar = "TOP";
                         break;
                     case 1:
-                        emSettings.IconBar = "BOTTOM";
+                        Settings.IconBar = "BOTTOM";
                         break;
                     case 2:
-                        emSettings.IconBar = "NONE";
+                        Settings.IconBar = "NONE";
                         break;
                 }
 
                 switch (rblHTMLEmail.SelectedIndex)
                 {
                     case 0:
-                        emSettings.HTMLEmail = "html";
+                        Settings.HTMLEmail = "html";
                         break;
                     case 1:
-                        emSettings.HTMLEmail = "auto";
+                        Settings.HTMLEmail = "auto";
                         break;
                     case 2:
-                        emSettings.HTMLEmail = "text";
+                        Settings.HTMLEmail = "text";
                         break;
                 }
 
@@ -1423,7 +1420,7 @@ namespace DotNetNuke.Modules.Events
                     themeSettings.ThemeName = ddlThemeCustom.SelectedItem.Text;
                     themeSettings.ThemeFile = "";
                 }
-                emSettings.EventTheme = themeSettings.ToString();
+                Settings.EventTheme = themeSettings.ToString();
 
                 //List Events Mode Stuff
                 //Update Fields to Display
@@ -1443,104 +1440,101 @@ namespace DotNetNuke.Modules.Events
                         listFields = columnAcronym;
                     }
                 }
-                emSettings.EventsListFields = listFields;
+                Settings.EventsListFields = listFields;
 
                 listFields = EnrollListFields(rblEnUserAnon.Checked, rblEnDispAnon.Checked,
                                                    rblEnEmailAnon.Checked, rblEnPhoneAnon.Checked,
                                                    rblEnApproveAnon.Checked, rblEnNoAnon.Checked);
-                emSettings.EnrollAnonFields = listFields;
+                Settings.EnrollAnonFields = listFields;
 
                 listFields = EnrollListFields(rblEnUserView.Checked, rblEnDispView.Checked,
                                                    rblEnEmailView.Checked, rblEnPhoneView.Checked,
                                                    rblEnApproveView.Checked, rblEnNoView.Checked);
-                emSettings.EnrollViewFields = listFields;
+                Settings.EnrollViewFields = listFields;
 
                 listFields = EnrollListFields(rblEnUserEdit.Checked, rblEnDispEdit.Checked,
                                                    rblEnEmailEdit.Checked, rblEnPhoneEdit.Checked,
                                                    rblEnApproveEdit.Checked, rblEnNoEdit.Checked);
-                emSettings.EnrollEditFields = listFields;
+                Settings.EnrollEditFields = listFields;
 
                 if (rblSelectionTypeDays.Checked)
                 {
-                    emSettings.EventsListSelectType = rblSelectionTypeDays.Value;
+                    Settings.EventsListSelectType = rblSelectionTypeDays.Value;
                 }
                 else
                 {
-                    emSettings.EventsListSelectType = rblSelectionTypeEvents.Value;
+                    Settings.EventsListSelectType = rblSelectionTypeEvents.Value;
                 }
                 if (rblListViewGrid.Items[0].Selected)
                 {
-                    emSettings.ListViewGrid = true;
+                    Settings.ListViewGrid = true;
                 }
                 else
                 {
-                    emSettings.ListViewGrid = false;
+                    Settings.ListViewGrid = false;
                 }
-                emSettings.ListViewTable = chkListViewTable.Checked;
-                emSettings.RptColumns = int.Parse(txtRptColumns.Text.Trim());
-                emSettings.RptRows = int.Parse(txtRptRows.Text.Trim());
+                Settings.ListViewTable = chkListViewTable.Checked;
+                Settings.RptColumns = int.Parse(txtRptColumns.Text.Trim());
+                Settings.RptRows = int.Parse(txtRptRows.Text.Trim());
 
                 if (rblShowHeader.Items[0].Selected)
                 {
-                    emSettings.EventsListShowHeader = rblShowHeader.Items[0].Value;
+                    Settings.EventsListShowHeader = rblShowHeader.Items[0].Value;
                 }
                 else
                 {
-                    emSettings.EventsListShowHeader = rblShowHeader.Items[1].Value;
+                    Settings.EventsListShowHeader = rblShowHeader.Items[1].Value;
                 }
-                emSettings.EventsListBeforeDays = int.Parse(txtDaysBefore.Text.Trim());
-                emSettings.EventsListAfterDays = int.Parse(txtDaysAfter.Text.Trim());
-                emSettings.EventsListNumEvents = int.Parse(txtNumEvents.Text.Trim());
-                emSettings.EventsListEventDays = int.Parse(txtEventDays.Text.Trim());
-                emSettings.RestrictCategoriesToTimeFrame = chkRestrictCategoriesToTimeFrame.Checked;
-                emSettings.RestrictLocationsToTimeFrame = chkRestrictLocationsToTimeFrame.Checked;
+                Settings.EventsListBeforeDays = int.Parse(txtDaysBefore.Text.Trim());
+                Settings.EventsListAfterDays = int.Parse(txtDaysAfter.Text.Trim());
+                Settings.EventsListNumEvents = int.Parse(txtNumEvents.Text.Trim());
+                Settings.EventsListEventDays = int.Parse(txtEventDays.Text.Trim());
+                Settings.RestrictCategoriesToTimeFrame = chkRestrictCategoriesToTimeFrame.Checked;
+                Settings.RestrictLocationsToTimeFrame = chkRestrictLocationsToTimeFrame.Checked;
 
-                emSettings.FBAdmins = txtFBAdmins.Text;
-                emSettings.FBAppID = txtFBAppID.Text;
+                Settings.FBAdmins = txtFBAdmins.Text;
+                Settings.FBAppID = txtFBAppID.Text;
 
-                emSettings.SendEnrollMessageApproved = chkEnrollMessageApproved.Checked;
-                emSettings.SendEnrollMessageWaiting = chkEnrollMessageWaiting.Checked;
-                emSettings.SendEnrollMessageDenied = chkEnrollMessageDenied.Checked;
-                emSettings.SendEnrollMessageAdded = chkEnrollMessageAdded.Checked;
-                emSettings.SendEnrollMessageDeleted = chkEnrollMessageDeleted.Checked;
-                emSettings.SendEnrollMessagePaying = chkEnrollMessagePaying.Checked;
-                emSettings.SendEnrollMessagePending = chkEnrollMessagePending.Checked;
-                emSettings.SendEnrollMessagePaid = chkEnrollMessagePaid.Checked;
-                emSettings.SendEnrollMessageIncorrect = chkEnrollMessageIncorrect.Checked;
-                emSettings.SendEnrollMessageCancelled = chkEnrollMessageCancelled.Checked;
+                Settings.SendEnrollMessageApproved = chkEnrollMessageApproved.Checked;
+                Settings.SendEnrollMessageWaiting = chkEnrollMessageWaiting.Checked;
+                Settings.SendEnrollMessageDenied = chkEnrollMessageDenied.Checked;
+                Settings.SendEnrollMessageAdded = chkEnrollMessageAdded.Checked;
+                Settings.SendEnrollMessageDeleted = chkEnrollMessageDeleted.Checked;
+                Settings.SendEnrollMessagePaying = chkEnrollMessagePaying.Checked;
+                Settings.SendEnrollMessagePending = chkEnrollMessagePending.Checked;
+                Settings.SendEnrollMessagePaid = chkEnrollMessagePaid.Checked;
+                Settings.SendEnrollMessageIncorrect = chkEnrollMessageIncorrect.Checked;
+                Settings.SendEnrollMessageCancelled = chkEnrollMessageCancelled.Checked;
 
-                emSettings.AllowAnonEnroll = chkAllowAnonEnroll.Checked;
-                emSettings.SocialGroupModule =
+                Settings.AllowAnonEnroll = chkAllowAnonEnroll.Checked;
+                Settings.SocialGroupModule =
                     (EventModuleSettings.SocialModule) int.Parse(ddlSocialGroupModule.SelectedValue);
-                if (emSettings.SocialGroupModule != EventModuleSettings.SocialModule.No)
+                if (Settings.SocialGroupModule != EventModuleSettings.SocialModule.No)
                 {
-                    emSettings.Ownerchangeallowed = false;
-                    emSettings.Neweventemails = "Never";
-                    emSettings.MasterEvent = false;
+                    Settings.Ownerchangeallowed = false;
+                    Settings.Neweventemails = "Never";
+                    Settings.MasterEvent = false;
                 }
-                if (emSettings.SocialGroupModule == EventModuleSettings.SocialModule.UserProfile)
+                if (Settings.SocialGroupModule == EventModuleSettings.SocialModule.UserProfile)
                 {
-                    emSettings.EnableSitemap = false;
-                    emSettings.Eventsearch = false;
-                    emSettings.Eventsignup = false;
-                    emSettings.Moderateall = false;
+                    Settings.EnableSitemap = false;
+                    Settings.Eventsearch = false;
+                    Settings.Eventsignup = false;
+                    Settings.Moderateall = false;
                 }
-                emSettings.SocialUserPrivate = chkSocialUserPrivate.Checked;
-                emSettings.SocialGroupSecurity =
+                Settings.SocialUserPrivate = chkSocialUserPrivate.Checked;
+                Settings.SocialGroupSecurity =
                     (EventModuleSettings.SocialGroupPrivacy) int.Parse(ddlSocialGroupSecurity.SelectedValue);
 
-                emSettings.EnrolListSortDirection =
+                Settings.EnrolListSortDirection =
                     (SortDirection) int.Parse(ddlEnrolListSortDirection.SelectedValue);
-                emSettings.EnrolListDaysBefore = int.Parse(txtEnrolListDaysBefore.Text);
-                emSettings.EnrolListDaysAfter = int.Parse(txtEnrolListDaysAfter.Text);
+                Settings.EnrolListDaysBefore = int.Parse(txtEnrolListDaysBefore.Text);
+                Settings.EnrolListDaysAfter = int.Parse(txtEnrolListDaysAfter.Text);
 
-                emSettings.JournalIntegration = chkJournalIntegration.Checked;
+                Settings.JournalIntegration = chkJournalIntegration.Checked;
 
-                var objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", 0);
-
-                emSettings.Version = objDesktopModule.Version;
-
-                repository.SaveSettings(ModuleConfiguration, emSettings);
+                var repository = new EventModuleSettingsRepository();
+                repository.SaveSettings(ModuleConfiguration, Settings);
 
                 CreateThemeDirectory();
             }
@@ -1906,7 +1900,7 @@ namespace DotNetNuke.Modules.Events
             try
             {
                 UpdateSettings();
-                Response.Redirect(GetSocialNavigateUrl(), true);
+                Response.Redirect(GetSocialNavigateUrl(), false);
             }
             catch (Exception) //Module failed to load
             {
