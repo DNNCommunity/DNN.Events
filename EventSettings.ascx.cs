@@ -1533,6 +1533,9 @@ namespace DotNetNuke.Modules.Events
 
                 Settings.JournalIntegration = chkJournalIntegration.Checked;
 
+                var objDesktopModule = DesktopModuleController.GetDesktopModuleByModuleName("DNN_Events", 0);
+                Settings.Version = objDesktopModule.Version;
+
                 var repository = new EventModuleSettingsRepository();
                 repository.SaveSettings(ModuleConfiguration, Settings);
 
