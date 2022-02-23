@@ -43,7 +43,7 @@ namespace DotNetNuke.Modules.Events
     [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSEDT", "Events Editor")]
     [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSCAT", "Global Category Editor")]
     [DNNtc.ModulePermission("EVENTS_MODULE", "EVENTSLOC", "Global Location Editor")]
-    [DNNtc.ModuleDependencies(DNNtc.ModuleDependency.CoreVersion, "8.0.0")]
+    [DNNtc.ModuleDependencies(DNNtc.ModuleDependency.CoreVersion, "9.4.0")]
     [DNNtc.ModuleControlProperties("", "Events Container", DNNtc.ControlType.View, "https://github.com/DNNCommunity/DNN.Events/wiki", true, false)]
     public partial class Events : EventBase, IActionable
     {

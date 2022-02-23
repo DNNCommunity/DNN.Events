@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNN_Events" type="Module" version="7.0.7">
+    <package name="DNN_Events" type="Module" version="7.0.8">
       <friendlyName>Events</friendlyName>
       <description>This module renders single and recurring events and includes Master and Sub Calendars with Event Rollup, TimeZone Adjustment, Event Enrollment, and Event Notification.</description>
       <iconFile>DesktopModules\Events\DNN_Events.png</iconFile>
@@ -11,10 +11,10 @@
         <email>support@dnnsoftware.com</email>
       </owner>
       <license src="License.txt"></license>
-      <releaseNotes src="Release.07.00.07.txt"></releaseNotes>
+      <releaseNotes src="Release.07.00.08.txt"></releaseNotes>
       <azureCompatible>true</azureCompatible>
       <dependencies>
-        <dependency type="CoreVersion">8.0.0</dependency>
+        <dependency type="CoreVersion">9.4.0</dependency>
       </dependencies>
       <components>
         <component type="Script">
@@ -436,6 +436,7 @@
         <component type="Cleanup" version="07.00.05" fileName="Installation\CleanUp\Cleanup.07.00.05.txt" />
         <component type="Cleanup" version="07.00.06" fileName="Installation\CleanUp\Cleanup.07.00.06.txt" />
         <component type="Cleanup" version="07.00.07" fileName="Installation\CleanUp\Cleanup.07.00.07.txt" />
+        <component type="Cleanup" version="07.00.08" fileName="Installation\CleanUp\Cleanup.07.00.08.txt" />
         <component type="Config">
           <config>
             <configFile>web.config</configFile>
