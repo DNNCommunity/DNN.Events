@@ -1,0 +1,9 @@
+﻿'Remove old versions of events
+Install\Module\DNN_Events_07.00.08_Install.zip
+
+'Remove the old install packages that are saved by the DNN installer
+App_Data\ExtensionPackages\Module_DNN_Events_7.0.7.resources
+
+'Tidy up debug files if any
+Bin\DotNetNuke.Modules.Events.pdb
+Bin\DotNetNuke.Modules.Events.ScheduleControl.pdb
