@@ -349,7 +349,7 @@ namespace DotNetNuke.Modules.Events
                     }
                     else
                     {
-                        foreach (int category in SelectedCategory)
+                        foreach (var category in SelectedCategory)
                         {
                             foreach (RadComboBoxItem item in ddlCategories.Items)
                             {

@@ -1190,9 +1190,9 @@ namespace DotNetNuke.Modules.Events
             {
                 foreach (EventCategoryInfo objCategory in tmpCategories)
                 {
-                    foreach (int moduleCategory in Settings.ModuleCategoryIDs)
+                    foreach (object moduleCategory in Settings.ModuleCategoryIDs)
                     {
-                        if (moduleCategory == objCategory.Category)
+                        if (Convert.ToInt32(moduleCategory) == objCategory.Category)
                         {
                             objCategories.Add(objCategory);
                         }
